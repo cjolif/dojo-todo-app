@@ -1,0 +1,15 @@
+{
+  "identifier": "id",
+  "items": [ 
+                    {
+                    	"title":"Reminders",
+						"id":0,
+						"itemsurl":"../../demos/dojo-todo-app/_data/items-for-1.json"
+                    },
+                    {
+                    	"title":"Work Items",
+						"id":1,
+						"itemsurl":"../../demos/dojo-todo-app/_data/items-for-2.json"
+                    }
+                ]
+}
