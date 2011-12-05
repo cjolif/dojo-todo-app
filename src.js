@@ -3,6 +3,9 @@ var itemsmodel = [];
 var showItemsForList, handleCheckBoxChange, insertNewList, deleteList, handleRadioChange;
 var deleteItem, insertNewItem, getNewItem;
 var selectedList, selectedItem;
+var radioChanging = false;
+var itemsToLoadCount = 3;
+var loadedItemListCount = 0;
 
 require([
 	"dojo/ready",
@@ -17,6 +20,7 @@ require([
 	"dijit/form/Button",
 	"dijit/form/CheckBox",
 	"dijit/form/RadioButton",
+	"dijit/form/NumberSpinner",
 	"dijit/InlineEditBox"
 	], function(ready, parser, mvc, itemfilewritestore, datastore){
 
@@ -80,7 +84,7 @@ require([
 	 	* 			index is the index of the list to select 
 	 	*/		
 		var selectRadio = function(index) {
-				//console.log('selectRadio called with index = '+index);
+				console.log('selectRadio called with index = '+index);
 				selectedList = index;
 				var rad = dijit.byId("g1rb"+index);
 				if(rad){
@@ -97,11 +101,37 @@ require([
 		modelPromise.then(function(results){ 
 			listsmodel = results;
 			nextIndexToAdd = listsmodel.data.length;
-			parser.parse();
-			selectRadio(0);
+			
+			initAllItems(); // call init for all items, when all items are loaded parse will be called.
 		});
 
 
+		/**
+	 	* initAllItems is called to read in all of the items for all lists
+		*
+	 	*/		
+		initAllItems = function() {
+			console.log("initAllItems called");
+			for(i=0;i<itemsToLoadCount;i++){
+				var listId = i;
+				var modelPromise2;  
+				var u = getItemsUrl(listId);			
+				var writeStore2 = new itemfilewritestore({url: u});
+				modelPromise2 = mvc.newStatefulModel({store: new datastore({store: writeStore2})});  
+				modelPromise2.then(function(results2){ 
+					var listId = results2[0].parentId;	
+					itemsmodel[listId] = results2;
+					if(readyToParse(listId)){  // are all items ready?
+						console.log("in modlePromise before call to parser.parse");
+						parser.parse();
+						console.log("in modlePromise after call to selectRadio");
+						selectRadio(0);
+					}
+				})
+			}
+		};
+		
+		
 		/**
 	 	* showItemsForList is called when the selected list changes to display the items for that list.
 	 	* 			If we already have the list in our itemsmodel we will use it,
@@ -113,14 +143,14 @@ require([
 	 	* 			listId should have id of the list, 
 	 	*/		
 		showItemsForList = function(listId) {
-				//console.log("showItemsForList called with listId = "+listId);
-				if(!itemsmodel){
-					itemsmodel = [];
-				}
+				console.log("showItemsForList called with listId = "+listId);
+				console.log("in showItemsForList itemsmodel is");
+				console.log(itemsmodel);
+				
 				var rep = dijit.byId("tasksrepeatId");
 				if(!itemsmodel[listId]){  // if we don't have the items for this list get them from the store
+					console.log("showItemsForList called no itemsModle yet for listId = "+listId);
 					// first setup for an empty item in case the server request fails
-					itemsmodel[listId] = [];
 					itemsmodel[listId]=getNewItem(listId, true);
 					rep.set("ref",itemsmodel[listId]);
 
@@ -129,6 +159,8 @@ require([
 					var writeStore2 = new itemfilewritestore({url: u});
 					modelPromise2 = mvc.newStatefulModel({store: new datastore({store: writeStore2})});  
 					modelPromise2.then(function(results2){ 
+						listId = results2[0].parentId;	
+						itemsmodel[listId] = results2;
 						itemsmodel[listId] = results2;
 						rep.set("ref",results2);
 					})
@@ -152,16 +184,16 @@ require([
 				var ident = "todoItem"+this.index;
 				if(!radioChanging){
 					if(this.checked){
-						//setTimeout(dojo.addClass(ident, 'checkedTodo'),1000);
 						dojo.addClass(ident, 'checkedTodo');
 					}else if(dojo.hasClass(ident, 'checkedTodo')){
-						//setTimeout(dojo.removeClass(ident, 'checkedTodo'),1000);
 						dojo.removeClass(ident, 'checkedTodo');
 					}
 				}
-				if(this.index !== selectedItem){
-					dojo.addClass("details", 'hiddenDetails');
-				}
+				// hide details when a selection is made for a diff checkbox.  
+				// commented out because it caused a problem when adding a new item
+				//if(this.index !== selectedItem){
+				//	dojo.addClass("details", 'hiddenDetails');
+				//}
 		}
 
 		/**
@@ -180,6 +212,8 @@ require([
 				if(dojo.hasClass("details", 'hiddenDetails')){
 						dojo.removeClass("details", 'hiddenDetails');
 				}
+				var titleWid = dijit.byId("title");
+				titleWid.focus(true);
 		};
 			
  
@@ -204,7 +238,8 @@ require([
  		insertNewItem = function() {
 				var index = itemsmodel[selectedList].length || 0;
 				itemsmodel[selectedList].add(index, getNewItem(selectedList));
-				dojo.addClass("details", 'hiddenDetails');
+				setDetailsContext(index);
+				//dojo.addClass("details", 'hiddenDetails');
 		}
  
 		/**
@@ -238,11 +273,11 @@ require([
 						};		
 				if(firstItem){
 					var xdata = [data];
- 					var insert = dojox.mvc.newStatefulModel({ "data" : xdata})				
+ 					var insert = mvc.newStatefulModel({ "data" : xdata})				
 					return insert;
 				}
 				
- 				var insert = dojox.mvc.newStatefulModel({ "data" : data})				
+ 				var insert = mvc.newStatefulModel({ "data" : data})				
 					return insert;
  		}
 			
@@ -274,7 +309,7 @@ require([
 				    radioChanging = true;
 					var	index = listsmodel.length;
 					var newid = getNextListsId();
-					var insert = dojox.mvc.newStatefulModel({ "data" : {
+					var insert = mvc.newStatefulModel({ "data" : {
 						title:"",
 						id : newid,
 						"itemsurl":	getItemsUrl(newid)					
@@ -309,4 +344,20 @@ require([
 				}
 				dojo.addClass("details", 'hiddenDetails');
 		};			
+ 
+		/**
+	 	* readyToParse is called when an each initial item is loaded to see if all items are loaded
+		*
+	 	*/		
+		readyToParse = function(index) {
+			loadedItemListCount++;
+			console.log("in readyToParse loadedItemListCount="+loadedItemListCount+" itemsToLoadCount="+itemsToLoadCount+" index = "+index);
+			console.log(itemsToLoadCount == loadedItemListCount);
+			if(itemsToLoadCount == loadedItemListCount){
+				console.log("in readyToParse returning TRUE");
+				return true;
+			}
+			return false;
+		}
+
 });

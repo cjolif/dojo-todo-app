@@ -71,30 +71,14 @@
 					</div>
 					<div class="row">
 						<label class="cell" for="notes">Notes:</label>
-						<input class="cell" id="lastInput" data-dojo-type="dijit.form.TextBox" data-dojo-props="ref: 'notes'"/>
-					</div>
-		<!--         
-			  		<div class="row">
-						<label class="cell" for="locationInput">Location:</label>
-						<input class="cell" id="locationInput" data-dojo-type="dijit.form.TextBox" data-dojo-props="ref: 'Location'"/>
+						<input class="cell" id="notes" data-dojo-type="dijit.form.TextBox" data-dojo-props="ref: 'notes'"/>
 					</div>
 					<div class="row">
-						<label class="cell" for="officeInput">Office:</label>
-						<input class="cell" id="officeInput" data-dojo-type="dijit.form.TextBox" data-dojo-props="ref: 'Office'"/>
+						<label class="cell" for="priority">Priority:</label>
+						<input class="cell" id="priority" data-dojo-type="dijit.form.NumberSpinner" data-dojo-props="ref: 'priority'"/>
+
 					</div>
-					<div class="row">
-						<label class="cell" for="emailInput">Email:</label>
-						<input class="cell" id="emailInput" data-dojo-type="dijit.form.TextBox" data-dojo-props="ref: 'Email'"/>
-					</div>
-					<div class="row">
-						<label class="cell" for="telInput">Telephone:</label>
-						<input class="cell" id="telInput" data-dojo-type="dijit.form.TextBox" data-dojo-props="ref: 'Tel'"/>
-					</div>
-					<div class="row">
-						<label class="cell" for="faxInput">Fax:</label>
-						<input class="cell" id="faxInput" data-dojo-type="dijit.form.TextBox" data-dojo-props="ref: 'Fax'"/>
-					</div>
-			-->	
+		<!-- Need to add the rest of the details... -->        
 				</div>
 				<h4>Test Commit (it will not send data to be saved on the backend, but it will commit the to the StatefulModel (client side) and log the data to the console) and Reset.</h1>
 				<div class="row">
@@ -113,69 +97,3 @@
 		</div>
 </body>
 </html>
-
-<!--
-<body style="visibility:hidden;">
- 	<div id="view1" data-dojo-type="dojox.mobile.View" selected="true">
-		<h1 data-dojo-type="dojox.mobile.Heading">Mobile Charting Demo</h1>
-		<h2 data-dojo-type="dojox.mobile.RoundRectCategory">Choose a company</h2>
-		<ul id="companyChooser" data-dojo-type="dojox.mobile.RoundRectList">
-			<li id="googLink" data-dojo-type="dojox.mobile.ListItem"
-				icon="resources/images/a-icon-11.png" moveTo="view2"
-				transition="slide">Google Inc.</li>
-			<li id="yahooLink" data-dojo-type="dojox.mobile.ListItem"
-				icon="resources/images/a-icon-11.png" moveTo="view2"
-				transition="slide">Yahoo! Inc.</li>
-			<li id="msftLink" data-dojo-type="dojox.mobile.ListItem"
-				icon="resources/images/a-icon-11.png" moveTo="view2"
-				transition="slide">Microsoft Corp.</li>
-		</ul>
-	</div>
-	<div id="view2" data-dojo-type="dojox.mobile.View">
-		<h1 id="view2head1" data-dojo-type="dojox.mobile.Heading" back="Back"
-			moveTo="view1">Stock View</h1>
-		<div data-dojo-type="dojox.mobile.RoundRect" id="container">
-			<button data-dojo-type="dojox.mobile.Button" class="mblBlueButton"
-				style="width: 40px; height: 27px;" id="zoomButton1">3m</button>
-			<button data-dojo-type="dojox.mobile.Button" class="mblBlueButton"
-				style="width: 40px; height: 27px;" id="zoomButton2">6m</button>
-			<button data-dojo-type="dojox.mobile.Button" class="mblBlueButton"
-				style="width: 40px; height: 27px;" id="zoomButton3">1y</button>
-			<button data-dojo-type="dojox.mobile.Button" class="mblBlueButton"
-				style="width: 45px; height: 27px;" id="zoomButton4">Max</button>
-			<button data-dojo-type="dojox.mobile.Button" class="mblRedButton"
-				id="indicatorMode" duration="0" style="width: 99px; height: 27px;">Touch
-				Mode</button>
-			<div data-dojo-type="dojox.charting.widget.Chart"
-				margins="{ l: 0, r: 0, t: 10, b: 0 }" theme="customClaroTheme"
-				style="-webkit-user-select: none; outline: none"
-				id="stockChart">
-				<div class="plot" name="gridPlot" type="Grid" enableCache="true" renderOnAxis="false"></div>
-				<div class="axis" name="x" enableCache="true" htmlLabels="false"
-					font="normal normal normal 11pt Helvetica" fixUpper="major"
-					includeZero="true" majorTickStep="50" labelFunc="timeLabelFunction"></div>
-				<div class="axis" name="y" vertical="true" min="0"
-					font="normal normal normal 11pt Helvetica"></div>
-				<div class="axis" name="y2" vertical="true" min="0"
-					leftBottom="false" type="Invisible"
-					font="italic normal normal 8pt Helvetica"></div>
-				<div class="plot" name="volumePlot" type="Columns"
-					enableCache="true" vAxis="y2"></div>
-				<div class="plot" name="default" type="Areas"></div>
-			</div>
-		</div>
-		<div id="touchLabel"
-			style="display: none; background-color: white; border: 1px solid #333333; position: absolute; top: 150px; left: 80px; right: 80px; text-align: center; font-size: 16pt; font-weight: bolder; color: #333333"; margin-left:80px;></div>
-		<div id="helpBox" data-dojo-type="dojox.mobile.RoundRect">
-			<img src="resources/images/a-icon-12.png"
-				style="vertical-align: middle;" /><b>Chart Interactions</b><br />
-			<b>Double-tap</b>: Zoom / Unzoom.<br />
-			<b>Chart Touch</b>: Slide visible data range or show data indicator.
-			(click &laquo;Touch Mode&raquo; button to alternate).<br />
-			<b>Wide-Screen View</b>: Flip the screen horizontally.
-		</div>
-	</div>
- 	
-</body>
-</html>
--->
