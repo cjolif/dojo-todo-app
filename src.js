@@ -4,7 +4,7 @@ var showItemsForList, handleCheckBoxChange, insertNewList, deleteList, handleRad
 var deleteItem, insertNewItem, getNewItem;
 var selectedList, selectedItem;
 var radioChanging = false;
-var itemsToLoadCount = 3;
+var itemsToLoadCount = 1;
 var loadedItemListCount = 0;
 
 require([
@@ -27,7 +27,7 @@ require([
 		/**
 	 	* baseUrl, nextId, nextListId are used to have the file system simulate a backend service.
 	 	*/
-		var baseUrl = "../../demos/todoMvcApp/resources/data/";
+		var baseUrl = "./resources/data/";
 		var nextId = 222;
 		var nextListId = 2;
 
@@ -102,6 +102,7 @@ require([
 			listsmodel = results;
 			nextIndexToAdd = listsmodel.data.length;
 			
+			itemsToLoadCount = listsmodel.length;
 			initAllItems(); // call init for all items, when all items are loaded parse will be called.
 		});
 
@@ -112,7 +113,7 @@ require([
 	 	*/		
 		initAllItems = function() {
 			console.log("initAllItems called");
-			for(i=0;i<itemsToLoadCount;i++){
+			for(var i = 0;i < itemsToLoadCount;i++){
 				var listId = i;
 				var modelPromise2;  
 				var u = getItemsUrl(listId);			
@@ -237,7 +238,8 @@ require([
 	 	*/		
  		insertNewItem = function() {
 				var index = itemsmodel[selectedList].length || 0;
-				itemsmodel[selectedList].add(index, getNewItem(selectedList));
+				var newItem = getNewItem(selectedList);
+				itemsmodel[selectedList].add(index, newItem);
 				setDetailsContext(index);
 				//dojo.addClass("details", 'hiddenDetails');
 		}

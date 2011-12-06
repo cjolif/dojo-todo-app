@@ -2,8 +2,8 @@
   	"identifier": "id",
 	"items": [
 				{
-					"id": "200",  
-					"parentId":"2",  
+					"id": 200,
+					"parentId":2,  
 					"title": "Something to do for 2",
 					"notes": "To do",
 					"due": "2010-10-15T11:03:47.681Z",
@@ -16,8 +16,8 @@
 					"deleted": false
 				},
 				{
-					"id": "201",  
-					"parentId":"2",  
+					"id": 203,  
+					"parentId":2,  
 					"title": "Something else do for 2",
 					"notes": "To do",
 					"due": "2010-10-15T11:03:47.681Z",
