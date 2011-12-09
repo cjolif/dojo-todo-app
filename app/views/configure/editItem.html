@@ -1,0 +1,67 @@
+<div class="view mblView">
+	<h1 dojoType="dojox.mobile.Heading" label="Configuration Detail" region="top" back="Cancel">
+		<div id="editItem_done" dojoType="dojox.mobile.ToolBarButton" label="Done" style="float:right;" transitionOptions='{title:"Configuration Edit",target:"configuration,configure_edit",url: "#configuration,configure_edit"}'>
+		</div>
+	</h1>
+	<div dojoType="dojox.app.container" region="center" scrollable="true">
+		<div dojoType="dojox.mvc.Group" ref="'listsmodel'" style="margin-left:14px;">
+			<div class="fieldset" id="configuration_detailsGroup" dojoType="dojox.mvc.Group" ref="'rel:0'">
+				<div id="detailsBanner">
+					Details for selected index:
+				</div>
+				<table>
+					<tr>
+						<td>
+							<font size="3">
+								id
+							</font>
+							<font color="red">
+								*
+							</font>
+						</td>
+						<td>
+							<input type=text id="idInput" dojoType="dojox.mobile.TextBox" placeholder="0000" ref="'rel:id'">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								title
+							</font>
+							<font color="red">
+								*
+							</font>
+						</td>
+						<td>
+							<input type=text id="titleInput" dojoType="dojox.mobile.TextBox" placeholder="title" ref="'rel:title'">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								url
+							</font>
+						</td>
+						<td>
+							<input type=text id="urlInput" dojoType="dojox.mobile.TextBox" placeholder="url" ref="'rel:itemsurl'">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								descritpion
+							</font>
+						</td>
+						<td>
+							<input type=text id="desInput" dojoType="dojox.mobile.TextArea" placeholder="description">
+							</input>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
