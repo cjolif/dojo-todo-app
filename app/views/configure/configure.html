@@ -1,14 +1,15 @@
 <div class="view mblView">
-	<h1 dojoType="dojox.mobile.Heading" label="Configuration" region="top">
+	<h1 dojoType="dojox.mobile.Heading" label="Configure" region="top">
 		<div dojoType="dojox.mobile.ToolBarButton" label="Edit" style="float:right;" transitionOptions='{title:"Configuration Edit",target:"configuration,configure_edit",url: "#configuration,configure_edit"}'>
 		</div>
 	</h1>
 	<h2 dojoType="dojox.mobile.RoundRectCategory" region="top">Search Reminders</h2>
 	<div dojoType="dojox.app.container" region="center" scrollable="true">
 		<ul dojoType="dojox.mobile.RoundRectList" select="single">
-			<div data-dojo-type="dojox.mvc.Repeat" data-dojo-props="exprchar:'#', ref:'listsmodel'">
+			<div data-dojo-type="dojox.mvc.Repeat" id="configure_repeat" data-dojo-props="exprchar:'#', ref:'listsmodel'">
 				<div data-dojo-type="dojox.mvc.Group" data-dojo-props="ref: '#{this.index}'">
-					<li id="configure_item#{this.index}" class="mblVariableHeight" dojoType="dojox.mobile.ListItem" checked="true">
+					<li id="configure_item#{this.index}" class="mblVariableHeight" dojoType="dojox.mobile.ListItem" clickable="true"
+						data-dojo-props="onClick: function(e){setSelectItem(this, '#{this.index}', e);}">
 						#{this.binding[this.index].title}
 					</li>
 				</div>

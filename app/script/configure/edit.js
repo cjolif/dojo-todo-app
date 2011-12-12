@@ -29,8 +29,8 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 				var insert = mvc.newStatefulModel({
 					"data": {
 						"title": "New Item "+index,
-						"id": index,
-						"itemsurl": "../../demos/toDoAppLayout/data/items-for-" + index + ".json"
+						"id": (new Date().getTime()),
+						"itemsurl": "../resources/data/items-for-" + index + ".json"
 					}
 				});
 				datamodel.add(index, insert);
@@ -86,7 +86,10 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 		},
 
 		activate: function(){
-			// console.log("configure_edit view activate, bind data");
+			var datamodel = app.loadedModels.listsmodel;
+			var widget = registry.byId('configure_edit_repeat');
+			widget.ref = null;
+			widget.set("ref", datamodel);
 		},
 
 		deactivate: function(){

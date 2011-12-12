@@ -1,8 +1,6 @@
 define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "dojox/mvc"], function(dom, dstyle, connect, registry, mvc){
 	return {
 		init: function(){
-			var index = 0;
-
 			function done(){
 				//commit configuration data
 				var itemDatamodel = app.loadedModels.listsmodel[window.selected_configuration_item];
