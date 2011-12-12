@@ -38,6 +38,12 @@
 		   "params": {
 			  "url": "../resources/data/lists.json"
 		   }
+	   },
+
+	   "listItemStore":{
+		   "params": {
+			  "url": "../resources/data/items-for-0.json"
+		   }
 	   }
 	},
 
@@ -90,6 +96,7 @@
 		"items": {
 			"models": [],
 			"template": "views/items.html",
+			"jsmodule": "script/items.js",
 			"defaultView": "list",
 			"defaultTransition": "flip",
 			"type": "dojox.app.scene",
@@ -97,18 +104,24 @@
 			"views": {
 				"list":{
 					"template": "views/items/list.html",
-					"jsmodule": "script/items/list.js"
+					"jsmodule": "script/items/list.js",
+					"models": {
+						"listmodel": {
+							"params":{
+								"store": {"$ref":"#stores.listItemStore"}
+							}
+						}
+					}
 				},
 				"date":{
 					"template": "views/items/date.html"
 				}
-			},
-			"dependencies":["dojox/mobile/ScrollableView"]
+			}
 		},
 
 		"details":{
 			"type": "dojox.app.view",
-			"dependencies":["dojox/mobile/ScrollableView"],
+			"dependencies":["dojox/mobile/TextBox"],
 			"template": "views/details.html"
 		}
 	}
