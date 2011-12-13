@@ -19,6 +19,7 @@
 		"dojo/store/Memory",
 		"dojox/mvc/Group",
 		"dojox/mvc/Repeat",
+		"dojox/mvc/Output",
 		"dojox/mvc",
 		"dojox/app/container"
 	],
@@ -40,7 +41,7 @@
 		   }
 	   },
 
-	   "listItemStore":{
+	   "itemlistStore":{
 		   "params": {
 			  "url": "../resources/data/items-for-0.json"
 		   }
@@ -50,15 +51,22 @@
 	//models and instantiation parameters for the models. Including 'type' as a property allows
 	//one to overide the class that will be used for the model.  By default it is dojox/mvc/model
 	"models": {
-	   "listsmodel": {
-	       "params":{
+		"listsmodel": {
+		   "params":{
 		      "store": {"$ref":"#stores.listsDataStore"}
 		   }
-	   }
+		},
+
+		"itemlistmodel": {
+			"params":{
+				"store": {"$ref":"#stores.itemlistStore"}
+			}
+		}
 	},
 
 	//the name of the scene to load when the app is initialized.
-	"defaultView": "configuration,configure",
+	"defaultView": "items,list",
+	// "defaultView": "configuration,configure",
 
 	"defaultTransition": "slide",
 	//scenes are groups of views and models loaded at once
@@ -79,8 +87,8 @@
 				"configure_edit": {
 					"type": "dojox.app.view",
 					"dependencies":[],
-					"template": "views/configure/edit.html",
-					"jsmodule": "script/configure/edit.js"
+					"template": "views/configure/configureEdit.html",
+					"jsmodule": "script/configure/configureEdit.js"
 				},
 
 				"configure_edit_item": {
@@ -94,9 +102,7 @@
 
 		//item scene, include list view and date view
 		"items": {
-			"models": [],
 			"template": "views/items.html",
-			"jsmodule": "script/items.js",
 			"defaultView": "list",
 			"defaultTransition": "flip",
 			"type": "dojox.app.scene",
@@ -104,14 +110,18 @@
 			"views": {
 				"list":{
 					"template": "views/items/list.html",
-					"jsmodule": "script/items/list.js",
-					"models": {
-						"listmodel": {
-							"params":{
-								"store": {"$ref":"#stores.listItemStore"}
-							}
-						}
-					}
+					"jsmodule": "script/items/list.js"
+				},
+
+				"list_edit":{
+					"template": "views/items/listEdit.html",
+					"jsmodule": "script/items/listEdit.js"
+				},
+
+				"list_edit_item":{
+					"template": "views/items/listEditItem.html",
+					"jsmodule": "script/items/listEditItem.js",
+					"dependencies":["dojox/mobile/TextBox"]
 				},
 				"date":{
 					"template": "views/items/date.html"
@@ -122,7 +132,8 @@
 		"details":{
 			"type": "dojox.app.view",
 			"dependencies":["dojox/mobile/TextBox"],
-			"template": "views/details.html"
+			"template": "views/details.html",
+			"jsmodule": "script/details.js"
 		}
 	}
 }

@@ -1,0 +1,34 @@
+<div class="view mblView">
+	<h2 dojoType="dojox.mobile.RoundRectCategory" region="top">Search Reminders
+		<button id="items_list_done" data-dojo-type="dojox.mobile.Button" class="mblBlueButton" style="float: right; margin-right: 20px;">
+			Done
+		</button>
+		<button id="items_list_add" data-dojo-type="dojox.mobile.Button" class="mblBlueButton" style="float: right; margin-right: 20px;">
+			Add
+		</button>
+	</h2>
+	<div dojoType="dojox.app.container" region="center" scrollable="true">
+	<!-- TODO: use RoundRectList edit when dojox.mvc/dojox.mobile ready -->
+	<ul dojoType="dojox.mobile.RoundRectList">
+		<div data-dojo-type="dojox.mvc.Repeat" id="list_edit_repeat" data-dojo-props="exprchar:'#', ref:'itemlistmodel'">
+			<div data-dojo-type="dojox.mvc.Group" data-dojo-props="ref: '#{this.index}'">
+				<!-- TODO: use data-dojo-props="onClick: function(e){do something...}" replace onclick 
+				<li id="configuration_item#{this.index}" class="mblVariableHeight" dojoType="dojox.mobile.ListItem" clickable="true"
+					data-dojo-props="onClick: function(e){selectConfigurationItem(this, '#{this.index}', e);}">
+				-->
+				<li id="item_list#{this.index}" dojoType="dojox.mobile.ListItem"
+						onclick="selectItemList(this, '#{this.index}');">
+						<div onclick="deleteItemList('#{this.index}')" class="mblDomButtonRedCircleMinus mblDomButton" style="float: left;"><div><div><div></div></div></div></div>
+						<div style="float:left; margin-left:10px">
+							<!-- TODO: use dojox.mvc.Output
+							<span data-dojo-type="dojox.mvc.Output" data-dojo-props="exprchar:'#', ref: 'title'">#{this.value}</span> 
+							-->
+							<span>#{this.binding[this.index].title}</span>
+						</div>
+						<div class="mblDomButtonGreenCircleArrow mblDomButton" style="float:right; border-top-width: 1px;"><div><div><div><div></div></div></div></div></div>
+				</li>
+			</div>
+		</div>
+	</ul>
+	</div>
+</div>

@@ -1,0 +1,158 @@
+<div class="view mblView">
+	<div dojoType="dojox.app.container" region="center" scrollable="true">
+		<div dojoType="dojox.mvc.Group" ref="'itemlistmodel'" style="margin-left:14px;">
+			<div class="fieldset" id="itemlist_detailsGroup" dojoType="dojox.mvc.Group" ref="'rel:0'">
+				<div sytle="float: left">
+					Details for selected index:
+					<button id="edit_list_done" data-dojo-type="dojox.mobile.Button" class="mblBlueButton" style="float: right; margin-right: 20px;">
+						Done
+					</button>
+				</div>
+				
+				<table>
+					<tr>
+						<td>
+							<font size="3">
+								id
+							</font>
+							<font color="red">
+								*
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" placeholder="0000" ref="'rel:id'">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								parent id
+							</font>
+							<font color="red">
+								*
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" placeholder="0" ref="'rel:parentId'">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								title
+							</font>
+							<font color="red">
+								*
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" placeholder="title" ref="'rel:title'">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								notes
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" placeholder="url" ref="'rel:notes'">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								due
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" ref="'rel:due'"">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								completionDate
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" ref="'rel:completionDate'"">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								reminder
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" ref="'rel:reminder'"">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								repeat
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" ref="'rel:repeat'"">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								priority
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" ref="'rel:priority'"">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								hidden
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" ref="'rel:hidden'"">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								completed
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" ref="'rel:completed'"">
+							</input>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<font size="3">
+								deleted
+							</font>
+						</td>
+						<td>
+							<input type=text dojoType="dojox.mobile.TextBox" ref="'rel:deleted'"">
+							</input>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
