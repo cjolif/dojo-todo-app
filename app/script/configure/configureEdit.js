@@ -7,7 +7,7 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 				//commit configuration data
 				var datamodel = app.loadedModels.listsmodel;
 				datamodel.commit();
-				console.log(datamodel.toPlainObject());
+//				console.log(datamodel.toPlainObject());
 
 				//TODO: stop click event bubble, wait for update data to server ready.
 				//      then bubble this event and let TabBarButton transition
@@ -91,7 +91,6 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 		},
 
 		deactivate: function(){
-			// console.log("configure_edit view deactivate, unbind data");
 		}
 	}
 });

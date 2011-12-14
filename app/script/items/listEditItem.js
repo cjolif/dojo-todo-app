@@ -4,10 +4,9 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 		init: function(){
 			function done(widget){
 				//commit configuration data
-				var itemDatamodel = widget.loadedModels.itemlistmodel[window.selected_list_item];
+				var itemDatamodel = app.loadedModels.itemlistmodel[window.selected_list_item];
 				itemDatamodel.commit();
-				console.log(itemDatamodel.toPlainObject());
-				app.loadedModels.itemlistmodel = widget.loadedModels.itemlistmodel;
+				//console.log(itemDatamodel.toPlainObject());
 
 				var transOpts = {
 					title:"Edit List",
@@ -23,29 +22,17 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 			}));
 
 			var widget = registry.byId("itemlist_detailsGroup");
-
-			// workaround for dojox.mvc bind index 0 bug.
-			// _DataBindingMixin.js  line: 176
-			if(window.selected_list_item == 0){
-				window.selected_list_item += "";
-			}
-			widget.set("ref", window.selected_list_item);
+			widget.ref = null;
+			widget.set("ref", app.loadedModels.itemlistmodel[window.selected_list_item]);
 		},
 
 		activate: function(){
 			var widget = registry.byId("itemlist_detailsGroup");
-
-			// workaround for dojox.mvc bind index 0 bug.
-			// _DataBindingMixin.js  line: 176
-			if(window.selected_list_item == 0){
-				window.selected_list_item += "";
-			}
-			widget.set("ref", window.selected_list_item);
-			// console.log("set ref in configure_edit_item view activate");
+			widget.ref = null;
+			widget.set("ref", app.loadedModels.itemlistmodel[window.selected_list_item]);
 		},
 
 		deactivate: function(){
-			// console.log("configure_edit_item view deactivate, unbind data");
 		}
 	}
 });

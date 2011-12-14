@@ -4,7 +4,6 @@ define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/da
 		init: function(){
 			// override ListItem onClick event
 			function showItemDetails(node, index, e){
-				// console.log(node, index, e);
 				window.selected_item = index;
 
 				// publish transition event
@@ -36,6 +35,7 @@ define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/da
 					app.loadedModels.itemlistsmodel[listId] = datamodel;
 
 					var widget = registry.byId("itemlist_repeat");
+					widget.ref = null;
 					widget.set("ref", datamodel);
 				}
 			}));
@@ -57,11 +57,10 @@ define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/da
 			var select_data = app.loadedModels.listsmodel[window.selected_configuration_item];
 			if(app.loadedModels.itemlistsmodel[select_data.id.data]){ // read data from cache
 				app.loadedModels.itemlistmodel = app.loadedModels.itemlistsmodel[select_data.id.data];
-				this.loadedModels.itemlistmodel = app.loadedModels.itemlistmodel;
 
 				var widget = registry.byId("itemlist_repeat");
-				widget.set("ref", this.loadedModels.itemlistmodel);
-				console.log("in list activate, get data model from cache.");
+				widget.ref = null;
+				widget.set("ref", app.loadedModels.itemlistmodel);
 				return;
 			}
 
@@ -71,19 +70,17 @@ define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/da
 			modelPromise.then(dojo.hitch(this, function(datamodel){
 				var listId = datamodel[0].parentId.data;
 				if(listId == window.selected_configuration_item){
-					console.log("in list activate, create data model.", datamodel);
-					this.loadedModels.itemlistmodel =  datamodel;
 					app.loadedModels.itemlistmodel = datamodel;
 					app.loadedModels.itemlistsmodel[listId] = datamodel;
 
 					var widget = registry.byId("itemlist_repeat");
+					widget.ref = null;
 					widget.set("ref", datamodel);
 				}
 			}));
 		},
 
 		deactivate: function(){
-			// console.log("list view deactivate, unbind data to list view");
 		}
 	}
 });

@@ -14,7 +14,6 @@ define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/da
 		},
 
 		deactivate: function(){
-			console.log("details view deactivate");
 		}
 	}
 });

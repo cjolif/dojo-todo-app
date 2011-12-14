@@ -39,7 +39,6 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 		},
 
 		deactivate: function(){
-			// console.log("configure view deactivate, unbind data");
 		}
 	}
 });
