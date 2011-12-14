@@ -29,7 +29,6 @@ define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/da
 			modelPromise.then(dojo.hitch(this, function(datamodel){
 				var listId = datamodel[0].parentId.data;
 				if(listId == window.selected_configuration_item){
-					console.log("in list init, create data model.", datamodel);
 					this.loadedModels.itemlistmodel = datamodel;
 					app.loadedModels.itemlistmodel = datamodel;
 					app.loadedModels.itemlistsmodel[listId] = datamodel;
@@ -41,7 +40,6 @@ define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/da
 			}));
 
 			connect.connect(dom.byId('items_list_edit'), 'click', dojo.hitch(this, function(e){
-				console.log(this, e);
 				var datamodel = this.loadedModels.itemlistmodel;
 				var node = e.srcElement;
 				var transOpts = {
