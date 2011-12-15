@@ -1,21 +1,21 @@
 <div class="view mblView">
-	<h1 dojoType="dojox.mobile.Heading" label="Edit" region="top" back="cancel">
-		<div id="configuration_done" dojoType="dojox.mobile.ToolBarButton" label="Done" style="float:right;" transitionOptions='{title:"Configuration",target:"configuration,configure",url: "#configuration,configure"}'>
+	<h1 data-dojo-type="dojox.mobile.Heading" label="Edit" region="top" back="cancel">
+		<div id="configuration_done" data-dojo-type="dojox.mobile.ToolBarButton" label="Done" style="float:right;" transitionOptions='{title:"Configuration",target:"configuration,configure",url: "#configuration,configure"}'>
 		</div>
-		<div id="configuration_add" dojoType="dojox.mobile.ToolBarButton" label="Add" style="float:right;">
+		<div id="configuration_add" data-dojo-type="dojox.mobile.ToolBarButton" label="Add" style="float:right;">
 		</div>
 	</h1>
-	<h2 dojoType="dojox.mobile.RoundRectCategory" region="top">Search Reminders</h2>
-	<div dojoType="dojox.app.container" region="center" scrollable="true">
+	<h2 data-dojo-type="dojox.mobile.RoundRectCategory" region="top">Search Reminders</h2>
+	<div data-dojo-type="dojox.app.container" region="center" scrollable="true">
 	<!-- TODO: use RoundRectList edit when dojox.mvc/dojox.mobile ready -->
-	<ul dojoType="dojox.mobile.RoundRectList">
+	<ul data-dojo-type="dojox.mobile.RoundRectList">
 		<div data-dojo-type="dojox.mvc.Repeat" id="configure_edit_repeat" data-dojo-props="exprchar:'#', ref:'listsmodel'">
 			<div data-dojo-type="dojox.mvc.Group" data-dojo-props="ref: '#{this.index}'">
 				<!-- TODO: use data-dojo-props="onClick: function(e){do something...}" replace onclick 
-				<li id="configuration_item#{this.index}" class="mblVariableHeight" dojoType="dojox.mobile.ListItem" clickable="true"
+				<li id="configuration_item#{this.index}" class="mblVariableHeight" data-dojo-type="dojox.mobile.ListItem" clickable="true"
 					data-dojo-props="onClick: function(e){selectConfigurationItem(this, '#{this.index}', e);}">
 				-->
-				<li id="configuration_item#{this.index}" dojoType="dojox.mobile.ListItem"
+				<li id="configuration_item#{this.index}" data-dojo-type="dojox.mobile.ListItem"
 						onclick="selectConfigurationItem(this, '#{this.index}');">
 						<div onclick="deleteItem('#{this.index}')" class="mblDomButtonRedCircleMinus mblDomButton" style="float: left;"><div><div><div></div></div></div></div>
 						<div id="name_#{this.index}" style="float:left; margin-left:10px">
