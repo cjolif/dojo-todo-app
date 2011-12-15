@@ -80,51 +80,51 @@
 				"configure": {
 					"type": "dojox.app.view",
 					"dependencies":[],
-					"template": "views/configure/configure.html",
-					"jsmodule": "script/configure/configure.js"
+					"template": "./views/configure/configure.html",
+					"jsmodule": "./script/configure/configure.js"
 				},
 
 				"configure_edit": {
 					"type": "dojox.app.view",
 					"dependencies":[],
-					"template": "views/configure/configureEdit.html",
-					"jsmodule": "script/configure/configureEdit.js"
+					"template": "./views/configure/configureEdit.html",
+					"jsmodule": "./script/configure/configureEdit.js"
 				},
 
 				"configure_edit_item": {
 					"type": "dojox.app.view",
 					"dependencies":["dojox/mobile/TextBox", "dojox/mobile/TextArea"],
-					"template": "views/configure/editItem.html",
-					"jsmodule": "script/configure/editItem.js"
+					"template": "./views/configure/editItem.html",
+					"jsmodule": "./script/configure/editItem.js"
 				}
 			}
 		},
 
 		//item scene, include list view and date view
 		"items": {
-			"template": "views/items.html",
+			"template": "./views/items.html",
 			"defaultView": "list",
 			"defaultTransition": "flip",
 			"type": "dojox.app.scene",
 			//the views available to this scene
 			"views": {
 				"list":{
-					"template": "views/items/list.html",
-					"jsmodule": "script/items/list.js"
+					"template": "./views/items/list.html",
+					"jsmodule": "./script/items/list.js"
 				},
 
 				"list_edit":{
-					"template": "views/items/listEdit.html",
-					"jsmodule": "script/items/listEdit.js"
+					"template": "./views/items/listEdit.html",
+					"jsmodule": "./script/items/listEdit.js"
 				},
 
 				"list_edit_item":{
-					"template": "views/items/listEditItem.html",
-					"jsmodule": "script/items/listEditItem.js",
+					"template": "./views/items/listEditItem.html",
+					"jsmodule": "./script/items/listEditItem.js",
 					"dependencies":["dojox/mobile/TextBox"]
 				},
 				"date":{
-					"template": "views/items/date.html"
+					"template": "./views/items/date.html"
 				}
 			}
 		},
@@ -132,8 +132,8 @@
 		"details":{
 			"type": "dojox.app.view",
 			"dependencies":["dojox/mobile/TextBox"],
-			"template": "views/details.html",
-			"jsmodule": "script/details.js"
+			"template": "./views/details.html",
+			"jsmodule": "./script/details.js"
 		}
 	}
 }
