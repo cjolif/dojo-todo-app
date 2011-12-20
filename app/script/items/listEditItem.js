@@ -21,15 +21,17 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 				done(this);
 			}));
 
+			this.setRef();
+		},
+
+		setRef: function(){
 			var widget = registry.byId("itemlist_detailsGroup");
 			widget.ref = null;
 			widget.set("ref", app.loadedModels.itemlistmodel[window.selected_list_item]);
 		},
 
 		activate: function(){
-			var widget = registry.byId("itemlist_detailsGroup");
-			widget.ref = null;
-			widget.set("ref", app.loadedModels.itemlistmodel[window.selected_list_item]);
+			this.setRef();
 		},
 
 		deactivate: function(){

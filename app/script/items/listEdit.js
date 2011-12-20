@@ -107,6 +107,10 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 			window.selectItemList= selectItemList;
 
 			// init list edit data
+			this.setRef();
+		},
+
+		setRef: function(){
 			var datamodel = app.loadedModels.itemlistmodel;
 			var widget = registry.byId('list_edit_repeat');
 			widget.ref = null;
@@ -114,10 +118,7 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 		},
 
 		activate: function(){
-			var datamodel = app.loadedModels.itemlistmodel;
-			var widget = registry.byId('list_edit_repeat');
-			widget.ref = null;
-			widget.set("ref", datamodel);
+			this.setRef();
 		},
 
 		deactivate: function(){

@@ -12,6 +12,10 @@ define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "d
 				done();
 			});
 
+			this.setRef();
+		},
+
+		setRef: function(){
 			var widget = registry.byId("configuration_detailsGroup");
 			// workaround for dojox.mvc bind index 0 bug.
 			// _DataBindingMixin.js  line: 176
@@ -23,14 +27,7 @@ define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "d
 		},
 
 		activate: function(){
-			var widget = registry.byId("configuration_detailsGroup");
-			// workaround for dojox.mvc bind index 0 bug.
-			// _DataBindingMixin.js  line: 176
-			if(window.selected_configuration_item == 0){
-				window.selected_configuration_item += "";
-			}
-			widget.ref = null;
-			widget.set("ref", window.selected_configuration_item);
+			this.setRef();
 		},
 
 		deactivate: function(){
