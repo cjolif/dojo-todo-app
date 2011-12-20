@@ -1,7 +1,8 @@
 define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent"], 
 	function(dom, connect, registry, mvc, itemfilewritestore, datastore, TransitionEvent){
 	return {
-		dataFile: ["items-for-0.json", "items-for-1.json", "items-for-2.json"],
+		// delete "items-for-2.json" because the generate item id not consist with the data file parent id.
+		dataFile: ["items-for-0.json", "items-for-1.json"],
 
 		init: function(){
 			// override ListItem onClick event
