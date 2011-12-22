@@ -88,6 +88,13 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent){
 			var widget = registry.byId('configure_edit_repeat');
 			widget.ref = null;
 			widget.set("ref", datamodel);
+
+			// refresh tablet configuration repeat group.
+			if(window.isTablet){
+				widget = registry.byId('tablet_configuration_repeat');
+				widget.ref = null;
+				widget.set("ref", datamodel);
+			}
 		},
 
 		deactivate: function(){

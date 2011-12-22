@@ -9,7 +9,7 @@
 			</h2>
 			<!-- TODO: use RoundRectList single select when dojox.mvc/dojox.mobile done -->
 			<ul data-dojo-type="dojox.mobile.RoundRectList">
-				<div id="test_repeat" data-dojo-type="dojox.mvc.Repeat" data-dojo-props="exprchar:'#', ref:'listsmodel'">
+				<div id="tablet_configuration_repeat" data-dojo-type="dojox.mvc.Repeat" data-dojo-props="exprchar:'#', ref:'listsmodel'">
 					<div data-dojo-type="dojox.mvc.Group" data-dojo-props="ref: '#{this.index}'">
 						<!-- TODO: use data-dojo-props="onClick: function(e){do something...}" replace onclick -->
 						<li data-dojo-type="dojox.mobile.ListItem" clickable="true" data-dojo-props="onClick: function(e){selectItems(this, '#{this.index}', e);}">
