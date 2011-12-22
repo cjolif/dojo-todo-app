@@ -1,16 +1,16 @@
-define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent"], 
-	function(dom, connect, registry, mvc, itemfilewritestore, datastore, TransitionEvent){
+define(["dojo/dom", "dojo/dom-style", "dijit/registry"],
+	function(dom, dstyle, registry){
 	return {
 		init: function(){
-			console.log("items scene init ok.");
+			if(window.isTablet){
+				dstyle.set(dom.byId("gotoConfigurationView"), "display", "none");
+			}
 		},
 
 		activate: function(){
-			console.log("items scene activate");
 		},
 
 		deactivate: function(){
-			console.log("items scene deactivate");
 		}
 	}
 });

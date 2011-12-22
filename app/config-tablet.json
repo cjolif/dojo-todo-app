@@ -1,0 +1,141 @@
+{
+	"id": "toDoApp",
+	"name": "ToDo App",
+	"description": "These is a ToDo sample application based on the Dojo Toolkit and provided under Dojo license.",
+	"splash": "splash",
+
+	"dependencies": [
+		"dojox/mobile/_base",
+		"dojox/mobile/TabBar",
+		"dojox/mobile/RoundRect",
+		"dojox/mobile/TabBarButton",
+		"dojox/mobile/Button",
+		"dojox/mobile/RoundRect",
+		"dojox/mobile/Heading",
+		"dojox/mobile/ListItem",
+		"dojox/mobile/RoundRectList",
+		"dojox/mobile/RoundRectCategory",
+		"dojox/mvc/StatefulModel",
+		"dojo/store/Memory",
+		"dojox/mvc/Group",
+		"dojox/mvc/Repeat",
+		"dojox/mvc/Output",
+		"dojox/mvc",
+		"dojox/app/container"
+	],
+	// Modules for the application.  They are basically used as the second
+	// array of mixins in a dojo.declare().  Modify the top level behavior
+	// of the application, how it processes the config or any other life cycle
+	// by creating and including one or more of these
+	"modules": [
+		"dojox/app/module/env",
+		"dojox/app/module/history",
+		"dojox/app/module/lifecycle"
+	],
+
+	//stores we are using
+	"stores": {
+	   "listsDataStore":{
+		   "params": {
+			  "url": "../resources/data/lists.json"
+		   }
+	   },
+
+	   "itemlistStore":{
+		   "params": {
+			  "url": "../resources/data/items-for-0.json"
+		   }
+	   }
+	},
+
+	//models and instantiation parameters for the models. Including 'type' as a property allows
+	//one to overide the class that will be used for the model.  By default it is dojox/mvc/model
+	"models": {
+		"listsmodel": {
+		   "params":{
+		      "store": {"$ref":"#stores.listsDataStore"}
+		   }
+		},
+
+		"itemlistmodel": {
+			"params":{
+				"store": {"$ref":"#stores.itemlistStore"}
+			}
+		}
+	},
+	
+	"template": "./views/tablet/configuration.html",
+
+	//the name of the scene to load when the app is initialized.
+	"defaultView": "items,list",
+
+	"defaultTransition": "slide",
+	//scenes are groups of views and models loaded at once
+	"views": {
+		"configuration": {
+			"defaultView": "configure",
+			"defaultTransition": "slide",
+			"type": "dojox.app.scene",
+
+			"views": {
+				"configure": {
+					"type": "dojox.app.view",
+					"dependencies":[],
+					"template": "./views/configure/configure.html",
+					"jsmodule": "./script/configure/configure.js"
+				},
+
+				"configure_edit": {
+					"type": "dojox.app.view",
+					"dependencies":[],
+					"template": "./views/configure/configureEdit.html",
+					"jsmodule": "./script/configure/configureEdit.js"
+				},
+
+				"configure_edit_item": {
+					"type": "dojox.app.view",
+					"dependencies":["dojox/mobile/TextBox", "dojox/mobile/TextArea"],
+					"template": "./views/configure/editItem.html",
+					"jsmodule": "./script/configure/editItem.js"
+				}
+			}
+		},
+
+		//item scene, include list view and date view
+		"items": {
+			"template": "./views/items.html",
+			"jsmodule": "./script/items.js",
+			"defaultView": "list",
+			"defaultTransition": "flip",
+			"type": "dojox.app.scene",
+			//the views available to this scene
+			"views": {
+				"list":{
+					"template": "./views/items/list.html",
+					"jsmodule": "./script/items/list.js"
+				},
+
+				"list_edit":{
+					"template": "./views/items/listEdit.html",
+					"jsmodule": "./script/items/listEdit.js"
+				},
+
+				"list_edit_item":{
+					"template": "./views/items/listEditItem.html",
+					"jsmodule": "./script/items/listEditItem.js",
+					"dependencies":["dojox/mobile/TextBox"]
+				},
+				"date":{
+					"template": "./views/items/date.html"
+				}
+			}
+		},
+
+		"details":{
+			"type": "dojox.app.view",
+			"dependencies":["dojox/mobile/TextBox"],
+			"template": "./views/details.html",
+			"jsmodule": "./script/details.js"
+		}
+	}
+}

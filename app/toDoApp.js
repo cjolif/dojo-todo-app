@@ -7,8 +7,19 @@ require(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/loader"], function(
 	}
 	dojo.registerModulePath("app", path);
 
-	require(["dojo", "dojox/app/main", "dojox/json/ref", "dojo/text!app/config.json", "dojo/_base/connect"],
-	function(dojo, Application, jsonRef, config, connect){
+	var configurationFile = "config-phone.json"
+	if(window.screen.width > 600){
+		configurationFile = "config-tablet.json"
+		window.isTablet = true; // set device to tablet.
+	}
+
+	var requireModules = ["dojo", "dojox/app/main", "dojox/json/ref", "dojo/_base/connect"];
+	requireModules.push("dojo/text!app/"+configurationFile);
+	if(window.isTablet){
+		requireModules.push("./script/tablet/configuration.js");
+	}
+
+	require(requireModules, function(dojo, Application, jsonRef, connect, config){
 		app = Application(jsonRef.fromJson(config));
 	});
 });
