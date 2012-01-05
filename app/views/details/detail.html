@@ -33,16 +33,31 @@
 			</div>
 		</ul>
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true">
+			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>
 				Remind Me
 			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true">
+			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,repeat",url: "#details,repeat"}'>
 				Repeat
+			</li>
+		</ul>
+		<ul data-dojo-type="dojox.mobile.RoundRectList" style="display:none;">
+			<li data-dojo-type="dojox.mobile.ListItem" clickable="true">
+				Show More...
+			</li>
+		</ul>
+		<ul data-dojo-type="dojox.mobile.RoundRectList">
+			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Priority",target:"details,priority",url: "#details,priority"}'>
+				Priority
+			</li>
+		</ul>
+		<ul data-dojo-type="dojox.mobile.RoundRectList">
+			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,list",url: "#details,list"}'>
+				List
 			</li>
 		</ul>
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
 			<li data-dojo-type="dojox.mobile.ListItem" clickable="true">
-				Show More...
+				Notes
 			</li>
 		</ul>
 		<ul data-dojo-type="dojox.mobile.RoundRectList">

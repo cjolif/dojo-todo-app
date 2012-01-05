@@ -103,7 +103,7 @@
 		"items": {
 			"template": "./views/items.html",
 			"defaultView": "list",
-			"defaultTransition": "flip",
+			"defaultTransition": "slide",
 			"type": "dojox.app.scene",
 			//the views available to this scene
 			"views": {
@@ -128,11 +128,38 @@
 			}
 		},
 
-		"details":{
-			"type": "dojox.app.view",
-			"dependencies":["dojox/mobile/TextBox"],
-			"template": "./views/details.html",
-			"jsmodule": "./script/details.js"
+		//details scene, include list view and date view
+		"details": {
+			"defaultView": "detail",
+			"defaultTransition": "slide",
+			"type": "dojox.app.scene",
+			//the views available to this scene
+			"views": {
+				"detail":{
+					"type": "dojox.app.view",
+					"dependencies":["dojox/mobile/TextBox"],
+					"template": "./views/details/detail.html",
+					"jsmodule": "./script/details/detail.js"
+				},
+
+				"repeat":{
+					"template": "./views/details/repeat.html",
+					"jsmodule": "./script/details/repeat.js"
+				},
+
+				"remind":{
+					"template": "./views/details/remind.html",
+					"jsmodule": "./script/details/remind.js"
+				},
+				"priority":{
+					"template": "./views/details/priority.html",
+					"jsmodule": "./script/details/priority.js"
+				},
+				"list":{
+					"template": "./views/details/list.html",
+					"jsmodule": "./script/details/list.js"
+				}
+			}
 		}
 	}
 }

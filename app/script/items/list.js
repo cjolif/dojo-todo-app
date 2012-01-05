@@ -13,8 +13,8 @@ define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/da
 				node.select();
 				var transOpts = {
 					title:"Details",
-					target:"details",
-					url: "#details"
+					target:"details,detail",
+					url: "#details,detail"
 				};
 				new TransitionEvent(node.domNode,transOpts,e).dispatch();
 			};
