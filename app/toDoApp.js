@@ -8,7 +8,7 @@ require(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/loader"], function(
 	dojo.registerModulePath("app", path);
 
 	var configurationFile = "./config-phone.json"
-	if(window.screen.width > 600){
+	if(window.innerWidth > 600){
 		configurationFile = "./config-tablet.json"
 		window.isTablet = true; // set device to tablet.
 	}
