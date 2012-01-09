@@ -1,22 +1,20 @@
 <div style="background:#c5ccd3;" class="view mblView">
-	<h1 dojoType="dojox.mobile.Heading" label="Remind Me" back="Cancel">
-		<div dojoType="dojox.mobile.ToolBarButton" label="Done" style="float:right;">
+	<h1 data-dojo-type="dojox.mobile.Heading" label="Remind Me" back="Cancel">
+		<div data-dojo-type="dojox.mobile.ToolBarButton" transitionOptions='{title:"Details",target:"details,detail",url: "#details,detail"}' label="Done" style="float:right;">
 		</div>
 	</h1>
 	<ul data-dojo-type="dojox.mobile.RoundRectList">
 		<li data-dojo-type="dojox.mobile.ListItem">
 			On a Day
-			<div class="mblItemSwitch" data-dojo-type="dojox.mobile.Switch">
+			<div id="remind_day_switch" class="mblItemSwitch" value="off" data-dojo-type="dojox.mobile.Switch">
 			</div>
 		</li>
-		<li data-dojo-type="dojox.mobile.ListItem" clickable="true">
-			Monday,
-		</li>
+		<li data-dojo-type="dojox.mobile.ListItem" id="remind_time"></li>
 	</ul>
 	<ul data-dojo-type="dojox.mobile.RoundRectList">
 		<li data-dojo-type="dojox.mobile.ListItem">
 			At a Location
-			<div class="mblItemSwitch" data-dojo-type="dojox.mobile.Switch">
+			<div class="mblItemSwitch" id="remind_location_switch" value="off" data-dojo-type="dojox.mobile.Switch">
 			</div>
 		</li>
 	</ul>

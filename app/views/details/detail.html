@@ -1,67 +1,44 @@
 <div class="view mblView">
-	<h1 data-dojo-type="dojox.mobile.Heading" region="top" back="Back">Details</h1>
+	<h1 data-dojo-type="dojox.mobile.Heading" region="top" label="Details" back="Back">
+		<div data-dojo-type="dojox.mobile.ToolBarButton" transitionOptions='{title:"Items",target:"items,list",url: "#items,list"}' label="Done" style="float:right;">
+		</div>
+	</h1>
 	<div data-dojo-type="dojox.app.container" id="details" scrollable="true">
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
 			<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" data-dojo-props="exprchar:'#', ref:'itemlistmodel.0'">
 				<!-- TODO: use dojox.mvc.Output to display value
 				<span data-dojo-type="dojox.mvc.Output" data-dojo-props="exprchar:'#', ref: 'title'">Title: #{this.value}</span>
-				<br/>
-				<span data-dojo-type="dojox.mvc.Output" data-dojo-props="exprchar:'#', ref: 'notes'">Notes: #{this.value}</span>
-				<br/>
-				<span data-dojo-type="dojox.mvc.Output" data-dojo-props="exprchar:'#', ref: 'priority'">Priority: #{this.value}</span>
 				-->
-				<table>
-					<tr>
-						<td>Title: </td>
-						<td>
-							<input disabled="true" type=text data-dojo-type="dojox.mobile.TextBox" placeholder="title" ref="'rel:title'"></input>
-						</td>
-					</tr>
-					<tr>
-						<td>Notes: </td>
-						<td>
-							<input disabled="true" type=text data-dojo-type="dojox.mobile.TextBox" placeholder="notes" ref="'rel:notes'"></input>
-						</td>
-					</tr>
-					<tr>
-						<td>Priority: </td>
-						<td>
-							<input disabled="true" type=text data-dojo-type="dojox.mobile.TextBox" placeholder="0" ref="'rel:priority'"></input>
-						</td>
-					</tr>
-				</table>
+				<input disabled="true" type=text data-dojo-type="dojox.mobile.TextBox" placeholder="title" ref="'rel:title'"></input>
 			</div>
 		</ul>
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>
+			<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>
 				Remind Me
 			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,repeat",url: "#details,repeat"}'>
+			<li id="detail_repeat" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,repeat",url: "#details,repeat"}'>
 				Repeat
 			</li>
 		</ul>
-		<ul data-dojo-type="dojox.mobile.RoundRectList" style="display:none;">
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true">
+		<ul data-dojo-type="dojox.mobile.RoundRectList" >
+			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" data-dojo-props="onClick: function(){showMoreDetail();}">
 				Show More...
 			</li>
+			<div id="moreDetail" style="display:none;">
+				<li id="detail_priority" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Priority",target:"details,priority",url: "#details,priority"}'>
+					Priority
+				</li>
+				<li id="detail_list" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,list",url: "#details,list"}'>
+					List
+				</li>
+				<li id="detail_note" data-dojo-type="dojox.mobile.ListItem">
+					Notes
+				</li>
+			</div>
 		</ul>
+
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Priority",target:"details,priority",url: "#details,priority"}'>
-				Priority
-			</li>
-		</ul>
-		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,list",url: "#details,list"}'>
-				List
-			</li>
-		</ul>
-		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true">
-				Notes
-			</li>
-		</ul>
-		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true">
+			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" data-dojo-props="onClick: function(){deleteCurrentItem();}">
 				Delete
 			</li>
 		</ul>
