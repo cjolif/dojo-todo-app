@@ -10,10 +10,14 @@ function(dom, connect, registry, utils){
 					var index = utils.getIndexByListItem(registry.byId("list_list"), item);
 					var datamodel = app.loadedModels.itemlistmodel[window.selected_item];
 					if (datamodel) {
+						var listsmodel = app.loadedModels.listsmodel;
+						if(index>=0 && index<listsmodel.length){
+							//TODO: need to udpate data by dojox.mvc
+							datamodel.parentId.data = listsmodel[index].id.value;
+							datamodel.parentId.value = listsmodel[index].id.value;
+						}
 						// datamodel.set("repeat", index);
 						// TODO: commit the data change
-						datamodel.parentId.data = index;
-						datamodel.parentId.value = index;
 					}
 				}
 			});
