@@ -103,7 +103,7 @@
 		"items": {
 			"template": "./views/items.html",
 			"defaultView": "list",
-			"defaultTransition": "slide",
+			"defaultTransition": "fade",
 			"type": "dojox.app.scene",
 			//the views available to this scene
 			"views": {
