@@ -1,4 +1,4 @@
-define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "app/script/details/utils"],
+define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "./utils"],
 function(dom, connect, registry, utils){
 	return {
 		init: function(){
