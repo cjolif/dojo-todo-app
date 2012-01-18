@@ -1,44 +1,52 @@
-define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "dojox/mvc", "dojox/mobile/TransitionEvent"],
-function(dom, dstyle, connect, registry, mvc, TransitionEvent){
+define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "dojox/mobile/TransitionEvent", "../utils/utils"],
+function(dom, dstyle, connect, registry, TransitionEvent, utils){
 	return {
 		init: function(){
-			// override ListItem onClick event
-			function setSelectItem(node, index){
-				if(window.selected_configuration_item == index){
-					return;
+			this.refresh();
+
+			dojo.connect(registry.byId("configure_list"), "onCheckStateChanged", null, function(item, state){
+				// save the select value to data store
+				if (state) {
+					var index = utils.getIndexByListItem(registry.byId("configure_list"), item);
+					window.selected_configuration_item = index - 1; // skip Completed item
+
+					// transition to list view
+					var transOpts = {
+						title:"List",
+						target:"items,list",
+						url: "#items,list"
+					};
+					var e = window.event;
+					new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 				}
-				dom.byId('selected_configuration_item'+window.selected_configuration_item).innerHTML =
-					'<div class="mblDomButtonSilverCircleGrayButton mblDomButton"><div><div></div></div></div>';
-
-				window.selected_configuration_item = index;
-				registry.byNode(node).select();
-				dom.byId('selected_configuration_item'+window.selected_configuration_item).innerHTML =
-					'<div class="mblDomButtonSilverCircleGreenButton mblDomButton"><div><div></div></div></div>';
-			};
-
-			window.setSelectItem = setSelectItem;
-
-			// select the configure item, by default select item 0.
-			// TODO: read the selected configuration item from data model
-			window.selected_configuration_item = 0;
-			dom.byId('selected_configuration_item'+window.selected_configuration_item).innerHTML =
-					'<div class="mblDomButtonSilverCircleGreenButton mblDomButton"><div><div></div></div></div>';
+			});
 		},
 
 		activate: function(){
-			var datamodel = app.loadedModels.listsmodel;
-			var widget = registry.byId('configure_repeat');
-			widget.ref = null;
-			widget.set("ref", datamodel);
-
-			if(window.selected_configuration_item >= datamodel.length){
-				window.selected_configuration_item = 0; // we delete some items, so set the default select item to 0.
-			}
-			dom.byId('selected_configuration_item'+window.selected_configuration_item).innerHTML =
-					'<div class="mblDomButtonSilverCircleGreenButton mblDomButton"><div><div></div></div></div>';
+			this.refresh();
 		},
 
 		deactivate: function(){
+		},
+
+		refresh: function(){
+			var listsmodel = app.loadedModels.listsmodel;
+			var listWidget = registry.byId('configure_list');
+			listWidget.destroyDescendants();
+
+			var listItem = new dojox.mobile.ListItem({
+				label: "Completed"
+			});
+			listWidget.addChild(listItem);
+
+			for(var i=0; i<listsmodel.length; i++){
+				var options = {label: listsmodel[i].title.value};
+				if(window.selected_configuration_item == i){ // select current listitem's parent
+					options = {label: listsmodel[i].title.value, checked:true};
+				}
+				listItem = new dojox.mobile.ListItem(options);
+				listWidget.addChild(listItem);
+			}
 		}
 	}
 });
