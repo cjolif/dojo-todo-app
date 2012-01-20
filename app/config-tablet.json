@@ -45,6 +45,12 @@
 		   "params": {
 			  "url": "../resources/data/items-for-0.json"
 		   }
+	   },
+
+	   "completedStore":{
+			"params": {
+				"data": "[]"
+			}
 	   }
 	},
 
@@ -60,6 +66,12 @@
 		"itemlistmodel": {
 			"params":{
 				"store": {"$ref":"#stores.itemlistStore"}
+			}
+		},
+
+		"completedmodel": {
+			"params":{
+				"store": {"$ref":"#stores.completedStore"}
 			}
 		}
 	},

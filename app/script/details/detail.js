@@ -88,7 +88,8 @@ function(dom, dstyle, connect, registry, TransitionEvent){
 			}
 
 			if(datamodel.notes){
-				registry.byId('detail_note').set("rightText", datamodel.notes.value);
+				var value = '<textarea style="border:none; ">'+datamodel.notes.value+'</textarea>';
+				registry.byId('detail_note').set("rightText", value);
 			}
 		}
 	}

@@ -50,7 +50,7 @@ define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "d
 			console.log("add a configuration item.");
 			function showEditBox(elem){
 				var text = elem.innerHTML;
-				elem.innerHTML = '<input style="border: none; height:35px; width: 200px;" type="text" onblur="addConfItemData(this);" value="' + text + '"/>';
+				elem.innerHTML = '<input style="border: none; height:35px; width: 200px;" type="text" onblur="addConfItemData(this);" placeholder="' + text + '"/>';
 				elem.onclick = '';
 			};
 			showEditBox(node);
