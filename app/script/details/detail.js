@@ -88,7 +88,7 @@ function(dom, dstyle, connect, registry, TransitionEvent){
 			}
 
 			if(datamodel.notes){
-				var value = '<textarea style="border:none; ">'+datamodel.notes.value+'</textarea>';
+				var value = '<textarea style="border:none;" onmousedown="event.cancelBubble=true;">'+datamodel.notes.value+'</textarea>';
 				registry.byId('detail_note').set("rightText", value);
 			}
 		}

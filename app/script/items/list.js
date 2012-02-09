@@ -149,7 +149,7 @@ define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc","dojo/da
 					checked = "checked";
 				}
 				listItem = new dojox.mobile.ListItem({
-					label: '<table><tr><td><input type="checkbox" ' + checked + ' onclick="return markCompleted(this, ' + i + ');"/></td><td>' + data[i].title.value + '</td></tr></table>',
+					label: '<table><tr><td><input preventTouch="true" type="checkbox" ' + checked + ' onclick="return markCompleted(this, ' + i + ');"/></td><td>' + data[i].title.value + '</td></tr></table>',
 					clickable: true,
 					transitionOptions: {
 						title: "Detail",
