@@ -81,12 +81,12 @@
 	//the name of the scene to load when the app is initialized.
 	"defaultView": "items,list",
 
-	"defaultTransition": "slide",
+	"defaultTransition": "fade",
 	//scenes are groups of views and models loaded at once
 	"views": {
 		"configuration": {
 			"defaultView": "configure",
-			"defaultTransition": "slide",
+			"defaultTransition": "fade",
 			"type": "dojox.app.scene",
 
 			"views": {
@@ -118,7 +118,7 @@
 			"template": "./views/items.html",
 			"jsmodule": "./script/items.js",
 			"defaultView": "list",
-			"defaultTransition": "slide",
+			"defaultTransition": "fade",
 			"type": "dojox.app.scene",
 			//the views available to this scene
 			"views": {
@@ -146,7 +146,7 @@
 		//details scene, include list view and date view
 		"details": {
 			"defaultView": "detail",
-			"defaultTransition": "slide",
+			"defaultTransition": "fade",
 			"type": "dojox.app.scene",
 			//the views available to this scene
 			"views": {
