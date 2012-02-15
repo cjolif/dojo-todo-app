@@ -1,0 +1,86 @@
+define(
+({
+	"clearFilterDialogTitle": "Rensa filter",
+	"filterDefDialogTitle": "Filtrera",
+	"ruleTitleTemplate": "Regel ${0}",
+	
+	"conditionEqual": "lika med",
+	"conditionNotEqual": "inte lika med",
+	"conditionLess": "mindre än",
+	"conditionLessEqual": "mindre än eller lika med",
+	"conditionLarger": "större än",
+	"conditionLargerEqual": "större än eller lika med",
+	"conditionContains": "innehåller",
+	"conditionIs": "är",
+	"conditionStartsWith": "börjar med",
+	"conditionEndWith": "slutar med",
+	"conditionNotContain": "innehåller inte",
+	"conditionIsNot": "är inte",
+	"conditionNotStartWith": "börjar inte med",
+	"conditionNotEndWith": "slutar inte med",
+	"conditionBefore": "före",
+	"conditionAfter": "efter",
+	"conditionRange": "intervall",
+	"conditionIsEmpty": "är tom",
+	
+	"all": "alla",
+	"any": "någon",
+	"relationAll": "alla regler",
+	"waiRelAll": "Matcha alla följande regler:",
+	"relationAny": "någon regel",
+	"waiRelAny": "Matcha någon av följande regler:",
+	"relationMsgFront": "Matcha:",
+	"relationMsgTail": "",
+	"and": "och",
+	"or": "eller",
+	
+	"addRuleButton": "Lägg till regel",
+	"waiAddRuleButton": "Lägg till ny regel",
+	"removeRuleButton": "Ta bort regel",
+	"waiRemoveRuleButtonTemplate": "Ta bort regeln ${0}",
+	
+	"cancelButton": "Avbryt",
+	"waiCancelButton": "Ständ dialogrutan",
+	"clearButton": "Rensa",
+	"waiClearButton": "Rensa filtret",
+	"filterButton": "Filter",
+	"waiFilterButton": "Använd filtret",
+	
+	"columnSelectLabel": "Kolumn",
+	"waiColumnSelectTemplate": "Kolumn för regeln ${0}",
+	"conditionSelectLabel": "Villkor",
+	"waiConditionSelectTemplate": "Villkor för regeln ${0}",
+	"valueBoxLabel": "Värde",
+	"waiValueBoxTemplate": "Filtervärde för regeln ${0}",
+	
+	"rangeTo": "till",
+	"rangeTemplate": "från ${0} till ${1}",
+	
+	"statusTipHeaderColumn": "Kolumn",
+	"statusTipHeaderCondition": "Regler",
+	"statusTipTitle": "Filterfält",
+	"statusTipMsg": "Klicka på filterfältet för att filtrera värden i ${0}.",
+	"anycolumn": "någon kolumn",
+	"statusTipTitleNoFilter": "Filterfält",
+	"statusTipTitleHasFilter": "Filter",
+	"statusTipRelAny": "Matcha någon regel.",
+	"statusTipRelAll": "Matcha alla regler.",
+	
+	"defaultItemsName": "objekt",
+	"filterBarMsgHasFilterTemplate": "${0} av ${1} ${2} visas.",
+	"filterBarMsgNoFilterTemplate": "Inga filter tillämpas",
+	
+	"filterBarDefButton": "Definiera filter",
+	"waiFilterBarDefButton": "Filtrera tabellen",
+	"a11yFilterBarDefButton": "Filter...",
+	"filterBarClearButton": "Rensa filter",
+	"waiFilterBarClearButton": "Rensa filtret",
+	"closeFilterBarBtn": "Stäng filterfältet",
+	
+	"clearFilterMsg": "Filtret tas bort och alla tillgängliga poster visas.",
+	"anyColumnOption": "Någon kolumn",
+	
+	"trueLabel": "Sant",
+	"falseLabel": "Falskt"
+})
+);

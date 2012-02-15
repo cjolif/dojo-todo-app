@@ -1,0 +1,47 @@
+/* dojox.mobile.TabBarButton */
+.dj_ie6 .mblTabBarButtonDiv, .dj_ie7 .mblTabBarButtonDiv {
+  left: auto;
+}
+.dj_ie6 .mblTabBar .mblTabBarButton {
+  display: inline;
+}
+.mblTabPanelHeader {
+  background-image: url(compat/heading-bg.png);
+  background-image: -moz-linear-gradient(top, #ffffff, #ffffff 2.5%, rgba(255, 255, 255, 0.14) 2.5%, rgba(255, 255, 255, 0.14) 5%, rgba(255, 255, 255, 0.52) 5%, rgba(255, 255, 255, 0.52) 7.5%, rgba(255, 255, 255, 0.68) 7.5%, rgba(255, 255, 255, 0.68) 10%, rgba(255, 255, 255, 0));
+}
+.mblTabBar {
+  background-image: url(compat/ui-widget-bg.png);
+  background-image: -moz-linear-gradient(top, #ffffff, rgba(255, 255, 255, 0.1) 3.3%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.3));
+}
+.mblTabButton {
+  background-image: url(compat/ui-widget-bg.png);
+  background-image: -moz-linear-gradient(top, #ffffff, rgba(255, 255, 255, 0.1) 3.3%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.3));
+}
+.mblTabBar .mblTabBarButton.mblTabButtonSelected {
+  background-image: url(compat/ui-widget-bg.png);
+  background-image: -moz-linear-gradient(top, #ffffff, rgba(255, 255, 255, 0.1) 3.3%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.3));
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.dj_ie6 .mblTabButtonSelected {
+  background-color: #2997ff;
+  background-image: none;
+}
+.mblTabButton:first-child {
+  -moz-border-radius-topleft: 2px;
+  -moz-border-radius-bottomleft: 2px;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.mblTabButton:last-child {
+  -moz-border-radius-topright: 2px;
+  -moz-border-radius-bottomright: 2px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+.dj_ie6 .mblTabButton {
+  behavior: expression((function(el){if(!el.previousSibling)el.style.borderWidth="1px";el.style.behavior="none";})(this));
+}
+.dj_ie6 .mblTabPanelHeader .mblDomButton {
+  left: 0px;
+}

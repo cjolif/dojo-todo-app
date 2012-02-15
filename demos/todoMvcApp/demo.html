@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Todo Mvc App Demo</title>
+<style type="text/css">
+	@import "../../dijit/themes/claro/claro.css";
+
+	.checkedTodo {
+    	color: #666;
+   		text-decoration: line-through;
+	}
+	.hiddenDetails {
+		display: none;
+	}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="parseOnLoad:false, async:true, mblAlwaysHideAddressBar: true, canvasEvents:false"></script>
+<script type="text/javascript" src="src.js" charset="utf-8"></script>
+</head>
+<body class="claro">
+		<div id="wrapper">
+			<div id="header">
+				<div id="navigation"></div>
+				<div id="headerInsert">
+					<span style="width: 100%;">
+						<h1 class="dijitInline">To Do Lists</h1>
+						<button class="dijitInLine" type="button" data-dojo-type="dijit.form.Button" data-dojo-props="onClick: function(){insertNewList();}">+</button>
+					</span>
+				</div>
+			</div>
+			<div id="main">
+				<div id="leftNav"></div>
+				<div id="mainContent">
+		  			<div id="repeatId" data-dojo-type="dojox.mvc.Repeat" data-dojo-props="ref: 'listsmodel'">
+						<div class="row" data-dojo-type="dojox.mvc.Group" data-dojo-props="ref: '${this.index}'">
+							<span style="width: 100%;">
+								<input id="g1rb${this.index}" data-dojo-type="dijit.form.RadioButton" data-dojo-props='name:"taskLists", value:"${this.index}", onChange: handleRadioChange'/>
+								<div class="dijitInline" data-dojo-type="dijit.InlineEditBox" id="todo${this.index}" 
+										data-dojo-props='ref: "title", editor:"dijit.form.TextBox", autosave:true, width:"368px", style:"width:368px;"'></div>
+								<button class="dijitInline" type="dijit.form.Button" data-dojo-type="dijit.form.Button" data-dojo-props="onClick: function(){deleteList('${this.index}');}">-</button>
+							</span>
+						</div>
+					</div>
+					<div class="spacer"></div>
+					<div id="tasks">
+					<span style="width: 100%;">
+						<h2 class="dijitInline">To Do Items</h1>
+						<button class="dijitInLine" type="button" data-dojo-type="dijit.form.Button" data-dojo-props="onClick: function(){insertNewItem();}">+</button>
+					</span>
+						<div id="tasksrepeatId" data-dojo-type="dojox.mvc.Repeat" data-dojo-props="ref: itemsmodel[0]">
+							<div class="row" data-dojo-type="dojox.mvc.Group" data-dojo-props="ref: '${this.index}'">
+								<span style="width: 100%;">
+					<input data-dojo-type="dijit.form.CheckBox" index="${this.index}" id="isdone${this.index}" data-dojo-props='ref: "completed", onChange: handleCheckBoxChange' style="display:inline-block" class="cell" ></input>
+					<div class="checkedTodo" style="display:inline-block" data-dojo-type="dijit.InlineEditBox" id="todoItem${this.index}" 
+										data-dojo-props='ref: "title", editor:"dijit.form.TextBox", autosave:true, width:"368px", style:"width:368px;"'></div>									
+									<button class="dijitInline" type="button" data-dojo-type="dijit.form.Button" data-dojo-props="onClick: function(){setDetailsContext('${this.index}');}">Details</button>
+									<button class="dijitInline" type="button" data-dojo-type="dijit.form.Button" data-dojo-props="onClick: function(){deleteItem('${this.index}');}">-</button>
+								</span>
+						</div>
+					</div>
+				</div>
+				<div id="details"  class="hiddenDetails">
+					<h1>Details</h1>
+				<div id="detailsGroup" data-dojo-type="dojox.mvc.Group" data-dojo-props="ref: itemsmodel[0]">
+					<div class="row">
+						<label class="cell" for="title">Title:</label>
+						<input class="cell" id="title" data-dojo-type="dijit.form.TextBox" data-dojo-props="ref: 'title'"/>
+					</div>
+					<div class="row">
+						<label class="cell" for="notes">Notes:</label>
+						<input class="cell" id="notes" data-dojo-type="dijit.form.TextBox" data-dojo-props="ref: 'notes'"/>
+					</div>
+					<div class="row">
+						<label class="cell" for="priority">Priority:</label>
+						<input class="cell" id="priority" data-dojo-type="dijit.form.NumberSpinner" data-dojo-props="ref: 'priority'"/>
+
+					</div>
+		<!-- Need to add the rest of the details... -->        
+				</div>
+				<h4>Test Commit (it will not send data to be saved on the backend, but it will commit the to the StatefulModel (client side) and log the data to the console) and Reset.</h1>
+				<div class="row">
+					<div class="spacer"></div>
+					<button type="button" data-dojo-type="dijit.form.Button" data-dojo-props="onClick: function(){console.log(itemsmodel[selectedList][selectedItem].toPlainObject());itemsmodel[selectedList][selectedItem].commit();}">Commit this Item</button>        
+					<button type="button" data-dojo-type="dijit.form.Button" data-dojo-props="onClick: function(){itemsmodel[selectedList][selectedItem].reset();}">Reset this item to last saved</button>        
+				</div>
+			</div>
+				<h4>Test Commit (it will not send data to be saved on the backend, but it will commit the to the StatefulModel (client side) and log the data to the console) and Reset.</h1>
+				<div class="row">
+					<div class="spacer"></div>
+					<button type="button" data-dojo-type="dijit.form.Button" data-dojo-props="onClick: function(){console.log(itemsmodel[selectedList].toPlainObject());itemsmodel[selectedList].commit();;}">Commit All Items for selected list</button>        
+					<button type="button" data-dojo-type="dijit.form.Button" data-dojo-props="onClick: function(){console.log(listsmodel.toPlainObject());listsmodel.commit();;}">Commit the list of Lists.</button>        
+					<button type="button" data-dojo-type="dijit.form.Button" data-dojo-props="onClick: function(){itemsmodel[selectedList].reset();}">Reset selected list to last saved</button>        
+				</div>
+		</div>
+</body>
+</html>
