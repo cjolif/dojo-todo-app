@@ -3,15 +3,11 @@
 		<div data-dojo-type="dojox.mobile.ToolBarButton" transitionOptions='{title:"Items",target:"items,list",url: "#items,list"}' label="Done" style="float:right;">
 		</div>
 	</h1>
-	<div data-dojo-type="dojox.app.container" id="details" scrollable="true">
-		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" data-dojo-props="exprchar:'#', ref:'itemlistmodel.0'">
-				<!-- TODO: use dojox.mvc.Output to display value
+	<div data-dojo-type="dojox.app.widgets.container" id="details" scrollable="true">
+		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" data-dojo-props="exprchar:'#', ref:'itemlistmodel.0'">
+			<ul data-dojo-type="dojox.mobile.RoundRectList">
 				<span data-dojo-type="dojox.mvc.Output" data-dojo-props="exprchar:'#', ref: 'title'">Title: #{this.value}</span>
-				-->
-				<input disabled="true" type=text data-dojo-type="dojox.mobile.TextBox" placeholder="title" ref="'rel:title'"></input>
-			</div>
-		</ul>
+			</ul>
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
 			<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>
 				Remind Me
@@ -21,7 +17,7 @@
 			</li>
 		</ul>
 		<ul data-dojo-type="dojox.mobile.RoundRectList" >
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" data-dojo-props="onClick: function(){showMoreDetail();}">
+				<li data-dojo-type="dojox.mobile.ListItem" clickable="true" data-dojo-props="onClick: function(){todoApp.showMoreDetail();}">
 				Show More...
 			</li>
 			<div id="moreDetail" style="display:none;">
@@ -35,12 +31,10 @@
 					Notes
 				</li>
 			</div>
-		</ul>
+			</ul>
+		</div>
 
-		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<li data-dojo-type="dojox.mobile.ListItem" data-dojo-props="clickable: true, noArrow: true, onClick: function(){deleteCurrentItem();}">
-				Delete
-			</li>
-		</ul>
+		<button id="markAsComplete" data-dojo-type="dojox.mobile.Button" class="baseBtn whiteBtn">Complete</button>
+		<button id="deleteCurrentItem" data-dojo-type="dojox.mobile.Button" class="baseBtn whiteBtn">Delete</button>
 	</div>
 </div>

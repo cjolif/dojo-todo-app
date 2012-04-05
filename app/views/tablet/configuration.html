@@ -1,8 +1,8 @@
 <div>
 	<!-- left -->
-	<div dojoType="dojox.app.container" class="navPane" region="left">
+	<div dojoType="dojox.app.widgets.container" class="navPane" region="left">
 		<h1 region="top" dojoType="dojox.mobile.Heading">Todo App</h1>
-		<div data-dojo-type="dojox.app.container" region="center" scrollable="true">
+		<div data-dojo-type="dojox.app.widgets.container" region="center" scrollable="true">
 			<h2 dojoType="dojox.mobile.EdgeToEdgeCategory" style="height: 32px;">Configure
 			<img style="position: absolute; display: block; width: 32px; height: 32px; right: 0; top: 0" onClick="editConfiguration();"
 				src="images/settings.png" />
@@ -13,17 +13,11 @@
 				Completed
 				</li>
 			</ul>
-			<ul data-dojo-type="dojox.mobile.RoundRectList">
-				<div id="tablet_configuration_repeat" data-dojo-type="dojox.mvc.Repeat" data-dojo-props="exprchar:'#', ref:'listsmodel'">
-					<div data-dojo-type="dojox.mvc.Group" data-dojo-props="ref: '#{this.index}'">
-						<!-- TODO: use data-dojo-props="onClick: function(e){do something...}" replace onclick -->
-						<li data-dojo-type="dojox.mobile.ListItem" clickable="true" data-dojo-props="onClick: function(e){selectItems(this, '#{this.index}', e);}">
-							<!-- TODO: use dojox.mvc.Output
-							<span data-dojo-type="dojox.mvc.Output" data-dojo-props="exprchar:'#', ref: 'title'">#{this.value}</span>
-							--><span>#{this.binding[this.index].title}</span>
-						</li>
-					</div>
-				</div>
+
+			<ul data-dojo-type="dojox.mobile.RoundRectList" data-dojo-mixins="dojox.mvc.Repeat" data-dojo-props="exprchar:'#', ref:'listsmodel'">
+				<li data-dojo-type="dojox.mobile.ListItem" clickable="true" 
+					data-dojo-props="label: dojox.mvc.at('rel:#{this.index}', 'title'),onClick: function(e){selectItems(this, '#{this.index}', e);}">
+				</li>
 			</ul>
 		</div>
 	</div>

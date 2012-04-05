@@ -20,19 +20,21 @@
 		"dojox/mvc/Group",
 		"dojox/mvc/Repeat",
 		"dojox/mvc/Output",
+		"dojox/mvc/at",
 		"dojox/mvc",
-		"dojox/app/container"
+		//"dojox/mobile/ScrollableView"
+		"dojox/app/widgets/container"
 	],
 	// Modules for the application.  They are basically used as the second
 	// array of mixins in a dojo.declare().  Modify the top level behavior
 	// of the application, how it processes the config or any other life cycle
 	// by creating and including one or more of these
 	"modules": [
-		"dojox/app/module/env",
-		"dojox/app/module/history",
 		"dojox/app/module/lifecycle"
 	],
-
+	"controllers": [
+		"dojox/app/controllers/History"
+	],
 	//stores we are using
 	"stores": {
 	   "listsDataStore":{
@@ -85,28 +87,22 @@
 		"configuration": {
 			"defaultView": "configure",
 			"defaultTransition": "fade",
-			"type": "dojox.app.scene",
 
 			"views": {
 				"configure": {
-					"type": "dojox.app.view",
-					"dependencies":[],
 					"template": "./views/configure/configure.html",
-					"jsmodule": "./script/configure/configure.js"
+					"assistant": "./assistants/configure/configure.js"
 				},
 
 				"configure_edit": {
-					"type": "dojox.app.view",
-					"dependencies":[],
 					"template": "./views/configure/configureEdit.html",
-					"jsmodule": "./script/configure/configureEdit.js"
+					"assistant": "./assistants/configure/configureEdit.js"
 				},
 
 				"configure_edit_item": {
-					"type": "dojox.app.view",
 					"dependencies":["dojox/mobile/TextBox", "dojox/mobile/TextArea"],
 					"template": "./views/configure/editItem.html",
-					"jsmodule": "./script/configure/editItem.js"
+					"assistant": "./assistants/configure/editItem.js"
 				}
 			}
 		},
@@ -116,22 +112,21 @@
 			"template": "./views/items.html",
 			"defaultView": "list",
 			"defaultTransition": "fade",
-			"type": "dojox.app.scene",
 			//the views available to this scene
 			"views": {
 				"list":{
 					"template": "./views/items/list.html",
-					"jsmodule": "./script/items/list.js"
+					"assistant": "./assistants/items/list.js"
 				},
 
 				"list_edit":{
 					"template": "./views/items/listEdit.html",
-					"jsmodule": "./script/items/listEdit.js"
+					"assistant": "./assistants/items/listEdit.js"
 				},
 
-				"list_edit_item":{
-					"template": "./views/items/listEditItem.html",
-					"jsmodule": "./script/items/listEditItem.js",
+				"add":{
+					"template": "./views/items/add.html",
+					"assistant": "./assistants/items/add.js",
 					"dependencies":["dojox/mobile/TextBox"]
 				},
 				"date":{
@@ -144,32 +139,30 @@
 		"details": {
 			"defaultView": "detail",
 			"defaultTransition": "fade",
-			"type": "dojox.app.scene",
 			//the views available to this scene
 			"views": {
 				"detail":{
-					"type": "dojox.app.view",
 					"dependencies":["dojox/mobile/TextBox"],
 					"template": "./views/details/detail.html",
-					"jsmodule": "./script/details/detail.js"
+					"assistant": "./assistants/details/detail.js"
 				},
 
 				"repeat":{
 					"template": "./views/details/repeat.html",
-					"jsmodule": "./script/details/repeat.js"
+					"assistant": "./assistants/details/repeat.js"
 				},
 
 				"remind":{
 					"template": "./views/details/remind.html",
-					"jsmodule": "./script/details/remind.js"
+					"assistant": "./assistants/details/remind.js"
 				},
 				"priority":{
 					"template": "./views/details/priority.html",
-					"jsmodule": "./script/details/priority.js"
+					"assistant": "./assistants/details/priority.js"
 				},
 				"list":{
 					"template": "./views/details/list.html",
-					"jsmodule": "./script/details/list.js"
+					"assistant": "./assistants/details/list.js"
 				}
 			}
 		}

@@ -6,23 +6,18 @@
 		</div>
 	</h1>
 	<h2 data-dojo-type="dojox.mobile.RoundRectCategory" region="top">Search Reminders</h2>
-	<div data-dojo-type="dojox.app.container" region="center" scrollable="true">
-		<!-- TODO: use RoundRectList single select when dojox.mvc/dojox.mobile done -->
-		<!-- <ul data-dojo-type="dojox.mobile.RoundRectList" select="single">
-			<div data-dojo-type="dojox.mvc.Repeat" id="configure_repeat" data-dojo-props="exprchar:'#', ref:'listsmodel'">
-				<div data-dojo-type="dojox.mvc.Group" data-dojo-props="ref: '#{this.index}'">
-					<li id="configure_item#{this.index}" data-dojo-type="dojox.mobile.ListItem"
-						onclick="setSelectItem(this, '#{this.index}');">
-						<span>#{this.binding[this.index].title}</span>
-						<div id="selected_configuration_item#{this.index}" style="float: right;">
-							<div class="mblDomButtonSilverCircleGrayButton mblDomButton"><div><div></div></div></div>
-						</div>
-					</li>
-				</div>
-			</div>
+	<div data-dojo-type="dojox.app.widgets.container" region="center" scrollable="true">
+		<ul data-dojo-type="dojox.mobile.RoundRectList">
+			<li class="mblVariableHeight" data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Completed", clickable: true, noArrow: true, onClick: function(e){todoApp.selected_configuration_item = -1;}'
+				transitionOptions='{title:"List",target:"items,list",url: "#items,list"}'>
+			</li>
 		</ul>
-		-->
-		<ul id="configure_list" data-dojo-type="dojox.mobile.RoundRectList" select="single">
+		
+		<ul data-dojo-type="dojox.mobile.RoundRectList" id="configure_list" select="single" 
+				data-dojo-mixins="dojox.mvc.Repeat" data-dojo-props="exprchar:'#', ref: 'listsmodel'">
+			<li id="configure_itemmix1#{this.index}" class="mblVariableHeight" data-dojo-type="dojox.mobile.ListItem" 
+				data-dojo-props="label: dojox.mvc.at('rel:#{this.index}', 'title'), checked: dojox.mvc.at('rel:#{this.index}',  'Checked')">
+			</li>
 		</ul>
 	</div>
 </div>
