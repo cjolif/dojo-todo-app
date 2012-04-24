@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc", "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent"],
-function(dom, connect, registry, mvc, itemfilewritestore, datastore, TransitionEvent){
+define(["dojo/dom", "dojo/_base/lang", "dijit/registry", "dojox/mvc", "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent"],
+function(dom, lang, registry, mvc, itemfilewritestore, datastore, TransitionEvent){
 	//set todoApp showItemDetails function
 	todoApp.cachedDataModel = {};
 	todoApp.currentItemListModel = null;
@@ -9,14 +9,19 @@ function(dom, connect, registry, mvc, itemfilewritestore, datastore, TransitionE
 		todoApp.selected_item = index;
 	};
 
-	todoApp._addNewItem = function(node){
+	// delete "items-for-2.json" because the generate item id not consist with the data file parent id.
+	var dataFile = ["items-for-0.json", "items-for-1.json"];
+	var listsmodel = null;
+	var itemlistmodel = null;
+	var completedmodel = null;
+
+	var _addNewItem = function(node){
 		console.log(node.value);
 		var datamodel = app.loadedModels.itemlistmodel;
 		var parentId;
-		try {
+		try{
 			parentId = datamodel[0].parentId.data;
-		} 
-		catch (e) {
+		}catch (e){
 			console.log("Warning: itemlistmodel is empty, get parentId from listsmodel");
 			parentId = app.loadedModels.listsmodel[window.selected_configuration_item].id.data;
 		}
@@ -45,74 +50,74 @@ function(dom, connect, registry, mvc, itemfilewritestore, datastore, TransitionE
 		window.showData(datamodel);
 	};
 
+	var showListData = function(datamodel){
+		var listWidget = registry.byId("items_list");
+		listWidget.set('ref', datamodel);
+	};
+
+	var showListType = function(){
+		var type;
+		if(todoApp.selected_configuration_item == -1){
+			type = "Completed";
+		}else{
+			var listdata = listsmodel.model[todoApp.selected_configuration_item];
+			if(listdata && listdata.title){
+				type = listdata.title;
+			}else{
+				type = "Unknown";
+			}
+		}
+		dom.byId('list_type').innerHTML = type;
+	};
+
+	var isFileExist = function(filename, files){
+		for(var file in files){
+			if(filename.indexOf(files[file]) > 0){
+				return true;
+			}
+		}
+		return false;
+	};
+
 	return {
-		// delete "items-for-2.json" because the generate item id not consist with the data file parent id.
-		dataFile: ["items-for-0.json", "items-for-1.json"],
-
 		init: function(){
-			if (this.loadedModels.itemlistmodel && this.loadedModels.itemlistmodel[0].parentId) {
-				var index = this.loadedModels.itemlistmodel[0].parentId.data;
-				todoApp.cachedDataModel[index] = this.loadedModels.itemlistmodel;
-				todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
+			itemlistmodel = this.loadedModels.itemlistmodel;
+			listsmodel = this.loadedModels.listsmodel;
+			completedmodel = this.loadedModels.completedmodel;
+
+			if (itemlistmodel && (itemlistmodel.model[0].parentId || 0 == itemlistmodel.model[0].parentId)) {
+				var index = itemlistmodel.model[0].parentId;
+				todoApp.cachedDataModel[index] = itemlistmodel;
+				todoApp.currentItemListModel = itemlistmodel;
 			}
 		},
 
-		showData: function(data){
-			// TODO: use dojox.mvc set ref to when dojox.mvc ready
-			//			var widget = registry.byId("itemlist_repeat");
-			//			widget.ref = null;
-			//			widget.set("ref", datamodel);
-			var listItem;
-			var listWidget = registry.byId("items_list");
-			listWidget.destroyDescendants();
-			
-			var checked = "";
-			for (var i = 0; i < data.length; i++) {
-				checked = ""
-				if (data[i].completed.value) {
-					checked = "checked";
-				}
-				listItem = new dojox.mobile.ListItem({
-					label: '<table><tr><td><input preventTouch="true" type="checkbox" ' + checked + ' onclick="return markCompleted(this, ' + i + ');"/></td><td>' + data[i].title.value + '</td></tr></table>',
-					clickable: true,
-					transitionOptions: {
-						title: "Detail",
-						target: "details,detail",
-						url: "#details,detail"
-					},
-					index: i,
-					onClick: function(){
-						console.log("select item ", this.index);
-						window.selected_item = this.index;
-					}
-				});
-				listWidget.addChild(listItem);
-			}
-			// add edit list
-			listWidget.addChild(new dojox.mobile.ListItem({
-				label: '<input type="text" style="position:relative; left: 30px; border: none; height:35px; width: 200px;" onblur="addNewItem(this);" placeholder="Add New Item"/>',
-			}));
+		beforeActivate: function(){
+			itemlistmodel = this.loadedModels.itemlistmodel;
+			listsmodel = this.loadedModels.listsmodel;
+			completedmodel = this.loadedModels.completedmodel;
+			this.refreshData();
 		},
-
+	
 		refreshData: function(){
-			this.showListType();
-			if (todoApp.selected_configuration_item == -1) {
-				this.showListData(this.loadedModels.completedmodel);
-				todoApp.currentItemListModel = this.loadedModels.completedmodel;
+			showListType();
+			if(todoApp.selected_configuration_item == -1){
+				showListData(completedmodel.model);
+				todoApp.currentItemListModel = completedmodel;
 				return;
 			}
-
-			var select_data = this.loadedModels.listsmodel[todoApp.selected_configuration_item];
+	
+			var select_data = listsmodel.model[todoApp.selected_configuration_item];
 			// get data model in cache
-			if (todoApp.cachedDataModel[select_data.id.data]) { // read data from cache
-				this.loadedModels.itemlistmodel = todoApp.cachedDataModel[select_data.id.data];
-				this.showListData(this.loadedModels.itemlistmodel);
+			if(todoApp.cachedDataModel[select_data.id]){ // read data from cache
+				this.loadedModels.itemlistmodel = todoApp.cachedDataModel[select_data.id];
+				showListData(this.loadedModels.itemlistmodel.model);
 				todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
 				return;
-			}else if (!isFileExist(select_data.itemsurl.data, this.dataFile)) {
+			}else if(!isFileExist(select_data.itemsurl, dataFile)){
 				// create in-memory store if the file not exists
 				// TODO: use the exists file in an array in this demo.
-				console.log("file not exist.", select_data.itemsurl.data);
+				console.log("file not exist.", select_data.itemsurl);
 				var tempStore = new dojo.store.Memory({
 					"data": []
 				});
@@ -124,9 +129,9 @@ function(dom, connect, registry, mvc, itemfilewritestore, datastore, TransitionE
 				todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
 				
 				this.showListData(datamodel);
-			}else { // load data model from data file
+			}else{ // load data model from data file
 				var writeStroe = new itemfilewritestore({
-					url: select_data.itemsurl.data
+					url: select_data.itemsurl
 				});
 				var modelPromise = mvc.newStatefulModel({
 					store: new datastore({
@@ -135,7 +140,7 @@ function(dom, connect, registry, mvc, itemfilewritestore, datastore, TransitionE
 				});
 				modelPromise.then(dojo.hitch(this, function(datamodel){
 					var listId = datamodel[0].parentId.data;
-					if (listId == todoApp.selected_configuration_item) {
+					if(listId == todoApp.selected_configuration_item){
 						this.loadedModels.itemlistmodel = datamodel;
 						todoApp.cachedDataModel[listId] = datamodel;
 						todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
@@ -143,40 +148,7 @@ function(dom, connect, registry, mvc, itemfilewritestore, datastore, TransitionE
 						this.showListData(datamodel);
 					}
 				}));
-			};
-
-			function isFileExist(filename, files){
-				for (var file in files) {
-					if (filename.indexOf(files[file]) > 0) {
-						return true;
-					}
-				}
-				return false;
-			};
-		},
-
-		beforeActivate: function(){
-			this.refreshData();
-		},
-
-		showListData: function(datamodel){
-			var listWidget = registry.byId("items_list");
-			listWidget.set('ref', datamodel);
-		},
-		
-		showListType: function(){
-			var type;
-			if(todoApp.selected_configuration_item == -1){
-				type="Completed";
-			}else{
-				var listdata = this.loadedModels.listsmodel[todoApp.selected_configuration_item];
-				if(listdata && listdata.title){
-					type = listdata.title;
-				}else{
-					type = "Unknown";
-				}
-			}
-			dom.byId('list_type').innerHTML = type;
+			}	
 		}
-	}
+	};
 });

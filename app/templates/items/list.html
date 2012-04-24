@@ -1,15 +1,15 @@
 <div class="view mblView">
 	<h2 id="list_type" data-dojo-type="dojox.mobile.RoundRectCategory" region="top">Reminder</h2>
-	<div data-dojo-type="dojox.app.widgets.container" region="center" scrollable="true">
+	<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
 			<li class="mblVariableHeight" data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Add New Item ..."'
 				transitionOptions='{title:"Add Item",target:"items,add",url: "#items,add"}'>
 			</li>
 		</ul>
 
-		<ul id="items_list" data-dojo-type="dojox.mobile.RoundRectList" data-dojo-mixins="dojox.mvc.Repeat" data-dojo-props="exprchar:'#', ref:'itemlistmodel'">
-			<li id="list_item#{this.index}" data-dojo-type="dojox.mobile.ListItem"
-				transitionOptions='{title:"Detail",target:"details,detail",url: "#details,detail"}'
+		<ul id="items_list" data-dojo-type="dojox.mobile.RoundRectList" 
+			data-dojo-mixins="dojox.mvc.Repeat" data-dojo-props="exprchar: '#', children: this.loadedModels.itemlistmodel.model">
+			<li data-dojo-type="dojox.mobile.ListItem" transitionOptions='{title:"Detail",target:"details,detail",url: "#details,detail"}'
 				data-dojo-props="label: dojox.mvc.at('rel:#{this.index}', 'title'),
 					onClick: function(e){todoApp.showItemDetails('#{this.index}');}">
 			</li>

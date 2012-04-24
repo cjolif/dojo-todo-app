@@ -15,15 +15,16 @@
 		"dojox/mobile/ListItem",
 		"dojox/mobile/RoundRectList",
 		"dojox/mobile/RoundRectCategory",
-		"dojox/mvc/StatefulModel",
+		"dojox/app/widgets/Container",
 		"dojo/store/Memory",
-		"dojox/mvc/Group",
+		"dojo/data/ItemFileWriteStore",
+		"dojo/store/DataStore",
+		"dojox/app/utils/mvcModel",
+		"dojox/mvc/EditStoreRefListController",
 		"dojox/mvc/Repeat",
+		"dojox/mvc/Group",
 		"dojox/mvc/Output",
-		"dojox/mvc/at",
-		"dojox/mvc",
-		//"dojox/mobile/ScrollableView"
-		"dojox/app/widgets/container"
+		"dojox/mvc/at"
 	],
 	// Modules for the application.  They are basically used as the second
 	// array of mixins in a dojo.declare().  Modify the top level behavior
@@ -37,22 +38,25 @@
 	],
 	//stores we are using
 	"stores": {
-	   "listsDataStore":{
+		"listsDataStore":{
+	       "type": "dojo.data.ItemFileWriteStore",
 		   "params": {
-			  "url": "../resources/data/lists.json"
+				"url": "../resources/data/lists.json"
 		   }
-	   },
-
-	   "itemlistStore":{
+		},
+		
+		"itemlistStore":{
+	       "type": "dojo.data.ItemFileWriteStore",
 		   "params": {
-			  "url": "../resources/data/items-for-0.json"
+				"url": "../resources/data/items-for-0.json"
 		   }
-	   },
-
-	   "completedStore":{
-			"params": {
-				"data": "[]"
-			}
+		},
+		
+		"completedStore":{
+	       "type": "dojo.store.Memory",
+		   "params": {
+		      "data": "[]"
+		   }
 	   }
 	},
 
@@ -60,22 +64,28 @@
 	//one to overide the class that will be used for the model.  By default it is dojox/mvc/model
 	"models": {
 		"listsmodel": {
-		   "params":{
-		      "store": {"$ref":"#stores.listsDataStore"}
-		   }
-		},
-
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"datastore": {"$ref":"#stores.listsDataStore"}
+     		}           
+        },
+		
 		"itemlistmodel": {
-			"params":{
-				"store": {"$ref":"#stores.itemlistStore"}
-			}
-		},
-
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"datastore": {"$ref":"#stores.itemlistStore"}
+     		}           
+        },
+	
 		"completedmodel": {
-			"params":{
-				"store": {"$ref":"#stores.completedStore"}
-			}
-		}
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"store": {"$ref":"#stores.completedStore"}
+     		}           
+        }
 	},
 
 	//the name of the scene to load when the app is initialized.
@@ -87,50 +97,46 @@
 		"configuration": {
 			"defaultView": "configure",
 			"defaultTransition": "fade",
+			"definition": "none",
 
 			"views": {
 				"configure": {
-					"template": "./views/configure/configure.html",
-					"assistant": "./assistants/configure/configure.js"
+					"template": "./templates/configure/configure.html"
 				},
 
 				"configure_edit": {
-					"template": "./views/configure/configureEdit.html",
-					"assistant": "./assistants/configure/configureEdit.js"
+					"template": "./templates/configure/configureEdit.html"
 				},
 
 				"configure_edit_item": {
-					"dependencies":["dojox/mobile/TextBox", "dojox/mobile/TextArea"],
-					"template": "./views/configure/editItem.html",
-					"assistant": "./assistants/configure/editItem.js"
+					"template": "./templates/configure/editItem.html"
 				}
 			}
 		},
 
 		//item scene, include list view and date view
 		"items": {
-			"template": "./views/items.html",
+			"template": "./templates/items.html",
+			"definition": "none",
 			"defaultView": "list",
 			"defaultTransition": "fade",
 			//the views available to this scene
 			"views": {
 				"list":{
-					"template": "./views/items/list.html",
-					"assistant": "./assistants/items/list.js"
+					"template": "./templates/items/list.html"
 				},
 
 				"list_edit":{
-					"template": "./views/items/listEdit.html",
-					"assistant": "./assistants/items/listEdit.js"
+					"template": "./templates/items/listEdit.html"
 				},
 
 				"add":{
-					"template": "./views/items/add.html",
-					"assistant": "./assistants/items/add.js",
+					"template": "./templates/items/add.html",
 					"dependencies":["dojox/mobile/TextBox"]
 				},
 				"date":{
-					"template": "./views/items/date.html"
+					"template": "./templates/items/date.html",
+					"definition": "none"
 				}
 			}
 		},
@@ -139,30 +145,26 @@
 		"details": {
 			"defaultView": "detail",
 			"defaultTransition": "fade",
-			//the views available to this scene
+			"definition": "none",
+
 			"views": {
 				"detail":{
 					"dependencies":["dojox/mobile/TextBox"],
-					"template": "./views/details/detail.html",
-					"assistant": "./assistants/details/detail.js"
+					"template": "./templates/details/detail.html"
 				},
 
 				"repeat":{
-					"template": "./views/details/repeat.html",
-					"assistant": "./assistants/details/repeat.js"
+					"template": "./templates/details/repeat.html"
 				},
 
 				"remind":{
-					"template": "./views/details/remind.html",
-					"assistant": "./assistants/details/remind.js"
+					"template": "./templates/details/remind.html"
 				},
 				"priority":{
-					"template": "./views/details/priority.html",
-					"assistant": "./assistants/details/priority.js"
+					"template": "./templates/details/priority.html"
 				},
 				"list":{
-					"template": "./views/details/list.html",
-					"assistant": "./assistants/details/list.js"
+					"template": "./templates/details/list.html"
 				}
 			}
 		}

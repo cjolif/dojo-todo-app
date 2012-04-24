@@ -1,16 +1,12 @@
 require(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/loader"], function(dojo, lang){
-	var path = window.location.pathname;
-	if (path.charAt(path.length) != "/") {
-		path = path.split("/");
-		path.pop();
-		path = path.join("/");
-	}
-	dojo.registerModulePath("app", path);
+	window.todoApp = {};
+	todoApp.selected_item = 0;
+	todoApp.selected_configuration_item = 0;
 
 	var configurationFile = "./config-phone.json"
 	if(window.innerWidth > 600){
 		configurationFile = "./config-tablet.json"
-		window.isTablet = true; // set device to tablet.
+		todoApp.isTablet = true;
 	}
 
 	var requireModules = ["dojo", "dojox/app/main", "dojox/json/ref", "dojo/_base/connect"];

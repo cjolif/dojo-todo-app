@@ -1,10 +1,10 @@
 define(["dojo/dom", "dijit/registry", "dojox/mobile/TransitionEvent"], 
 function(dom, registry, TransitionEvent){
-	function selectItems(node, index){
-		if (window.selected_configuration_item == index) {
+	todoApp.selectItems = function(node, index){
+		if (todoApp.selected_configuration_item == index) {
 			return;
 		}
-		window.selected_configuration_item = index;
+		todoApp.selected_configuration_item = index;
 
 		// publish transition event
 		var transOpts = {
@@ -15,8 +15,8 @@ function(dom, registry, TransitionEvent){
 		var e = window.event;
 		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 	};
-	
-	function editConfiguration(){
+
+	todoApp.editConfiguration = function(){
 		// publish transition event
 		var transOpts = {
 			title:"Edit",
@@ -26,7 +26,4 @@ function(dom, registry, TransitionEvent){
 		var e = window.event;
 		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 	};
-
-	window.selectItems = selectItems;
-	window.editConfiguration = editConfiguration;
 });

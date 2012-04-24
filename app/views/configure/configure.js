@@ -1,8 +1,11 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "dojox/mobile/TransitionEvent", "../utils/utils"],
-function(lang, dom, dstyle, connect, registry, TransitionEvent, utils){
+define(["dojo/_base/lang", "dojo/_base/connect", "dijit/registry", "dojox/mobile/TransitionEvent", "../utils/utils"],
+function(lang, connect, registry, TransitionEvent, utils){
+	var _connectResults = []; // events connect result
+
 	return {
 		init: function(){
-			dojo.connect(registry.byId("configure_list"), "onCheckStateChanged", null, function(item, state){
+			var connectResult;
+			connectResult = connect.connect(registry.byId("configure_list"), "onCheckStateChanged", null, function(item, state){
 				// save the select value to data store
 				if (state) {
 					var index = utils.getIndexByListItem(registry.byId("configure_list"), item);
@@ -18,6 +21,15 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, utils){
 					new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 				}
 			});
+			_connectResults.push(connectResult);
+		},
+
+		destroy: function(){
+			var connectResult = _connectResults.pop();
+			while(connectResult){
+				connect.disconnect(connectResult);
+				connectResult = _connectResults.pop();
+			}
 		}
 	}
 });

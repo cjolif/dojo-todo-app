@@ -3,10 +3,10 @@
 		<div data-dojo-type="dojox.mobile.ToolBarButton" transitionOptions='{title:"Items",target:"items,list",url: "#items,list"}' label="Done" style="float:right;">
 		</div>
 	</h1>
-	<div data-dojo-type="dojox.app.widgets.container" id="details" scrollable="true">
-		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" data-dojo-props="exprchar:'#', ref:'itemlistmodel.0'">
+	<div data-dojo-type="dojox.app.widgets.Container" id="details" scrollable="true">
+		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" data-dojo-props="target: dojox.mvc.at(this.loadedModels.itemlistmodel, '0')">
 			<ul data-dojo-type="dojox.mobile.RoundRectList">
-				<span data-dojo-type="dojox.mvc.Output" data-dojo-props="exprchar:'#', ref: 'title'">Title: #{this.value}</span>
+				<span data-dojo-type="dojox.mvc.Output" data-dojo-props="value: dojox.mvc.at(this.loadedModels.repeatmodels, 'cursorIndex')"></span>
 			</ul>
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
 			<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>
@@ -17,7 +17,7 @@
 			</li>
 		</ul>
 		<ul data-dojo-type="dojox.mobile.RoundRectList" >
-				<li data-dojo-type="dojox.mobile.ListItem" clickable="true" data-dojo-props="onClick: function(){todoApp.showMoreDetail();}">
+				<li id="detail_showMore" data-dojo-type="dojox.mobile.ListItem" clickable="true">
 				Show More...
 			</li>
 			<div id="moreDetail" style="display:none;">

@@ -1,24 +1,26 @@
 <div>
 	<!-- left -->
-	<div dojoType="dojox.app.widgets.container" class="navPane" region="left">
+	<div dojoType="dojox.app.widgets.Container" class="navPane" region="left">
 		<h1 region="top" dojoType="dojox.mobile.Heading">Todo App</h1>
-		<div data-dojo-type="dojox.app.widgets.container" region="center" scrollable="true">
+		<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
 			<h2 dojoType="dojox.mobile.EdgeToEdgeCategory" style="height: 32px;">Configure
-			<img style="position: absolute; display: block; width: 32px; height: 32px; right: 0; top: 0" onClick="editConfiguration();"
+			<img style="position: absolute; display: block; width: 32px; height: 32px; right: 0; top: 0" onClick="todoApp.editConfiguration();"
 				src="images/settings.png" />
 			</h2>
-			<!-- TODO: use RoundRectList single select when dojox.mvc/dojox.mobile done -->
-			<ul data-dojo-type="dojox.mobile.RoundRectList">
-				<li data-dojo-type="dojox.mobile.ListItem" clickable="true" data-dojo-props="onClick: function(e){selectItems(this, -1, e);}">
-				Completed
-				</li>
-			</ul>
 
-			<ul data-dojo-type="dojox.mobile.RoundRectList" data-dojo-mixins="dojox.mvc.Repeat" data-dojo-props="exprchar:'#', ref:'listsmodel'">
-				<li data-dojo-type="dojox.mobile.ListItem" clickable="true" 
-					data-dojo-props="label: dojox.mvc.at('rel:#{this.index}', 'title'),onClick: function(e){selectItems(this, '#{this.index}', e);}">
+			<ul data-dojo-type="dojox.mobile.RoundRectList">
+				<li class="mblVariableHeight" data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Completed", clickable: true, onClick: function(e){todoApp.selectItems(this, -1);}'
+					transitionOptions='{title:"List",target:"items,list",url: "#items,list"}'>
 				</li>
 			</ul>
+<!-- TODO: add dojox.mvc.Repeat here will crash the application
+			<ul id="items_list" data-dojo-type="dojox.mobile.RoundRectList" 
+				data-dojo-mixins="dojox.mvc.Repeat" data-dojo-props="exprchar: '#', children: this.loadedModels.listsmodel.model">
+				<li data-dojo-type="dojox.mobile.ListItem" clickable="true" 
+					data-dojo-props="label: dojox.mvc.at('rel:#{this.index}', 'title'), onClick: function(e){todoApp.selectItems(this, '#{this.index}');}">
+				</li>
+			</ul>
+-->
 		</div>
 	</div>
 </div>
