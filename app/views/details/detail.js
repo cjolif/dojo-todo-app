@@ -134,11 +134,10 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful){
 					return;
 				}
 
-				var datamodel = this.loadedModels.itemlistmodel;
+				var datamodel = this.loadedModels.itemlistmodel.model;
 				var len = datamodel.length;
 				if(todoApp.selected_item>=0 && todoApp.selected_item<len){
-					datamodel.remove(todoApp.selected_item);
-					datamodel.commit(); //need to commit after delete. TODO: need to enhance the performance
+					datamodel.splice(todoApp.selected_item, 1);
 				}
 
 				//transition to list view
