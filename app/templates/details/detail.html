@@ -4,10 +4,13 @@
 		</div>
 	</h1>
 	<div data-dojo-type="dojox.app.widgets.Container" id="details" scrollable="true">
-		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" data-dojo-props="target: dojox.mvc.at(this.loadedModels.itemlistmodel, '0')">
-			<ul data-dojo-type="dojox.mobile.RoundRectList">
-				<span data-dojo-type="dojox.mvc.Output" data-dojo-props="value: dojox.mvc.at(this.loadedModels.repeatmodels, 'cursorIndex')"></span>
-			</ul>
+		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" 
+				data-dojo-props="target: dojox.mvc.at(this.loadedModels.itemlistmodel, 'cursor')">
+				<div class="field-row">
+					<input id="todo" data-dojo-type="dojox.mobile.TextBox"
+						placeholder="To do placeholder"  
+						data-dojo-props="value: at('rel:', 'title')"/>
+				</div>
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
 			<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>
 				Remind Me
