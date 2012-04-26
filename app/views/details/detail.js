@@ -99,10 +99,10 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful){
 			}
 		}
 
-		if(datamodel.notes){
-			var value = '<textarea style="border:none;" onmousedown="event.cancelBubble=true;">'+datamodel.notes.value+'</textarea>';
-			registry.byId('detail_note').set("rightText", value);
-		}
+		//if(datamodel.notes){
+		//	var value = '<textarea style="border:none;" onmousedown="event.cancelBubble=true;">'+datamodel.notes+'</textarea>';
+		//	registry.byId('detail_note').set("rightText", value);
+		//}
 	};
 
 	return {

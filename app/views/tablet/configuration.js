@@ -1,5 +1,7 @@
-define(["dojo/dom", "dijit/registry", "dojox/mobile/TransitionEvent"], 
-function(dom, registry, TransitionEvent){
+define(["dojo/dom", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "dojox/mobile/ListItem", "dojox/mvc/Repeat"], 
+function(dom, registry, at, TransitionEvent){
+	window.at = at;	// set global namespace for dojox.mvc.at
+	dojox.debugDataBinding = true;	//disable dojox.mvc data binding debug
 	todoApp.selectItems = function(node, index){
 		if (todoApp.selected_configuration_item == index) {
 			return;
