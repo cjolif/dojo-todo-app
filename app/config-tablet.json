@@ -15,42 +15,48 @@
 		"dojox/mobile/ListItem",
 		"dojox/mobile/RoundRectList",
 		"dojox/mobile/RoundRectCategory",
-		"dojox/mvc/StatefulModel",
+		"dojox/app/widgets/Container",
 		"dojo/store/Memory",
-		"dojox/mvc/Group",
+		"dojo/data/ItemFileWriteStore",
+		"dojo/store/DataStore",
+		"dojox/app/utils/mvcModel",
+		"dojox/mvc/EditStoreRefListController",
 		"dojox/mvc/Repeat",
+		"dojox/mvc/Group",
 		"dojox/mvc/Output",
-		"dojox/mvc",
-		"dojox/app/container"
+		"dojox/mvc/at"
 	],
 	// Modules for the application.  They are basically used as the second
 	// array of mixins in a dojo.declare().  Modify the top level behavior
 	// of the application, how it processes the config or any other life cycle
 	// by creating and including one or more of these
 	"modules": [
-		"dojox/app/module/env",
-		"dojox/app/module/history",
 		"dojox/app/module/lifecycle"
 	],
-
+	"controllers": [
+		"dojox/app/controllers/History"
+	],
 	//stores we are using
 	"stores": {
-	   "listsDataStore":{
+		"listsDataStore":{
+	       "type": "dojo.data.ItemFileWriteStore",
 		   "params": {
-			  "url": "../resources/data/lists.json"
+				"url": "../resources/data/lists.json"
 		   }
-	   },
-
-	   "itemlistStore":{
+		},
+		
+		"itemlistStore":{
+	       "type": "dojo.data.ItemFileWriteStore",
 		   "params": {
-			  "url": "../resources/data/items-for-0.json"
+				"url": "../resources/data/items-for-0.json"
 		   }
-	   },
-
-	   "completedStore":{
-			"params": {
-				"data": "[]"
-			}
+		},
+		
+		"completedStore":{
+	       "type": "dojo.store.Memory",
+		   "params": {
+		      "data": "[]"
+		   }
 	   }
 	},
 
@@ -58,25 +64,32 @@
 	//one to overide the class that will be used for the model.  By default it is dojox/mvc/model
 	"models": {
 		"listsmodel": {
-		   "params":{
-		      "store": {"$ref":"#stores.listsDataStore"}
-		   }
-		},
-
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"datastore": {"$ref":"#stores.listsDataStore"}
+     		}           
+        },
+		
 		"itemlistmodel": {
-			"params":{
-				"store": {"$ref":"#stores.itemlistStore"}
-			}
-		},
-
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"datastore": {"$ref":"#stores.itemlistStore"}
+     		}           
+        },
+	
 		"completedmodel": {
-			"params":{
-				"store": {"$ref":"#stores.completedStore"}
-			}
-		}
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"store": {"$ref":"#stores.completedStore"}
+     		}           
+        }
 	},
 	
-	"template": "./views/tablet/configuration.html",
+	"template": "./templates/tablet/configuration.html",
+	"definition": "./views/tablet/configuration.js",
 
 	//the name of the scene to load when the app is initialized.
 	"defaultView": "items,list",
@@ -87,58 +100,46 @@
 		"configuration": {
 			"defaultView": "configure",
 			"defaultTransition": "fade",
-			"type": "dojox.app.scene",
+			"definition": "none",
 
 			"views": {
 				"configure": {
-					"type": "dojox.app.view",
-					"dependencies":[],
-					"template": "./views/configure/configure.html",
-					"jsmodule": "./script/configure/configure.js"
+					"template": "./templates/configuration/configure.html"
 				},
 
 				"configure_edit": {
-					"type": "dojox.app.view",
-					"dependencies":[],
-					"template": "./views/configure/configureEdit.html",
-					"jsmodule": "./script/configure/configureEdit.js"
+					"template": "./templates/configuration/configureEdit.html"
 				},
 
 				"configure_edit_item": {
-					"type": "dojox.app.view",
-					"dependencies":["dojox/mobile/TextBox", "dojox/mobile/TextArea"],
-					"template": "./views/configure/editItem.html",
-					"jsmodule": "./script/configure/editItem.js"
+					"template": "./templates/configuration/editItem.html"
 				}
 			}
 		},
 
 		//item scene, include list view and date view
 		"items": {
-			"template": "./views/items.html",
-			"jsmodule": "./script/items.js",
+			"template": "./templates/items.html",
+			"definition": "none",
 			"defaultView": "list",
 			"defaultTransition": "fade",
-			"type": "dojox.app.scene",
 			//the views available to this scene
 			"views": {
 				"list":{
-					"template": "./views/items/list.html",
-					"jsmodule": "./script/items/list.js"
+					"template": "./templates/items/list.html"
 				},
 
 				"list_edit":{
-					"template": "./views/items/listEdit.html",
-					"jsmodule": "./script/items/listEdit.js"
+					"template": "./templates/items/listEdit.html"
 				},
 
-				"list_edit_item":{
-					"template": "./views/items/listEditItem.html",
-					"jsmodule": "./script/items/listEditItem.js",
+				"add":{
+					"template": "./templates/items/add.html",
 					"dependencies":["dojox/mobile/TextBox"]
 				},
 				"date":{
-					"template": "./views/items/date.html"
+					"template": "./templates/items/date.html",
+					"definition": "none"
 				}
 			}
 		},
@@ -147,32 +148,26 @@
 		"details": {
 			"defaultView": "detail",
 			"defaultTransition": "fade",
-			"type": "dojox.app.scene",
-			//the views available to this scene
+			"definition": "none",
+
 			"views": {
 				"detail":{
-					"type": "dojox.app.view",
 					"dependencies":["dojox/mobile/TextBox"],
-					"template": "./views/details/detail.html",
-					"jsmodule": "./script/details/detail.js"
+					"template": "./templates/details/detail.html"
 				},
 
 				"repeat":{
-					"template": "./views/details/repeat.html",
-					"jsmodule": "./script/details/repeat.js"
+					"template": "./templates/details/repeat.html"
 				},
 
 				"remind":{
-					"template": "./views/details/remind.html",
-					"jsmodule": "./script/details/remind.js"
+					"template": "./templates/details/remind.html"
 				},
 				"priority":{
-					"template": "./views/details/priority.html",
-					"jsmodule": "./script/details/priority.js"
+					"template": "./templates/details/priority.html"
 				},
 				"list":{
-					"template": "./views/details/list.html",
-					"jsmodule": "./script/details/list.js"
+					"template": "./templates/details/list.html"
 				}
 			}
 		}
