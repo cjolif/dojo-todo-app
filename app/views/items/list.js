@@ -1,7 +1,7 @@
-define(["dojo/dom", "dojo/_base/lang", "dijit/registry", "dojox/mvc/at", 
+define(["dojo/dom", "dojo/_base/lang", "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at", 
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent", "dojox/mobile/CheckBox"],
-function(dom, lang, registry, at, EditStoreRefListController, getStateful, itemfilewritestore, datastore, TransitionEvent){
+function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, getStateful, itemfilewritestore, datastore, TransitionEvent){
 	window.at = at;	// set global namespace for dojox.mvc.at
 	dojox.debugDataBinding = true;	//disable dojox.mvc data binding debug
 
@@ -26,31 +26,11 @@ function(dom, lang, registry, at, EditStoreRefListController, getStateful, itemf
 		var datamodel = app.loadedModels.itemlistmodel;
 		var parentId;
 		try{
-			parentId = datamodel[0].parentId.data;
+			parentId = datamodel[0].parentId;
 		}catch (e){
 			console.log("Warning: itemlistmodel is empty, get parentId from listsmodel");
-			parentId = app.loadedModels.listsmodel[window.selected_configuration_item].id.data;
+			parentId = app.loadedModels.listsmodel[window.selected_configuration_item].id;
 		}
-/*		var index = datamodel.length;
-		var insert = mvc.newStatefulModel({
-			"data": {
-				"id": (new Date().getTime()),
-				"parentId": parentId,
-				"title": node.value,
-				"notes": "To do",
-				"due": "2010-10-15T11:03:47.681Z",
-				"completionDate": "",
-				"reminder": "2010-10-15T11:03:47.681Z",
-				"repeat": 0,
-				"priority": 0,
-				"hidden": false,
-				"completed": false,
-				"deleted": false
-			}
-		});
-		
-		datamodel.add(index, insert);
-*/
 			var data = {
 				"id": (new Date().getTime()),
 				"parentId": parentId,
@@ -67,9 +47,6 @@ function(dom, lang, registry, at, EditStoreRefListController, getStateful, itemf
 			};
 
 			datamodel.push(new getStateful(data));
-			//var r = registry.byId("repeat");
-			//r.performTransition("repeatdetails", 1, "none");
-			//setDetailsContext(repeatmodel.length-1);
 
 		
 		datamodel.commit(); //need to commit after delete. TODO: need to enhance the performance
@@ -81,7 +58,8 @@ function(dom, lang, registry, at, EditStoreRefListController, getStateful, itemf
 
 	var showListData = function(datamodel){
 		var listWidget = registry.byId("items_list");
-		listWidget.set('ref', datamodel);
+		//listWidget.set('ref', datamodel);
+		listWidget.set("children", at(datamodel, 'model'));
 	};
 
 	var showListType = function(){
@@ -140,7 +118,7 @@ function(dom, lang, registry, at, EditStoreRefListController, getStateful, itemf
 
 	// called when an item is completed
 	moveToComplete = function(fromModel, toModel, i, value) {
-		console.log("****in moveToComplete value = "+value);
+		console.log("****in moveToComplete value = ",value);
 		var t = fromModel.splice(i, 1);
 		t[0].set("completed", value);
 		toModel.push(t[0]);
@@ -148,10 +126,10 @@ function(dom, lang, registry, at, EditStoreRefListController, getStateful, itemf
 
 	// called when a completed items is unchecked
 	moveFromComplete = function(fromModel, toModel, i, value) {
-		console.log("****in moveFromComplete value = "+value);
+		console.log("****in moveFromComplete value = ",value);
 		var t = fromModel.splice(i, 1);
 		t[0].set("completed", value);
-		toModel = listsCtrls[t[0].get('parentId')].model;
+		toModel = todoApp.cachedDataModel[t[0].get('parentId')].model;
 		toModel.push(t[0]);
 	};
 
@@ -178,8 +156,17 @@ function(dom, lang, registry, at, EditStoreRefListController, getStateful, itemf
 		refreshData: function(){
 			showListType();
 			if(todoApp.selected_configuration_item == -1){
-				showListData(completedmodel.model);
+				showListData(completedmodel);
 				todoApp.currentItemListModel = completedmodel;
+				// when show completed need to un-select the other list.
+				//this.loadedModels.listsmodel
+				for(var i in this.loadedModels.listsmodel.model){
+					console.log("this.loadedModels.listsmodel.model[i] = ",this.loadedModels.listsmodel.model[i])
+					if(this.loadedModels.listsmodel.model[i].Checked){
+						this.loadedModels.listsmodel.model[i].set("Checked", false);
+					}
+				}
+				
 				return;
 			}
 	
@@ -187,8 +174,11 @@ function(dom, lang, registry, at, EditStoreRefListController, getStateful, itemf
 			// get data model in cache
 			if(todoApp.cachedDataModel[select_data.id]){ // read data from cache
 				this.loadedModels.itemlistmodel = todoApp.cachedDataModel[select_data.id];
-				showListData(this.loadedModels.itemlistmodel.model);
+				showListData(this.loadedModels.itemlistmodel);
 				todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
+				itemlistmodel = this.loadedModels.itemlistmodel;
+				listsmodel = this.loadedModels.listsmodel;
+				completedmodel = this.loadedModels.completedmodel;
 				return;
 			}else if(!isFileExist(select_data.itemsurl, dataFile)){
 				// create in-memory store if the file not exists
@@ -200,52 +190,35 @@ function(dom, lang, registry, at, EditStoreRefListController, getStateful, itemf
 				listCtln = new EditStoreRefListController({store: tempStore, cursorIndex: 0});
 				when(listCtln.queryStore(), function(datamodel){
 					this.loadedModels.itemlistmodel = datamodel;
-					todoApp.cachedDataModel[select_data.id.data] = datamodel;
+					todoApp.cachedDataModel[select_data.id] = datamodel;
 					todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
+
+					itemlistmodel = datamodel;
+					listsmodel = this.loadedModels.listsmodel;
+					completedmodel = this.loadedModels.completedmodel;
 					
-					this.showListData(datamodel);
+					showListData(datamodel);
 				});
-/*				var datamodel = mvc.newStatefulModel({
-					"store": tempStore
-				});
-				this.loadedModels.itemlistmodel = datamodel;
-				todoApp.cachedDataModel[select_data.id.data] = datamodel;
-				todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
-				
-				this.showListData(datamodel);
-*/				
 			}else{ // load data model from data file
 				var writestore = new itemfilewritestore({
 					url: select_data.itemsurl
 				});
 				var listCtl = new EditStoreRefListController({store: new datastore({store: writestore}), cursorIndex: 0});
 				when(listCtl.queryStore(), dojo.hitch(this, function(datamodel){
-					var listId = datamodel[0].parentId.data;
+					var listId = datamodel[0].parentId;
 					if(listId == todoApp.selected_configuration_item){
-						this.loadedModels.itemlistmodel = datamodel;
-						todoApp.cachedDataModel[listId] = datamodel;
+						this.loadedModels.itemlistmodel = listCtl;
+						todoApp.cachedDataModel[listId] = listCtl;
 						todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
+
+						itemlistmodel = listCtl;
+						listsmodel = this.loadedModels.listsmodel;
+						completedmodel = this.loadedModels.completedmodel;
 						
-						this.showListData(datamodel);
+						showListData(listCtl);
 					}
 				}));
 
-/*				var modelPromise = mvc.newStatefulModel({
-					store: new datastore({
-						store: writestore
-					})
-				});
-				modelPromise.then(dojo.hitch(this, function(datamodel){
-					var listId = datamodel[0].parentId.data;
-					if(listId == todoApp.selected_configuration_item){
-						this.loadedModels.itemlistmodel = datamodel;
-						todoApp.cachedDataModel[listId] = datamodel;
-						todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
-						
-						this.showListData(datamodel);
-					}
-				}));
-*/				
 			}	
 		}
 	};

@@ -6,8 +6,8 @@
 	<div data-dojo-type="dojox.app.widgets.Container" id="details" scrollable="true">
 		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" 
 				data-dojo-props="target: dojox.mvc.at(this.loadedModels.itemlistmodel, 'cursor')">
-				<div class="field-row">
-					<input id="todo" data-dojo-type="dojox.mobile.TextBox"
+				<div  class="itemcellwrapper">
+					<input id="todo" data-dojo-type="dojox.mobile.TextBox"  class="itemcell"
 						placeholder="To do placeholder"  
 						data-dojo-props="value: at('rel:', 'title')"/>
 				</div>
@@ -31,7 +31,11 @@
 					List
 				</li>
 				<li id="detail_note" data-dojo-type="dojox.mobile.ListItem">
-					Notes
+					<div class="mblListItemRightText">
+						<textarea  data-dojo-type="dojox.mobile.TextBox" style="border:none;" onmousedown="event.cancelBubble=true;" 
+							data-dojo-props="value: at('rel:', 'notes')"></textarea>
+					</div>
+					<div class="mblListItemLabel">Notes</div>
 				</li>
 			</div>
 			</ul>
