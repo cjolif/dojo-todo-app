@@ -1,5 +1,7 @@
-define(["dojo/_base/lang", "dojo/_base/connect", "dijit/registry", "dojox/mobile/TransitionEvent", "../utils/utils"],
-function(lang, connect, registry, TransitionEvent, utils){
+define(["dojo/_base/lang", "dojo/_base/connect", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "../utils/utils"],
+function(lang, connect, registry, at, TransitionEvent, utils){
+	window.at = at;	// set global namespace for dojox.mvc.at
+	dojox.debugDataBinding = true;	//disable dojox.mvc data binding debug
 	var _connectResults = []; // events connect result
 
 	return {

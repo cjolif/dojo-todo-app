@@ -101,15 +101,15 @@
 
 			"views": {
 				"configure": {
-					"template": "./templates/configure/configure.html"
+					"template": "./templates/configuration/configure.html"
 				},
 
 				"configure_edit": {
-					"template": "./templates/configure/configureEdit.html"
+					"template": "./templates/configuration/configureEdit.html"
 				},
 
 				"configure_edit_item": {
-					"template": "./templates/configure/editItem.html"
+					"template": "./templates/configuration/editItem.html"
 				}
 			}
 		},
