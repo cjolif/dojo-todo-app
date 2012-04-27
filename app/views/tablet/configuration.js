@@ -1,7 +1,7 @@
 define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent"], 
 function(dom, connect, registry, at, TransitionEvent){
 	window.at = at;	// set global namespace for dojox.mvc.at
-	dojox.debugDataBinding = true;	//disable dojox.mvc data binding debug
+	dojox.debugDataBinding = false;	//disable dojox.mvc data binding debug
 
 	var _connectResults = []; // events connect result
 	var listsmodel = null;
