@@ -12,8 +12,9 @@
 					transitionOptions='{title:"List",target:"items,list",url: "#items,list"}'>
 				</li>
 			</ul>
-			<ul data-dojo-type="dojox.mobile.RoundRectList" data-dojo-mixins="dojox/mvc/Repeat"
-					data-dojo-props="exprchar: '#', children: this.loadedModels.listsmodel.model">
+			<ul data-dojo-type="dojox.mobile.RoundRectList" id="configrepeatlist" 
+					data-dojo-mixins="dojox/mvc/Repeat"
+					data-dojo-props="exprchar: '#', children: at(this.loadedModels.listsmodel, 'model')">
 				<li  class="mblVariableHeight" data-dojo-type="dojox.mobile.ListItem" clickable="true" 
 					data-dojo-props="label:at('rel:#{this.index}','title'), onClick: function(){todoApp.selectItems(this, '#{this.index}');}"
 					transitionOptions='{title:"List",target:"items,list",url: "#items,list"}'>  

@@ -10,7 +10,7 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 	todoApp.currentItemListModel = null;
 
 	todoApp.showItemDetails = function(index){
-		console.log("select item ", index);
+		console.log("in items/lists select item ", index);
 		todoApp.selected_item = index;
 		itemlistmodel.set("cursorIndex",index);
 	};
@@ -22,6 +22,7 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 	var completedmodel = null;
 
 	var showListData = function(datamodel){
+		console.log("****in items/lists showListData datamodel =", datamodel);
 		var listWidget = registry.byId("items_list");
 		// if the datamodel is empty, view not refreshed by set("children", datamodel)
 		// what expect is the view refresh and display empty.
@@ -30,6 +31,7 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 	};
 
 	var showListType = function(){
+		console.log("in items/lists showListType ");
 		var type;
 		if(todoApp.selected_configuration_item == -1){
 			type = "Completed";
@@ -45,6 +47,7 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 	};
 
 	var isFileExist = function(filename, files){
+		console.log("in items/lists isFileExist filename =", filename);
 		for(var file in files){
 			if(filename.indexOf(files[file]) > 0){
 				return true;
@@ -55,14 +58,11 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 
 	todoApp.completeConverter = {
 			format: function(value){
-				console.log("****in completeConverter format value = "+value);
-				console.log("****in completeConverter format this.target.id = "+this.target.id);
-				console.log(this.target);							
 				return value;
 			},
 			parse: function(value){
-				console.log("****in completeConverter parse value = "+value);
-				console.log("****in completeConverter parse this.target.id = "+this.target.id);						
+				console.log("****in items/lists completeConverter parse value = "+value);
+				console.log("****in items/lists completeConverter parse this.target.id = "+this.target.id);						
 				console.log(this.target);
 				var model = completedmodel.model;
 				if(value){
@@ -85,7 +85,7 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 
 	// called when an item is completed
 	todoApp.moveToComplete = function(fromModel, toModel, i, value) {
-		console.log("****in moveToComplete value = ",value);
+		console.log("****in items/lists moveToComplete value = ",value);
 		var t = fromModel.splice(i, 1);
 		t[0].set("completed", value);
 		toModel.push(t[0]);
@@ -93,7 +93,7 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 
 	// called when a completed items is unchecked
 	todoApp.moveFromComplete = function(fromModel, toModel, i, value) {
-		console.log("****in moveFromComplete value = ",value);
+		console.log("****in items/lists moveFromComplete value = ",value);
 		var t = fromModel.splice(i, 1);
 		t[0].set("completed", value);
 		toModel = todoApp.cachedDataModel[t[0].get('parentId')].model;
@@ -102,6 +102,7 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 
 	return {
 		init: function(){
+			console.log("****in items/lists init ");
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			completedmodel = this.loadedModels.completedmodel;
@@ -114,6 +115,7 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 		},
 
 		beforeActivate: function(){
+			console.log("****in items/lists beforeActivate ");
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			completedmodel = this.loadedModels.completedmodel;
@@ -121,6 +123,7 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 		},
 	
 		refreshData: function(){
+			console.log("****in items/lists refreshData ");
 			showListType();
 			if(todoApp.selected_configuration_item == -1){
 				showListData(completedmodel);
@@ -128,11 +131,12 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 				// when show completed need to un-select the other list.
 				//this.loadedModels.listsmodel
 				for(var i in this.loadedModels.listsmodel.model){
-					console.log("this.loadedModels.listsmodel.model[i] = ",this.loadedModels.listsmodel.model[i])
+					//console.log("this.loadedModels.listsmodel.model[i] = ",this.loadedModels.listsmodel.model[i])
 					if(this.loadedModels.listsmodel.model[i].Checked){
 						this.loadedModels.listsmodel.model[i].set("Checked", false);
 					}
 				}
+				console.log("****in items/lists refreshData item == -1 so done with completed list");
 				
 				return;
 			}
@@ -140,6 +144,7 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 			var select_data = listsmodel.model[todoApp.selected_configuration_item];
 			// get data model in cache
 			if(todoApp.cachedDataModel[select_data.id]){ // read data from cache
+				console.log("****in items/lists refreshData data was found in the cache");
 				this.loadedModels.itemlistmodel = todoApp.cachedDataModel[select_data.id];
 				showListData(this.loadedModels.itemlistmodel);
 				todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
@@ -150,23 +155,25 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 			}else if(!isFileExist(select_data.itemsurl, dataFile)){
 				// create in-memory store if the file not exists
 				// TODO: use the exists file in an array in this demo.
+				console.log("****in items/lists refreshData data was not found in the cache and");
 				console.log("file not exist.", select_data.itemsurl);
 				var tempStore = new dojo.store.Memory({
 					"data": []
 				});
 				listCtln = new EditStoreRefListController({store: tempStore, cursorIndex: 0});
 				when(listCtln.queryStore(), lang.hitch(this, function(datamodel){
-					this.loadedModels.itemlistmodel = datamodel;
-					todoApp.cachedDataModel[select_data.id] = datamodel;
+					this.loadedModels.itemlistmodel = listCtln;
+					todoApp.cachedDataModel[select_data.id] = listCtln;
 					todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
 
-					itemlistmodel = datamodel;
+					itemlistmodel = listCtln;
 					listsmodel = this.loadedModels.listsmodel;
 					completedmodel = this.loadedModels.completedmodel;
 					
-					showListData(datamodel);
+					showListData(listCtln);
 				}));
 			}else{ // load data model from data file
+				console.log("****in items/lists refreshData in else load data model from file");
 				var writestore = new itemfilewritestore({
 					url: select_data.itemsurl
 				});
