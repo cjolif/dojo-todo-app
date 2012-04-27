@@ -9,8 +9,12 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		var display = dstyle.get(widget, 'display');
 		if(display == 'none'){
 			dstyle.set(widget, 'display', '');
+			dstyle.set(dom.byId('moreDetailNotes'), 'display', '');
+			registry.byId("detail_showMore").set("label","Show Less...");
 		}else{
 			dstyle.set(widget, 'display', 'none');
+			dstyle.set(dom.byId('moreDetailNotes'), 'display', 'none');
+			registry.byId("detail_showMore").set("label","Show More...");
 		}
 	};
 

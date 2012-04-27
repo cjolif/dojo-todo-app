@@ -1,7 +1,7 @@
-define(["dojo/dom", "dojo/_base/lang", "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at", 
+define(["dojo/dom", "dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at", 
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent", "dojox/mobile/CheckBox"],
-function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, getStateful, itemfilewritestore, datastore, TransitionEvent){
+function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListController, getStateful, itemfilewritestore, datastore, TransitionEvent){
 	window.at = at;	// set global namespace for dojox.mvc.at
 	dojox.debugDataBinding = false;	//disable dojox.mvc data binding debug
 
@@ -27,15 +27,17 @@ function(dom, lang, Deferred, when, registry, at, EditStoreRefListController, ge
 		// if the datamodel is empty, view not refreshed by set("children", datamodel)
 		// what expect is the view refresh and display empty.
 		var datamodel = at(datamodel, 'model');
-		listWidget.set("children", datamodel);
+		listWidget.set("children", datamodel);		
 	};
 
 	var showListType = function(){
 		console.log("in items/lists showListType ");
 		var type;
 		if(todoApp.selected_configuration_item == -1){
-			type = "Completed";
+			type = "Completed";			
+			dstyle.set(dom.byId("addNewItemUl"), 'display', 'none'); // hide the new item link
 		}else{
+			dstyle.set(dom.byId("addNewItemUl"), 'display', ''); // show the new item link			
 			var listdata = listsmodel.model[todoApp.selected_configuration_item];
 			if(listdata && listdata.title){
 				type = listdata.title;
