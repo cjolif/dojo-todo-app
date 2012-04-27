@@ -8,14 +8,14 @@
 			</h2>
 
 			<ul data-dojo-type="dojox.mobile.RoundRectList">
-				<li class="mblVariableHeight" data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Completed", clickable: true, onClick: function(e){todoApp.selectItems(this, -1);}'
+				<li data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Completed", clickable: true, onClick: function(e){todoApp.selectItems(this, -1);}'
 					transitionOptions='{title:"List",target:"items,list",url: "#items,list"}'>
 				</li>
 			</ul>
 			<ul data-dojo-type="dojox.mobile.RoundRectList" id="configrepeatlist" 
 					data-dojo-mixins="dojox/mvc/Repeat"
 					data-dojo-props="exprchar: '#', children: at(this.loadedModels.listsmodel, 'model')">
-				<li  class="mblVariableHeight" data-dojo-type="dojox.mobile.ListItem" clickable="true" 
+				<li data-dojo-type="dojox.mobile.ListItem" clickable="true" 
 					data-dojo-props="label:at('rel:#{this.index}','title'), onClick: function(){todoApp.selectItems(this, '#{this.index}');}"
 					transitionOptions='{title:"List",target:"items,list",url: "#items,list"}'>  
 				</li>
