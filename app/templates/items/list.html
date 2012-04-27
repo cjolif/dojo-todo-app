@@ -6,34 +6,21 @@
 				transitionOptions='{title:"Add Item",target:"items,add",url: "#items,add"}'>
 			</li>
 		</ul>
-
-				<ul data-dojo-type="dojox.mobile.RoundRectList" id="items_list"   
-					data-dojo-mixins="dojox/mvc/Repeat" 
-					data-dojo-props="exprchar:'#', children: at(this.loadedModels.itemlistmodel, 'model')">
-							<li  class="mblVariableHeight"  moveTo="details" callback="function(){/*movedTo('#{this.index}')*/}" 
-								data-dojo-type="dojox.mobile.ListItem" clickable="true" 
-								data-dojo-props="onClick: function(){console.log('select item ', '#{this.index}'); todoApp.showItemDetails('#{this.index}');}"
-								transitionOptions='{title:"Detail",target:"details,detail",url: "#details,detail"}'>  
-								<table><tr>
-									<td><input preventTouch='true' type='checkbox' 
-											data-dojo-type="dojox.mobile.CheckBox" 
-											data-dojo-props="checked: at('rel:#{this.index}','completed').transform(completeConverter)"/></td>
-										
-									<td data-dojo-type="dojox.mvc.Output" 
-										data-dojo-props="value: at('rel:#{this.index}','title')"></td>
-								</tr></table>
-							</li>
-				</ul>
-
-<!--  
-		<ul id="items_list" data-dojo-type="dojox.mobile.RoundRectList" 
+		<ul data-dojo-type="dojox.mobile.RoundRectList" id="items_list"   
 			data-dojo-mixins="dojox/mvc/Repeat" 
-			data-dojo-props="exprchar: '#', children: this.loadedModels.itemlistmodel.model">
-			<li data-dojo-type="dojox.mobile.ListItem" transitionOptions='{title:"Detail",target:"details,detail",url: "#details,detail"}'
-				data-dojo-props="label: dojox.mvc.at('rel:#{this.index}', 'title'),
-					onClick: function(e){todoApp.showItemDetails('#{this.index}');}">
-			</li>
-		</ul>
--->		
+			data-dojo-props="exprchar:'#', children: at(this.loadedModels.itemlistmodel, 'model')">
+				<li  class="mblVariableHeight" data-dojo-type="dojox.mobile.ListItem" clickable="true" 
+					data-dojo-props="onClick: function(){todoApp.showItemDetails('#{this.index}');}"
+					transitionOptions='{title:"Detail",target:"details,detail",url: "#details,detail"}'>  
+					<table><tr>
+						<td><input preventTouch='true' type='checkbox' 
+								data-dojo-type="dojox.mobile.CheckBox" 
+								data-dojo-props="checked: at('rel:#{this.index}','completed').transform(todoApp.completeConverter)"/></td>
+							
+						<td data-dojo-type="dojox.mvc.Output" 
+							data-dojo-props="value: at('rel:#{this.index}','title')"></td>
+					</tr></table>
+				</li>
+		</ul>	
 	</div>
 </div>
