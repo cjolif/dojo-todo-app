@@ -6,6 +6,11 @@ html,body {
 .itemcell { 
 	width: 100%;  
 	display:inline-block;
+	font-family: Helvetica;
+	font-size: 17px;
+	font-weight: bold;
+	color: #324F85;
+	padding-left: 8px;
 }
 
 .itemcellwrapper { 
@@ -13,6 +18,7 @@ html,body {
 	margin-right: 10px;
 	margin-bottom: 7px;
 	margin-left: 10px;
+	padding-right: 8px;
 }
 
 button.baseBtn {

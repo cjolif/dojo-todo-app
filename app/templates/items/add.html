@@ -3,24 +3,12 @@
 		<div data-dojo-type="dojox.mobile.Heading" data-dojo-props='label:"New Item", back:"Cancel"'>
 			<span id="edit_list_done" data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='label:"Done"' defaultColor="mblColorBlue" style="float:right;"></span>
 		</div>
-		<table>
-			<tr>
-				<td style="width:80px;">
-					title
-				</td>
-				<td>
-					<input id="item_title" type="text" style="width:240px;" data-dojo-type="dojox.mobile.TextBox" placeholder="title">
-					</input>
-				</td>
-			</tr>
-			<tr>
-				<td style="width:80px;">
-					notes
-				</td>
-				<td>
-					<input id="item_notes" type="text" style="width:240px;" data-dojo-type="dojox.mobile.TextBox" placeholder="notes">
-					</input>
-				</td>
-			</tr>
-		</table>
+		<div  class="itemcellwrapper">
+			<input id="item_title" data-dojo-type="dojox.mobile.TextBox"  class="itemcell"
+				placeholder="Title"/>
+		</div>
+		<div  class="itemcellwrapper">
+			<textarea id="item_notes" data-dojo-type="dojox.mobile.ExpandingTextArea"  class="itemcell"
+				placeholder="Notes"/>
+		</div>
 </div>
