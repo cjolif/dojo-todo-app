@@ -1,11 +1,13 @@
 <div class="view mblView">
 	<h2 id="list_type" data-dojo-type="dojox.mobile.RoundRectCategory" region="top">Reminder</h2>
 	<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
-		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<li data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Add New Item ..."'
-				transitionOptions='{title:"Add Item",target:"items,add",url: "#items,add"}'>
-			</li>
-		</ul>
+		<div  id="addNewItemUl">
+			<ul data-dojo-type="dojox.mobile.RoundRectList">
+				<li data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Add New Item ..."'
+					transitionOptions='{title:"Add Item",target:"items,add",url: "#items,add"}'>
+				</li>
+			</ul>
+		</div>
 		<ul data-dojo-type="dojox.mobile.RoundRectList" id="items_list"   
 			data-dojo-mixins="dojox/mvc/Repeat" 
 			data-dojo-props="exprchar:'#', children: at(this.loadedModels.itemlistmodel, 'model')">
