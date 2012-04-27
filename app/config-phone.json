@@ -9,6 +9,8 @@
 		"dojox/mobile/TabBar",
 		"dojox/mobile/RoundRect",
 		"dojox/mobile/TabBarButton",
+		"dojox/mobile/TextBox",
+		"dojox/mobile/TextArea",
 		"dojox/mobile/Button",
 		"dojox/mobile/RoundRect",
 		"dojox/mobile/Heading",
@@ -104,12 +106,12 @@
 					"template": "./templates/configuration/configure.html"
 				},
 
-				"configure_edit": {
-					"template": "./templates/configuration/configureEdit.html"
+				"edit": {
+					"template": "./templates/configuration/edit.html"
 				},
 
-				"configure_edit_item": {
-					"template": "./templates/configuration/editItem.html"
+				"add": {
+					"template": "./templates/configuration/add.html"
 				}
 			}
 		},
@@ -126,13 +128,8 @@
 					"template": "./templates/items/list.html"
 				},
 
-				"list_edit":{
-					"template": "./templates/items/listEdit.html"
-				},
-
 				"add":{
-					"template": "./templates/items/add.html",
-					"dependencies":["dojox/mobile/TextBox"]
+					"template": "./templates/items/add.html"
 				},
 				"date":{
 					"template": "./templates/items/date.html",
@@ -149,7 +146,6 @@
 
 			"views": {
 				"detail":{
-					"dependencies":["dojox/mobile/TextBox"],
 					"template": "./templates/details/detail.html"
 				},
 
