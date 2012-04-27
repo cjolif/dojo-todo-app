@@ -8,7 +8,7 @@
 				data-dojo-props="target: at(this.loadedModels.itemlistmodel, 'cursor')">
 				<div  class="itemcellwrapper">
 					<input id="todo" data-dojo-type="dojox.mobile.TextBox"  class="itemcell"
-						placeholder="To do placeholder"  
+						placeholder="Title"  
 						data-dojo-props="value: at('rel:', 'title')"/>
 				</div>
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
@@ -30,15 +30,16 @@
 				<li id="detail_list" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,list",url: "#details,list"}'>
 					List
 				</li>
-				<li id="detail_note" data-dojo-type="dojox.mobile.ListItem">
-					<div class="mblListItemRightText">
-						<textarea  data-dojo-type="dojox.mobile.TextBox" style="border:none;" onmousedown="event.cancelBubble=true;" 
-							data-dojo-props="value: at('rel:', 'notes')"></textarea>
-					</div>
-					<div class="mblListItemLabel">Notes</div>
-				</li>
 			</div>
 			</ul>
+			<div  class="itemcellwrapper">
+				<textarea  data-dojo-type="dojox.mobile.ExpandingTextArea" 
+						class="itemcell" placeholder="Notes"  
+						data-dojo-props="value: at('rel:', 'notes')">
+				</textarea>
+			</div>
+			
+			
 		</div>
 
 		<button id="markAsComplete" data-dojo-type="dojox.mobile.Button" class="baseBtn whiteBtn">Complete</button>
