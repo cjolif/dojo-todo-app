@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "dojox/mvc", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful"],
-function(dom, dstyle, connect, registry, mvc, TransitionEvent, getStateful){
+define(["dojo/dom", "dojo/_base/connect", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful"],
+function(dom, connect, TransitionEvent, getStateful){
 	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
 	var listsmodel = null;
@@ -10,7 +10,7 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent, getStateful){
 		var parentId;
 		try{
 			parentId = datamodel[0].parentId;
-		}catch (e){
+		}catch(e){
 			console.log("Warning: itemlistmodel is empty, get parentId from listsmodel");
 			parentId = listsmodel.model[todoApp.selected_configuration_item].id;
 		}
@@ -29,14 +29,6 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent, getStateful){
 			"completed": false,
 			"deleted": false
 		}));
-
-		var transOpts = {
-			title:"List",
-			target:"items,list",
-			url: "#items,list"
-		};
-		var e = window.event;
-		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 	};
 
 	return {
@@ -46,8 +38,14 @@ function(dom, dstyle, connect, registry, mvc, TransitionEvent, getStateful){
 			listsmodel = this.loadedModels.listsmodel;
 
 			var connectResult;
-			connectResult = connect.connect(dom.byId('edit_list_done'), "click", dojo.hitch(this, function(){
+			connectResult = connect.connect(dom.byId('edit_list_done'), "click", dojo.hitch(this, function(e){
 				add();
+				var transOpts = {
+					title:"List",
+					target:"items,list",
+					url: "#items,list"
+				}
+				new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 			}));
 			_connectResults.push(connectResult);
 		},

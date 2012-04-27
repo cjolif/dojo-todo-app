@@ -1,7 +1,11 @@
-define(["dojo/dom", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "dojox/mobile/ListItem", "dojox/mvc/Repeat"], 
-function(dom, registry, at, TransitionEvent){
+define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent"], 
+function(dom, connect, registry, at, TransitionEvent){
 	window.at = at;	// set global namespace for dojox.mvc.at
 	dojox.debugDataBinding = true;	//disable dojox.mvc data binding debug
+
+	var _connectResults = []; // events connect result
+	var listsmodel = null;
+
 	todoApp.selectItems = function(node, index){
 		if (todoApp.selected_configuration_item == index) {
 			return;
@@ -18,14 +22,35 @@ function(dom, registry, at, TransitionEvent){
 		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 	};
 
-	todoApp.editConfiguration = function(){
+	var editConfiguration = function(){
 		// publish transition event
 		var transOpts = {
 			title:"Edit",
-			target:"configuration,configure_edit",
-			url: "#configuration,configure_edit"
+			target:"configuration,edit",
+			url: "#configuration,edit"
 		};
 		var e = window.event;
 		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
+	};
+	
+	return {
+		init: function(){
+			listsmodel = this.loadedModels.listsmodel;
+
+			var connectResult;
+			connectResult = connect.connect(dom.byId('setting'), "click", dojo.hitch(this, function(e){
+				editConfiguration();
+			}));
+			_connectResults.push(connectResult);
+			console.log("configuration view init ok");
+		},
+		
+		destroy: function(){
+			var connectResult = _connectResults.pop();
+			while(connectResult){
+				connect.disconnect(connectResult);
+				connectResult = _connectResults.pop();
+			}
+		}
 	};
 });

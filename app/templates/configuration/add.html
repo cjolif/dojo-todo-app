@@ -1,0 +1,34 @@
+<div class="view mblView">
+	<h1 data-dojo-type="dojox.mobile.Heading" label="Add List" region="top" back="Cancel">
+		<div id="editItem_done" data-dojo-type="dojox.mobile.ToolBarButton" label="Done" style="float:right;" transitionOptions='{title:"Configuration Edit",target:"configuration,edit",url: "#configuration,edit"}'>
+		</div>
+	</h1>
+	<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
+		<div id="detailsBanner">
+			Details for selected index:
+		</div>
+		<table>
+			<tr>
+				<td>title</td>
+				<td>
+					<input type="text" id="titleInput" data-dojo-type="dojox.mobile.TextBox" placeholder="title">
+					</input>
+				</td>
+			</tr>
+			<tr>
+				<td>url</td>
+				<td>
+					<input type="text" id="urlInput" data-dojo-type="dojox.mobile.TextBox" placeholder="url">
+					</input>
+				</td>
+			</tr>
+			<tr>
+				<td>descritpion</td>
+				<td>
+					<input type="text" id="desInput" data-dojo-type="dojox.mobile.TextArea" placeholder="description">
+					</input>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
