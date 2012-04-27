@@ -14,9 +14,9 @@
 		</ul>
 		
 		<ul data-dojo-type="dojox.mobile.RoundRectList" id="configure_list" select="single" 
-				 data-dojo-mixins="dojox/mvc/Repeat" data-dojo-props="exprchar: '#', children: this.loadedModels.listsmodel.model">
+				 data-dojo-mixins="dojox/mvc/Repeat" data-dojo-props="exprchar: '#', children: at(this.loadedModels.listsmodel, 'model')">
 			<li id="configure_itemmix1#{this.index}" class="mblVariableHeight" data-dojo-type="dojox.mobile.ListItem" 
-				data-dojo-props="label: dojox.mvc.at('rel:#{this.index}', 'title'), checked: dojox.mvc.at('rel:#{this.index}',  'Checked')">
+				data-dojo-props="label: at('rel:#{this.index}', 'title'), checked: at('rel:#{this.index}',  'Checked')">
 			</li>
 		</ul>
 	</div>
