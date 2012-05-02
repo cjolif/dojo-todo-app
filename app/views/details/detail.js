@@ -20,39 +20,18 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 
 	// move an item to Completed data model
 	var _moveToCompleted = function(datamodel, index, completedModel){
-		if (datamodel && completedModel && index >= 0 && index < datamodel.model.length) {
-			var data = datamodel.model[index];
-
-			//update data
-			data.completed = true;
-
-			// move data to complete model
-			completedModel.model.push(new getStateful({
-				"id": data.id,
-				"parentId": data.parentId,
-				"title": data.title,
-				"notes": data.notes,
-				"due": data.due,
-				"completionDate": data.completionDate,
-				"reminder": data.reminder,
-				"repeat": data.repeat,
-				"priority": data.priority,
-				"hidden": data.hidden,
-				"completed": data.completed,
-				"deleted": data.deleted
-			}));
-
-			// delete data from current itemlistmodel
-			datamodel.model.splice(index, 1);
-			//transition to list view
-			var transOpts = {
+		console.log("in details _moveToCompleted");
+		var t = datamodel.model.splice(index, 1);
+		t[0].set("completed", true);
+		completedModel.model.push(t[0]);
+		//transition to list view
+		var transOpts = {
 				title:"List",
 				target:"items,list",
 				url: "#items,list"
-			};
-			var e = window.event;
-			new TransitionEvent(e.srcElement,transOpts,e).dispatch();
-		}
+		};
+		var e = window.event;
+		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 	};
 
 	var refreshData = function(){
@@ -73,11 +52,6 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		widget.set("ref", datamodel);
 		widget.target = null;
 		widget.set("target", datamodel);
-
-		// set data to items, this data not set by dojox.mvc
-		if(datamodel.reminder){
-			registry.byId('detail_reminder').set("rightText", datamodel.reminder);
-		}
 
 		var repeatArray = ["None", "Every Day", "Every Week", "Every 2 Week", "Every Month", "Every Year"];
 		if(datamodel.repeat>=0 && datamodel.repeat<repeatArray.length){
@@ -104,10 +78,6 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 			}
 		}
 
-		//if(datamodel.notes){
-		//	var value = '<textarea style="border:none;" onmousedown="event.cancelBubble=true;">'+datamodel.notes+'</textarea>';
-		//	registry.byId('detail_note').set("rightText", value);
-		//}
 	};
 
 	return {

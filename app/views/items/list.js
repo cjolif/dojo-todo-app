@@ -22,7 +22,7 @@ function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListC
 	var completedmodel = null;
 
 	var showListData = function(datamodel){
-		console.log("****in items/lists showListData datamodel =", datamodel);
+		console.log("in items/lists showListData datamodel =", datamodel);
 		var listWidget = registry.byId("items_list");
 		// if the datamodel is empty, view not refreshed by set("children", datamodel)
 		// what expect is the view refresh and display empty.
@@ -30,14 +30,35 @@ function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListC
 		listWidget.set("children", datamodel);		
 	};
 
+	var checkForCompleted = function(){
+		console.log("in items/lists checkForCompleted ");
+		var model = itemlistmodel.model;
+		if(todoApp.selected_configuration_item == -1){
+			model = completedmodel.model;
+			for(var a = model, i = a.length-1; i >= 0 ; i--){
+				if(!a[i].completed){
+						moveFromComplete(completedmodel.model, itemlistmodel.model, i, false);						
+				} 
+			}
+		}else{
+			for(var a = model, i = a.length-1; i >= 0 ; i--){
+				if(a[i].completed){
+						moveToComplete(itemlistmodel.model, completedmodel.model, i, true);						
+				} 
+			}				
+		}
+	};
+
 	var showListType = function(){
 		console.log("in items/lists showListType ");
 		var type;
 		if(todoApp.selected_configuration_item == -1){
 			type = "Completed";			
+			//dstyle.set(dom.byId("addNewItemUl"), 'visibility', 'hidden'); // hide the new item link
 			dstyle.set(dom.byId("addNewItemUl"), 'display', 'none'); // hide the new item link
 		}else{
-			dstyle.set(dom.byId("addNewItemUl"), 'display', ''); // show the new item link			
+			//dstyle.set(dom.byId("addNewItemUl"), 'visibility', ''); // show the new item link			
+			dstyle.set(dom.byId("addNewItemUl"), 'display', ''); // hide the new item link
 			var listdata = listsmodel.model[todoApp.selected_configuration_item];
 			if(listdata && listdata.title){
 				type = listdata.title;
@@ -49,7 +70,7 @@ function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListC
 	};
 
 	var isFileExist = function(filename, files){
-		console.log("in items/lists isFileExist filename =", filename);
+		//console.log("in items/lists isFileExist filename =", filename);
 		for(var file in files){
 			if(filename.indexOf(files[file]) > 0){
 				return true;
@@ -58,35 +79,8 @@ function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListC
 		return false;
 	};
 
-	todoApp.completeConverter = {
-			format: function(value){
-				return value;
-			},
-			parse: function(value){
-				console.log("****in items/lists completeConverter parse value = "+value);
-				console.log("****in items/lists completeConverter parse this.target.id = "+this.target.id);						
-				console.log(this.target);
-				var model = completedmodel.model;
-				if(value){
-					model = itemlistmodel.model;
-				}
-				for(var a = model, i = 0; i < a.length; i++){
-					if(a[i].id == this.target.id){
-						if(value){ // remove from list and move to completed
-							window.setTimeout(todoApp.moveToComplete(itemlistmodel.model, completedmodel.model, i, value), 500);						
-						}else{
-							window.setTimeout(todoApp.moveFromComplete(completedmodel.model, itemlistmodel.model, i, value), 500);						
-						}
-					} 
-				}
-				//throw new Error(); // Stop copying the new value for unchecked case
-				if(!value){ throw new Error(); } // Stop copying the new value for unchecked case						
-				return value;
-			}					
-	};
-
 	// called when an item is completed
-	todoApp.moveToComplete = function(fromModel, toModel, i, value) {
+	moveToComplete = function(fromModel, toModel, i, value) {
 		console.log("****in items/lists moveToComplete value = ",value);
 		var t = fromModel.splice(i, 1);
 		t[0].set("completed", value);
@@ -94,7 +88,7 @@ function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListC
 	};
 
 	// called when a completed items is unchecked
-	todoApp.moveFromComplete = function(fromModel, toModel, i, value) {
+	moveFromComplete = function(fromModel, toModel, i, value) {
 		console.log("****in items/lists moveFromComplete value = ",value);
 		var t = fromModel.splice(i, 1);
 		t[0].set("completed", value);
@@ -117,15 +111,41 @@ function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListC
 		},
 
 		beforeActivate: function(){
-			console.log("****in items/lists beforeActivate ");
+			console.log("items/lists beforeActivate called ",this.loadedModels.itemlistmodel);
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			completedmodel = this.loadedModels.completedmodel;
 			this.refreshData();
 		},
+
+		afterDeactivate: function(){
+			console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+		},
+	
+		beforeDeactivate: function(){
+			console.log("items/lists beforeDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			var model = itemlistmodel.model;
+			if(todoApp.selected_configuration_item == -1){
+				model = completedmodel.model;
+				for(var a = model, i = 0; i < a.length; i++){
+					if(!a[i].completed){
+						//	window.setTimeout(todoApp.moveFromComplete(completedmodel.model, itemlistmodel.model, i, false), 500);						
+							moveFromComplete(completedmodel.model, itemlistmodel.model, i, false);						
+					} 
+				}
+			}else{
+				for(var a = model, i = 0; i < a.length; i++){
+					if(a[i].completed){
+						//	window.setTimeout(todoApp.moveToComplete(itemlistmodel.model, completedmodel.model, i, true), 500);						
+							moveToComplete(itemlistmodel.model, completedmodel.model, i, true);						
+					} 
+				}				
+			}
+		},
 	
 		refreshData: function(){
 			console.log("****in items/lists refreshData ");
+			checkForCompleted();
 			showListType();
 			if(todoApp.selected_configuration_item == -1){
 				showListData(completedmodel);
@@ -133,13 +153,10 @@ function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListC
 				// when show completed need to un-select the other list.
 				//this.loadedModels.listsmodel
 				for(var i in this.loadedModels.listsmodel.model){
-					//console.log("this.loadedModels.listsmodel.model[i] = ",this.loadedModels.listsmodel.model[i])
 					if(this.loadedModels.listsmodel.model[i].Checked){
 						this.loadedModels.listsmodel.model[i].set("Checked", false);
 					}
 				}
-				console.log("****in items/lists refreshData item == -1 so done with completed list");
-				
 				return;
 			}
 	
