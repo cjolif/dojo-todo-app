@@ -11,6 +11,7 @@
 		"dojox/mobile/TabBarButton",
 		"dojox/mobile/TextBox",
 		"dojox/mobile/TextArea",
+		"dojox/mobile/CheckBox",
 		"dojox/mobile/ExpandingTextArea",
 		"dojox/mobile/Button",
 		"dojox/mobile/RoundRect",

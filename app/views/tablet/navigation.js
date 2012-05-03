@@ -42,7 +42,7 @@ function(dom, connect, registry, at, TransitionEvent){
 				editConfiguration();
 			}));
 			_connectResults.push(connectResult);
-			console.log("configuration view init ok");
+			console.log("navigation view init ok");
 		},
 		
 		destroy: function(){

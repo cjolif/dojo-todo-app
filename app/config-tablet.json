@@ -11,6 +11,7 @@
 		"dojox/mobile/TabBarButton",
 		"dojox/mobile/TextBox",
 		"dojox/mobile/TextArea",
+		"dojox/mobile/CheckBox",
 		"dojox/mobile/ExpandingTextArea",
 		"dojox/mobile/Button",
 		"dojox/mobile/RoundRect",
@@ -95,8 +96,8 @@
         }
 	},
 	
-	"template": "./templates/tablet/configuration.html",
-	"definition": "./views/tablet/configuration.js",
+	"template": "./templates/tablet/navigation.html",
+	"definition": "./views/tablet/navigation.js",
 
 	//the name of the scene to load when the app is initialized.
 	"defaultView": "items,list",
