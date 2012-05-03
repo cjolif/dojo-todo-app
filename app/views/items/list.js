@@ -1,7 +1,7 @@
-define(["dojo/dom", "dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at", 
+define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at",
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
-        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent", "dojox/mobile/CheckBox"],
-function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListController, getStateful, itemfilewritestore, datastore, TransitionEvent){
+        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent"],
+function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListController, getStateful, itemfilewritestore, datastore, TransitionEvent){
 	window.at = at;	// set global namespace for dojox.mvc.at
 	dojox.debugDataBinding = false;	//disable dojox.mvc data binding debug
 
@@ -22,10 +22,7 @@ function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListC
 	var completedmodel = null;
 
 	var showListData = function(datamodel){
-		console.log("in items/lists showListData datamodel =", datamodel);
 		var listWidget = registry.byId("items_list");
-		// if the datamodel is empty, view not refreshed by set("children", datamodel)
-		// what expect is the view refresh and display empty.
 		var datamodel = at(datamodel, 'model');
 		listWidget.set("children", datamodel);		
 	};
@@ -121,31 +118,61 @@ function(dom, lang, dom, dstyle, Deferred, when, registry, at, EditStoreRefListC
 		afterDeactivate: function(){
 			console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
 		},
-	
+
 		beforeDeactivate: function(){
 			console.log("items/lists beforeDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
-			var model = itemlistmodel.model;
+			// tablet cannot distinguish moveFromComplete or moveToComplete, so need to move both data
+			var model;
+			if(todoApp.isTablet){
+				model = completedmodel.model;
+				for(var a = model, i = 0; i < a.length;){
+					if(!a[i].completed){
+						moveFromComplete(completedmodel.model, itemlistmodel.model, i, false);
+					}else{
+						i++;
+					}
+				}
+
+				model = itemlistmodel.model;
+				for(var a = model, i = 0; i < a.length;){
+					if(a[i].completed){
+						// move operation will change a.lenght.
+						moveToComplete(itemlistmodel.model, completedmodel.model, i, true);
+					}else{
+						i++;
+					}
+				}
+				return;
+			}
+
+			// for phone
 			if(todoApp.selected_configuration_item == -1){
 				model = completedmodel.model;
-				for(var a = model, i = 0; i < a.length; i++){
+				for(var a = model, i = 0; i < a.length;){
 					if(!a[i].completed){
-						//	window.setTimeout(todoApp.moveFromComplete(completedmodel.model, itemlistmodel.model, i, false), 500);						
-							moveFromComplete(completedmodel.model, itemlistmodel.model, i, false);						
-					} 
+						// move operation will change a.lenght.
+						moveFromComplete(completedmodel.model, itemlistmodel.model, i, false);
+					}else{
+						i++;
+					}
 				}
 			}else{
-				for(var a = model, i = 0; i < a.length; i++){
+				model = itemlistmodel.model;
+				for(var a = model, i = 0; i < a.length;){
 					if(a[i].completed){
-						//	window.setTimeout(todoApp.moveToComplete(itemlistmodel.model, completedmodel.model, i, true), 500);						
-							moveToComplete(itemlistmodel.model, completedmodel.model, i, true);						
-					} 
+						// move operation will change a.lenght.
+						moveToComplete(itemlistmodel.model, completedmodel.model, i, true);
+					}else{
+						i++;
+					}
 				}				
 			}
 		},
 	
 		refreshData: function(){
 			console.log("****in items/lists refreshData ");
-			checkForCompleted();
+			// no need to check for complete, it is done in beforeDeactivate()
+//			checkForCompleted();
 			showListType();
 			if(todoApp.selected_configuration_item == -1){
 				showListData(completedmodel);
