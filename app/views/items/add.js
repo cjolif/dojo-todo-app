@@ -38,7 +38,13 @@ function(dom, connect, TransitionEvent, getStateful){
 			listsmodel = this.loadedModels.listsmodel;
 
 			var connectResult;
-			connectResult = connect.connect(dom.byId('edit_list_done'), "click", dojo.hitch(this, function(e){
+			connectResult = connect.connect(dom.byId('addItem_cancel'), "click", dojo.hitch(this, function(e){
+				history.back();
+			}));
+			_connectResults.push(connectResult);
+			
+			var connectResult;
+			connectResult = connect.connect(dom.byId('addItem_add'), "click", dojo.hitch(this, function(e){
 				add();
 				var transOpts = {
 					title:"List",
