@@ -20,7 +20,7 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 
 	// move an item to Completed data model
 	var _moveToCompleted = function(datamodel, index, completedModel){
-		console.log("in details _moveToCompleted");
+		//console.log("in details _moveToCompleted");
 		var t = datamodel.model.splice(index, 1);
 		t[0].set("completed", true);
 		completedModel.model.push(t[0]);
@@ -48,10 +48,9 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		}
 
 		var widget = registry.byId("item_detailsGroup");
-		widget.ref = null;
-		widget.set("ref", datamodel);
 		widget.target = null;
-		widget.set("target", datamodel);
+		itemlistmodel.set("cursorIndex",todoApp.selected_item);
+		widget.set("target", at(itemlistmodel, 'cursor'));
 
 		var repeatArray = ["None", "Every Day", "Every Week", "Every 2 Week", "Every Month", "Every Year"];
 		if(datamodel.repeat>=0 && datamodel.repeat<repeatArray.length){
