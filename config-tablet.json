@@ -49,14 +49,14 @@
 		"listsDataStore":{
 	       "type": "dojo.data.ItemFileWriteStore",
 		   "params": {
-				"url": "../resources/data/lists.json"
+				"url": "./resources/data/lists.json"
 		   }
 		},
 		
 		"itemlistStore":{
 	       "type": "dojo.data.ItemFileWriteStore",
 		   "params": {
-				"url": "../resources/data/items-for-0.json"
+				"url": "./resources/data/items-for-0.json"
 		   }
 		},
 		
@@ -95,6 +95,9 @@
      		}           
         }
 	},
+	
+	"template": "./templates/tablet/navigation.html",
+	"definition": "./views/tablet/navigation.js",
 
 	//the name of the scene to load when the app is initialized.
 	"defaultView": "items,list",
