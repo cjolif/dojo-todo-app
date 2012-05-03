@@ -1,4 +1,4 @@
-define(["dojo/dom", "dojo/dom-style", "dijit/registry", "dojox/mvc/Output"],
+define(["dojo/dom", "dojo/dom-style", "dijit/registry"],
 	function(dom, dstyle, registry){
 	return {
 		init: function(){
