@@ -1,11 +1,7 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/_base/connect", 
         "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at", 
-        "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
-        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent", 
-        "dojo/date/stamp", "dojox/mobile/CheckBox"],
-function(dom, lang, dom, dstyle, connect, Deferred, when, registry, at, 
-		EditStoreRefListController, getStateful, itemfilewritestore, datastore, 
-		TransitionEvent, datestamp){
+        "dojox/mobile/TransitionEvent", "dojo/date/stamp"],
+function(dom, lang, dom, dstyle, connect, Deferred, when, registry, at, TransitionEvent, datestamp){
 	window.at = at;	// set global namespace for dojox.mvc.at
 	dojox.debugDataBinding = false;	//disable dojox.mvc data binding debug
 

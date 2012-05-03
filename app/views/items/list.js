@@ -1,7 +1,7 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at",
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent"],
-function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListController, getStateful, itemfilewritestore, datastore, TransitionEvent){
+function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, TransitionEvent){
 	window.at = at;	// set global namespace for dojox.mvc.at
 	dojox.debugDataBinding = false;	//disable dojox.mvc data binding debug
 
@@ -206,10 +206,10 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 				}));
 			}else{ // load data model from data file
 				//console.log("****in items/lists refreshData in else load data model from file");
-				var writestore = new itemfilewritestore({
+				var writestore = new ItemFileWriteStore({
 					url: select_data.itemsurl
 				});
-				var listCtl = new EditStoreRefListController({store: new datastore({store: writestore}), cursorIndex: 0});
+				var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 				when(listCtl.queryStore(), lang.hitch(this, function(datamodel){
 					var listId = datamodel[0].parentId;
 					if(listId == todoApp.selected_configuration_item){
