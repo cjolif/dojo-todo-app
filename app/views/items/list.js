@@ -10,7 +10,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 	todoApp.currentItemListModel = null;
 
 	todoApp.showItemDetails = function(index){
-		console.log("in items/lists select item ", index);
+		//console.log("in items/lists select item ", index);
 		todoApp.selected_item = index;
 		itemlistmodel.set("cursorIndex",index);
 	};
@@ -28,26 +28,27 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 	};
 
 	var checkForCompleted = function(){
-		console.log("in items/lists checkForCompleted ");
+		//console.log("in items/lists checkForCompleted ");
 		var model = itemlistmodel.model;
 		if(todoApp.selected_configuration_item == -1){
 			model = completedmodel.model;
 			for(var a = model, i = a.length-1; i >= 0 ; i--){
 				if(!a[i].completed){
-						moveFromComplete(completedmodel.model, itemlistmodel.model, i, false);						
+					var toModel = todoApp.cachedDataModel[a[i].get('parentId')].model;
+					moveItem(completedmodel.model, toModel, i); // move from complete
 				} 
 			}
 		}else{
 			for(var a = model, i = a.length-1; i >= 0 ; i--){
 				if(a[i].completed){
-						moveToComplete(itemlistmodel.model, completedmodel.model, i, true);						
+						moveItem(itemlistmodel.model, completedmodel.model, i); // move to complete					
 				} 
 			}				
 		}
 	};
 
 	var showListType = function(){
-		console.log("in items/lists showListType ");
+		//console.log("in items/lists showListType ");
 		var type;
 		if(todoApp.selected_configuration_item == -1){
 			type = "Completed";			
@@ -76,26 +77,22 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 		return false;
 	};
 
-	// called when an item is completed
-	moveToComplete = function(fromModel, toModel, i, value) {
-		console.log("****in items/lists moveToComplete value = ",value);
+	// called to move an item from one list to another
+	moveItem = function(fromModel, toModel, i) {
+		sel = parseInt(todoApp.selected_item);
+		if(sel == i){ // don't move it if it is being edited
+			return;  
+		}
+		if(sel > i){ // need to adjust selected_item if remove one before it in model
+			todoApp.selected_item--;
+		}
 		var t = fromModel.splice(i, 1);
-		t[0].set("completed", value);
-		toModel.push(t[0]);
-	};
-
-	// called when a completed items is unchecked
-	moveFromComplete = function(fromModel, toModel, i, value) {
-		console.log("****in items/lists moveFromComplete value = ",value);
-		var t = fromModel.splice(i, 1);
-		t[0].set("completed", value);
-		toModel = todoApp.cachedDataModel[t[0].get('parentId')].model;
 		toModel.push(t[0]);
 	};
 
 	return {
 		init: function(){
-			console.log("****in items/lists init ");
+			//console.log("****in items/lists init ");
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			completedmodel = this.loadedModels.completedmodel;
@@ -108,38 +105,35 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 		},
 
 		beforeActivate: function(){
-			console.log("items/lists beforeActivate called ",this.loadedModels.itemlistmodel);
+			//console.log("items/lists beforeActivate called ",this.loadedModels.itemlistmodel);
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			completedmodel = this.loadedModels.completedmodel;
+			todoApp.selected_item = "-1"; // reset selected item
 			this.refreshData();
 		},
 
 		afterDeactivate: function(){
-			console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
 		},
 
 		beforeDeactivate: function(){
-			console.log("items/lists beforeDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			//console.log("items/lists beforeDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
 			// tablet cannot distinguish moveFromComplete or moveToComplete, so need to move both data
 			var model;
 			if(todoApp.isTablet){
 				model = completedmodel.model;
-				for(var a = model, i = 0; i < a.length;){
+				for(var a = model, i = a.length-1; i >= 0 ; i--){
 					if(!a[i].completed){
-						moveFromComplete(completedmodel.model, itemlistmodel.model, i, false);
-					}else{
-						i++;
+						var toModel = todoApp.cachedDataModel[a[i].get('parentId')].model;
+						moveItem(completedmodel.model, toModel, i); // move from complete
 					}
 				}
 
 				model = itemlistmodel.model;
-				for(var a = model, i = 0; i < a.length;){
-					if(a[i].completed){
-						// move operation will change a.lenght.
-						moveToComplete(itemlistmodel.model, completedmodel.model, i, true);
-					}else{
-						i++;
+				for(var a = model, i = a.length-1; i >= 0 ; i--){
+					if(a[i].completed){						
+						moveItem(itemlistmodel.model, completedmodel.model, i); // move to complete
 					}
 				}
 				return;
@@ -148,37 +142,29 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			// for phone
 			if(todoApp.selected_configuration_item == -1){
 				model = completedmodel.model;
-				for(var a = model, i = 0; i < a.length;){
+				for(var a = model, i = a.length-1; i >= 0 ; i--){
 					if(!a[i].completed){
-						// move operation will change a.lenght.
-						moveFromComplete(completedmodel.model, itemlistmodel.model, i, false);
-					}else{
-						i++;
+						var toModel = todoApp.cachedDataModel[a[i].get('parentId')].model;
+						moveItem(completedmodel.model, toModel, i); // move from complete
 					}
 				}
 			}else{
 				model = itemlistmodel.model;
-				for(var a = model, i = 0; i < a.length;){
+				for(var a = model, i = a.length-1; i >= 0 ; i--){
 					if(a[i].completed){
-						// move operation will change a.lenght.
-						moveToComplete(itemlistmodel.model, completedmodel.model, i, true);
-					}else{
-						i++;
+						moveItem(itemlistmodel.model, completedmodel.model, i); // move to complete
 					}
 				}				
 			}
 		},
 	
 		refreshData: function(){
-			console.log("****in items/lists refreshData ");
-			// no need to check for complete, it is done in beforeDeactivate()
-//			checkForCompleted();
+			//console.log("****in items/lists refreshData ");
 			showListType();
 			if(todoApp.selected_configuration_item == -1){
 				showListData(completedmodel);
 				todoApp.currentItemListModel = completedmodel;
 				// when show completed need to un-select the other list.
-				//this.loadedModels.listsmodel
 				for(var i in this.loadedModels.listsmodel.model){
 					if(this.loadedModels.listsmodel.model[i].Checked){
 						this.loadedModels.listsmodel.model[i].set("Checked", false);
@@ -190,7 +176,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			var select_data = listsmodel.model[todoApp.selected_configuration_item];
 			// get data model in cache
 			if(todoApp.cachedDataModel[select_data.id]){ // read data from cache
-				console.log("****in items/lists refreshData data was found in the cache");
+				//console.log("****in items/lists refreshData data was found in the cache");
 				this.loadedModels.itemlistmodel = todoApp.cachedDataModel[select_data.id];
 				showListData(this.loadedModels.itemlistmodel);
 				todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
@@ -201,8 +187,8 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			}else if(!isFileExist(select_data.itemsurl, dataFile)){
 				// create in-memory store if the file not exists
 				// TODO: use the exists file in an array in this demo.
-				console.log("****in items/lists refreshData data was not found in the cache and");
-				console.log("file not exist.", select_data.itemsurl);
+				//console.log("****in items/lists refreshData data was not found in the cache and");
+				//console.log("file not exist.", select_data.itemsurl);
 				var tempStore = new dojo.store.Memory({
 					"data": []
 				});
@@ -219,7 +205,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 					showListData(listCtln);
 				}));
 			}else{ // load data model from data file
-				console.log("****in items/lists refreshData in else load data model from file");
+				//console.log("****in items/lists refreshData in else load data model from file");
 				var writestore = new itemfilewritestore({
 					url: select_data.itemsurl
 				});
