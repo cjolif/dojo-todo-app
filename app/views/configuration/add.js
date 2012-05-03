@@ -8,7 +8,7 @@ function(dom, connect, TransitionEvent, getStateful){
 			"id": (new Date().getTime()),
 			"title": dom.byId("titleInput").value,
 			"description": dom.byId("desInput").value,
-			"itemsurl": dom.byId('urlInput').value
+			"itemsurl": "items-for-"+listsmodel.model.length+".json"
 		}));
 	};
 
@@ -17,7 +17,7 @@ function(dom, connect, TransitionEvent, getStateful){
 			listsmodel = this.loadedModels.listsmodel;
 			
 			var connectResult;
-			connectResult = connect.connect(dom.byId('editItem_done'), "click", dojo.hitch(this, function(e){
+			connectResult = connect.connect(dom.byId('addList_done'), "click", dojo.hitch(this, function(e){
 				add();
 				var transOpts = {
 					title:"Edit",
@@ -31,7 +31,6 @@ function(dom, connect, TransitionEvent, getStateful){
 
 		beforeActivate: function(){
 			dom.byId('titleInput').value = '';
-			dom.byId('urlInput').value = '';
 			dom.byId('desInput').value = '';
 		},
 
