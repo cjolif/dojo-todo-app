@@ -1,6 +1,7 @@
 require(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/loader"], function(dojo, lang){
 	window.todoApp = {};
-	todoApp.selected_item = "-1";
+	// the default select_item is 0, or will throw an error if directly transition to #details,detail view
+	todoApp.selected_item = 0;
 	todoApp.selected_configuration_item = 0;
 
 	var configurationFile = "./config-phone.json"
