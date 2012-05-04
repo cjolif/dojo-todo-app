@@ -15,16 +15,16 @@ function(dom, connect, TransitionEvent, getStateful){
 	return {
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
-			
+
 			var connectResult;
-			connectResult = connect.connect(dom.byId('addList_done'), "click", dojo.hitch(this, function(e){
+			connectResult = connect.connect(dom.byId('addList_cancel'), "click", dojo.hitch(this, function(e){
+				history.back();
+			}));
+			_connectResults.push(connectResult);
+
+			connectResult = connect.connect(dom.byId('addList_add'), "click", dojo.hitch(this, function(e){
 				add();
-				var transOpts = {
-					title:"Edit",
-					target:"configuration,edit",
-					url: "#configuration,edit"
-				};
-				new TransitionEvent(e.srcElement,transOpts,e).dispatch();
+				history.back();
 			}));
 			_connectResults.push(connectResult);
 		},
