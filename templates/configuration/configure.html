@@ -8,7 +8,7 @@
 	<h2 data-dojo-type="dojox.mobile.RoundRectCategory" region="top">Search Reminders</h2>
 	<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<li data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Completed", clickable: true, noArrow: true, onClick: function(e){todoApp.selected_configuration_item = -1;}'
+			<li id="configure_completeLi" data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Completed", clickable: true, noArrow: true, onClick: function(e){todoApp.selected_configuration_item = -1;}'
 				transitionOptions='{title:"List",target:"items,list",url: "#items,list"}'>
 			</li>
 		</ul>
