@@ -3,6 +3,8 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 	window.at = at;	// set global namespace for dojox.mvc.at
 	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
+	var _isComplete = false;
+	var _isDelete = false;
 
 	var showMoreDetail = function(){
 		var widget = dom.byId('moreDetail');
@@ -16,22 +18,6 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 			dstyle.set(dom.byId('moreDetailNotes'), 'display', 'none');
 			registry.byId("detail_showMore").set("label","Show More...");
 		}
-	};
-
-	// move an item to Completed data model
-	var _moveToCompleted = function(datamodel, index, completedModel){
-		//console.log("in details _moveToCompleted");
-		var t = datamodel.model.splice(index, 1);
-		t[0].set("completed", true);
-		completedModel.model.push(t[0]);
-		//transition to list view
-		var transOpts = {
-				title:"List",
-				target:"items,list",
-				url: "#items,list"
-		};
-		var e = window.event;
-		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 	};
 
 	var refreshData = function(){
@@ -79,6 +65,14 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 
 	};
 
+	var show = function(){
+		registry.byId('dlg_confirm').show();
+	};
+
+	var hide = function(){
+		registry.byId('dlg_confirm').hide();
+	};
+
 	return {
 		init: function(){
 			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
@@ -91,37 +85,55 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 			_connectResults.push(connectResult);
 
 			connectResult = connect.connect(dom.byId("markAsComplete"), "click", null, lang.hitch(this, function(){
-				var complete = window.confirm("Mark this item as Complete?");
-				if(!complete){
-					return;
-				}
-				var datamodel = this.loadedModels.itemlistmodel;
-				var completedmodel = this.loadedModels.completedmodel;
-
-				_moveToCompleted(datamodel, todoApp.selected_item, completedmodel);
+				_isComplete = true;
+				_isDelete = false;
+				dom.byId("dlg_title").innerHTML = "Mark As Complete";
+				dom.byId("dlg_text").innerHTML = "Are you sure mark this item as complete?";
+				show();
 			}));
 			_connectResults.push(connectResult);
 
 			connectResult = connect.connect(dom.byId("deleteCurrentItem"), "click", null, lang.hitch(this, function(){
-				var del = window.confirm("Are you sure deleting this item?");
-				if(!del){
-					return;
-				}
+				_isComplete = false;
+				_isDelete = true;
+				dom.byId("dlg_title").innerHTML = "Delete";
+				dom.byId("dlg_text").innerHTML = "Are you sure delete this item?";
+				show();
+			}));
+			_connectResults.push(connectResult);
 
-				var datamodel = this.loadedModels.itemlistmodel.model;
-				var len = datamodel.length;
-				if(todoApp.selected_item>=0 && todoApp.selected_item<len){
-					datamodel.splice(todoApp.selected_item, 1);
+			connectResult = connect.connect(dom.byId("confirm_yes"), "click", null, lang.hitch(this, function(){
+				var datamodel = this.loadedModels.itemlistmodel;
+				var index = todoApp.selected_item;
+				if(_isComplete){
+					var completedmodel = this.loadedModels.completedmodel;
+					//move item to Completed list
+					var t = datamodel.model.splice(index, 1);
+					t[0].set("completed", true);
+					completedmodel.model.push(t[0]);
+				}else if(_isDelete){
+					var datamodel = this.loadedModels.itemlistmodel.model;
+					var len = datamodel.length;
+					//remove from current datamodel
+					if(index>=0 && index<len){
+						datamodel.splice(index, 1);
+					}
 				}
-
+				//hide confirm dialog
+				hide();
 				//transition to list view
 				var transOpts = {
-					title:"List",
-					target:"items,list",
-					url: "#items,list"
+						title:"List",
+						target:"items,list",
+						url: "#items,list"
 				};
 				var e = window.event;
-				new TransitionEvent(e.srcElement,transOpts,e).dispatch();
+				new TransitionEvent(dom.byId("item_detailsGroup"), transOpts, null).dispatch();
+			}));
+			_connectResults.push(connectResult);
+
+			connectResult = connect.connect(dom.byId("confirm_no"), "click", null, lang.hitch(this, function(){
+				hide();
 			}));
 			_connectResults.push(connectResult);
 		},
