@@ -125,7 +125,6 @@
 		//item scene, include list view and date view
 		"items": {
 			"template": "./templates/items.html",
-			"definition": "none",
 			"defaultView": "list",
 			"defaultTransition": "fade",
 			//the views available to this scene
