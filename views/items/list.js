@@ -164,15 +164,31 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			if(todoApp.selected_configuration_item == -1){
 				showListData(completedmodel);
 				todoApp.currentItemListModel = completedmodel;
+				// selected complete, so check it on configure or nav
+				if(registry.byId("configure_completeLi")){
+					registry.byId("configure_completeLi").set("checked",true);
+				}
+				if(registry.byId("nav_completeLi")){
+					registry.byId("nav_completeLi").set("checked",true);
+				}
+				
 				// when show completed need to un-select the other list.
-				for(var i in this.loadedModels.listsmodel.model){
+				for(var a = this.loadedModels.listsmodel.model, i = 0; i < a.length; i++){
 					if(this.loadedModels.listsmodel.model[i].Checked){
-						this.loadedModels.listsmodel.model[i].set("Checked", false);
+						this.loadedModels.listsmodel.model[i].set("Checked", false);						
 					}
 				}
 				return;
 			}
 	
+			// selected an item so uncheck complete on configure or nav
+			if(registry.byId("configure_completeLi")){
+				registry.byId("configure_completeLi").set("checked",false);
+			}
+			if(registry.byId("nav_completeLi")){
+				registry.byId("nav_completeLi").set("checked",false);
+			}
+			
 			var select_data = listsmodel.model[todoApp.selected_configuration_item];
 			// get data model in cache
 			if(todoApp.cachedDataModel[select_data.id]){ // read data from cache
