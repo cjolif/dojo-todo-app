@@ -1,8 +1,5 @@
 <div class="view mblView">
-	<h1 data-dojo-type="dojox.mobile.Heading" label="Add List" region="top" back="Cancel">
-		<div id="addList_done" data-dojo-type="dojox.mobile.ToolBarButton" label="Done" style="float:right;" transitionOptions='{title:"Configuration Edit",target:"configuration,edit",url: "#configuration,edit"}'>
-		</div>
-	</h1>
+	<h1 data-dojo-type="dojox.mobile.Heading" label="Add List" region="top"></h1>
 	<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
 		<div  class="itemcellwrapper">
 			<input id="titleInput" data-dojo-type="dojox.mobile.TextBox" class="itemcell" placeholder="Title"/>
@@ -10,5 +7,7 @@
 		<div  class="itemcellwrapper">
 			<textarea id="desInput" data-dojo-type="dojox.mobile.ExpandingTextArea"  class="itemcell" placeholder="Description"></textarea>
 		</div>
+		<button id="addList_add" data-dojo-type="dojox.mobile.Button" class="baseBtn whiteBtn">Add</button>
+		<button id="addList_cancel" data-dojo-type="dojox.mobile.Button" class="baseBtn whiteBtn">Cancel</button>
 	</div>
 </div>
