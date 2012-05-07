@@ -11,7 +11,7 @@ function(lang, connect, registry, at, TransitionEvent, utils){
 				// save the select value to data store
 				if (state) {
 					var index = utils.getIndexByListItem(registry.byId("configure_list"), item);
-					console.log("configure.js onCheckStateChanged setting todoApp.selected_configuration_item = "+index);
+					//console.log("configure.js onCheckStateChanged setting todoApp.selected_configuration_item = "+index);
 					todoApp.selected_configuration_item = index;
 
 					// transition to list view
@@ -27,19 +27,19 @@ function(lang, connect, registry, at, TransitionEvent, utils){
 			_connectResults.push(connectResult);
 		},
 		beforeActivate: function(){
-			console.log("configuration/configure beforeActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
+			//console.log("configuration/configure beforeActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 		},
 		
 		afterActivate: function(){
-			console.log("configuration/configure afterActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
+			//console.log("configuration/configure afterActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 		},
 		
 		beforeDeactivate: function(){
-			console.log("configuration/configure beforeDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
+			//console.log("configuration/configure beforeDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 		},
 
 		afterDeactivate: function(){
-			console.log("configuration/configure afterDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
+			//console.log("configuration/configure afterDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 		},
 
 		destroy: function(){

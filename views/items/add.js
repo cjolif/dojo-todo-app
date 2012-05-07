@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/_base/connect", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful"],
-function(dom, connect, TransitionEvent, getStateful){
+define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful"],
+function(dom, connect, registry, TransitionEvent, getStateful){
 	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
 	var listsmodel = null;
@@ -20,15 +20,19 @@ function(dom, connect, TransitionEvent, getStateful){
 			"parentId": parentId,
 			"title": dom.byId('item_title').value,
 			"notes": dom.byId('item_notes').value,
-			"due": "2011-10-15T11:03:47.681Z",
+			"due": null,
 			"completionDate": "",
-			"reminder": "2011-10-15T11:03:47.681Z",
+			"reminderOnAday": "off",   
+			"reminderDate": "",
+			"reminderOnAlocation": "off",   
+			"reminderLocation": null,
 			"repeat": 0,
 			"priority": 0,
 			"hidden": false,
 			"completed": false,
 			"deleted": false
 		}));
+		itemlistmodel.commit();
 	};
 
 	return {
@@ -61,6 +65,10 @@ function(dom, connect, TransitionEvent, getStateful){
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			dom.byId('item_title').value = '';
 			dom.byId('item_notes').value = '';
+		},
+
+		afterActivate: function(){
+			registry.byId('item_title').focus();
 		},
 
 		destroy: function(){
