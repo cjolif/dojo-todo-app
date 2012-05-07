@@ -3,8 +3,9 @@
 	<div dojoType="dojox.app.widgets.Container" class="navPane" region="left">
 		<h1 region="top" dojoType="dojox.mobile.Heading">Todo App</h1>
 		<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
-			<h2 dojoType="dojox.mobile.EdgeToEdgeCategory" style="height: 32px;">Configure
-				<img id="setting" style="position: absolute; display: block; width: 32px; height: 32px; right: 0; top: 0" src="images/settings.png" />
+			<h2 dojoType="dojox.mobile.EdgeToEdgeCategory" style="height: 42px;">
+				<div style="float:left; height: 29px; margin:7px; line-height: 29px; text-align: center">Configure</div>
+				<div id="setting" data-dojo-type="dojox.mobile.ToolBarButton" label="Edit" style="float:right;"></div>
 			</h2>
 
 			<ul data-dojo-type="dojox.mobile.RoundRectList">
