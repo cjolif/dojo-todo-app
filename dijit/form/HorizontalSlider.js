@@ -22,12 +22,6 @@ define([
 ], function(array, declare, move, event, fx, domGeometry, domStyle, keys, lang, has, Moveable, Mover, query,
 			registry, focus, typematic, Button, _FormValueWidget, _Container, template){
 
-/*=====
-	var Button = dijit.form.Button;
-	var _FormValueWidget = dijit.form._FormValueWidget;
-	var _Container = dijit._Container;
-=====*/
-
 // module:
 //		dijit/form/HorizontalSlider
 // summary:
@@ -313,7 +307,7 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 		// find any associated label element and add to slider focusnode.
 		var label = query('label[for="'+this.id+'"]');
 		if(label.length){
-			label[0].id = (this.id+"_label");
+			if(!label[0].id){ label[0].id = this.id + "_label"; }
 			this.focusNode.setAttribute("aria-labelledby", label[0].id);
 		}
 
@@ -325,10 +319,10 @@ var HorizontalSlider = declare("dijit.form.HorizontalSlider", [_FormValueWidget,
 		this.inherited(arguments);
 
 		if(this.showButtons){
-			this._connects.push(typematic.addMouseListener(
-				this.decrementButton, this, "_typematicCallback", 25, 500));
-			this._connects.push(typematic.addMouseListener(
-				this.incrementButton, this, "_typematicCallback", 25, 500));
+			this._adoptHandles(
+				typematic.addMouseListener(this.decrementButton, this, "_typematicCallback", 25, 500),
+				typematic.addMouseListener(this.incrementButton, this, "_typematicCallback", 25, 500)
+			);
 		}
 		this.connect(this.domNode, !has("mozilla") ? "onmousewheel" : "DOMMouseScroll", "_mouseWheeled");
 

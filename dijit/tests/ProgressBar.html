@@ -229,6 +229,18 @@
 						var visualProgress = dojo.query("div.dijitProgressBarFull", progressBar.domNode)[0];
 						doh.is("0%", visualProgress.style.width);
 					}
+				},
+				{
+					name: "programmatic instantiation without params",
+					runTest: function(doh){
+						var pb, success;
+						try{
+							pb = new dijit.ProgressBar();
+							pb.destroyRecursive();
+							success = true;
+						}catch(e){}
+						doh.t(success, "Instantiation w/o params should not throw");
+					}
 				}
 			]);
 			
@@ -259,7 +271,7 @@
 		function remoteProgress(bar){
 			var _timer = setInterval(function(){
 				var report = getProgressReport();
-				report.addCallback(function(response){
+				report.then(function(response){
 					bar.set({value: response});
 					if(response == "100%"){
 						clearInterval(_timer);

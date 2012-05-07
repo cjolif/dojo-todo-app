@@ -1,13 +1,46 @@
 define(
 //begin v1.x content
 {
-	"dateFormat-medium": "dd/MM/yyyy",
+	"dateFormatItem-yMd": "d.M.yyyy",
+	"dateFormat-medium": "dd MM yyyy",
 	"dateFormatItem-MMMEd": "E, d בMMM",
-	"dateFormatItem-yMEd": "EEE, d.M.yyyy",
+	"dateFormatItem-yMEd": "E, d.M.yyyy",
 	"eraNarrow": [
 		"לבה״ע"
 	],
+	"months-format-narrow": [
+		"תש",
+		"חש",
+		"כס",
+		"טב",
+		"שב",
+		"אא",
+		"אד",
+		"ני",
+		"אי",
+		"סי",
+		"תמ",
+		"אב",
+		"אל"
+	],
+	"dateFormatItem-yMMMd": "d בMMM y",
+	"months-format-narrow-leap": "א2",
 	"dateFormatItem-Md": "d/M",
+	"months-standAlone-narrow": [
+		"תש",
+		"חש",
+		"כס",
+		"טב",
+		"שב",
+		"אא",
+		"אד",
+		"ני",
+		"אי",
+		"סי",
+		"תמ",
+		"אב",
+		"אל"
+	],
 	"months-standAlone-wide": [
 		"תשרי",
 		"חשון",
@@ -24,7 +57,6 @@ define(
 		"אלול"
 	],
 	"months-format-wide-leap": "אדר ב׳",
-	"dateFormatItem-EEEd": "EEE ה-d",
 	"eraNames": [
 		"לבה״ע"
 	],
@@ -54,10 +86,11 @@ define(
 		"אב",
 		"אלול"
 	],
+	"months-standAlone-narrow-leap": "א2",
 	"dayPeriods-format-wide-am": "לפנה״צ",
 	"dateFormat-long": "d בMMMM y",
-	"dateFormat-short": "dd/MM/yy",
-	"dateFormatItem-yMMMEd": "EEE, d בMMM y",
+	"dateFormat-short": "dd MM yy",
+	"dateFormatItem-yMMMEd": "E, d בMMM y",
 	"months-format-wide": [
 		"תשרי",
 		"חשון",
@@ -72,6 +105,15 @@ define(
 		"תמוז",
 		"אב",
 		"אלול"
+	],
+	"days-format-narrow": [
+		"א",
+		"ב",
+		"ג",
+		"ד",
+		"ה",
+		"ו",
+		"ש"
 	],
 	"dateFormatItem-yM": "M.yyyy",
 	"months-format-abbr": [
@@ -119,7 +161,8 @@ define(
 		"יום ה׳",
 		"יום ו׳",
 		"שבת"
-	]
+	],
+	"dateFormatItem-Ed": "E ה-d"
 }
 //end v1.x content
 );

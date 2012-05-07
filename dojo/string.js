@@ -6,16 +6,10 @@ define([
 // module:
 //		dojo/string
 // summary:
-//		TODOC
+//		String utilities for Dojo
 
-var string = lang.getObject("dojo.string", true);
-
-/*=====
-dojo.string = {
-	// summary: String utilities for Dojo
-};
-string = dojo.string;
-=====*/
+var string = {};
+lang.setObject("dojo.string", string);
 
 string.rep = function(/*String*/str, /*Integer*/num){
 	// summary:
@@ -134,22 +128,6 @@ string.substitute = function(	/*String*/		template,
 		}); // String
 };
 
-/*=====
-dojo.string.trim = function(str){
-	// summary:
-	//		Trims whitespace from both sides of the string
-	// str: String
-	//		String to be trimmed
-	// returns: String
-	//		Returns the trimmed string
-	// description:
-	//		This version of trim() was taken from [Steven Levithan's blog](http://blog.stevenlevithan.com/archives/faster-trim-javascript).
-	//		The short yet performant version of this function is dojo.trim(),
-	//		which is part of Dojo base.  Uses String.prototype.trim instead, if available.
-	return "";	// String
-}
-=====*/
-
 string.trim = String.prototype.trim ?
 	lang.trim : // aliasing to the native function
 	function(str){
@@ -163,5 +141,21 @@ string.trim = String.prototype.trim ?
 		return str;
 	};
 
-return string;
+/*=====
+ string.trim = function(str){
+	 // summary:
+	 //		Trims whitespace from both sides of the string
+	 // str: String
+	 //		String to be trimmed
+	 // returns: String
+	 //		Returns the trimmed string
+	 // description:
+	 //		This version of trim() was taken from [Steven Levithan's blog](http://blog.stevenlevithan.com/archives/faster-trim-javascript).
+	 //		The short yet performant version of this function is dojo.trim(),
+	 //		which is part of Dojo base.  Uses String.prototype.trim instead, if available.
+	 return "";	// String
+ };
+ =====*/
+
+	return string;
 });

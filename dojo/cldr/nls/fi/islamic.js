@@ -2,7 +2,7 @@ define(
 //begin v1.x content
 {
 	"dateFormatItem-yM": "L.yyyy",
-	"dateFormatItem-yyyyMMMEd": "EEE d. MMM y G",
+	"dateFormatItem-yyyyMMMEd": "E d. MMM y G",
 	"dateFormatItem-yQ": "Q/yyyy",
 	"dayPeriods-format-wide-pm": "ip.",
 	"dateFormatItem-MMMEd": "E d. MMM",
@@ -20,6 +20,12 @@ define(
 	"dateFormatItem-MMM": "LLL",
 	"dateFormatItem-Gy": "y G",
 	"dayPeriods-format-wide-am": "ap.",
+	"quarters-standAlone-abbr": [
+		"1. nelj.",
+		"2. nelj.",
+		"3. nelj.",
+		"4. nelj."
+	],
 	"dateFormatItem-y": "y G",
 	"timeFormat-full": "H.mm.ss zzzz",
 	"dateFormatItem-yyyy": "y G",
@@ -56,8 +62,17 @@ define(
 	"dateFormatItem-Hm": "H.mm",
 	"dateFormat-medium": "d.M.y G",
 	"dateFormatItem-Hms": "H.mm.ss",
+	"dayPeriods-format-narrow-pm": "ip.",
+	"dateFormatItem-yMd": "d.M.yyyy",
+	"quarters-standAlone-wide": [
+		"1. neljännes",
+		"2. neljännes",
+		"3. neljännes",
+		"4. neljännes"
+	],
 	"dateFormatItem-ms": "mm.ss",
 	"dateFormatItem-yyyyQQQQ": "QQQQ y G",
+	"dayPeriods-format-narrow-am": "ap.",
 	"months-standAlone-wide": [
 		"muharram",
 		"safar",
@@ -72,9 +87,10 @@ define(
 		"dhu-l-qa’da",
 		"dhu-l-hiddža"
 	],
-	"dateFormatItem-yyyyMEd": "EEE d.M.y G",
+	"dateFormatItem-yyyyMd": "d.M.y G",
+	"dateFormatItem-yyyyMMMd": "d. MMM y G",
+	"dateFormatItem-yyyyMEd": "E d.M.y G",
 	"dateFormatItem-MMMd": "d. MMM",
-	"timeFormat-long": "H.mm.ss z",
 	"months-format-abbr": [
 		"muharram",
 		"safar",
@@ -89,8 +105,9 @@ define(
 		"dhu-l-qa’da",
 		"dhu-l-hiddža"
 	],
-	"timeFormat-short": "H.mm",
+	"timeFormat-long": "H.mm.ss z",
 	"dateFormatItem-H": "H",
+	"timeFormat-short": "H.mm",
 	"quarters-format-abbr": [
 		"1. nelj.",
 		"2. nelj.",
@@ -107,17 +124,36 @@ define(
 		"la"
 	],
 	"dateFormatItem-M": "L",
+	"days-format-narrow": [
+		"S",
+		"M",
+		"T",
+		"K",
+		"T",
+		"P",
+		"L"
+	],
+	"dateFormatItem-yMMMd": "d. MMM y",
 	"dateFormatItem-yyyyQQQ": "QQQ y G",
 	"dateFormatItem-MEd": "E d.M.",
 	"dateFormatItem-hm": "h.mm a",
+	"days-standAlone-abbr": [
+		"su",
+		"ma",
+		"ti",
+		"ke",
+		"to",
+		"pe",
+		"la"
+	],
 	"dayPeriods-format-abbr-pm": "ip.",
 	"dateFormat-short": "d.M.y G",
 	"dateFormatItem-yyyyM": "M.y G",
-	"dateFormatItem-yMMMEd": "EEE d. MMM y",
+	"dateFormatItem-yMMMEd": "E d. MMM y",
 	"dateFormat-full": "cccc d. MMMM y G",
 	"dateFormatItem-Md": "d.M.",
 	"dateFormatItem-yyyyQ": "Q/y G",
-	"dateFormatItem-yMEd": "EEE d.M.yyyy",
+	"dateFormatItem-yMEd": "E d.M.yyyy",
 	"months-format-wide": [
 		"muharram",
 		"safar",

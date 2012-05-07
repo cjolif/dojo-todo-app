@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/array", // array.forEach array.map array.some
-	"dojo/dom-geometry", // domGeometry.getMarginBox domGeometry.position
+	"dojo/dom-geometry", // domGeometry.position
 	"dojo/dom-style", // domStyle.getComputedStyle
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/window", // win.body
@@ -33,13 +33,13 @@ define([
 
 		// get {x: 10, y: 10, w: 100, h:100} type obj representing position of
 		// viewport over document
-		var view = winUtils.getBox();
+		var view = winUtils.getBox(node.ownerDocument);
 
 		// This won't work if the node is inside a <div style="position: relative">,
 		// so reattach it to win.doc.body.	 (Otherwise, the positioning will be wrong
 		// and also it might get cutoff)
 		if(!node.parentNode || String(node.parentNode.tagName).toLowerCase() != "body"){
-			win.body().appendChild(node);
+			win.body(node.ownerDocument).appendChild(node);
 		}
 
 		var best = null;
@@ -83,7 +83,7 @@ define([
 				style.visibility = "hidden";
 				style.display = "";
 			}
-			var mb = domGeometry.getMarginBox(node);
+			var bb = domGeometry.position(node);
 			style.display = oldDisplay;
 			style.visibility = oldVis;
 
@@ -92,22 +92,22 @@ define([
 			var
 				startXpos = {
 					'L': pos.x,
-					'R': pos.x - mb.w,
-					'M': Math.max(view.l, Math.min(view.l + view.w, pos.x + (mb.w >> 1)) - mb.w) // M orientation is more flexible
+					'R': pos.x - bb.w,
+					'M': Math.max(view.l, Math.min(view.l + view.w, pos.x + (bb.w >> 1)) - bb.w) // M orientation is more flexible
 				}[corner.charAt(1)],
 				startYpos = {
 					'T': pos.y,
-					'B': pos.y - mb.h,
-					'M': Math.max(view.t, Math.min(view.t + view.h, pos.y + (mb.h >> 1)) - mb.h)
+					'B': pos.y - bb.h,
+					'M': Math.max(view.t, Math.min(view.t + view.h, pos.y + (bb.h >> 1)) - bb.h)
 				}[corner.charAt(0)],
 				startX = Math.max(view.l, startXpos),
 				startY = Math.max(view.t, startYpos),
-				endX = Math.min(view.l + view.w, startXpos + mb.w),
-				endY = Math.min(view.t + view.h, startYpos + mb.h),
+				endX = Math.min(view.l + view.w, startXpos + bb.w),
+				endY = Math.min(view.t + view.h, startYpos + bb.h),
 				width = endX - startX,
 				height = endY - startY;
 
-			overflow += (mb.w - width) + (mb.h - height);
+			overflow += (bb.w - width) + (bb.h - height);
 
 			if(best == null || overflow < best.overflow){
 				best = {
@@ -138,7 +138,7 @@ define([
 		//
 		// In RTL mode, set style.right rather than style.left so in the common case,
 		// window resizes move the popup along with the aroundNode.
-		var l = domGeometry.isBodyLtr(),
+		var l = domGeometry.isBodyLtr(node.ownerDocument),
 			s = node.style;
 		s.top = best.y + "px";
 		s[l ? "left" : "right"] = (l ? best.x : view.w - best.x - best.w) + "px";
@@ -147,37 +147,7 @@ define([
 		return best;
 	}
 
-	/*=====
-	dijit.place.__Position = function(){
-		// x: Integer
-		//		horizontal coordinate in pixels, relative to document body
-		// y: Integer
-		//		vertical coordinate in pixels, relative to document body
-
-		this.x = x;
-		this.y = y;
-	};
-	=====*/
-
-	/*=====
-	dijit.place.__Rectangle = function(){
-		// x: Integer
-		//		horizontal offset in pixels, relative to document body
-		// y: Integer
-		//		vertical offset in pixels, relative to document body
-		// w: Integer
-		//		width in pixels.   Can also be specified as "width" for backwards-compatibility.
-		// h: Integer
-		//		height in pixels.   Can also be specified as "height" from backwards-compatibility.
-
-		this.x = x;
-		this.y = y;
-		this.w = w;
-		this.h = h;
-	};
-	=====*/
-
-	return (dijit.place = {
+	var place = {
 		// summary:
 		//		Code to place a DOMNode relative to another DOMNode.
 		//		Load using require(["dijit/place"], function(place){ ... }).
@@ -190,7 +160,7 @@ define([
 			//		NOTE: node is assumed to be absolutely or relatively positioned.
 			// node: DOMNode
 			//		The node to position
-			// pos: dijit.place.__Position
+			// pos: place.__Position
 			//		Object like {x: 10, y: 20}
 			// corners: String[]
 			//		Array of Strings representing order to try corners in, like ["TR", "BL"].
@@ -199,7 +169,7 @@ define([
 			//			* "BR" - bottom right
 			//			* "TL" - top left
 			//			* "TR" - top right
-			// padding: dijit.place.__Position?
+			// padding: place__Position?
 			//		optional param to set padding, to put some buffer around the element you want to position.
 			// example:
 			//		Try to place node's top right corner at (10,20).
@@ -220,7 +190,7 @@ define([
 
 		around: function(
 			/*DomNode*/		node,
-			/*DomNode || dijit.place.__Rectangle*/ anchor,
+			/*DomNode || place.__Rectangle*/ anchor,
 			/*String[]*/	positions,
 			/*Boolean*/		leftToRight,
 			/*Function?*/	layoutNode){
@@ -370,5 +340,34 @@ define([
 
 			return position;
 		}
-	});
+	};
+
+	/*=====
+	place.__Position = function(){
+		// x: Integer
+		//		horizontal coordinate in pixels, relative to document body
+		// y: Integer
+		//		vertical coordinate in pixels, relative to document body
+
+		this.x = x;
+		this.y = y;
+	};
+	place.__Rectangle = function(){
+		// x: Integer
+		//		horizontal offset in pixels, relative to document body
+		// y: Integer
+		//		vertical offset in pixels, relative to document body
+		// w: Integer
+		//		width in pixels.   Can also be specified as "width" for backwards-compatibility.
+		// h: Integer
+		//		height in pixels.   Can also be specified as "height" from backwards-compatibility.
+
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+	};
+	=====*/
+
+	return dijit.place = place;
 });

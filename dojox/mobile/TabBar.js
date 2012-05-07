@@ -45,7 +45,7 @@ define([
 		barType: "tabBar",
 
 		// closable: Boolean
-		//		True if user can close (destroy) a child tab by clicking the X on the tab.
+		//		If true, user can close (destroy) a child tab by clicking the X on the tab.
 		//		This property is NOT effective for "tabBar" and "tallBar".
 		closable: false,
 
@@ -55,7 +55,7 @@ define([
 		center: true,
 
 		// syncWithViews: Boolean
-		//		True if this widget listens to view transition events to be
+		//		If true, this widget listens to view transition events to be
 		//		synchronized with view's visibility.
 		syncWithViews: false,
 
@@ -63,7 +63,7 @@ define([
 		//		A name of html tag to create as domNode.
 		tag: "ul",
 
-		/* internal properties */	
+		/* internal properties */
 		selectOne: true,
 		baseClass: "mblTabBar",
 		_fixedButtonWidth: 76,
@@ -129,7 +129,12 @@ define([
 			}
 			var bw = this._fixedButtonWidth;
 			var bm = this._fixedButtonMargin;
-			var arr = dojo.map(this.getChildren(), function(w){ return w.domNode; });
+			var arr = array.map(this.getChildren(), function(w){ return w.domNode; });
+
+			domClass.toggle(this.domNode, "mblTabBarNoIcons",
+							!array.some(this.getChildren(), function(w){ return w.iconNode1; }));
+			domClass.toggle(this.domNode, "mblTabBarNoText",
+							!array.some(this.getChildren(), function(w){ return w.label; }));
 
 			var margin = 0;
 			if (this._barType == "tabBar"){
@@ -151,6 +156,7 @@ define([
 					if(arr.length > 0){
 						arr[0].style.marginLeft = margin + bm + "px";
 					}
+					this.containerNode.style.padding = "0px";
 				}
 			}else{
 				for(i = 0; i < arr.length; i++){
@@ -166,11 +172,6 @@ define([
 				}
 				this.containerNode.style.paddingLeft = margin ? margin + "px" : "";
 			}
-
-			domClass.toggle(this.domNode, "mblTabBarNoIcons",
-							!array.some(this.getChildren(), function(w){ return w.iconNode1; }));
-			domClass.toggle(this.domNode, "mblTabBarNoText",
-							!array.some(this.getChildren(), function(w){ return w.label; }));
 		},
 
 		getSelectedTab: function(){

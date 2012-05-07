@@ -18,6 +18,17 @@
 					"khtml", "webkit", "chrome", "safari",
 					"opera",  "mozilla", "ie", "ff", "quirks",
 					"ios", "android", "wii", "air", "mac"], function(key){
+					var str = "this.is.a.string, with.comma.and,spaces, and.this";
+					var d = new Date().getTime();
+					for (var i = 0; i < 100000; i++){
+						var r = str.split(" ").join("");
+					}
+					console.log("time1: "+(new Date().getTime()-d));
+					d = new Date().getTime();
+					for (var j = 0; j < 100000; j++){
+						var r = str.replace(/ /g, "");
+					}
+					console.log("time2: "+(new Date().getTime()-d));
 					var res = has(key);
 					domConstruct.place("<tr><td>has(\"" + key + "\")</td><td>" +
 						(res === undefined ? "undefined" : res) + "</td></tr>", "tbody");

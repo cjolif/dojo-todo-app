@@ -13,11 +13,10 @@ define([
 	"dojo/_base/lang", // lang.hitch
 	"dojo/on",
 	"dojo/sniff", // has("ie") has("mozilla")
-	"dojo/_base/window", // win.body
 	"./place",
 	"./BackgroundIframe",
 	"./main"	// dijit (defining dijit.popup to match API doc)
-], function(array, aspect, connect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, event, keys, lang, on, has, win,
+], function(array, aspect, connect, declare, dom, domAttr, domConstruct, domGeometry, domStyle, event, keys, lang, on, has,
 			place, BackgroundIframe, dijit){
 
 	// module:
@@ -28,7 +27,7 @@ define([
 
 
 	/*=====
-	dijit.popup.__OpenArgs = function(){
+	var __OpenArgs = function(){
 		// popup: Widget
 		//		widget to display
 		// parent: Widget
@@ -66,7 +65,7 @@ define([
 		//		callback whenever this popup is closed
 		// onExecute: Function
 		//		callback when user "executed" on the popup/sub-popup by selecting a menu choice, etc. (top menu only)
-		// padding: dijit.__Position
+		// padding: place.__Position
 		//		adding a buffer around the opening position. This is only useful when around is not set.
 		this.popup = popup;
 		this.parent = parent;
@@ -78,10 +77,8 @@ define([
 		this.onClose = onClose;
 		this.onExecute = onExecute;
 		this.padding = padding;
-	}
-	=====*/
+	};
 
-	/*=====
 	dijit.popup = {
 		// summary:
 		//		Used to show drop downs (ex: the select list of a ComboBox)
@@ -124,7 +121,7 @@ define([
 			//
 			//		Note that whatever widget called dijit.popup.open() should also listen to its own _onBlur callback
 			//		(fired from _base/focus.js) to know that focus has moved somewhere else and thus the popup should be closed.
-			// args: dijit.popup.__OpenArgs
+			// args: __OpenArgs
 			//		Parameters
 			return {};	// Object specifying which position was chosen
 		},
@@ -169,7 +166,7 @@ define([
 					"class":"dijitPopup",
 					style:{ display: "none"},
 					role: "presentation"
-				}, win.body());
+				}, widget.ownerDocumentBody);
 				wrapper.appendChild(node);
 
 				var s = node.style;
@@ -250,7 +247,7 @@ define([
 			var stack = this._stack,
 				widget = args.popup,
 				orient = args.orient || ["below", "below-alt", "above", "above-alt"],
-				ltr = args.parent ? args.parent.isLeftToRight() : domGeometry.isBodyLtr(),
+				ltr = args.parent ? args.parent.isLeftToRight() : domGeometry.isBodyLtr(widget.ownerDocument),
 				around = args.around,
 				id = (args.around && args.around.id) ? (args.around.id+"_dropdown") : ("popup_"+this._idGen++);
 

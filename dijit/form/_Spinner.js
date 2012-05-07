@@ -10,9 +10,6 @@ define([
 	"./_TextBoxMixin"	// selectInputText
 ], function(declare, event, keys, lang, has, typematic, RangeBoundTextBox, template, _TextBoxMixin){
 
-/*=====
-	var RangeBoundTextBox = dijit.form.RangeBoundTextBox;
-=====*/
 
 	// module:
 	//		dijit/form/_Spinner
@@ -117,10 +114,10 @@ define([
 
 				this._arrowPressed(node, scrollAmount, this.smallDelta);
 
-				if(!this._wheelTimer){
-					clearTimeout(this._wheelTimer);
+				if(this._wheelTimer){
+					this._wheelTimer.remove();
 				}
-				this._wheelTimer = setTimeout(lang.hitch(this,"_arrowReleased",node), 50);
+				this._wheelTimer = this.defer(function(){ this._arrowReleased(node); }, 50);
 			}
 
 		},
@@ -130,10 +127,12 @@ define([
 
 			// extra listeners
 			this.connect(this.domNode, !has("mozilla") ? "onmousewheel" : 'DOMMouseScroll', "_mouseWheeled");
-			this._connects.push(typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
-			this._connects.push(typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
-			this._connects.push(typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:keys.PAGE_UP,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
-			this._connects.push(typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:keys.PAGE_DOWN,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout));
+			this._adoptHandles(
+				typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:keys.UP_ARROW,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout),
+				typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:keys.DOWN_ARROW,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout),
+				typematic.addListener(this.upArrowNode, this.textbox, {charOrCode:keys.PAGE_UP,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout),
+				typematic.addListener(this.downArrowNode, this.textbox, {charOrCode:keys.PAGE_DOWN,ctrlKey:false,altKey:false,shiftKey:false,metaKey:false}, this, "_typematicCallback", this.timeoutChangeRate, this.defaultTimeout, this.minimumTimeout)
+			);
 		}
 	});
 });

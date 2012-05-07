@@ -5,18 +5,12 @@ define([
 	"dojo/_base/kernel", // kernel.deprecated
 	"dojo/_base/lang", // lang.hitch
 	"dojo/sniff", // has("ie") has("mozilla")
-	"dojo/_base/window", // win.doc.selection.createRange
 	"./_FormValueWidget",
 	"./_TextBoxMixin",
 	"dojo/text!./templates/TextBox.html",
 	"../main"	// to export dijit._setSelectionRange, remove in 2.0
-], function(declare, domConstruct, domStyle, kernel, lang, has, win,
+], function(declare, domConstruct, domStyle, kernel, lang, has,
 			_FormValueWidget, _TextBoxMixin, template, dijit){
-
-/*=====
-	var _FormValueWidget = dijit.form._FormValueWidget;
-	var _TextBoxMixin = dijit.form._TextBoxMixin;
-=====*/
 
 	// module:
 	//		dijit/form/TextBox
@@ -45,9 +39,8 @@ define([
 		_onInput: function(e){
 			this.inherited(arguments);
 			if(this.intermediateChanges){ // _TextBoxMixin uses onInput
-				var _this = this;
-				// the setTimeout allows the key to post to the widget input box
-				setTimeout(function(){ _this._handleOnChange(_this.get('value'), false); }, 0);
+				// allow the key to post to the widget input box
+				this.defer(function(){ this._handleOnChange(this.get('value'), false); });
 			}
 		},
 
@@ -112,7 +105,7 @@ define([
 			declaredClass: "dijit.form.TextBox",	// for user code referencing declaredClass
 
 			_isTextSelected: function(){
-				var range = win.doc.selection.createRange();
+				var range = this.ownerDocument.selection.createRange();
 				var parent = range.parentElement();
 				return parent == this.textbox && range.text.length > 0;
 			},
@@ -120,8 +113,8 @@ define([
 			postCreate: function(){
 				this.inherited(arguments);
 				// IE INPUT tag fontFamily has to be set directly using STYLE
-				// the setTimeout gives IE a chance to render the TextBox and to deal with font inheritance
-				setTimeout(lang.hitch(this, function(){
+				// the defer gives IE a chance to render the TextBox and to deal with font inheritance
+				this.defer(function(){
 					try{
 						var s = domStyle.getComputedStyle(this.domNode); // can throw an exception if widget is immediately destroyed
 						if(s){
@@ -137,7 +130,7 @@ define([
 						}
 					}catch(e){/*when used in a Dialog, and this is called before the dialog is
 						shown, s.fontFamily would trigger "Invalid Argument" error.*/}
-				}), 0);
+				});
 			}
 		});
 

@@ -1,15 +1,12 @@
 define(
 //begin v1.x content
 {
-	"dateFormat-medium": "MMM d, y G",
+	"dateFormatItem-yM": "M/y GGGGG",
+	"dateFormatItem-yQ": "Q y G",
 	"dateFormatItem-MMMEd": "E, MMM d",
-	"dateFormatItem-MEd": "E, M/d",
-	"dateFormatItem-yMEd": "EEE, M/d/y G",
-	"dateFormatItem-Hm": "HH:mm",
-	"dateFormatItem-y": "y G",
-	"timeFormat-full": "h:mm:ss a zzzz",
-	"dateFormatItem-hm": "h:mm a",
-	"dateFormatItem-Md": "M/d",
+	"dateFormatItem-hms": "h:mm:ss a",
+	"dateFormatItem-yQQQ": "QQQ y G",
+	"dateFormatItem-MMM": "LLL",
 	"months-standAlone-narrow": [
 		"J",
 		"F",
@@ -24,8 +21,11 @@ define(
 		"N",
 		"D"
 	],
-	"dateFormatItem-EEEd": "d EEE",
-	"dateFormatItem-M": "L",
+	"dateFormatItem-Gy": "y G",
+	"dateFormatItem-y": "y G",
+	"timeFormat-full": "h:mm:ss a zzzz",
+	"dateFormatItem-Ed": "d E",
+	"dateFormatItem-yMMM": "MMM y G",
 	"days-standAlone-narrow": [
 		"S",
 		"M",
@@ -35,13 +35,50 @@ define(
 		"F",
 		"S"
 	],
-	"dateFormatItem-yQQQ": "QQQ y G",
-	"timeFormat-medium": "h:mm:ss a",
-	"dateFormatItem-Hms": "HH:mm:ss",
 	"dateFormat-long": "MMMM d, y G",
+	"timeFormat-medium": "h:mm:ss a",
+	"dateFormatItem-Hm": "HH:mm",
+	"dateFormat-medium": "MMM d, y G",
+	"dateFormatItem-Hms": "HH:mm:ss",
+	"dayPeriods-format-narrow-pm": "p",
+	"dateFormatItem-yMd": "M/d/y GGGGG",
 	"dateFormatItem-ms": "mm:ss",
-	"dateFormat-short": "M/d/yy G",
-	"dateFormatItem-yMMMEd": "EEE, MMM d, y G",
+	"dayPeriods-format-narrow-am": "a",
+	"dateFormatItem-MMMd": "MMM d",
+	"timeFormat-long": "h:mm:ss a z",
+	"months-format-abbr": [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec"
+	],
+	"timeFormat-short": "h:mm a",
+	"days-format-abbr": [
+		"Sun",
+		"Mon",
+		"Tue",
+		"Wed",
+		"Thu",
+		"Fri",
+		"Sat"
+	],
+	"dateFormatItem-M": "L",
+	"dateFormatItem-yMMMd": "MMM d, y G",
+	"dateFormatItem-MEd": "E, M/d",
+	"dateFormatItem-hm": "h:mm a",
+	"dateFormat-short": "M/d/yy GGGGG",
+	"dateFormatItem-yMMMEd": "E, MMM d, y G",
+	"dateFormat-full": "EEEE, MMMM d, y G",
+	"dateFormatItem-Md": "M/d",
+	"dateFormatItem-yMEd": "E, M/d/y GGGGG",
 	"months-format-wide": [
 		"January",
 		"February",
@@ -57,23 +94,12 @@ define(
 		"December"
 	],
 	"dateFormatItem-d": "d",
-	"dateFormatItem-yM": "M/y G",
-	"timeFormat-short": "h:mm a",
-	"months-format-abbr": [
-		"Jan",
-		"Feb",
-		"Mar",
-		"Apr",
-		"May",
-		"Jun",
-		"Jul",
-		"Aug",
-		"Sep",
-		"Oct",
-		"Nov",
-		"Dec"
+	"quarters-format-wide": [
+		"1st quarter",
+		"2nd quarter",
+		"3rd quarter",
+		"4th quarter"
 	],
-	"timeFormat-long": "h:mm:ss a z",
 	"days-format-wide": [
 		"Sunday",
 		"Monday",
@@ -82,27 +108,6 @@ define(
 		"Thursday",
 		"Friday",
 		"Saturday"
-	],
-	"dateFormatItem-hms": "h:mm:ss a",
-	"dateFormatItem-yQ": "Q y G",
-	"dateFormatItem-MMM": "LLL",
-	"dateFormatItem-yMMM": "MMM y G",
-	"quarters-format-wide": [
-		"1st quarter",
-		"2nd quarter",
-		"3rd quarter",
-		"4th quarter"
-	],
-	"dateFormat-full": "EEEE, MMMM d, y G",
-	"dateFormatItem-MMMd": "MMM d",
-	"days-format-abbr": [
-		"Sun",
-		"Mon",
-		"Tue",
-		"Wed",
-		"Thu",
-		"Fri",
-		"Sat"
 	]
 }
 //end v1.x content

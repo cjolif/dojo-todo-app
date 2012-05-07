@@ -1,0 +1,172 @@
+<html>
+  <head>
+
+
+
+
+<script src="../../../dojo/dojo.js" djConfig="parseOnLoad: true, isDebug: true"> </script>
+    
+    //with 1.6 correct position, with 1.7.1 bad position of tooltip
+
+<script type="text/javascript">
+	dojo.require('dojox.charting.widget.Chart2D');
+	dojo.require("dojox.charting.themes.PlotKit.cyan");
+	dojo.require("dojox.charting.widget.SelectableLegend");
+	dojo.require("dojox.charting.action2d.Tooltip");
+</script>
+
+
+<style type="text/css">
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/claro/claro.css"
+	;
+</style>
+
+
+<style type="text/css">
+.dijitCheckBox {
+	float: left;
+}
+
+.dojoxLegendIcon {
+	float: left;
+}
+
+.legenda {
+	width: 123px;
+	height: 15px;
+	float: left;
+	font-size: 11.5px;
+	padding-top: 12px;
+	color: #797979;
+	font-weight: bold;
+	word-spacing: 2px;
+}
+
+#chart1 {
+	width: 700px;
+	height: 200px
+}
+
+.dijitTooltip {
+	font-size: 10px;
+}
+
+#legend1 {
+	margin-top: 10px;
+}
+</style>
+    
+      </head>
+  
+<body>
+
+<div id="total" class="claro">
+	<div id="wrapper">
+		<div style="float: left;">
+			<div id="chart1" style="float: left;"></div>
+			<div class="legenda">Candidatos</div>
+			<div id="legend1" style=""></div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+
+
+makeCharts = function () {
+    var text = "€";
+    var chart1 = new dojox.charting.Chart2D("chart1", {
+        margins: {
+            l: 0,
+            r: 0,
+            t: 0,
+            b: 0
+        }
+    });
+    chart1.setTheme(dojox.charting.themes.PlotKit.cyan);
+    chart1.addPlot("default", {
+        type: 'Markers',
+        animate: {
+            duration: 1000
+        },
+        type: "ClusteredBars"
+    });
+
+    chart1.addAxis("x", {
+        includeZero: true,
+        fontColor: "grey",
+        majorTick: {
+            color: "black",
+            length: 3
+        },
+        minorTick: {
+            color: "black",
+            length: 2
+        },
+        minorLabels: true,
+        minorTickStep: 10,
+        htmlLabels:true,
+        majorTickStep:10,
+		labels : [ {
+			value : 0,
+			text : "0"
+		}, {
+			value : 10,
+			text : "10%"
+		}, {
+			value : 20,
+			text : "20%"
+		}, {
+			value : 30,
+			text : "30%"
+		}, {
+			value : 40,
+			text : "40%"
+		}, {
+			value : 50,
+			text : "50%"
+		}, {
+			value : 60,
+			text : "60%"
+		}, {
+			value : 70,
+			text : "70%"
+		}, {
+			value : 80,
+			text : "80%"
+		}, {
+			value : 90,
+			text : "90%"
+		}, {
+			value : 100,
+			text : "100%"
+		} ],
+    })
+
+        chart1.addSeries("asdd", [{
+            y: 200,
+            tooltip: "asas"
+        }]);
+
+
+    var anim1a = new dojox.charting.action2d.Magnify(chart1, "default");
+    var anim1b = new dojox.charting.action2d.Tooltip(chart1, "default");
+    var anim1c = new dojox.charting.action2d.Shake(chart1, "default");
+
+
+    //chart1.addPlot("grid", {
+    //type: "Grid", hMinorLines: true
+    //});
+    chart1.render();
+
+    stackedAreaLegend = new dojox.charting.widget.SelectableLegend({
+        chart: chart1,
+        horizontal: false
+    }, "legend1");
+};	
+dojo.addOnLoad(makeCharts);
+</script>
+  <body>
+    </html>

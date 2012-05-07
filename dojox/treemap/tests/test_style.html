@@ -51,7 +51,7 @@
 							]
 					});
 					var colorModel = new MeanColorModel(new Color(Color.named.red), new Color(Color.named.green));
-					new TreeMap({store: dataStore,
+					new TreeMap({store: dataStore, selectionMode: "multiple",
 								areaAttr: "sales", colorAttr: "profit", groupAttrs: ["region"],
 								colorModel: colorModel }, dom.byId("treeMap"));
 				});

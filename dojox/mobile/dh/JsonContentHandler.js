@@ -1,11 +1,12 @@
 define([
+	"dojo/_base/kernel",
 	"dojo/_base/array",
 	"dojo/_base/declare",
 	"dojo/_base/lang",
 	"dojo/_base/Deferred",
 	"dojo/json",
 	"dojo/dom-construct"
-], function(array, declare, lang, Deferred, json, domConstruct){
+], function(dojo, array, declare, lang, Deferred, json, domConstruct){
 
 	// module:
 	//		dojox/mobile/dh/JsonContentHandler
@@ -208,10 +209,7 @@ define([
 						this._ws.push(widget);
 					}
 					if(parent){
-						widget.placeAt(parent.domNode);
-						if(parent._started){
-							widget.startup();
-						}
+						widget.placeAt(parent.containerNode || parent.domNode);
 					}
 					// process child widgets
 					if(!className){

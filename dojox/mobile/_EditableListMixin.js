@@ -1,5 +1,4 @@
 
-// experimental, still work-in-progress
 // TODO: auto scroll?
 
 define([
@@ -10,10 +9,10 @@ define([
 	"dojo/dom-class",
 	"dojo/dom-geometry",
 	"dojo/dom-style",
+	"dojo/touch",
 	"dijit/registry",
-	"./ListItem",
-	"./sniff"
-], function(array, connect, declare, event, domClass, domGeometry, domStyle, registry, ListItem, has){
+	"./ListItem"
+], function(array, connect, declare, event, domClass, domGeometry, domStyle, touch, registry, ListItem){
 
 	// module:
 	//		dojox/mobile/EditableRoundRectList
@@ -65,6 +64,7 @@ define([
 			//		Internal handler for click events.
 			// tags:
 			//		private
+			if(e && e.type === "keydown" && e.keyCode !== 13){ return; }
 			if(this.onClick(e) === false){ return; } // user's click action
 			var item = registry.getEnclosingWidget(e.target);
 			for(var n = e.target; n !== item.domNode; n = n.parentNode){
@@ -82,7 +82,7 @@ define([
 			//		callback
 		},
 
-		onTouchStart: function(e){
+		_onTouchStart: function(e){
 			if(this.getChildren().length <= 1){ return; }
 			if(!this._blankItem){
 				this._blankItem = new ListItem();
@@ -98,14 +98,15 @@ define([
 			if(!rightIconPressed){ return; }
 			var ref = item.getNextSibling();
 			ref = ref ? ref.domNode : null;
-			this.domNode.insertBefore(this._blankItem.domNode, ref);
+			this.containerNode.insertBefore(this._blankItem.domNode, ref);
 			this._setupMoveItem(item.domNode);
-			this.domNode.appendChild(item.domNode);
+			this.containerNode.appendChild(item.domNode);
 
 			if(!this._conn){
-				this._conn = [];
-				this._conn.push(connect.connect(this.domNode, has('touch') ? "ontouchmove" : "onmousemove", this, "onTouchMove"));
-				this._conn.push(connect.connect(this.domNode, has('touch') ? "ontouchend" : "onmouseup", this, "onTouchEnd"));
+				this._conn = [
+					this.connect(this.domNode, touch.move, "_onTouchMove"),
+					this.connect(this.domNode, touch.release, "_onTouchEnd")
+				];
 			}
 			this._pos = [];
 			array.forEach(this.getChildren(), function(c, index){
@@ -116,7 +117,7 @@ define([
 			event.stop(e);
 		},
 
-		onTouchMove: function(e){
+		_onTouchMove: function(e){
 			var y = e.touches ? e.touches[0].pageY : e.pageY;
 			var index = this._pos.length - 1;
 			for(var i = 1; i < this._pos.length; i++){
@@ -138,11 +139,11 @@ define([
 			this._movingItem.domNode.style.top = this._startTop + (y - this.touchStartY) + "px";
 		},
 
-		onTouchEnd: function(e){
+		_onTouchEnd: function(e){
 			var ref = this._blankItem.getNextSibling();
 			ref = ref ? ref.domNode : null;
-			this.domNode.insertBefore(this._movingItem.domNode, ref);
-			this.domNode.removeChild(this._blankItem.domNode);
+			this.containerNode.insertBefore(this._movingItem.domNode, ref);
+			this.containerNode.removeChild(this._blankItem.domNode);
 			this._resetMoveItem(this._movingItem.domNode);
 
 			array.forEach(this._conn, connect.disconnect);
@@ -156,19 +157,21 @@ define([
 				if(!child.deleteIconNode){
 					child.set("rightIcon", this.rightIconForEdit);
 					child.set("deleteIcon", this.deleteIconForEdit);
+					child.deleteIconNode.tabIndex = child.tabIndex;
 				}
 				child.rightIconNode.style.display = "";
 				child.deleteIconNode.style.display = "";
 			}, this);
 			if(!this._handles){
-				this._handles = [];
-				this._handles.push(this.connect(this.domNode, has('touch') ? "ontouchstart" : "onmousedown", "onTouchStart"));
-				this._handles.push(this.connect(this.domNode, "onclick", "_onClick"));
+				this._handles = [
+					this.connect(this.domNode, touch.press, "_onTouchStart"),
+					this.connect(this.domNode, "onclick", "_onClick"),
+					this.connect(this.domNode, "onkeydown", "_onClick") // for desktop browsers
+				];
 			}
 		},
 
 		endEdit: function(){
-			this.isEditing = false;
 			domClass.remove(this.domNode, "mblEditableRoundRectList");
 			array.forEach(this.getChildren(), function(child){
 				child.rightIconNode.style.display = "none";
@@ -178,6 +181,7 @@ define([
 				array.forEach(this._handles, this.disconnect, this);
 				this._handles = null;
 			}
+			this.isEditing = false;
 		}
 	});
 });

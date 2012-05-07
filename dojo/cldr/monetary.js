@@ -1,19 +1,19 @@
-define(["../main"], function(dojo) {
+define(["../_base/kernel", "../_base/lang"], function(dojo, lang) {
 	// module:
 	//		dojo/cldr/monetary
 	// summary:
 	//		TODOC
 
-var monetary = dojo.getObject("dojo.cldr.monetary", true);
-/*=====
-monetary = dojo.cldr.monetary;
-=====*/
+var monetary = {};
+lang.setObject("dojo.cldr.monetary", monetary);
 
-monetary.getData = function(/*String*/code){
-// summary: A mapping of currency code to currency-specific formatting information. Returns a unique object with properties: places, round.
-// code: an [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code
+monetary.getData = function(/*String*/ code){
+	// summary:
+	//		A mapping of currency code to currency-specific formatting information. Returns a unique object with properties: places, round.
+	// code:
+	//		an [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code
 
-// from http://www.unicode.org/cldr/data/common/supplemental/supplementalData.xml:supplementalData/currencyData/fractions
+	// from http://www.unicode.org/cldr/data/common/supplemental/supplementalData.xml:supplementalData/currencyData/fractions
 
 	var placesData = {
 		ADP:0,AFN:0,ALL:0,AMD:0,BHD:3,BIF:0,BYR:0,CLF:0,CLP:0,

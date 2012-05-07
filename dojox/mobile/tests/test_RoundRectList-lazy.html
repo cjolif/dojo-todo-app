@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>Lazy list scrolling</title>
+
+    <script type="text/javascript" src="../deviceTheme.js" data-dojo-config="mblThemeFiles: ['base']"></script>
+    <script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true"></script>
+
+    <script type="text/javascript">
+		var createList;
+
+        require([
+			"dojo/_base/declare",
+            "dojo/ready",
+            "dijit/registry",
+            "dojo/dom-construct",
+            "dojox/mobile/RoundRectList",
+            "dojox/mobile/LazyScrollList",
+            "dojox/mobile/parser",
+            "dojox/mobile",
+            "dojox/mobile/compat",
+            "dojox/mobile/ScrollableView"
+        ], function(declare, ready, registry, domConstruct, RoundRectList, LazyScrollList){
+            
+            var list, count = 1;
+            
+            createList = function(lazy, nitems){
+                var view = registry.byId("view");
+                if(list) list.destroyRecursive();
+                view.scrollTo({y:0});
+                list = new (declare([RoundRectList, LazyScrollList]))();
+                view.addChild(list);
+                for(var i = 0; i < nitems; i++){
+                    list.addChild(new dojox.mobile.ListItem({
+                        label: "Item no. " + (i+1)
+                    }));
+                }
+            };
+            
+            ready(function(){
+                createList(true, 1000);
+            });
+        });
+    </script>
+
+    <style>
+    .lnk {
+        font-size: 14px;
+        color: #0B5199;
+        text-decoration: none;
+    }
+    </style>
+</head>
+<body style="visibility:hidden;">
+    <div id="view" data-dojo-type="dojox.mobile.ScrollableView">
+        <h1 data-dojo-type="dojox.mobile.Heading" data-dojo-props="fixed:'top'">
+            <table>
+            <tr>
+            <td>Lazy:</td>
+            <td><span data-dojo-type="dojox.mobile.ToolBarButton" onclick="createList(true, 100)">100</span></td>
+            <td><span data-dojo-type="dojox.mobile.ToolBarButton" onclick="createList(true, 1000)">1000</span></td>
+            <td><span data-dojo-type="dojox.mobile.ToolBarButton" onclick="createList(true, 10000)">10000</span></td>
+            <td>Normal:</td>
+            <td><span data-dojo-type="dojox.mobile.ToolBarButton" onclick="createList(false, 100)">100</span></td>
+            <td><span data-dojo-type="dojox.mobile.ToolBarButton" onclick="createList(false, 1000)">1000</span></td>
+            <td><span data-dojo-type="dojox.mobile.ToolBarButton" onclick="createList(false, 10000)">10000</span></td>
+            </tr>
+            </table>
+        </h1>
+    </div>
+</body>
+</html>

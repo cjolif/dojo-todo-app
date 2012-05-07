@@ -6,17 +6,12 @@ define([
 	"dojo/i18n", // i18n.getLocalization
 	"dojo/_base/lang", // lang.hitch lang.trim
 	"./StackController",
+	"../registry",
 	"../Menu",
 	"../MenuItem",
 	"dojo/text!./templates/_TabButton.html",
 	"dojo/i18n!../nls/common"
-], function(declare, dom, domAttr, domClass, i18n, lang, StackController, Menu, MenuItem, template){
-
-/*=====
-	var StackController = dijit.layout.StackController;
-	var Menu = dijit.Menu;
-	var MenuItem = dijit.MenuItem;
-=====*/
+], function(declare, dom, domAttr, domClass, i18n, lang, StackController, registry, Menu, MenuItem, template){
 
 	// module:
 	//		dijit/layout/TabController
@@ -60,7 +55,7 @@ define([
 
 			// Required to give IE6 a kick, as it initially hides the
 			// tabs until they are focused on.
-			setTimeout(function(){
+			this.defer(function(){
 				n.className = n.className;
 			}, 1);
 		},
@@ -76,27 +71,6 @@ define([
 				if(this.closeNode){
 					domAttr.set(this.closeNode,"title", _nlsResources.itemClose);
 				}
-				// add context menu onto title button
-				this._closeMenu = new Menu({
-					id: this.id+"_Menu",
-					dir: this.dir,
-					lang: this.lang,
-					textDir: this.textDir,
-					targetNodeIds: [this.domNode]
-				});
-
-				this._closeMenu.addChild(new MenuItem({
-					label: _nlsResources.itemClose,
-					dir: this.dir,
-					lang: this.lang,
-					textDir: this.textDir,
-					onClick: lang.hitch(this, "onClickCloseButton")
-				}));
-			}else{
-				if(this._closeMenu){
-					this._closeMenu.destroyRecursive();
-					delete this._closeMenu;
-				}
 			}
 		},
 		_setLabelAttr: function(/*String*/ content){
@@ -110,14 +84,6 @@ define([
 			if(!this.showLabel && !this.params.title){
 				this.iconNode.alt = lang.trim(this.containerNode.innerText || this.containerNode.textContent || '');
 			}
-		},
-
-		destroy: function(){
-			if(this._closeMenu){
-				this._closeMenu.destroyRecursive();
-				delete this._closeMenu;
-			}
-			this.inherited(arguments);
 		}
 	});
 
@@ -143,7 +109,43 @@ define([
 
 		// buttonWidget: Constructor
 		//		The tab widget to create to correspond to each page
-		buttonWidget: TabButton
+		buttonWidget: TabButton,
+
+		// buttonWidgetClass: String
+		//		Class of each tab, used by event delegation code to tell when the tab was clicked
+		buttonWidgetClass: "dijitTab",
+
+		// buttonWidgetCloseClass: String
+		//		Class of [x] close icon, used by event delegation code to tell when close button was clicked
+		buttonWidgetCloseClass: "dijitTabCloseButton",
+
+		postCreate: function(){
+			this.inherited(arguments);
+
+			// Setup a close menu to be shared between all the closable tabs
+			var closeMenu = new Menu({
+				id: this.id+"_Menu",
+				dir: this.dir,
+				lang: this.lang,
+				textDir: this.textDir,
+				targetNodeIds: [this.domNode],
+				selector: ".dijitClosable"
+			});
+			this._supportingWidgets.push(closeMenu);
+
+			var _nlsResources = i18n.getLocalization("dijit", "common"),
+				controller = this;
+			closeMenu.addChild(new MenuItem({
+				label: _nlsResources.itemClose,
+				dir: this.dir,
+				lang: this.lang,
+				textDir: this.textDir,
+				onClick: function(evt){
+					var button = registry.byNode(this.getParent().currentTarget);
+					controller.onCloseButtonClick(button);
+				}
+			}));
+		}
 	});
 
 	TabController.TabButton = TabButton;	// for monkey patching

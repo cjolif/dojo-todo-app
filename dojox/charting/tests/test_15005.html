@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+		"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="isDebug: true, async: true, parseOnLoad: true"></script>
+
+	<script>
+		require([
+	"dojo/ready",
+	"dojox/charting/plot2d/Pie",
+	"dojox/charting/widget/Chart",
+	"dojox/charting/themes/Claro",
+	"dijit/TitlePane",
+	"dijit/registry",
+	"dijit/layout/ContentPane"
+], function(ready, Pie, Chart2D, theme, TitlePane, registry){
+	ready(function(){
+
+		var makeDojoChart = function(){
+			registry.byId("pieChartThird").chart.addSeries("January",  [9420, 10126, 9803, 15965, 17290, 13165]);
+		};
+		makeDojoChart();
+	});
+});
+	</script>
+</head>
+<body>
+
+<div style="border: solid black 1px;">
+	<div data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Pane #1'">I'm pane #1</div>
+	<div data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Pane #2'">I'm pane #2</div>
+	<div data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Pane #3', open: false">
+		I'm in pane #3
+		<div id="pieChartThird" data-dojo-type="dojox.charting.widget.Chart" style="width:200px; height:200px"
+					theme="dojox.charting.themes.Claro">
+		<div class="plot" name="default" type="Pie" radius="60" fontColor="white"></div>
+		<div class="series" name="January" array="[]"></div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

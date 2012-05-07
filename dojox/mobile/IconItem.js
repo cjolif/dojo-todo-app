@@ -40,14 +40,16 @@ define([
 		//		is instantiated lazily. That is, only when the widget is opened
 		//		by the user, the required modules are loaded and the content
 		//		widgets are instantiated.
+		//		This option works both in the sync and async loader mode.
 		lazy: false,
 
 		// requires: String
 		//		Comma-separated required module names to be lazily loaded. This
-		//		is effective only when lazy=true. All the modules specified with
-		//		dojoType and their depending modules are automatically loaded
-		//		when the widget is opened. However, if you need other extra
-		//		modules to be loaded, use this parameter.
+		//		property is effective only when lazy=true. All the modules
+		//		specified with data-dojo-type and their depending modules are
+		//		automatically loaded by the IconItem when it is opened.
+		//		However, if you need other extra modules to be loaded, use this parameter.
+		//		This option works both in the sync and async loader mode.
 		requires: "",
 
 		// timeout: String
@@ -55,13 +57,28 @@ define([
 		timeout: 10,
 
 		// content: String
-		//		An html fragment to embed.
+		//		An html fragment to embed as icon content.
 		content: "",
 
+		// badge: String
+		//		A text to show in a badge. (ex. "55")
 		badge: "",
+
+		// badgeClass: String
+		//		A class name of a DOM button for a badge.
 		badgeClass: "mblDomButtonRedBadge",
 
+		// deletable: Boolean
+		//		If true, you can delete this IconItem by clicking on the delete
+		//		icon during edit mode.
+		//		If false, the delete icon is not displayed during edit mode so
+		//		that it cannot be deleted.
 		deletable: true,
+
+		// deleteIcon: String
+		//		A delete icon to display at the top left corner of the item
+		//		during edit mode. The value can be either a path for an image
+		//		file or a class name of a DOM button.
 		deleteIcon: "",
 
 		// tag: String
@@ -69,6 +86,7 @@ define([
 		tag: "li",
 
 		/* internal properties */	
+		paramsToInherit: "transition,icon,deleteIcon,badgeClass,deleteIconTitle,deleteIconRole",
 		baseClass: "mblIconItem",
 		_selStartMethod: "touch",
 		_selEndMethod: "none",
@@ -115,6 +133,7 @@ define([
 				p.paneContainerWidget.addChild(w, this.getIndexInParent());
 				w.set("label", this.label);
 				this._clickCloseHandle = this.connect(w.closeIconNode, "onclick", "_closeIconClicked");
+				this._keydownCloseHandle = this.connect(w.closeIconNode, "onkeydown", "_closeIconClicked"); // for desktop browsers
 			}));
 
 			this.inherited(arguments);
@@ -160,7 +179,7 @@ define([
 			//		Internal handler for click events.
 			// tags:
 			//		private
-			if(e && e.type === "keydown" && e.keyCode !== 13){ return; }
+			if(this.getParent().isEditing || e && e.type === "keydown" && e.keyCode !== 13){ return; }
 			if(this.onClick(e) === false){ return; } // user's click action
 			this.defaultClickAction(e);
 		},
@@ -198,6 +217,7 @@ define([
 			// tags:
 			//		private
 			if(e){
+				if(e.type === "keydown" && e.keyCode !== 13){ return; }
 				if(this.closeIconClicked(e) === false){ return; } // user's click action
 				setTimeout(lang.hitch(this, function(d){ this._closeIconClicked(); }), 0);
 				return;
@@ -326,6 +346,9 @@ define([
 					this.deleteIconTitle || this.alt, this.iconDivNode);
 			if(this.deleteIconNode){
 				domClass.add(this.deleteIconNode, "mblIconItemDeleteIcon");
+				if(this.deleteIconRole){
+					this.deleteIconNode.setAttribute("role", this.deleteIconRole);
+				}
 			}
 		},
 

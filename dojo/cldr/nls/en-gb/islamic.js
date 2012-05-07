@@ -1,62 +1,16 @@
 define(
 //begin v1.x content
 {
+	"dateFormatItem-yMd": "d/M/yyyy",
 	"dateFormat-medium": "d MMM y G",
 	"dateFormatItem-MMMEd": "E d MMM",
 	"dateFormatItem-MMdd": "dd/MM",
 	"dateFormatItem-MEd": "E, d/M",
-	"dateFormatItem-yMEd": "EEE, d/M/yyyy",
-	"dateFormatItem-yyyyMMM": "MMM y G",
-	"eraNarrow": [
-		"AH"
-	],
-	"months-format-narrow": [
-		"1",
-		"2",
-		"3",
-		"4",
-		"5",
-		"6",
-		"7",
-		"8",
-		"9",
-		"10",
-		"11",
-		"12"
-	],
+	"dateFormatItem-yMEd": "E, d/M/yyyy",
 	"dateFormatItem-yyMMM": "MMM y G",
+	"dateFormatItem-yMMMd": "d MMM y",
 	"dateFormatItem-Md": "d/M",
-	"months-standAlone-narrow": [
-		"1",
-		"2",
-		"3",
-		"4",
-		"5",
-		"6",
-		"7",
-		"8",
-		"9",
-		"10",
-		"11",
-		"12"
-	],
-	"months-standAlone-wide": [
-		"Muharram",
-		"Safar",
-		"Rabiʻ I",
-		"Rabiʻ II",
-		"Jumada I",
-		"Jumada II",
-		"Rajab",
-		"Shaʻban",
-		"Ramadan",
-		"Shawwal",
-		"Dhuʻl-Qiʻdah",
-		"Dhuʻl-Hijjah"
-	],
-	"eraNames": [
-		"AH"
-	],
+	"dateFormatItem-yyyyMMMEd": "E, d MMM y G",
 	"days-standAlone-narrow": [
 		"S",
 		"M",
@@ -66,60 +20,17 @@ define(
 		"F",
 		"S"
 	],
-	"dateFormatItem-yyyyMEd": "EEE, d/M/y G",
+	"dateFormatItem-yyyyMEd": "E, d/M/y G",
 	"dateFormatItem-yyyyMMMM": "MMMM y G",
 	"dateFormatItem-MMMMd": "d MMMM",
-	"months-standAlone-abbr": [
-		"Muh.",
-		"Saf.",
-		"Rab. I",
-		"Rab. II",
-		"Jum. I",
-		"Jum. II",
-		"Raj.",
-		"Sha.",
-		"Ram.",
-		"Shaw.",
-		"Dhuʻl-Q.",
-		"Dhuʻl-H."
-	],
 	"dateFormatItem-yQQQ": "QQQ y",
 	"dateFormatItem-yyyyMM": "MM/y G",
 	"dateFormat-long": "d MMMM y G",
 	"dateFormat-short": "dd/MM/y G",
-	"dateFormatItem-yMMMEd": "EEE, MMM d, y",
-	"months-format-wide": [
-		"Muharram",
-		"Safar",
-		"Rabiʻ I",
-		"Rabiʻ II",
-		"Jumada I",
-		"Jumada II",
-		"Rajab",
-		"Shaʻban",
-		"Ramadan",
-		"Shawwal",
-		"Dhuʻl-Qiʻdah",
-		"Dhuʻl-Hijjah"
-	],
+	"dateFormatItem-yMMMEd": "E, d MMM y",
 	"dateFormatItem-yM": "M/y",
-	"months-format-abbr": [
-		"Muh.",
-		"Saf.",
-		"Rab. I",
-		"Rab. II",
-		"Jum. I",
-		"Jum. II",
-		"Raj.",
-		"Sha.",
-		"Ram.",
-		"Shaw.",
-		"Dhuʻl-Q.",
-		"Dhuʻl-H."
-	],
-	"eraAbbr": [
-		"AH"
-	],
+	"dayPeriods-format-narrow-pm": "p",
+	"dateFormatItem-yyyyMMMd": "d MMM y G",
 	"days-format-wide": [
 		"Sunday",
 		"Monday",
@@ -131,14 +42,16 @@ define(
 	],
 	"dateFormatItem-yQ": "Q y",
 	"dateFormatItem-yMMM": "MMM y",
+	"dayPeriods-format-narrow-am": "a",
 	"quarters-format-wide": [
 		"1st quarter",
 		"2nd quarter",
 		"3rd quarter",
 		"4th quarter"
 	],
-	"dateFormatItem-yyyyMd": "d/M/y G",
 	"dateFormat-full": "EEEE, d MMMM y G",
+	"dateFormatItem-MMMd": "d MMM",
+	"dateFormatItem-yyyyMd": "d/M/y G",
 	"days-format-abbr": [
 		"Sun",
 		"Mon",

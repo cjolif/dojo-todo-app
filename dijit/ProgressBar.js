@@ -9,11 +9,6 @@ define([
 	"dojo/text!./templates/ProgressBar.html"
 ], function(require, declare, domClass, lang, number, _Widget, _TemplatedMixin, template){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-=====*/
-
 // module:
 //		dijit/ProgressBar
 // summary:
@@ -79,7 +74,7 @@ return declare("dijit.ProgressBar", [_Widget, _TemplatedMixin], {
 		this.inherited(arguments);
 
 		// Back-compat for when constructor specifies indeterminate or progress, rather than value.   Remove for 2.0.
-		if(!("value" in this.params)){
+		if(!(this.params && "value" in this.params)){
 			this.value = this.indeterminate ? Infinity : this.progress;
 		}
 	},

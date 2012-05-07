@@ -1,0 +1,20 @@
+<html>
+<head>
+<script src="../dojo.js" data-dojo-config="async: true, isDebug: true"></script>
+<script>
+require(["dojo/cookie", "dojo/dom", "dojo/on", "dojo/domReady!"],
+function(cookie, dom, on){
+  on(dom.byId("setCookie"), "click", function(){
+    cookie("favouriteDish", "Noodles", { expires: 5 });
+  });
+  on(dom.byId("getCookie"), "click", function(){
+    alert("The value of the cookies is: " + cookie("favouriteDish"));
+  });
+});
+</script>
+</head>
+<body>
+<button id="setCookie">Set Cookie</button>
+<button id="getCookie">Get Cookie</button>
+</body>
+</html>

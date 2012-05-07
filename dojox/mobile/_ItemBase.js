@@ -1,18 +1,21 @@
 define([
 	"dojo/_base/array",
 	"dojo/_base/declare",
+	"dojo/_base/lang",
 	"dojo/_base/window",
 	"dojo/dom-class",
+	"dojo/touch",
 	"dijit/registry",
 	"dijit/_Contained",
+	"dijit/_Container",
 	"dijit/_WidgetBase",
 	"./TransitionEvent",
-	"./iconUtils",
-	"./sniff"
-], function(array, declare, win, domClass, registry, Contained, WidgetBase, TransitionEvent, iconUtils, has){
+	"./iconUtils"
+], function(array, declare, lang, win, domClass, touch, registry, Contained, Container, WidgetBase, TransitionEvent, iconUtils){
 
 /*=====
 	var Contained = dijit._Contained;
+	var Container = dijit._Container;
 	var WidgetBase = dijit._WidgetBase;
 	var TransitionEvent = dojox.mobile.TransitionEvent;
 =====*/
@@ -22,7 +25,7 @@ define([
 	// summary:
 	//		A base class for item classes (e.g. ListItem, IconItem, etc.)
 
-	return declare("dojox.mobile._ItemBase", [WidgetBase, Contained],{
+	return declare("dojox.mobile._ItemBase", [WidgetBase, Container, Contained],{
 		// summary:
 		//		A base class for item classes (e.g. ListItem, IconItem, etc.)
 		// description:
@@ -103,8 +106,8 @@ define([
 		//		standard transition types, "slide", "fade", "flip", or from the
 		//		extended transition types, "cover", "coverv", "dissolve",
 		//		"reveal", "revealv", "scaleIn", "scaleOut", "slidev",
-		//		"swirl", "zoomIn", "zoomOut". If "none" is specified, transition
-		//		occurs immediately without animation.
+		//		"swirl", "zoomIn", "zoomOut", "cube", and "swap". If "none" is
+		//		specified, transition occurs immediately without animation.
 		transition: "",
 
 		// transitionDir: Number
@@ -136,6 +139,12 @@ define([
 		// selected: Boolean
 		//		If true, the item is highlighted to indicate it is selected.
 		selected: false,
+
+		// tabIndex: String
+		//		Tabindex setting for the item so users can hit the tab key to
+		//		focus on it.
+		tabIndex: "0",
+		_setTabIndexAttr: "", // sets tabIndex to domNode
 
 		/* internal properties */	
 
@@ -180,7 +189,7 @@ define([
 				this.inheritParams();
 			}
 			if(this._handleClick && this._selStartMethod === "touch"){
-				this._onTouchStartHandle = this.connect(this.domNode, has('touch') ? "ontouchstart" : "onmousedown", "_onTouchStart");
+				this._onTouchStartHandle = this.connect(this.domNode, touch.press, "_onTouchStart");
 			}
 			this.inherited(arguments);
 		},
@@ -197,9 +206,8 @@ define([
 						}
 						if(!this[p]){ this[p] = parent[base]; }
 						if(!this[pos]){ this[pos] = parent[pos]; }
-					}else{
-						if(!this[p]){ this[p] = parent[p]; }
 					}
+					if(!this[p]){ this[p] = parent[p]; }
 				}, this);
 			}
 			return !!parent;
@@ -281,13 +289,13 @@ define([
 		},
 
 		_onTouchStart: function(e){
-			if(this.onTouchStart(e) === false){ return; } // user's touchStart action
+			if(this.getParent().isEditing || this.onTouchStart(e) === false){ return; } // user's touchStart action
 			if(!this._onTouchEndHandle && this._selStartMethod === "touch"){
 				// Connect to the entire window. Otherwise, fail to receive
 				// events if operation is performed outside this widget.
 				// Expose both connect handlers in case the user has interest.
-				this._onTouchMoveHandle = this.connect(win.body(), has('touch') ? "ontouchmove" : "onmousemove", "_onTouchMove");
-				this._onTouchEndHandle = this.connect(win.body(), has('touch') ? "ontouchend" : "onmouseup", "_onTouchEnd");
+				this._onTouchMoveHandle = this.connect(win.body(), touch.move, "_onTouchMove");
+				this._onTouchEndHandle = this.connect(win.body(), touch.release, "_onTouchEnd");
 			}
 			this.touchStartX = e.touches ? e.touches[0].pageX : e.clientX;
 			this.touchStartY = e.touches ? e.touches[0].pageY : e.clientY;
@@ -295,7 +303,7 @@ define([
 
 			if(this._delayedSelection){
 				// so as not to make selection when the user flicks on ScrollableView
-				this._selTimer = setTimeout(dojo.hitch(this, function(){ this.set("selected", true); }), 100);
+				this._selTimer = setTimeout(lang.hitch(this, function(){ this.set("selected", true); }), 100);
 			}else{
 				this.set("selected", true);
 			}
@@ -313,15 +321,10 @@ define([
 			var y = e.touches ? e.touches[0].pageY : e.clientY;
 			if(Math.abs(x - this.touchStartX) >= 4 ||
 			   Math.abs(y - this.touchStartY) >= 4){ // dojox.mobile.scrollable#threshold
-				if(this._selTimer){
-					clearTimeout(this._selTimer);
-					this._selTimer = null;
-				}
-				this._disconnect();
-
+				this.cancel();
 				var p = this.getParent();
 				if(p && p.selectOne){
-					this._prevSel.set("selected", true);
+					this._prevSel && this._prevSel.set("selected", true);
 				}else{
 					this.set("selected", false);
 				}
@@ -334,14 +337,17 @@ define([
 			this._onTouchMoveHandle = this._onTouchEndHandle = null;
 		},
 
-		_onTouchEnd: function(e){
-			this._disconnect();
+		cancel: function(){
 			if(this._selTimer){
 				clearTimeout(this._selTimer);
 				this._selTimer = null;
-			}else if (this._delayedSelection){
-				return;
 			}
+			this._disconnect();
+		},
+
+		_onTouchEnd: function(e){
+			if(!this._selTimer && this._delayedSelection){ return; }
+			this.cancel();
 			this._onClick(e);
 		},
 

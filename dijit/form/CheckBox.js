@@ -2,19 +2,14 @@ define([
 	"require",
 	"dojo/_base/declare", // declare
 	"dojo/dom-attr", // domAttr.set
-	"dojo/_base/kernel",
+	"dojo/has",		// has("dijit-legacy-requires")
 	"dojo/query", // query
 	"dojo/ready",
 	"./ToggleButton",
 	"./_CheckBoxMixin",
 	"dojo/text!./templates/CheckBox.html",
 	"dojo/NodeList-dom" // NodeList.addClass/removeClass
-], function(require, declare, domAttr, kernel, query, ready, ToggleButton, _CheckBoxMixin, template){
-
-/*=====
-	var ToggleButton = dijit.form.ToggleButton;
-	var _CheckBoxMixin = dijit.form._CheckBoxMixin;
-=====*/
+], function(require, declare, domAttr, has, query, ready, ToggleButton, _CheckBoxMixin, template){
 
 	// module:
 	//		dijit/form/CheckBox
@@ -22,7 +17,7 @@ define([
 	//		Checkbox widget
 
 	// Back compat w/1.6, remove for 2.0
-	if(!kernel.isAsync){
+	if(has("dijit-legacy-requires")){
 		ready(0, function(){
 			var requires = ["dijit/form/RadioButton"];
 			require(requires);	// use indirection so modules not rolled into a build
@@ -67,9 +62,7 @@ define([
 			//		specified string
 			//		widget.set('value', boolean) will change the checked state.
 			if(typeof newValue == "string"){
-				newValue = newValue || "on";	// "on" to match browser native behavior when value unspecified
-				this._set("value", newValue);
-				domAttr.set(this.focusNode, 'value', newValue);
+				this.inherited(arguments);
 				newValue = true;
 			}
 			if(this._created){

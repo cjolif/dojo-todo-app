@@ -3,7 +3,7 @@ define([
 	"dojo/cookie", // cookie
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.replace
-	"dojo/_base/kernel",	// kernel.isAsync
+	"dojo/has",	// has("dijit-legacy-requires")
 	"dojo/_base/lang",	// lang.extend
 	"dojo/ready",
 	"dojo/topic", // publish
@@ -11,14 +11,8 @@ define([
 	"../_WidgetBase",
 	"./_LayoutWidget",
 	"dojo/i18n!../nls/common"
-], function(array, cookie, declare, domClass, kernel, lang, ready, topic,
+], function(array, cookie, declare, domClass, has, lang, ready, topic,
 			registry, _WidgetBase, _LayoutWidget){
-
-/*=====
-var _WidgetBase = dijit._WidgetBase;
-var _LayoutWidget = dijit.layout._LayoutWidget;
-var StackController = dijit.layout.StackController;
-=====*/
 
 // module:
 //		dijit/layout/StackContainer
@@ -26,7 +20,7 @@ var StackController = dijit.layout.StackController;
 //		A container that has multiple children, but shows only one child at a time.
 
 // Back compat w/1.6, remove for 2.0
-if(!kernel.isAsync){
+if(has("dijit-legacy-requires")){
 	ready(0, function(){
 		var requires = ["dijit/layout/StackController"];
 		require(requires);	// use indirection so modules not rolled into a build

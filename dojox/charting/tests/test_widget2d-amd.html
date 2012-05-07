@@ -30,7 +30,9 @@
 
 		<script type="text/javascript">
 			var seriesB = [2.6, 1.8, 2, 1, 1.4, 0.7, 2];
+			var fct;
 			require([
+					"dijit/registry",
 			"dojox/charting/widget/Chart",
 			"dojox/charting/axis2d/Default",
 			"dojox/charting/plot2d/Areas",
@@ -43,7 +45,16 @@
 			"dojox/charting/themes/PlotKit/orange",
 			"dojox/charting/themes/PlotKit/blue",
 			"dojox/charting/themes/PlotKit/green",
-			"dojox/data/HtmlStore", "dojo/parser"]);
+			"dojox/data/HtmlStore", "dojo/parser"], function(registry){
+				fct = function(){
+					registry.byId("chart1").chart.zoomIn("x", [2.4992501704158147, 4.832583503749149]);
+					registry.byId("chart1").chart.zoomIn("x", [2.4000000000000003, 5.200000000000001]);
+					registry.byId("chart1").chart.zoomIn("x", [2.4992501704158147, 4.832583503749149]);
+					registry.byId("chart1").chart.zoomIn("x", [2.4000000000000003, 5.200000000000001]);
+					registry.byId("chart1").chart.zoomIn("x", [2.4992501704158147, 4.832583503749149]);
+					registry.byId("chart1").chart.zoomIn("x", [2.4000000000000003, 5.200000000000001]);
+				}
+			});
 		</script>
 	</head>
 	<body class="tundra">
@@ -64,6 +75,7 @@
 				<tr><td>2  </td></tr>
 			</tbody>
 		</table>
+		<button onclick="fct()">label</button>
 		<table border="0" cellspacing="30">
 			<tr>
 				<td>
@@ -83,8 +95,8 @@
 				<td>
 					<div data-dojo-type="dojox.charting.widget.Chart" id="chart2" theme="dojox.charting.themes.PlotKit.orange" 
 							fill="'lightgrey'" style="width: 300px; height: 300px;">
-						<div class="axis" name="x" font="italic normal bold 10pt Tahoma"></div>
-						<div class="axis" name="y" vertical="true" fixUpper="major" includeZero="true" 
+						<div class="axis" name="x" font="italic normal bold 10pt Tahoma" minorLabels="false" labelSizeChange="true"></div>
+						<div class="axis" name="y" vertical="true" fixUpper="major" includeZero="true"
 							font="italic normal bold 10pt Tahoma"></div>
 						<div class="plot" name="default" type="Areas"></div>
 						<div class="plot" name="grid" type="Grid"></div>

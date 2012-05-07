@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=7" />
+		<script type="text/javascript" src="../../../dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true"><!--
+
+//--></script>
+	    <script type="text/javascript">
+	    	//<![CDATA[
+			dojo.require("dojox.charting.DataChart");
+	        dojo.require("dojo.data.ItemFileWriteStore");
+	        var store = new dojo.data.ItemFileWriteStore({ url:dojo.moduleUrl("dojox.charting", "tests/stock.json") });
+	        
+	        dojo.addOnLoad(function(){
+	            chart = new dojox.charting.DataChart("chartDiv", {
+	                type:dojox.charting.plot2d.Bars,
+	                comparative: true,
+	                stretchToFit: true,
+		            yaxis:{max:8,min:0,majorTickStep:1,maxLabelSize: 500, labelFunc: function(x) {
+		            	if (x < 8 && x > 0) {
+			            	return "1234567890";
+		            	} else {
+			            	return "0";
+		            	}
+		            }}
+	            });
+	            chart.setStore(store, {name:'*'}, 'price');
+	        });    
+			//]]>    
+	    </script>
+	</head>
+	<body>
+	    <div id="chartDiv" style="width: 400px; height: 250px;"></div>
+
+	<div id="javax_faces_developmentstage_messages"></div></body>
+</html>

@@ -28,8 +28,8 @@ define([
 		// description:
 		//		This class listens to the "startTransition" events and performs
 		//		view transitions. If the transition destination is an external
-		//		view specified with the url parameter, retrieves the view
-		//		content and parses it to create a new target view.
+		//		view specified with the url parameter, the view content is
+		//		retrieved and parsed to create a new target view.
 
 		dataHandlerClass: "dojox/mobile/dh/DataHandler",
 		dataSourceClass: "dojox/mobile/dh/UrlDataSource",
@@ -65,11 +65,70 @@ define([
 		},
 
 		openExternalView: function(/*Object*/ transOpts, /*DomNode*/ target){
+			// summary:
+			//		Loads an external view and performs a transition to it.
+			// returns: dojo.Deferred
+			//		Deferred object that resolves when the external view is
+			//		ready and a transition starts. Note that it resolves before
+			//		the transition is complete.
+			// description:
+			//		This method loads external view content through the
+			//		dojox.mobile data handlers, creates a new View instance with
+			//		the loaded content, and performs a view transition to the
+			//		new view. The external view content can be specified with
+			//		the url property of transOpts. The new view is created under
+			//		a DOM node specified by target.
+			//
+			// example:
+			//		This example loads view1.html, creates a new view under
+			//		<body>, and performs a transition to the new view with the
+			//		slide animation.
+			//		
+			//	|	var vc = ViewController.getInstance();
+			//	|	vc.openExternalView({
+			//	|	    url: "view1.html", 
+			//	|	    transition: "slide"
+			//	|	}, win.body());
+			//
+			//
+			// example:
+			//		If you want to perform a view transition without animation,
+			//		you can give transition:"none" to transOpts.
+			//
+			//	|	var vc = ViewController.getInstance();
+			//	|	vc.openExternalView({
+			//	|	    url: "view1.html", 
+			//	|	    transition: "none"
+			//	|	}, win.body());
+			//
+			// example:
+			//		If you want to dynamically create an external view, but do
+			//		not want to perform a view transition to it, you can give
+			//		noTransition:true to transOpts.
+			//		This may be useful when you want to preload external views
+			//		before the user starts using them.
+			//
+			//	|	var vc = ViewController.getInstance();
+			//	|	vc.openExternalView({
+			//	|	    url: "view1.html", 
+			//	|	    noTransition: true
+			//	|	}, win.body());
+			//
+			// example:
+			//		To do something when the external view is ready:
+			//
+			//	|	var vc = ViewController.getInstance();
+			//	|	Deferred.when(vc.openExternalView({...}, win.body()), function(){
+			//	|	    doSomething();
+			//	|	});
+
 			var d = new Deferred();
 			var id = this.viewMap[transOpts.url];
 			if(id){
 				transOpts.moveTo = id;
-				if(!transOpts.noTransition){
+				if(transOpts.noTransition){
+					registry.byId(id).hide();
+				}else{
 					new TransitionEvent(win.body(), transOpts).dispatch();
 				}
 				d.resolve(true);
@@ -85,8 +144,8 @@ define([
 						|| (registry.byNode(c) && registry.byNode(c).fixed);
 					if(fixed === "bottom"){
 						refNode = c;
+						break;
 					}
-					break;
 				}
 			}
 
@@ -99,7 +158,9 @@ define([
 				handler.processData(contentType, lang.hitch(this, function(id){
 					if(id){
 						this.viewMap[transOpts.url] = transOpts.moveTo = id;
-						if(!transOpts.noTransition){
+						if(transOpts.noTransition){
+							registry.byId(id).hide();
+						}else{
 							new TransitionEvent(win.body(), transOpts).dispatch();
 						}
 						d.resolve(true);
@@ -134,7 +195,7 @@ define([
 					win.global.open(detail.href, detail.hrefTarget);
 				}else{
 					var view; // find top level visible view
-					for(var v = viewRegistry.getEnclosingView(event.target); v; v = viewRegistry.getParentView(v)){
+					for(var v = viewRegistry.getEnclosingView(evt.target); v; v = viewRegistry.getParentView(v)){
 						view = v;
 					}
 					if(view){

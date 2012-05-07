@@ -18,7 +18,8 @@ define(
 	"field-weekday": "jour de la semaine",
 	"dateFormatItem-yyQQQQ": "QQQQ yy",
 	"dateFormatItem-yQQQ": "QQQ y",
-	"dateFormatItem-yMEd": "EEE d/M/yyyy",
+	"dateFormatItem-yyMMMEd": "E d MMM yy",
+	"dateFormatItem-yMEd": "E d/M/yyyy",
 	"dateFormatItem-MMMEd": "E d MMM",
 	"eraNarrow": [
 		"av. J.-C.",
@@ -44,7 +45,9 @@ define(
 	"dayPeriods-format-wide-pm": "PM",
 	"dateFormat-full": "EEEE d MMMM y",
 	"dateFormatItem-Md": "d/M",
+	"dayPeriods-format-abbr-am": "AM",
 	"dayPeriods-format-wide-noon": "midi",
+	"dateFormatItem-yMd": "d/M/yyyy",
 	"field-era": "ère",
 	"dateFormatItem-yM": "M/yyyy",
 	"months-standAlone-wide": [
@@ -94,7 +97,6 @@ define(
 	"field-day-relative+0": "aujourd’hui",
 	"field-day-relative+1": "demain",
 	"field-day-relative+2": "après-demain",
-	"field-day-relative+3": "après-après-demain",
 	"months-standAlone-abbr": [
 		"janv.",
 		"févr.",
@@ -131,7 +133,6 @@ define(
 		"vendredi",
 		"samedi"
 	],
-	"dateFormatItem-yyMMMEEEd": "EEE d MMM yy",
 	"dateFormatItem-yyMMM": "MMM yy",
 	"timeFormat-medium": "HH:mm:ss",
 	"dateFormatItem-Hm": "HH:mm",
@@ -168,9 +169,8 @@ define(
 	],
 	"field-day-relative+-1": "hier",
 	"field-day-relative+-2": "avant-hier",
-	"field-day-relative+-3": "avant-avant-hier",
 	"dateFormatItem-MMMd": "d MMM",
-	"dateFormatItem-MEd": "EEE d/M",
+	"dateFormatItem-MEd": "E d/M",
 	"field-day": "jour",
 	"days-format-wide": [
 		"dimanche",
@@ -197,7 +197,11 @@ define(
 		"N",
 		"D"
 	],
+	"field-year-relative+-1": "l’année dernière",
+	"field-month-relative+-1": "le mois dernier",
 	"dateFormatItem-yyMM": "MM/yy",
+	"dateFormatItem-hm": "h:mm a",
+	"dayPeriods-format-abbr-pm": "PM",
 	"days-format-abbr": [
 		"dim.",
 		"lun.",
@@ -207,6 +211,7 @@ define(
 		"ven.",
 		"sam."
 	],
+	"dateFormatItem-yMMMd": "d MMM y",
 	"eraNames": [
 		"avant Jésus-Christ",
 		"après Jésus-Christ"
@@ -232,16 +237,25 @@ define(
 	],
 	"dateFormatItem-MMM": "LLL",
 	"dayPeriods-format-wide-am": "AM",
-	"dateFormatItem-MMMMEd": "EEE d MMMM",
+	"dateFormatItem-MMMMEd": "E d MMMM",
 	"dateFormat-short": "dd/MM/yy",
 	"dateFormatItem-MMd": "d/MM",
 	"dayPeriods-format-wide-afternoon": "après-midi",
 	"field-second": "seconde",
-	"dateFormatItem-yMMMEd": "EEE d MMM y",
+	"dateFormatItem-yMMMEd": "E d MMM y",
+	"field-month-relative+0": "ce mois-ci",
+	"field-month-relative+1": "le mois prochain",
 	"dateFormatItem-Ed": "E d",
 	"field-week": "semaine",
 	"dateFormat-medium": "d MMM y",
-	"dateFormatItem-Hms": "HH:mm:ss"
+	"field-year-relative+0": "cette année",
+	"field-week-relative+-1": "la semaine dernière",
+	"field-year-relative+1": "l’année prochaine",
+	"dayPeriods-format-narrow-pm": "p",
+	"dateFormatItem-Hms": "HH:mm:ss",
+	"dateFormatItem-hms": "h:mm:ss a",
+	"field-week-relative+0": "cette semaine",
+	"field-week-relative+1": "la semaine prochaine"
 }
 //end v1.x content
 );

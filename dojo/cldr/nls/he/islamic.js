@@ -1,12 +1,16 @@
 define(
 //begin v1.x content
 {
+	"dateFormatItem-yMd": "d.M.yyyy",
 	"dateFormat-medium": "d בMMM yyyy",
 	"dateFormatItem-MMMEd": "E, d בMMM",
-	"dateFormatItem-yMEd": "EEE, d.M.yyyy",
+	"dateFormatItem-MEd": "E, d/M",
+	"dateFormatItem-yMEd": "E, d.M.yyyy",
+	"dateFormatItem-Hm": "HH:mm",
 	"eraNarrow": [
 		"שנת היג׳רה"
 	],
+	"dateFormatItem-yMMMd": "d בMMM y",
 	"dateFormatItem-Md": "d/M",
 	"months-standAlone-wide": [
 		"מוחרם",
@@ -22,7 +26,6 @@ define(
 		"זו אל-QI'DAH",
 		"זו אל-חיג׳ה"
 	],
-	"dateFormatItem-EEEd": "EEE ה-d",
 	"eraNames": [
 		"שנת היג׳רה"
 	],
@@ -50,10 +53,12 @@ define(
 		"זו אל-QI'DAH",
 		"זו אל-חיג׳ה"
 	],
+	"dateFormatItem-yQQQ": "QQQ y",
 	"dayPeriods-format-wide-am": "לפנה״צ",
+	"dateFormatItem-Hms": "HH:mm:ss",
 	"dateFormat-long": "d בMMMM y",
 	"dateFormat-short": "dd/MM/yy",
-	"dateFormatItem-yMMMEd": "EEE, d בMMM y",
+	"dateFormatItem-yMMMEd": "E, d בMMM y",
 	"months-format-wide": [
 		"מוחרם",
 		"ספר",
@@ -68,7 +73,16 @@ define(
 		"זו אל-QI'DAH",
 		"זו אל-חיג׳ה"
 	],
-	"dateFormatItem-yM": "M.yyyy",
+	"days-format-narrow": [
+		"א",
+		"ב",
+		"ג",
+		"ד",
+		"ה",
+		"ו",
+		"ש"
+	],
+	"dateFormatItem-yM": "M/yyyy",
 	"months-format-abbr": [
 		"מוחרם",
 		"ספר",
@@ -86,6 +100,7 @@ define(
 	"eraAbbr": [
 		"שנת היג׳רה"
 	],
+	"dateFormatItem-h": "h a",
 	"days-format-wide": [
 		"יום ראשון",
 		"יום שני",
@@ -95,7 +110,7 @@ define(
 		"יום שישי",
 		"יום שבת"
 	],
-	"dateFormatItem-yQ": "yyyy Q",
+	"dateFormatItem-yQ": "Q yyyy",
 	"dateFormatItem-yMMM": "MMM y",
 	"quarters-format-wide": [
 		"רבעון 1",
@@ -113,7 +128,8 @@ define(
 		"יום ה׳",
 		"יום ו׳",
 		"שבת"
-	]
+	],
+	"dateFormatItem-Ed": "E ה-d"
 }
 //end v1.x content
 );

@@ -1,8 +1,7 @@
 define([
 	"dojo/_base/kernel",
 	"dojo/_base/lang",
-	"dojo/_base/xhr",
-	"dojo/_base/window",
+	"dojo/ready",
 	"dojo/_base/sniff",
 	"dojo/_base/url",
 	"dojo/dom-construct",

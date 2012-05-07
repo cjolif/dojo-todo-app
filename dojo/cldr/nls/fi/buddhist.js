@@ -34,6 +34,12 @@ define(
 	],
 	"dateFormatItem-Gy": "y G",
 	"dayPeriods-format-wide-am": "ap.",
+	"quarters-standAlone-abbr": [
+		"1. nelj.",
+		"2. nelj.",
+		"3. nelj.",
+		"4. nelj."
+	],
 	"dateFormatItem-y": "y G",
 	"timeFormat-full": "H.mm.ss zzzz",
 	"months-standAlone-abbr": [
@@ -65,13 +71,21 @@ define(
 	"dateFormat-long": "d. MMMM y G",
 	"timeFormat-medium": "H.mm.ss",
 	"dateFormatItem-Hm": "H.mm",
-	"dateFormatItem-yyyyMEEEd": "EEE d.M.y G",
 	"dateFormatItem-yyMM": "M.y G",
 	"dateFormat-medium": "d.M.y G",
 	"dateFormatItem-Hms": "H.mm.ss",
+	"dayPeriods-format-narrow-pm": "ip.",
 	"dateFormatItem-yyMMM": "LLLL y G",
+	"dateFormatItem-yMd": "d.M.y G",
+	"quarters-standAlone-wide": [
+		"1. neljännes",
+		"2. neljännes",
+		"3. neljännes",
+		"4. neljännes"
+	],
 	"dateFormatItem-ms": "mm.ss",
 	"dateFormatItem-yyyyQQQQ": "QQQQ y G",
+	"dayPeriods-format-narrow-am": "ap.",
 	"months-standAlone-wide": [
 		"tammikuu",
 		"helmikuu",
@@ -86,6 +100,7 @@ define(
 		"marraskuu",
 		"joulukuu"
 	],
+	"dateFormatItem-yyyyMEd": "E d.M.y G",
 	"dateFormatItem-MMMd": "d. MMM",
 	"dateFormatItem-yyQ": "Q/y G",
 	"timeFormat-long": "H.mm.ss z",
@@ -121,15 +136,48 @@ define(
 		"la"
 	],
 	"dateFormatItem-M": "L",
+	"days-format-narrow": [
+		"S",
+		"M",
+		"T",
+		"K",
+		"T",
+		"P",
+		"L"
+	],
+	"dateFormatItem-yMMMd": "d. MMM y G",
 	"dateFormatItem-MEd": "E d.M.",
+	"months-format-narrow": [
+		"T",
+		"H",
+		"M",
+		"H",
+		"T",
+		"K",
+		"H",
+		"E",
+		"S",
+		"L",
+		"M",
+		"J"
+	],
 	"dateFormatItem-hm": "h.mm a",
+	"days-standAlone-abbr": [
+		"su",
+		"ma",
+		"ti",
+		"ke",
+		"to",
+		"pe",
+		"la"
+	],
 	"dayPeriods-format-abbr-pm": "ip.",
 	"dateFormat-short": "d.M.y G",
 	"dateFormatItem-yyyyM": "M.y G",
-	"dateFormatItem-yMMMEd": "EEE d. MMM y G",
+	"dateFormatItem-yMMMEd": "E d. MMM y G",
 	"dateFormat-full": "cccc d. MMMM y G",
 	"dateFormatItem-Md": "d.M.",
-	"dateFormatItem-yMEd": "EEE d.M.y G",
+	"dateFormatItem-yMEd": "E d.M.y G",
 	"months-format-wide": [
 		"tammikuuta",
 		"helmikuuta",

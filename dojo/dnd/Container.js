@@ -1,24 +1,28 @@
 define([
 	"../_base/array",
-	"../_base/connect",
 	"../_base/declare",
 	"../_base/event",
 	"../_base/kernel",
 	"../_base/lang",
+	"../_base/window",
 	"../dom",
 	"../dom-class",
 	"../dom-construct",
 	"../Evented",
+	"../has",
+	"../on",
 	"../query",
+	"../ready",
+	"../touch",
 	"./common"
-], function(array, connect, declare, event, kernel, lang, dom, domClass, domConstruct, Evented, query, dnd) {
+], function(
+	array, declare, event, kernel, lang, win,
+	dom, domClass, domConstruct, Evented, has, on, query, ready, touch, dnd){
 
 // module:
 //		dojo/dnd/Container
 // summary:
 //		TODOC
-
-/*===== Evented = dojo.Evented; =====*/
 
 /*
 	Container states:
@@ -29,45 +33,7 @@ define([
 		"Over"	- mouse over a container item
 */
 
-/*=====
-declare("dojo.dnd.__ContainerArgs", [], {
-	creator: function(){
-		// summary:
-		//		a creator function, which takes a data item, and returns an object like that:
-		//		{node: newNode, data: usedData, type: arrayOfStrings}
-	},
 
-	// skipForm: Boolean
-	//		don't start the drag operation, if clicked on form elements
-	skipForm: false,
-
-	// dropParent: Node||String
-	//		node or node's id to use as the parent node for dropped items
-	//		(must be underneath the 'node' parameter in the DOM)
-	dropParent: null,
-
-	// _skipStartup: Boolean
-	//		skip startup(), which collects children, for deferred initialization
-	//		(this is used in the markup mode)
-	_skipStartup: false
-});
-
-dojo.dnd.Item = function(){
-	// summary:
-	//		Represents (one of) the source node(s) being dragged.
-	//		Contains (at least) the "type" and "data" attributes.
-	// type: String[]
-	//		Type(s) of this item, by default this is ["text"]
-	// data: Object
-	//		Logical representation of the object being dragged.
-	//		If the drag object's type is "text" then data is a String,
-	//		if it's another type then data could be a different Object,
-	//		perhaps a name/value hash.
-
-	this.type = type;
-	this.data = data;
-}
-=====*/
 
 var Container = declare("dojo.dnd.Container", Evented, {
 	// summary:
@@ -76,15 +42,19 @@ var Container = declare("dojo.dnd.Container", Evented, {
 
 	// object attributes (for markup)
 	skipForm: false,
-
+	// allowNested: Boolean
+	//		Indicates whether to allow dnd item nodes to be nested within other elements.
+	//		By default this is false, indicating that only direct children of the container can
+	//		be draggable dnd item nodes
+	allowNested: false,
 	/*=====
 	// current: DomNode
 	//		The DOM node the mouse is currently hovered over
 	current: null,
 
-	// map: Hash<String, dojo.dnd.Item>
+	// map: Hash<String, Container.Item>
 	//		Map from an item's id (which is also the DOMNode's id) to
-	//		the dojo.dnd.Item itself.
+	//		the dojo.dnd.Container.Item itself.
 	map: {},
 	=====*/
 
@@ -93,7 +63,7 @@ var Container = declare("dojo.dnd.Container", Evented, {
 		//		a constructor of the Container
 		// node: Node
 		//		node or node's id to build the container on
-		// params: dojo.dnd.__ContainerArgs
+		// params: Container.__ContainerArgs
 		//		a dictionary of parameters
 		this.node = dom.byId(node);
 		if(!params){ params = {}; }
@@ -116,11 +86,11 @@ var Container = declare("dojo.dnd.Container", Evented, {
 
 		// set up events
 		this.events = [
-			connect.connect(this.node, "onmouseover", this, "onMouseOver"),
-			connect.connect(this.node, "onmouseout",  this, "onMouseOut"),
+			on(this.node, touch.over, lang.hitch(this, "onMouseOver")),
+			on(this.node, touch.out,  lang.hitch(this, "onMouseOut")),
 			// cancel text selection and text dragging
-			connect.connect(this.node, "ondragstart",   this, "onSelectStart"),
-			connect.connect(this.node, "onselectstart", this, "onSelectStart")
+			on(this.node, "dragstart",   lang.hitch(this, "onSelectStart")),
+			on(this.node, "selectstart", lang.hitch(this, "onSelectStart"))
 		];
 	},
 
@@ -134,9 +104,9 @@ var Container = declare("dojo.dnd.Container", Evented, {
 	getItem: function(/*String*/ key){
 		// summary:
 		//		returns a data item by its key (id)
-		return this.map[key];	// dojo.dnd.Item
+		return this.map[key];	// Container.Item
 	},
-	setItem: function(/*String*/ key, /*dojo.dnd.Item*/ data){
+	setItem: function(/*String*/ key, /*Container.Item*/ data){
 		// summary:
 		//		associates a data item with its key (id)
 		this.map[key] = data;
@@ -168,7 +138,7 @@ var Container = declare("dojo.dnd.Container", Evented, {
 	getAllNodes: function(){
 		// summary:
 		//		returns a list (an array) of all valid child nodes
-		return query("> .dojoDndItem", this.parent);	// NodeList
+		return query((this.allowNested ? "" : "> ") + ".dojoDndItem", this.parent);	// NodeList
 	},
 	sync: function(){
 		// summary:
@@ -219,7 +189,7 @@ var Container = declare("dojo.dnd.Container", Evented, {
 			for(i = 0; i < data.length; ++i){
 				t = this._normalizedCreator(data[i]);
 				this.setItem(t.node.id, {data: t.data, type: t.type});
-				this.parent.insertBefore(t.node, anchor);
+				anchor.parentNode.insertBefore(t.node, anchor);
 			}
 		}else{
 			for(i = 0; i < data.length; ++i){
@@ -233,15 +203,15 @@ var Container = declare("dojo.dnd.Container", Evented, {
 	destroy: function(){
 		// summary:
 		//		prepares this object to be garbage-collected
-		array.forEach(this.events, connect.disconnect);
+		array.forEach(this.events, function(handle){ handle.remove(); });
 		this.clearItems();
 		this.node = this.parent = this.current = null;
 	},
 
 	// markup methods
-	markupFactory: function(params, node, ctor){
+	markupFactory: function(params, node, Ctor){
 		params._skipStartup = true;
-		return new ctor(node, params);
+		return new Ctor(node, params);
 	},
 	startup: function(){
 		// summary:
@@ -265,7 +235,7 @@ var Container = declare("dojo.dnd.Container", Evented, {
 	// mouse events
 	onMouseOver: function(e){
 		// summary:
-		//		event processor for onmouseover
+		//		event processor for onmouseover or touch, to mark that element as the current element
 		// e: Event
 		//		mouse event
 		var n = e.relatedTarget;
@@ -365,12 +335,12 @@ var Container = declare("dojo.dnd.Container", Evented, {
 		var node = e.target;
 		if(node){
 			for(var parent = node.parentNode; parent; node = parent, parent = node.parentNode){
-				if(parent == this.parent && domClass.contains(node, "dojoDndItem")){ return node; }
+				if((parent == this.parent || this.allowNested) && domClass.contains(node, "dojoDndItem")){ return node; }
 			}
 		}
 		return null;
 	},
-	_normalizedCreator: function(/*dojo.dnd.Item*/ item, /*String*/ hint){
+	_normalizedCreator: function(/*Container.Item*/ item, /*String*/ hint){
 		// summary:
 		//		adds all necessary data to the output of the user-supplied creator function
 		var t = (this.creator || this.defaultCreator).call(this, item, hint);
@@ -411,7 +381,7 @@ dnd._createSpan = function(text){
 	return domConstruct.create("span", {innerHTML: text});	// Node
 };
 
-// dojo.dnd._defaultCreatorNodes: Object
+// dnd._defaultCreatorNodes: Object
 //		a dictionary that maps container tag names to child tag names
 dnd._defaultCreatorNodes = {ul: "li", ol: "li", div: "div", p: "div"};
 
@@ -443,6 +413,46 @@ dnd._defaultCreator = function(node){
 		return {node: n, data: data, type: type};
 	};
 };
+
+/*=====
+Container.__ContainerArgs = declare([], {
+	creator: function(){
+		// summary:
+		//		a creator function, which takes a data item, and returns an object like that:
+		//		{node: newNode, data: usedData, type: arrayOfStrings}
+	},
+
+	// skipForm: Boolean
+	//		don't start the drag operation, if clicked on form elements
+	skipForm: false,
+
+	// dropParent: Node||String
+	//		node or node's id to use as the parent node for dropped items
+	//		(must be underneath the 'node' parameter in the DOM)
+	dropParent: null,
+
+	// _skipStartup: Boolean
+	//		skip startup(), which collects children, for deferred initialization
+	//		(this is used in the markup mode)
+	_skipStartup: false
+});
+
+Container.Item = function(){
+	// summary:
+	//		Represents (one of) the source node(s) being dragged.
+	//		Contains (at least) the "type" and "data" attributes.
+	// type: String[]
+	//		Type(s) of this item, by default this is ["text"]
+	// data: Object
+	//		Logical representation of the object being dragged.
+	//		If the drag object's type is "text" then data is a String,
+	//		if it's another type then data could be a different Object,
+	//		perhaps a name/value hash.
+
+	this.type = type;
+	this.data = data;
+};
+=====*/
 
 return Container;
 });

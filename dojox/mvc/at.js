@@ -1,51 +1,46 @@
 define([
+	"dojo/_base/kernel",
 	"dojo/_base/lang",
-	"./resolve",
-	"./Bind"
-], function(lang, resolve, Bind){
+	"./sync",
+	"./_atBindingExtension"
+], function(kernel, lang, sync){
 	/*=====
 	dojox.mvc.at.handle = {
 		// summary:
 		//		A handle of data binding target (a dojo.Stateful property), which is used for start synchronization with data binding source (another dojo.Stateful property).
 
-		setParent: function(parent){
+		// target: dojo.Stateful|String
+		//		The data binding literal or dojo.Stateful to be synchronized.
+		target: new dojo.Stateful(),
+
+		// targetProp: String
+		//		The property name in target to be synchronized.
+		targetProp: "",
+
+		// bindDirection: Number
+		//		The data binding bindDirection, choose from: dojox.mvc.sync.from, dojox.mvc.sync.to or dojox.mvc.sync.both.
+		bindDirection: dojox.mvc.sync.both,
+
+		// converter: dojox.mvc.sync.converter
+		//		Class/object containing the converter functions used when the data goes between data binding target (e.g. data model or controller) to data binding origin (e.g. widget).
+		converter: null,
+
+		direction: function(bindDirection){
 			// summary:
-			//		Set parent binding.
-			// parent: dojo.Stateful
-			//		The parent binding to set.
+			//		Sets data binding bindDirection.
+			// bindDirection: Number
+			//		The data binding bindDirection, choose from: dojox.mvc.sync.from, dojox.mvc.sync.to or dojox.mvc.sync.both.
 		},
 
-		direct: function(direction){
-			// summary:
-			//		Sets data binding direction.
-			// direction: Number
-			//		The data binding direction, choose from: dojox.mvc.Bind.from, dojox.mvc.Bind.to or dojox.mvc.Bind.both.
-		},
-
-		attach: function(converter){
+		transform: function(converter){
 			// summary:
 			//		Attach a data converter.
-			// converter: dojox.mvc.Bind.converter
+			// converter: dojox.mvc.sync.converter
 			//		Class/object containing the converter functions used when the data goes between data binding target (e.g. data model or controller) to data binding origin (e.g. widget).
-		},
-
-		bind: function(source, sourceProp){
-			// summary:
-			//		Start data binding synchronization with specified data binding source, with the data binding target defined in this handle.
-			// source: dojo.Stateful|String
-			//		The dojo.Stateful of data binding source.
-			// sourceProp: String
-			//		The property name in dojo.Stateful of data binding source.
-			// example:
-			//		Start synchronizing dojo.Stateful property with another dojo.Stateful property:
-			// |		dojox.mvc.at(stateful, "propertyname").bind(anotherstateful, "propertynameinanotherstateful") 
 		}
 	};
 	=====*/
-
-	function logBindingFailure(target, targetProp){
-		console.warn(targetProp + " could not be resolved" + (typeof target == "string" ? (" with " + target) : "") + ".");
-	}
+	kernel.experimental("dojox.mvc");
 
 	var at = /*===== dojox.mvc.at = =====*/ function(/*dojo.Stateful|String*/ target, /*String*/ targetProp){
 		// summary:
@@ -59,46 +54,47 @@ define([
 		// returns:
 		//		A handle of data binding target (a dojo.Stateful property), which is used for start synchronization with data binding source (another dojo.Stateful property).
 		// example:
-		//		Synchronize attrbinwidget attribute in my.widget with propertyname in stateful.
-		// |		<div data-dojo-type="my.widget" data-dojo-props="ref: {attribinwidget: dojox.mvc.at(stateful, 'propertyname')}"></div>
-
-		var _parent = null, _direction = Bind.both, _converter = null;
+		//		Two seconds later, the text box changes from "Foo" to "Bar" as the "value" property in model changes.
+		// |		<html>
+		// |			<head>
+		// |				<script src="/path/to/dojo-toolkit/dojo/dojo.js" type="text/javascript" data-dojo-config="parseOnLoad: 0"></script>
+		// |				<script type="text/javascript">
+		// |					require([
+		// |						"dojo/parser", "dojo/Stateful", "dojox/mvc/at", "dijit/form/TextBox", "dojo/domReady!"
+		// |					], function(parser, Stateful, at){
+		// |						window.at = at;
+		// |						model = new Stateful({value: "Foo"});
+		// |						setTimeout(function(){ model.set("value", "Bar"); }, 2000);
+		// |						parser.parse();
+		// |					});
+		// |				</script>
+		// |			</head>
+		// |			<body>
+		// |				<input type="text" data-dojo-type="dijit.form.TextBox" data-dojo-props="value: at(model, 'value')">
+		// |			</body>
+		// |		</html>
 
 		return {
 			atsignature: "dojox.mvc.at",
-
-			setParent: function(/*dojo.Stateful*/ parent){
-				_parent = parent;
-				return this; // dojox.mvc.at.handle
-			},
-
-			direct: function(/*Number*/ direction){
-				_direction = direction;
+			target: target,
+			targetProp: targetProp,
+			bindDirection: sync.both,
+			direction: function(/*Number*/ bindDirection){
+				this.bindDirection = bindDirection;
 				return this;
 			},
-
-			attach: function(/*dojox.mvc.Bind.converter*/ converter){
-				_converter = converter;
+			transform: function(/*dojox.mvc.sync.converter*/ converter){
+				this.converter = converter;
 				return this;
-			},
-
-			bind: function(/*dojo.Stateful|String*/ source, /*String*/ sourceProp){
-				var resolvedTarget = resolve(target, _parent) || {};
-				if(!resolvedTarget.set || !resolvedTarget.watch){
-					logBindingFailure(target, targetProp);
-				}
-
-				var resolvedSource = resolve(source, _parent) || {};
-				if(!resolvedSource.set || !resolvedTarget.watch){
-					logBindingFailure(source, sourceProp);
-				}
-
-				if(!resolvedTarget.set || !resolvedTarget.watch || !resolvedSource.set || !resolvedTarget.watch){ return; }
-
-				return Bind.bindTwo(resolvedTarget, targetProp, resolvedSource, sourceProp, {direction: _direction, converter: _converter}); // dojox.mvc.Bind.handle
 			}
 		}; // dojox.mvc.at.handle
 	};
 
+	// Data binding bindDirections
+	at.from = sync.from;
+	at.to = sync.to;
+	at.both = sync.both;
+
+	// lang.setObject() thing is for back-compat, remove it in 2.0
 	return lang.setObject("dojox.mvc.at", at);
 });

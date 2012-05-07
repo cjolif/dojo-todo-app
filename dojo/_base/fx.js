@@ -271,7 +271,8 @@ define(["./kernel", "./config", "./lang", "../Evented", "./Color", "./connect", 
 			var _t = this;
 			if(_t._active){
 				var curr = new Date().valueOf();
-				var step = (curr - _t._startTime) / (_t.duration);
+				// Allow durations of 0 (instant) by setting step to 1 - see #13798
+				var step = _t.duration === 0 ? 1 : (curr - _t._startTime) / (_t.duration);
 
 				if(step >= 1){
 					step = 1;
@@ -352,7 +353,6 @@ define(["./kernel", "./config", "./lang", "../Evented", "./Color", "./connect", 
 	});
 
 	var _makeFadeable =
-		//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
 		has("ie") ? function(node){
 			// only set the zoom if the "tickle" value would be the same as the
 			// default
@@ -363,7 +363,6 @@ define(["./kernel", "./config", "./lang", "../Evented", "./Color", "./connect", 
 				ns.width = "auto";
 			}
 		} :
-		//>>excludeEnd("webkitMobile");
 		function(){};
 
 	dojo._fade = function(/*Object*/ args){
@@ -389,7 +388,7 @@ define(["./kernel", "./config", "./lang", "../Evented", "./Color", "./connect", 
 	};
 
 	/*=====
-	dojo.__FadeArgs = function(node, duration, easing){
+	var __FadeArgs = function(node, duration, easing){
 		//	node: DOMNode|String
 		//		The node referenced in the animation
 		//	duration: Integer?
@@ -399,7 +398,7 @@ define(["./kernel", "./config", "./lang", "../Evented", "./Color", "./connect", 
 		this.node = node;
 		this.duration = duration;
 		this.easing = easing;
-	}
+	};
 	=====*/
 
 	dojo.fadeIn = function(/*dojo.__FadeArgs*/ args){
@@ -451,17 +450,19 @@ define(["./kernel", "./config", "./lang", "../Evented", "./Color", "./connect", 
 	};
 
 	/*=====
-	declare("dojo.__AnimArgs", [dojo.__FadeArgs], {
+	var __AnimArgs = function(){};
+	_AnimArgs.prototype = new __FadeArgs();
+	lang.extend(__AnimArgs, {
 		// Properties: Object?
-		//	A hash map of style properties to Objects describing the transition,
-		//	such as the properties of dojo._Line with an additional 'units' property
+		//		A hash map of style properties to Objects describing the transition,
+		//		such as the properties of dojo._Line with an additional 'units' property
 		properties: {}
 
 		//TODOC: add event callbacks
 	});
 	=====*/
 
-	dojo.animateProperty = function(/*dojo.__AnimArgs*/ args){
+	dojo.animateProperty = function(/*__AnimArgs*/ args){
 		// summary:
 		//		Returns an animation that will transition the properties of
 		//		node defined in `args` depending how they are defined in

@@ -1,0 +1,52 @@
+<!--[if IE 7]>
+<!DOCTYPE>
+<html lang="en">
+	<head>
+<![endif]-->
+<!--[if IE 8]>
+<!DOCTYPE>
+<html lang="en">
+    <head>
+           <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+<![endif]-->
+<![if gte IE 9]>
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+<![endif]>	 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Testing Axes</title>
+<style type="text/css">
+	@import "../../../dojo/resources/dojo.css";
+	@import "../../../dijit/tests/css/dijitTests.css";
+</style>
+<script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="async: true, isDebug: true"></script>
+<script type="text/javascript">
+require(["dojo/ready", "dojox/charting/Chart", "dojox/charting/axis2d/Default",
+	"dojox/charting/plot2d/Markers", "dojox/charting/action2d/MouseZoomAndPan", "dojox/charting/Theme"],
+		function(ready, Chart, Default, Markers,
+			MouseZoomAndPan, Theme){
+	ready(function(){
+
+		var myLabelFunc = function(text, value){
+			return text+" make it even longer";
+		};
+		chart1a = new Chart("test1").
+        	    addAxis("x", {fixLower: "major", fixUpper: "major", natural: true, includeZero: true, font: "14px helvetica",
+					minorTickStep: 0.5, labelFunc: myLabelFunc, rotation: 30}).
+    	        addAxis("y", {vertical: true, fixLower: "major", fixUpper: "major", natural: true, includeZero: true, labelFunc: myLabelFunc}).
+        	    addPlot("default", {type: Markers}).
+	            addSeries("Series A", [{x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 1}]).
+    	        addSeries("Series B", [{x: 3, y: 2}, {x: 4, y: 3}, {x: 5, y: 2}]).
+        	    addSeries("Series C", [{x: 5, y: 3}, {x: 6, y: 4}, {x: 7, y: 3}]).
+           		render();
+	});
+});
+</script>
+</head>
+<body>
+<h1>Testing Data Point Style</h1>
+<div id="test" style="width: 600px; height: 400px;"></div>
+<p>That's all Folks!</p>
+</body>
+</html>

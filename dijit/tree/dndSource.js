@@ -17,30 +17,6 @@ define([
 // summary:
 //		Handles drag and drop operations (as a source or a target) for `dijit.Tree`
 
-/*=====
-dijit.tree.__SourceArgs = function(){
-	// summary:
-	//		A dict of parameters for Tree source configuration.
-	// isSource: Boolean?
-	//		Can be used as a DnD source. Defaults to true.
-	// accept: String[]
-	//		List of accepted types (text strings) for a target; defaults to
-	//		["text", "treeNode"]
-	// copyOnly: Boolean?
-	//		Copy items, if true, use a state of Ctrl key otherwise,
-	// dragThreshold: Number
-	//		The move delay in pixels before detecting a drag; 0 by default
-	// betweenThreshold: Integer
-	//		Distance from upper/lower edge of node to allow drop to reorder nodes
-	this.isSource = isSource;
-	this.accept = accept;
-	this.autoSync = autoSync;
-	this.copyOnly = copyOnly;
-	this.dragThreshold = dragThreshold;
-	this.betweenThreshold = betweenThreshold;
-}
-=====*/
-
 return declare("dijit.tree.dndSource", _dndSelector, {
 	// summary:
 	//		Handles drag and drop operations (as a source or a target) for `dijit.Tree`
@@ -65,6 +41,9 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 	// betweenThreshold: Integer
 	//		Distance from upper/lower edge of node to allow drop to reorder nodes
 	betweenThreshold: 0,
+
+	// Flag used by Avatar.js to signal to generate text node when dragging
+	generateText: true,
 
 	constructor: function(/*dijit.Tree*/ tree, /*dijit.tree.__SourceArgs*/ params){
 		// summary:
@@ -144,10 +123,16 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 		this.targetAnchor = null;
 	},
 
-	_onDragMouse: function(e){
+	_onDragMouse: function(e, firstTime){
 		// summary:
 		//		Helper method for processing onmousemove/onmouseover events while drag is in progress.
 		//		Keeps track of current drop target.
+		// e: Event
+		//		The mousemove event.
+		// firstTime: Boolean?
+		//		If this flag is set, this is the first mouse move event of the drag, so call m.canDrop() etc.
+		//		even if newTarget == null because the user quickly dragged a node in the Tree to a position
+		//		over Tree.containerNode but not over any TreeNode (#7971)
 
 		var m = DNDManager.manager(),
 			oldTarget = this.targetAnchor,			// the TreeNode corresponding to TreeNode mouse was previously over
@@ -169,7 +154,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 			}
 		}
 
-		if(newTarget != oldTarget || newDropPosition != oldDropPosition){
+		if(firstTime || newTarget != oldTarget || newDropPosition != oldDropPosition){
 			if(oldTarget){
 				this._removeItemClass(oldTarget.rowNode, oldDropPosition);
 			}
@@ -243,6 +228,7 @@ return declare("dijit.tree.dndSource", _dndSelector, {
 					}
 					nodes = array.map(nodes, function(n){return n.domNode});
 					m.startDrag(this, nodes, this.copyState(connect.isCopyKey(e)));
+					this._onDragMouse(e, true);	// because this may be the only mousemove event we get before the drop
 				}
 			}
 		}

@@ -138,8 +138,9 @@ define([
 	"dojo/dom-class",
 	"dojo/dom-construct",
 	"dojo/dom-style",
-	"./sniff"
-], function(dojo, connect, event, lang, win, domClass, domConstruct, domStyle, has){
+	"dojo/_base/sniff",
+	"dojo/ready"
+], function(dojo, connect, event, lang, win, domClass, domConstruct, domStyle, has, ready){
 
 	var dm = lang.getObject("dojox.mobile", true);
 
@@ -219,6 +220,9 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 	this.propagatable = true; // let touchstart event propagate up
 	this.dirLock = false; // disable the move handler if scroll starts in the unexpected direction
 	this.height = ""; // explicitly specified height of this widget (ex. "300px")
+	this.scrollType = 0; // 1: use -webkit-transform:translate3d(x,y,z) style,
+						 // 2: use top/left style,
+						 // 0: use default value (2 in case of Android, otherwise 1)
 
 //>>includeStart("standaloneScrollable", kwArgs.standaloneScrollable);
 	if(!dojo){ // namespace objects are not passed
@@ -245,29 +249,47 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		this._ch.push(connect.connect(this.touchNode,
 			has('touch') ? "ontouchstart" : "onmousedown", this, "onTouchStart"));
 		if(has("webkit")){
-			this._ch.push(connect.connect(this.domNode, "webkitAnimationEnd", this, "onFlickAnimationEnd"));
-			this._ch.push(connect.connect(this.domNode, "webkitAnimationStart", this, "onFlickAnimationStart"));
+			// flag for whether to use -webkit-transform:translate3d(x,y,z) or top/left style.
+			// top/left style works fine as a workaround for input fields auto-scrolling issue,
+			// so use top/left in case of Android by default.
+			this._useTopLeft = this.scrollType ? this.scrollType === 2 : has('android') < 3;
+			if(!this._useTopLeft){
+				this._ch.push(connect.connect(this.domNode, "webkitAnimationEnd", this, "onFlickAnimationEnd"));
+				this._ch.push(connect.connect(this.domNode, "webkitAnimationStart", this, "onFlickAnimationStart"));
 
-			// Creation of keyframes takes a little time. If they are created
-			// in a lazy manner, a slight delay is noticeable when you start
-			// scrolling for the first time. This is to create keyframes up front.
-			for(var i = 0; i < 3; i++){
-				this.setKeyframes(null, null, i);
-			}
-			if(dm.hasTranslate3d){ // workaround for flicker issue on iPhone and Android 3.x/4.0
-				domStyle.set(this.containerNode, "webkitTransform", "translate3d(0,0,0)");
+				// Creation of keyframes takes a little time. If they are created
+				// in a lazy manner, a slight delay is noticeable when you start
+				// scrolling for the first time. This is to create keyframes up front.
+				for(var i = 0; i < 3; i++){
+					this.setKeyframes(null, null, i);
+				}
+				if(dm.hasTranslate3d){ // workaround for flicker issue on iPhone and Android 3.x/4.0
+					domStyle.set(this.containerNode, "webkitTransform", "translate3d(0,0,0)");
+				}
+			}else{
+				this._ch.push(connect.connect(this.domNode, "webkitTransitionEnd", this, "onFlickAnimationEnd"));
+				this._ch.push(connect.connect(this.domNode, "webkitTransitionStart", this, "onFlickAnimationStart"));
 			}
 		}
 
 		this._speed = {x:0, y:0};
 		this._appFooterHeight = 0;
-		if(this.isTopLevel() && !this.noResize){
-			this.resize();
-		}
+		// DO NOT do scrollable container layout by scrollable widget in a layout container
+		//		if(this.isTopLevel() && !this.noResize){
+		//			this.resize();
+		//		}
+
 		var _this = this;
-		setTimeout(function(){
+		// Create a scrollableBar for scrollable container. All containers share this scrollableBar.
+		// Note: setTimeout will failed for dom maybe not ready in 600ms.
+		//		setTimeout(function(){
+		//			_this.flashScrollBar();
+		//		}, 600);
+
+		// Create the scrollableBar when dom ready and scrollable container init.
+		ready(function(){
 			_this.flashScrollBar();
-		}, 600);
+		});
 	};
 
 	this.isTopLevel = function(){
@@ -288,6 +310,12 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		// summary:
 		//		Finds the currently displayed view node from my sibling nodes.
 		if(!node.parentNode){ return null; }
+
+		// the given node is the first candidate
+		if(node.nodeType === 1 && domClass.contains(node, "mblView") && node.style.display !== "none"){
+			return node;
+		}
+
 		var nodes = node.parentNode.childNodes;
 		for(var i = 0; i < nodes.length; i++){
 			var n = nodes[i];
@@ -307,7 +335,8 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		};
 	};
 
-	this.resize = function(e){
+	// implement layout resize method
+	this.resize = function(changeSize, resultSize){
 		// summary:
 		//		Adjusts the height of the widget.
 		// description:
@@ -319,30 +348,13 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		//		current top position of the widget to the bottom of the screen
 		//		will be the new height.
 
-		// moved from init() to support dynamically added fixed bars
-		this._appFooterHeight = (this.fixedFooterHeight && !this.isLocalFooter) ?
-			this.fixedFooterHeight : 0;
-		if(this.isLocalHeader){
-			this.containerNode.style.marginTop = this.fixedHeaderHeight + "px";
-		}
-
-		// Get the top position. Same as dojo.position(node, true).y
-		var top = 0;
-		for(var n = this.domNode; n && n.tagName != "BODY"; n = n.offsetParent){
-			n = this.findDisp(n); // find the first displayed view node
-			if(!n){ break; }
-			top += n.offsetTop;
-		}
-
-		// adjust the height of this view
-		var	h,
-			screenHeight = this.getScreenSize().h,
-			dh = screenHeight - top - this._appFooterHeight; // default height
-		if(this.height === "inherit"){
-			if(this.domNode.offsetParent){
-				h = this.domNode.offsetParent.offsetHeight + "px";
-			}
-		}else if(this.height === "auto"){
+		// Apply layout container's changeSize to current domNode
+		if(changeSize){
+			this.domNode.style.height = changeSize.h+'px';
+			this.domNode.style.width = changeSize.w+'px';
+			this.domNode.style.left = changeSize.l+'px';
+			this.domNode.style.top = changeSize.t+'px';
+		}else{
 			var parent = this.domNode.offsetParent;
 			if(parent){
 				this.domNode.style.height = "0px";
@@ -350,23 +362,18 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 					scrollableRect = this.domNode.getBoundingClientRect(),
 					contentBottom = parentRect.bottom - this._appFooterHeight;
 				if(scrollableRect.bottom >= contentBottom){ // use entire screen
-					dh = screenHeight - (scrollableRect.top - parentRect.top) - this._appFooterHeight;
+					dh = screenHeight - parent.offsetTop; // No fixed footer here
 				}else{ // stretch to fill predefined area
 					dh = contentBottom - scrollableRect.bottom;
 				}
+
+				// content could be smaller than entire screen height
+				var contentHeight = Math.max(this.domNode.scrollHeight, this.containerNode.scrollHeight);
+				var h = (contentHeight ? Math.min(contentHeight, dh) : dh) + "px";
+
+				if(h.charAt(0) !== "-") // to ensure that h is not negative (e.g. "-10px")
+					this.domNode.style.height = h;
 			}
-			// content could be smaller than entire screen height
-			var contentHeight = Math.max(this.domNode.scrollHeight, this.containerNode.scrollHeight);
-			h = (contentHeight ? Math.min(contentHeight, dh) : dh) + "px";
-		}else if(this.height){
-			h = this.height;
-		}
-		if(!h){
-			h = dh + "px";
-		}
-		if(h.charAt(0) !== "-" && // to ensure that h is not negative (e.g. "-10px")
-			h !== "default"){
-			this.domNode.style.height = h;
 		}
 
 		// to ensure that the view is within a scrolling area when resized.
@@ -381,14 +388,26 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		var an = e && e.animationName;
 		if(an && an.indexOf("scrollableViewScroll2") === -1){
 			if(an.indexOf("scrollableViewScroll0") !== -1){ // scrollBarV
-				domClass.remove(this._scrollBarNodeV, "mblScrollableScrollTo0");
+				if(this._scrollBarNodeV){ domClass.remove(this._scrollBarNodeV, "mblScrollableScrollTo0"); }
 			}else if(an.indexOf("scrollableViewScroll1") !== -1){ // scrollBarH
-				domClass.remove(this._scrollBarNodeH, "mblScrollableScrollTo1");
+				if(this._scrollBarNodeH){ domClass.remove(this._scrollBarNodeH, "mblScrollableScrollTo1"); }
 			}else{ // fade or others
 				if(this._scrollBarNodeV){ this._scrollBarNodeV.className = ""; }
 				if(this._scrollBarNodeH){ this._scrollBarNodeH.className = ""; }
 			}
 			return;
+		}
+		if(this._useTopLeft){
+			var n = e.target;
+			if(n === this._scrollBarV || n === this._scrollBarH){
+				var cls = "mblScrollableScrollTo" + (n === this._scrollBarV ? "0" : "1");
+				if(domClass.contains(n, cls)){
+					domClass.remove(n, cls);
+				}else{
+					n.className = "";
+				}
+				return;
+			}
 		}
 		if(e && e.srcElement){
 			event.stop(e);
@@ -553,11 +572,14 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 					clicked = true;
 				}
 			}
-			var isFormElem = this.isFormElement(e.target);
-			if(clicked && !isFormElem){ // clicked, not dragged or flicked
+			if(clicked){ // clicked, not dragged or flicked
 				this.hideScrollBar();
 				this.removeCover();
-				if(has('touch')){
+				// #12697 Do not generate a click event programmatically when a
+				// form element (input, select, etc.) is clicked.
+				// Otherwise, in particular, when checkbox is clicked, its state
+				// is reversed again by the generated event.
+				if(has('touch') && !this.isFormElement(e.target)){
 					var elem = e.target;
 					if(elem.nodeType != 1){
 						elem = elem.parentNode;
@@ -645,7 +667,7 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		if(duration === undefined){
 			var distance, velocity;
 			if(this._v && this._h){
-				velocity = Math.sqrt(speed.x+speed.x + speed.y*speed.y);
+				velocity = Math.sqrt(speed.x*speed.x + speed.y*speed.y);
 				distance = Math.sqrt(Math.pow(to.y - pos.y, 2) + Math.pow(to.x - pos.x, 2));
 			}else if(this._v){
 				velocity = speed.y;
@@ -679,6 +701,11 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		}
 		if(this._scrollBarH){
 			this._scrollBarH.className = "";
+		}
+		if(this._useTopLeft){
+			this.containerNode.style.webkitTransition = "";
+			if(this._scrollBarV) { this._scrollBarV.style.webkitTransition = ""; }
+			if(this._scrollBarH) { this._scrollBarH.style.webkitTransition = ""; }
 		}
 	};
 
@@ -724,7 +751,17 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		//		Scrolls to the given position.
 		var s = (node || this.containerNode).style;
 		if(has("webkit")){
-			s.webkitTransform = this.makeTranslateStr(to);
+			if(!this._useTopLeft){
+				s.webkitTransform = this.makeTranslateStr(to);
+			}else{
+				s.webkitTransition = "";
+				if(this._v){
+					s.top = to.y + "px";
+				}
+				if(this._h || this._f){
+					s.left = to.x + "px";
+				}
+			}
 		}else{
 			if(this._v){
 				s.top = to.y + "px";
@@ -756,12 +793,17 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		// summary:
 		//		Get the top position in the midst of animation
 		if(has("webkit")){
-			var m = win.doc.defaultView.getComputedStyle(this.containerNode, '')["-webkit-transform"];
-			if(m && m.indexOf("matrix") === 0){
-				var arr = m.split(/[,\s\)]+/);
-				return {y:arr[5] - 0, x:arr[4] - 0};
+			var s = win.doc.defaultView.getComputedStyle(this.containerNode, '');
+			if(!this._useTopLeft){
+				var m = s["-webkit-transform"];
+				if(m && m.indexOf("matrix") === 0){
+					var arr = m.split(/[,\s\)]+/);
+					return {y:arr[5] - 0, x:arr[4] - 0};
+				}
+				return {x:0, y:0};
+			}else{
+				return {x:parseInt(s.left) || 0, y:parseInt(s.top) || 0};
 			}
-			return {x:0, y:0};
 		}else{
 			// this.containerNode.offsetTop does not work here,
 			// because it adds the height of the top margin.
@@ -836,7 +878,6 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 	};
 
 	this.hideScrollBar = function(){
-		var fadeRule;
 		if(this.fadeScrollBar && has("webkit")){
 			if(!dm._fadeRule){
 				var node = domConstruct.create("style", null, win.doc.getElementsByTagName("head")[0]);
@@ -849,7 +890,6 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 					"  to { opacity: 0; }}";
 				dm._fadeRule = node.sheet.cssRules[1];
 			}
-			fadeRule = dm._fadeRule;
 		}
 		if(!this.scrollBar){ return; }
 		var f = function(bar, self){
@@ -857,7 +897,11 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 				opacity: 0,
 				webkitAnimationDuration: ""
 			});
-			bar.className = "mblScrollableFadeScrollBar";
+			// do not use fade animation in case of using top/left on Android
+			// since it causes screen flicker during adress bar's fading out
+			if(!(self._useTopLeft && has('android'))){
+				bar.className = "mblScrollableFadeScrollBar";
+			}
 		};
 		if(this._scrollBarV){
 			f(this._scrollBarV, this);
@@ -895,14 +939,28 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		if(!this.scrollBar){ return; }
 		if(this._v && this._scrollBarV && typeof to.y == "number"){
 			if(has("webkit")){
-				this._scrollBarV.style.webkitTransform = this.makeTranslateStr({y:to.y});
+				if(!this._useTopLeft){
+					this._scrollBarV.style.webkitTransform = this.makeTranslateStr({y:to.y});
+				}else{
+					domStyle.set(this._scrollBarV, {
+						webkitTransition: "",
+						top: to.y + "px"
+					});
+				}
 			}else{
 				this._scrollBarV.style.top = to.y + "px";
 			}
 		}
 		if(this._h && this._scrollBarH && typeof to.x == "number"){
 			if(has("webkit")){
-				this._scrollBarH.style.webkitTransform = this.makeTranslateStr({x:to.x});
+				if(!this._useTopLeft){
+					this._scrollBarH.style.webkitTransform = this.makeTranslateStr({x:to.x});
+				}else{
+					domStyle.set(this._scrollBarH, {
+						webkitTransition: "",
+						left: to.x + "px"
+					});
+				}
 			}else{
 				this._scrollBarH.style.left = to.x + "px";
 			}
@@ -924,18 +982,32 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 	this._runSlideAnimation = function(/*Object*/from, /*Object*/to, /*Number*/duration, /*String*/easing, node, idx){
 		// idx: 0:scrollbarV, 1:scrollbarH, 2:content
 		if(has("webkit")){
-			this.setKeyframes(from, to, idx);
-			domStyle.set(node, {
-				webkitAnimationDuration: duration + "s",
-				webkitAnimationTimingFunction: easing
-			});
-			domClass.add(node, "mblScrollableScrollTo"+idx);
-			if(idx == 2){
-				this.scrollTo(to, true, node);
+			if(!this._useTopLeft){
+				this.setKeyframes(from, to, idx);
+				domStyle.set(node, {
+					webkitAnimationDuration: duration + "s",
+					webkitAnimationTimingFunction: easing
+				});
+				domClass.add(node, "mblScrollableScrollTo"+idx);
+				if(idx == 2){
+					this.scrollTo(to, true, node);
+				}else{
+					this.scrollScrollBarTo(to);
+				}
 			}else{
-				this.scrollScrollBarTo(to);
+				domStyle.set(node, {
+					webkitTransitionProperty: "top, left",
+					webkitTransitionDuration: duration + "s",
+					webkitTransitionTimingFunction: easing
+				});
+				setTimeout(function(){ // setTimeout is needed to prevent webkitTransitionEnd not fired
+					domStyle.set(node, {
+						top: (to.y || 0) + "px",
+						left: (to.x || 0) + "px"
+					});
+				}, 0);
+				domClass.add(node, "mblScrollableScrollTo"+idx);
 			}
-//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
 		}else if(dojo.fx && dojo.fx.easing && duration){
 			// If you want to support non-webkit browsers,
 			// your application needs to load necessary modules as follows:
@@ -962,7 +1034,6 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 			}else{
 				this.scrollScrollBarTo(to);
 			}
-//>>excludeEnd("webkitMobile");
 		}
 	};
 
@@ -1034,7 +1105,6 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 	};
 
 	this.addCover = function(){
-//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
 		if(!has('touch') && !this.noCover){
 			if(!dm._cover){
 				dm._cover = domConstruct.create("div", null, win.doc.body);
@@ -1057,17 +1127,14 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 			this.setSelectable(dm._cover, false);
 			this.setSelectable(this.domNode, false);
 		}
-//>>excludeEnd("webkitMobile");
 	};
 
 	this.removeCover = function(){
-//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
 		if(!has('touch') && dm._cover){
 			dm._cover.style.display = "none";
 			this.setSelectable(dm._cover, true);
 			this.setSelectable(this.domNode, true);
 		}
-//>>excludeEnd("webkitMobile");
 	};
 
 	this.setKeyframes = function(/*Object*/from, /*Object*/to, /*Number*/idx){
@@ -1119,6 +1186,11 @@ var scrollable = function(/*Object?*/dojo, /*Object?*/dojox){
 		var v = win.doc.defaultView.getComputedStyle(elem, '')["-webkit-transform"];
 		dm.hasTranslate3d = v && v.indexOf("matrix") === 0;
 		win.doc.documentElement.removeChild(elem);
+	}
+
+	// disable dojo mobile resizeAll and let dojox.app layout container to do resize.
+	if(!dm.disableResizeAll){
+		dm.disableResizeAll = true;
 	}
 };
 

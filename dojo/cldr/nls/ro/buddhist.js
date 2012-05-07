@@ -1,21 +1,22 @@
 define(
 //begin v1.x content
 {
-	"quarters-format-abbr": [
-		"trim. I",
-		"trim. II",
-		"trim. III",
-		"trim. IV"
+	"dateFormatItem-yM": "MM.yyyy",
+	"dateFormatItem-yQ": "'trimestrul' Q y",
+	"eraNames": [
+		"era budistă"
 	],
-	"dateFormat-medium": "d MMM y G",
-	"dateFormatItem-MMMEd": "E, d MMM",
-	"dateFormatItem-MEd": "E, d MMM",
-	"dateFormatItem-yMEd": "EEE, d/M/yyyy",
-	"eraNarrow": [
-		"e.b."
+	"dateFormatItem-MMMEd": "E d MMM",
+	"dateFormatItem-yQQQ": "QQQ y",
+	"days-standAlone-wide": [
+		"duminică",
+		"luni",
+		"marți",
+		"miercuri",
+		"joi",
+		"vineri",
+		"sâmbătă"
 	],
-	"dateTimeFormat-medium": "{1}, {0}",
-	"dateFormatItem-Md": "d.M",
 	"months-standAlone-narrow": [
 		"I",
 		"F",
@@ -30,10 +31,29 @@ define(
 		"N",
 		"D"
 	],
-	"dateFormatItem-EEEd": "EEE d",
-	"eraNames": [
-		"era budistă"
+	"quarters-standAlone-abbr": [
+		"T1",
+		"T2",
+		"T3",
+		"T4"
 	],
+	"dateFormatItem-y": "y",
+	"months-standAlone-abbr": [
+		"ian.",
+		"feb.",
+		"mar.",
+		"apr.",
+		"mai",
+		"iun.",
+		"iul.",
+		"aug.",
+		"sept.",
+		"oct.",
+		"nov.",
+		"dec."
+	],
+	"dateFormatItem-Ed": "E d",
+	"dateFormatItem-yMMM": "MMM y",
 	"days-standAlone-narrow": [
 		"D",
 		"L",
@@ -43,19 +63,25 @@ define(
 		"V",
 		"S"
 	],
-	"dateTimeFormat-long": "{1}, {0}",
-	"dateFormatItem-yQQQ": "QQQ y",
+	"eraAbbr": [
+		"e.b."
+	],
+	"dateFormat-long": "d MMMM y G",
+	"dateFormat-medium": "d MMM y G",
+	"dateFormatItem-yMd": "dd.MM.yyyy",
+	"quarters-standAlone-wide": [
+		"trimestrul I",
+		"trimestrul al II-lea",
+		"trimestrul al III-lea",
+		"trimestrul al IV-lea"
+	],
 	"quarters-standAlone-narrow": [
 		"T1",
 		"T2",
 		"T3",
 		"T4"
 	],
-	"dateFormat-long": "d MMMM y G",
-	"dateFormat-short": "d/M/yyyy",
-	"dateFormatItem-yMMMEd": "EEE, d MMM y",
-	"dateTimeFormat-short": "{1}, {0}",
-	"months-format-wide": [
+	"months-standAlone-wide": [
 		"ianuarie",
 		"februarie",
 		"martie",
@@ -69,8 +95,13 @@ define(
 		"noiembrie",
 		"decembrie"
 	],
-	"dateTimeFormat-full": "{1}, {0}",
-	"dateFormatItem-yM": "M.yyyy",
+	"dateFormatItem-MMMd": "d MMM",
+	"quarters-format-narrow": [
+		"1",
+		"2",
+		"3",
+		"T4"
+	],
 	"months-format-abbr": [
 		"ian.",
 		"feb.",
@@ -85,8 +116,79 @@ define(
 		"nov.",
 		"dec."
 	],
-	"eraAbbr": [
-		"e.b."
+	"quarters-format-abbr": [
+		"trim. I",
+		"trim. II",
+		"trim. III",
+		"trim. IV"
+	],
+	"days-format-abbr": [
+		"Du",
+		"Lu",
+		"Ma",
+		"Mi",
+		"Jo",
+		"Vi",
+		"Sâ"
+	],
+	"days-format-narrow": [
+		"D",
+		"L",
+		"M",
+		"M",
+		"J",
+		"V",
+		"S"
+	],
+	"dateFormatItem-yMMMd": "d MMM y",
+	"dateFormatItem-MEd": "E, dd.MM",
+	"months-format-narrow": [
+		"I",
+		"F",
+		"M",
+		"A",
+		"M",
+		"I",
+		"I",
+		"A",
+		"S",
+		"O",
+		"N",
+		"D"
+	],
+	"days-standAlone-abbr": [
+		"Du",
+		"Lu",
+		"Ma",
+		"Mi",
+		"Jo",
+		"Vi",
+		"Sâ"
+	],
+	"dateFormat-short": "d/M/yyyy",
+	"dateFormatItem-yMMMEd": "E, d MMM y",
+	"dateFormat-full": "EEEE, d MMMM, y G",
+	"dateFormatItem-Md": "dd.MM",
+	"dateFormatItem-yMEd": "E, dd.MM.yyyy",
+	"months-format-wide": [
+		"ianuarie",
+		"februarie",
+		"martie",
+		"aprilie",
+		"mai",
+		"iunie",
+		"iulie",
+		"august",
+		"septembrie",
+		"octombrie",
+		"noiembrie",
+		"decembrie"
+	],
+	"quarters-format-wide": [
+		"trimestrul I",
+		"trimestrul al II-lea",
+		"trimestrul al III-lea",
+		"trimestrul al IV-lea"
 	],
 	"days-format-wide": [
 		"duminică",
@@ -97,24 +199,8 @@ define(
 		"vineri",
 		"sâmbătă"
 	],
-	"dateFormatItem-yQ": "'trimestrul' Q y",
-	"dateFormatItem-yMMM": "MMM y",
-	"quarters-format-wide": [
-		"trimestrul I",
-		"trimestrul al II-lea",
-		"trimestrul al III-lea",
-		"trimestrul al IV-lea"
-	],
-	"dateFormat-full": "EEEE, d MMMM, y G",
-	"dateFormatItem-MMMd": "d MMM",
-	"days-format-abbr": [
-		"Du",
-		"Lu",
-		"Ma",
-		"Mi",
-		"Jo",
-		"Vi",
-		"Sâ"
+	"eraNarrow": [
+		"e.b."
 	]
 }
 //end v1.x content

@@ -1,0 +1,51 @@
+<html>
+<title>Test axis rendering time</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript"
+	src="../../../dojo/dojo.js"
+	data-dojo-config="isDebug:true"></script>
+
+<script type="text/javascript">
+  dojo.require("dojox.charting.Chart");
+  dojo.require("dojox.charting.plot2d.Default");
+  dojo.require("dojox.charting.tests.AxisBench");
+
+  onLoad = function() {
+	var chart = new dojox.charting.Chart("chart");
+	var myLabelFunc = function(v){
+		return "this is a long text: "+v;
+	}
+	chart.addAxis("x", {type : dojox.charting.tests.AxisBench, fixLower: "minor", natural: true, stroke: "gray",  enableCache: true,
+		    majorTickStep: 10, minorTickStep: 1, labelFunc: myLabelFunc,
+			majorTick: {color: "red", length: 4}, minorTick: {color: "blue", length: 2}, dropLabels: true});
+	chart.addAxis("y", {type : dojox.charting.tests.AxisBench, vertical: true, fixLower: "minor", natural: true, stroke: "gray", enableCache: true,
+		majorTick: {color: "red", length: 4}, minorTick: {color: "blue", length: 2}});
+	chart.addPlot("default", {
+		type : "Default",
+		markers : false
+	});
+	chart.addSeries("Series A", [ 8, 7, 3, 2, 5, 7, 9, 10, 2, 10, 14, 16,
+			29, 13, 16, 15, 20, 19, 15, 12, 24, 20, 20, 26, 28, 26, 28, 14,
+			24, 29, 31, 35, 37, 31, 35, 37, 37, 36, 31, 30, 50, 49, 42, 46,
+			44, 40, 47, 43, 48, 47, 51, 52, 52, 51, 54, 57, 58, 50, 54, 51,
+			74, 68, 67, 62, 62, 65, 61, 66, 65, 62, 74, 78, 78, 77, 74, 62,
+			72, 74, 70, 78, 84, 83, 85, 86, 86, 89, 89, 85, 86, 86, 98, 73,
+			93, 91, 92, 92, 99, 93, 94, 92 ]);
+	chart.render();
+	for(var i=0; i < 10; ++i){
+		chart.zoomIn("x", [20+i,80-i]);
+		for(var j = 0; j < 5; ++j){
+			chart.zoomIn("x", [20+i-j, 80-i-j]);
+		}
+	}
+	console.log("total time: "+dojox.charting.tests.AxisBench.total);
+  };
+
+  dojo.addOnLoad(onLoad);
+</script>
+</head>
+<body>
+<div id="chart" style="width:800px;height:600px"></div>
+</body>
+</html>

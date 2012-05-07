@@ -21,14 +21,14 @@ define([
 	// module:
 	//		dojox/mobile/IconContainer
 	// summary:
-	//		A container widget that holds multiple icons.
+	//		A container widget which can hold multiple icons.
 
 	return declare("dojox.mobile.IconContainer", [WidgetBase, Container, Contained],{
 		// summary:
-		//		A container widget that holds multiple icons.
+		//		A container widget which can hold multiple icons.
 		// description:
-		//		IconContainer is a container widget that holds multiple icons
-		//		each of which represents application component.
+		//		IconContainer is a container widget which can hold multiple
+		//		icons. Each icon represents an application component.
 
 		// defaultIcon: String
 		//		The default fall-back icon, which is displayed only when the
@@ -40,9 +40,10 @@ define([
 		//		standard transition types, "slide", "fade", "flip", or from the
 		//		extended transition types, "cover", "coverv", "dissolve",
 		//		"reveal", "revealv", "scaleIn", "scaleOut", "slidev",
-		//		"swirl", "zoomIn", "zoomOut". If "none" is specified, transition
-		//		occurs immediately without animation. If "below" is specified,
-		//		the application contents are displayed below the icons.
+		//		"swirl", "zoomIn", "zoomOut", "cube", and "swap". If "none" is
+		//		specified, transition occurs immediately without animation. If
+		//		"below" is specified, the application contents are displayed
+		//		below the icons.
 		transition: "below",
 
 		// pressedIconOpacity: Number
@@ -70,7 +71,8 @@ define([
 		single: false,
 
 		// editable: Boolean
-		//		If true, the icons can be removed or re-ordered.
+		//		If true, the icons can be removed or re-ordered. You can enter
+		//		into edit mode by pressing on a child IconItem until it starts shaking.
 		editable: false,
 
 		// tag: String
@@ -121,14 +123,8 @@ define([
 										label: this._cv ? this._cv(this.label) : this.label,
 										moveTo: this.domNode.parentNode.id,
 										transition: this.transition == "zoomIn" ? "zoomOut" : this.transition});
-					heading.placeAt(view.domNode);
-					if(view._started){
-						heading.startup();
-					}
-					this.paneContainerWidget.placeAt(view.domNode);
-					if(view._started){
-						this.paneContainerWidget.startup();
-					}
+					view.addChild(heading);
+					view.addChild(this.paneContainerWidget);
 
 					var target;
 					for(var w = this.getParent(); w; w = w.getParent()){

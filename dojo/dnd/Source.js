@@ -3,17 +3,12 @@ define([
 	"../dom-class", "../dom-geometry", "../mouse", "../ready", "../topic",
 	"./common", "./Selector", "./Manager"
 ], function(array, connect, declare, kernel, lang, domClass, domGeom, mouse, ready, topic,
-			dnd, Selector, Manager) {
+			dnd, Selector, Manager){
 
 // module:
 //		dojo/dnd/Source
 // summary:
 //		TODOC
-
-/*=====
-Selector = dojo.dnd.Selector;
-Manager = dojo.dnd.Manager;
-=====*/
 
 /*
 	Container property:
@@ -32,7 +27,7 @@ Manager = dojo.dnd.Manager;
 */
 
 /*=====
-dojo.dnd.__SourceArgs = function(){
+var __SourceArgs = function(){
 	//	summary:
 	//		a dict of parameters for DnD Source configuration. Note that any
 	//		property on Source elements may be configured, but this is the
@@ -71,7 +66,7 @@ dojo.dnd.__SourceArgs = function(){
 	this.selfAccept = selfAccept;
 	this.withHandles = withHandles;
 	this.generateText = true;
-}
+};
 =====*/
 
 // For back-compat, remove in 2.0.
@@ -99,7 +94,7 @@ var Source = declare("dojo.dnd.Source", Selector, {
 	accept: ["text"],
 	generateText: true,
 
-	constructor: function(/*DOMNode|String*/node, /*dojo.dnd.__SourceArgs?*/params){
+	constructor: function(/*DOMNode|String*/ node, /*__SourceArgs?*/ params){
 		// summary:
 		//		a constructor of the Source
 		// node:
@@ -215,7 +210,7 @@ var Source = declare("dojo.dnd.Source", Selector, {
 					(Math.abs(e.pageX - this._lastX) > this.delay || Math.abs(e.pageY - this._lastY) > this.delay)){
 				var nodes = this.getSelectedNodes();
 				if(nodes.length){
-					m.startDrag(this, nodes, this.copyState(connect.isCopyKey(e), true));
+					m.startDrag(this, nodes, this.copyState(dnd.getCopyKeyState(e), true));
 				}
 			}
 		}
@@ -228,7 +223,7 @@ var Source = declare("dojo.dnd.Source", Selector, {
 				}
 				if(this.horizontal){
 					// In LTR mode, the left part of the object means "before", but in RTL mode it means "after".
-					before = (e.pageX - this.targetBox.x < this.targetBox.w / 2) == domGeom.isBodyLtr();
+					before = (e.pageX - this.targetBox.x < this.targetBox.w / 2) == domGeom.isBodyLtr(this.current.ownerDocument);
 				}else{
 					before = (e.pageY - this.targetBox.y) < (this.targetBox.h / 2);
 				}
@@ -268,7 +263,7 @@ var Source = declare("dojo.dnd.Source", Selector, {
 		//		topic event processor for /dnd/source/over, called when detected a current source
 		// source: Object
 		//		the source which has the mouse over it
-		if(this != source){
+		if(this !== source){
 			this.mouseDown = false;
 			if(this.targetAnchor){
 				this._unmarkTargetAnchor();
@@ -504,8 +499,8 @@ var Source = declare("dojo.dnd.Source", Selector, {
 		// e: Event
 		//		mouse event
 
-		// accept only the left mouse button
-		if(!mouse.isLeft(e)){ return false; }
+		// accept only the left mouse button, or the left finger
+		if(e.type != "touchstart" && !mouse.isLeft(e)){ return false; }
 
 		if(!this.withHandles){ return true; }
 

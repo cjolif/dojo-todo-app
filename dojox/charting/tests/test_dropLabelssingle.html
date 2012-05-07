@@ -1,0 +1,64 @@
+<!--[if IE 7]>
+<!DOCTYPE>
+<html lang="en">
+	<head>
+<![endif]-->
+<!--[if IE 8]>
+<!DOCTYPE>
+<html lang="en">
+    <head>
+           <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+<![endif]-->
+<![if gte IE 9]>
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+<![endif]>	 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Testing Axes</title>
+<style type="text/css">
+	@import "../../../dojo/resources/dojo.css";
+	@import "../../../dijit/tests/css/dijitTests.css";
+</style>
+<script src="../../../dojo/dojo.js" data-dojo-config="async: true, isDebug: true"></script>
+<script>
+require(["dojo/ready", "dojox/charting/Chart", "dojox/charting/axis2d/Default",
+	"dojox/charting/plot2d/Markers", "dojox/charting/action2d/MouseZoomAndPan"], function(ready, Chart, Default, Markers,
+																						  MouseZoomAndPan){
+	ready(function(){
+
+
+
+	var chart3 = new Chart("test3").
+            addAxis("x", {fixLower: "major", fixUpper: "major", natural: true, includeZero: true, font: "14px helvetica",
+				majorTickStep: 0.5, minorTickStep: 0.1, dropLabels: true }).
+            addAxis("y", {vertical: true, fixLower: "major", fixUpper: "major", natural: true, includeZero: true}).
+            addPlot("default", {type: Markers}).
+            addSeries("Series A", [{x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 1}]).
+            addSeries("Series B", [{x: 5, y: 2}, {x: 6, y: 3}, {x: 7, y: 2}]).
+            addSeries("Series C", [{x: 9, y: 3}, {x: 10, y: 4}, {x: 11, y: 3}]).
+           	render();
+
+
+	new MouseZoomAndPan(chart3);
+
+
+	});
+
+});
+
+</script>
+</head>
+<body>
+<h1>Testing Axes</h1>
+<p>1: Shared axes and three series</p>
+<div id="test1" style="width: 600px; height: 200px;"></div>
+<p>2: Shared axes and three plots.</p>
+<div id="test2" style="width: 600px; height: 200px;"></div>
+<p>3: Like #1 but invisible axes.</p>
+<div id="test3" style="width: 320px; height: 180px;"></div>
+<p>4: Like #1 but no axes.</p>
+<div id="test4" style="width: 600px; height: 200px;"></div>
+<p>That's all Folks!</p>
+</body>
+</html>

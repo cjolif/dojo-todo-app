@@ -5,11 +5,6 @@ define([
 	"./_FormValueMixin"
 ], function(declare, has, _FormWidget, _FormValueMixin){
 
-/*=====
-var _FormWidget = dijit.form._FormWidget;
-var _FormValueMixin = dijit.form._FormValueMixin;
-=====*/
-
 // module:
 //		dijit/form/_FormValueWidget
 // summary:
@@ -45,7 +40,7 @@ return declare("dijit.form._FormValueWidget", [_FormWidget, _FormValueMixin],
 						function(){
 							_this.disconnect(disconnectHandle); // only call once
 							pingNode.style.filter = (new Date()).getMilliseconds(); // set to anything that's unique
-							setTimeout(function(){ pingNode.style.filter = origFilter }, 0); // restore custom filter, if any
+							_this.defer(function(){ pingNode.style.filter = origFilter; }); // restore custom filter, if any
 						}
 					);
 				})();

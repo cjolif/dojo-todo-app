@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Demo: Monthly Sales</title>
+		<!-- required for Tooltip: a default dijit theme: -->
+		<link rel="stylesheet" href="/media/js/dojo/dijit/themes/claro/claro.css">
+
+		<!-- imports the DOJO java script library -->
+		<script src="../../../dojo/dojo.js"
+				type="text/javascript" data-dojo-config="isDebug: true,parseOnLoad: true">
+		</script>
+
+
+
+        <style type="text/css">
+            @import "../../../dojo/resources/dojo.css";
+            @import "../../../dijit/themes/claro/claro.css";
+			@import "../../../dojox/charting/resources/Legend.css";
+        </style>
+        <style>
+			.bars{
+				width:300px;
+				height:200px;
+			}
+        </style>
+
+		<script>
+
+                        dojo.require("dojox.charting.Chart");
+                        dojo.require("dojox.charting.Chart2D");
+                        dojo.require("dojox.charting.axis2d.Default");
+                        dojo.require("dojox.charting.plot2d.Bars");
+                        dojo.require("dojox.charting.themes.Claro");
+			dojo.require("dojox.charting.widget.SelectableLegend");
+			dojo.require("dojox.charting.action2d.Highlight");
+			dojo.require("dojox.charting.action2d.MouseIndicator");
+
+			// When the DOM is ready and resources are loaded...
+
+			dojo.ready(function() {
+
+				var chart1 = new dojox.charting.Chart2D("simplechart");
+				chart1.addPlot("default", {type: "Lines", markers: true, tension:3, shadows: {dx: 2, dy: 2, dw: 2}});
+				chart1.addAxis("x");
+				chart1.addAxis("y", {vertical: true, min: -20, max:40});
+
+
+				chart1.addSeries("Average", [4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4], {marker: "m-3,0 c0,-2 3,-2 3,0 m-3,0 c0,2 3,2 3,0", color:"red", fill:"red"});
+				chart1.addSeries("High", [4,4,4,5,5,5,6,6,4,4,4,5,5,5,6,6,4,4,4,5,5,5,6,6,4,4,4,5,5,5,6,6,4,4,4,5,5,5,6,6,4,4,4,5,5,5,6,6,4,4,4,5,5,5,6,6,4,4,4,5,5,5,6,6,4,4,4,5,5,5,6,6,4,4,4,5,5,5,6,6,4,4,4,5,5,5,6,6], {marker: "m-3,0 c0,-2 3,-2 3,0 m-3,0 c0,2 3,2 3,0", color:"red", fill:"red"});
+				chart1.addSeries("Low", [4,4,4,3,3,3,2,2,4,4,4,3,3,3,2,2,4,4,4,3,3,3,2,2,4,4,4,3,3,3,2,2,4,4,4,3,3,3,2,2,4,4,4,3,3,3,2,2,4,4,4,3,3,3,2,2,4,4,4,3,3,3,2,2,4,4,4,3,3,3,2,2,4,4,4,3,3,3,2,2,4,4,4,3,3,3,2,2], {marker: "m-3,0 c0,-2 3,-2 3,0 m-3,0 c0,2 3,2 3,0", color:"red", fill:"red"});
+
+			        // HERE IS THE MOUSE INDICATOR
+				new dojox.charting.action2d.MouseIndicator(chart1, "default", { series: "High",
+					font: "normal normal bold 12pt Tahoma",	fillFunc: function(v){
+							return v.y>4?"red":"green";
+						}, 	labelFunc: function(v){
+							return "x: "+v.x+", y:"+v.y;
+						}});
+
+				chart1.render();
+
+				// AND HERE IS THE SELECTABLE LEGEND
+				var barsLegend = new dojox.charting.widget.SelectableLegend({chart: chart1},"legend");
+
+			});
+
+		</script>
+	</head>
+	<body class="claro">
+		<div id="simplechart" style="width: 600px; height: 300px;"></div>
+		<div id="legend"></div>
+	</body>
+</html>

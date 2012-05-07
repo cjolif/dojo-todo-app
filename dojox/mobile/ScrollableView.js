@@ -25,10 +25,10 @@ define([
 		//		ScrollableView is a subclass of View (=dojox.mobile.View).
 		//		Unlike the base View class, ScrollableView's domNode always stays
 		//		at the top of the screen and its height is "100%" of the screen.
-		//		In this fixed domNode, containerNode scrolls. Browser's default
-		//		scrolling behavior is disabled, and the scrolling machinery is
-		//		re-implemented with JavaScript. Thus the user does not need to use the
-		//		two-finger operation to scroll an inner DIV (containerNode).
+		//		Inside this fixed domNode, the containerNode scrolls. The browser's
+		//		default scrolling behavior is disabled, and the scrolling mechanism is
+		//		re-implemented in JavaScript. Thus the user does not need to use the
+		//		two-finger operation to scroll the inner DIV (containerNode).
 		//		The main purpose of this widget is to realize fixed-positioned header
 		//		and/or footer bars.
 
@@ -61,7 +61,6 @@ define([
 		startup: function(){
 			if(this._started){ return; }
 			this.reparent();
-			this.findAppBars();
 			this.inherited(arguments);
 		},
 
@@ -82,7 +81,14 @@ define([
 			return (!parent || !parent.resize); // top level widget
 		},
 
-		addFixedBar: function(widget){
+		addFixedBar: function(/*Widget*/widget){
+			// summary:
+			//		Adds a vew local fixed bar to this widget.
+			// description:
+			//		This method can be used to programmatically add a view local
+			//		fixed bar to ScrollableView. The bar is appended to this
+			//		widget's domNode. The addChild API cannot be used for this
+			//		purpose, because it adds the given widget to containerNode.
 			var c = widget.domNode;
 			var fixed = this.checkFixedBar(c, true);
 			if(!fixed){ return; }
@@ -116,6 +122,9 @@ define([
 		},
 
 		onAfterTransitionIn: function(moveTo, dir, transition, context, method){
+			// summary:
+			//		Overrides View#onAfterTransitionIn to flash the scroll bar
+			//		after performing a view transition.
 			this.flashScrollBar();
 		},
 

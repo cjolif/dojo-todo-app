@@ -5,8 +5,9 @@ define([
 	"../dom-attr",
 	"../dom-class",
 	"../dom-construct",
+	"../hccss",
 	"../query"
-], function(declare, win, dom, domAttr, domClass, domConstruct, query) {
+], function(declare, win, dom, domAttr, domClass, domConstruct, has, query){
 
 // module:
 //		dojo/dnd/Avatar
@@ -30,7 +31,6 @@ return declare("dojo.dnd.Avatar", null, {
 		// summary:
 		//		constructor function;
 		//		it is separate so it can be (dynamically) overwritten in case of need
-		this.isA11y = domClass.contains(win.body(),"dijit_a11y");
 		var a = domConstruct.create("table", {
 				"class": "dojoDndAvatar",
 				style: {
@@ -43,7 +43,7 @@ return declare("dojo.dnd.Avatar", null, {
 			b = domConstruct.create("tbody", null, a),
 			tr = domConstruct.create("tr", null, b),
 			td = domConstruct.create("td", null, tr),
-			icon = this.isA11y ? domConstruct.create("span", {
+			icon = has("highcontrast") ? domConstruct.create("span", {
 						id : "a11yIcon",
 						innerHTML : this.manager.copy ? '+' : "<"
 					}, td) : null,
@@ -91,13 +91,13 @@ return declare("dojo.dnd.Avatar", null, {
 	update: function(){
 		// summary:
 		//		updates the avatar to reflect the current DnD state
-		dojo[(this.manager.canDropFlag ? "add" : "remove") + "Class"](this.node, "dojoDndAvatarCanDrop");
-		if (this.isA11y){
+		domClass.toggle(this.node, "dojoDndAvatarCanDrop", this.manager.canDropFlag);
+		if(has("highcontrast")){
 			var icon = dom.byId("a11yIcon");
 			var text = '+';   // assume canDrop && copy
-			if (this.manager.canDropFlag && !this.manager.copy) {
+			if (this.manager.canDropFlag && !this.manager.copy){
 				text = '< '; // canDrop && move
-			}else if (!this.manager.canDropFlag && !this.manager.copy) {
+			}else if (!this.manager.canDropFlag && !this.manager.copy){
 				text = "o"; //!canDrop && move
 			}else if(!this.manager.canDropFlag){
 				text = 'x';  // !canDrop && copy
@@ -105,9 +105,9 @@ return declare("dojo.dnd.Avatar", null, {
 			icon.innerHTML=text;
 		}
 		// replace text
-		query(("tr.dojoDndAvatarHeader td span" +(this.isA11y ? " span" : "")), this.node).forEach(
+		query(("tr.dojoDndAvatarHeader td span" +(has("highcontrast") ? " span" : "")), this.node).forEach(
 			function(node){
-				node.innerHTML = this._generateText();
+				node.innerHTML = this.manager.source.generateText ? this._generateText() : "";
 			}, this);
 	},
 	_generateText: function(){

@@ -18,8 +18,8 @@ define(
 	"field-weekday": "giorno della settimana",
 	"dateFormatItem-yyQQQQ": "QQQQ yy",
 	"dateFormatItem-yQQQ": "QQQ y",
-	"dateFormatItem-yMEd": "EEE, d/M/y",
-	"dateFormatItem-MMMEd": "EEE d MMM",
+	"dateFormatItem-yMEd": "E, d/M/y",
+	"dateFormatItem-MMMEd": "E d MMM",
 	"eraNarrow": [
 		"aC",
 		"dC"
@@ -42,6 +42,7 @@ define(
 	"dayPeriods-format-wide-pm": "p.",
 	"dateFormat-full": "EEEE d MMMM y",
 	"dateFormatItem-Md": "d/M",
+	"dateFormatItem-yMd": "d/M/y",
 	"field-era": "era",
 	"dateFormatItem-yM": "M/y",
 	"months-standAlone-wide": [
@@ -91,7 +92,6 @@ define(
 	"field-day-relative+0": "oggi",
 	"field-day-relative+1": "domani",
 	"field-day-relative+2": "dopodomani",
-	"field-day-relative+3": "tra tre giorni",
 	"months-standAlone-abbr": [
 		"gen",
 		"feb",
@@ -113,10 +113,10 @@ define(
 		"T4"
 	],
 	"quarters-standAlone-wide": [
-		"1o trimestre",
-		"2o trimestre",
-		"3o trimestre",
-		"4o trimestre"
+		"1º trimestre",
+		"2º trimestre",
+		"3º trimestre",
+		"4º trimestre"
 	],
 	"dateFormatItem-M": "L",
 	"days-standAlone-wide": [
@@ -153,12 +153,17 @@ define(
 	],
 	"dateFormatItem-d": "d",
 	"dateFormatItem-ms": "mm:ss",
+	"quarters-format-narrow": [
+		"1",
+		"2",
+		"3",
+		"4"
+	],
 	"field-day-relative+-1": "ieri",
 	"dateFormatItem-h": "hh a",
 	"field-day-relative+-2": "l'altro ieri",
-	"field-day-relative+-3": "tre giorni fa",
 	"dateFormatItem-MMMd": "d MMM",
-	"dateFormatItem-MEd": "EEE d/M",
+	"dateFormatItem-MEd": "E d/M",
 	"field-day": "giorno",
 	"days-format-wide": [
 		"domenica",
@@ -185,6 +190,8 @@ define(
 		"N",
 		"D"
 	],
+	"field-year-relative+-1": "Anno scorso",
+	"field-month-relative+-1": "Mese scorso",
 	"dateFormatItem-yyMM": "MM/yy",
 	"dateFormatItem-hm": "hh:mm a",
 	"days-format-abbr": [
@@ -196,6 +203,7 @@ define(
 		"ven",
 		"sab"
 	],
+	"dateFormatItem-yMMMd": "d MMM y",
 	"eraNames": [
 		"a.C.",
 		"d.C"
@@ -224,12 +232,19 @@ define(
 	"dateFormatItem-MMMMdd": "dd MMMM",
 	"dateFormat-short": "dd/MM/yy",
 	"field-second": "secondo",
-	"dateFormatItem-yMMMEd": "EEE d MMM y",
+	"dateFormatItem-yMMMEd": "E d MMM y",
+	"field-month-relative+0": "Questo mese",
+	"field-month-relative+1": "Mese prossimo",
 	"dateFormatItem-Ed": "E d",
 	"field-week": "settimana",
 	"dateFormat-medium": "dd/MMM/y",
+	"field-year-relative+0": "Questo anno",
+	"field-week-relative+-1": "Settimana scorsa",
+	"field-year-relative+1": "Anno prossimo",
 	"dateFormatItem-Hms": "HH:mm:ss",
-	"dateFormatItem-hms": "hh:mm:ss a"
+	"dateFormatItem-hms": "hh:mm:ss a",
+	"field-week-relative+0": "Questa settimana",
+	"field-week-relative+1": "Settimana prossima"
 }
 //end v1.x content
 );

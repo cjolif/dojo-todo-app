@@ -1,0 +1,43 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" >
+<head>
+<title>Testing setPath and curves</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+	@import "../../../dojo/resources/dojo.css";
+	@import "../../../dijit/tests/css/dijitTests.css";
+	li {font-weight: bold;}
+</style>
+<script type="text/javascript" src="../../../dojo/dojo.js" djConfig="isDebug: true"></script>
+<script type="text/javascript">
+dojo.require("dojox.gfx");
+var path, surface;
+
+createSurface = function(){
+	surface = dojox.gfx.createSurface("test", 500, 400);
+	surface.whenLoaded(makeShapes);
+};
+
+makeShapes = function(surface){
+	// relative path with cubic beziers
+	path = surface
+		.createPath("M0 0L200 200")
+		.setStroke({color: "red"});
+};
+
+func = function(){
+	surface.clear();
+	path.setShape("M200 0L0 200");
+	surface.add(path);
+}
+
+dojo.addOnLoad(createSurface);
+
+</script>
+</head>
+<body>
+<h1>dojox.gfx update path test</h1>
+<button label="click me" type="button" onclick="func()">click me</button>
+<div id="test" style="width: 500px; height: 400px;"></div>
+<p>That's all Folks!</p>
+</body>
+</html>

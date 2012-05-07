@@ -2,9 +2,9 @@ define([
 	"../dom", "../sniff", "../_base/array", "../_base/lang", "../_base/window"
 ], function(dom, has, array, lang, win){
   //  module:
-  //    dojo/selector/acme
+  //	dojo/selector/acme
   //  summary:
-  //    This module defines the Acme selector engine
+  //	This module defines the Acme selector engine
 
 /*
 	acme architectural overview:
@@ -121,7 +121,7 @@ define([
 
 		// state keeping vars
 		var inBrackets = -1, inParens = -1, inMatchFor = -1,
-			inPseudo = -1, inClass = -1, inId = -1, inTag = -1,
+			inPseudo = -1, inClass = -1, inId = -1, inTag = -1, currentQuoteChar,
 			lc = "", cc = "", pStart;
 
 		// iteration vars
@@ -273,7 +273,7 @@ define([
 					oper: null, // ...or operator per component. Note that these wind up being exclusive.
 					id: null,	// the id component of a rule
 					getTag: function(){
-						return (caseSensitive) ? this.otag : this.tag;
+						return caseSensitive ? this.otag : this.tag;
 					}
 				};
 
@@ -282,6 +282,19 @@ define([
 				// might fault a little later on, but we detect that and this
 				// iteration will still be fine.
 				inTag = x;
+			}
+
+			// Skip processing all quoted characters.
+			// If we are inside quoted text then currentQuoteChar stores the character that began the quote,
+			// thus that character that will end it.
+			if(currentQuoteChar){
+				if(cc == currentQuoteChar){
+					currentQuoteChar = null;
+				}
+				continue;
+			}else if (cc == "'" || cc == '"'){
+				currentQuoteChar = cc;
+				continue;
 			}
 
 			if(inBrackets >= 0){
@@ -306,6 +319,12 @@ define([
 							_cp.matchFor = cmf.slice(1, -1);
 						}
 					}
+					// remove backslash escapes from an attribute match, since DOM
+					// querying will get attribute values without backslashes
+					if(_cp.matchFor){
+						_cp.matchFor = _cp.matchFor.replace(/\\([\[\]])/g, "$1");
+					}
+
 					// end the attribute by adding it to the list of attributes.
 					currentPart.attrs.push(_cp);
 					_cp = null; // necessary?
@@ -504,10 +523,11 @@ define([
 
 	var getNodeIndex = function(node){
 		var root = node.parentNode;
+		root = root.nodeType != 7 ? root : root.nextSibling; // PROCESSING_INSTRUCTION_NODE
 		var i = 0,
 			tret = root.children || root.childNodes,
-			ci = (node["_i"]||-1),
-			cl = (root["_l"]||-1);
+			ci = (node["_i"]||node.getAttribute("_i")||-1),
+			cl = (root["_l"]|| (typeof root.getAttribute !== "undefined" ? root.getAttribute("_l") : -1));
 
 		if(!tret){ return -1; }
 		var l = tret.length;
@@ -521,11 +541,19 @@ define([
 		}
 
 		// else re-key things
-		root["_l"] = l;
+		if(has("ie") && typeof root.setAttribute !== "undefined"){
+			root.setAttribute("_l", l);
+		}else{
+			root["_l"] = l;
+		}
 		ci = -1;
 		for(var te = root["firstElementChild"]||root["firstChild"]; te; te = te[_ns]){
 			if(_simpleNodeTest(te)){
-				te["_i"] = ++i;
+				if(has("ie")){
+					te.setAttribute("_i", ++i);
+				}else{
+					te["_i"] = ++i;
+				}
 				if(node === te){
 					// NOTE:
 					//	shortcutting the return at this step in indexing works
@@ -928,7 +956,8 @@ define([
 				// it's tag only. Fast-path it.
 				retFunc = function(root, arr, bag){
 					var ret = getArr(0, arr), te, x=0;
-					var tret = root.getElementsByTagName(query.getTag());
+					var tag = query.getTag(),
+						tret = tag ? root.getElementsByTagName(tag) : [];
 					while((te = tret[x++])){
 						if(_isUnique(te, bag)){
 							ret.push(te);
@@ -945,7 +974,8 @@ define([
 				retFunc = function(root, arr, bag){
 					var ret = getArr(0, arr), te, x=0;
 					// we use getTag() to avoid case sensitivity issues
-					var tret = root.getElementsByTagName(query.getTag());
+					var tag = query.getTag(),
+						tret = tag ? root.getElementsByTagName(tag) : [];
 					while((te = tret[x++])){
 						if(filterFunc(te, root) && _isUnique(te, bag)){
 							ret.push(te);
@@ -1066,14 +1096,6 @@ define([
 	// to make the determination (e.g. does it support QSA, does the query in
 	// question work in the native QSA impl, etc.).
 	var nua = navigator.userAgent;
-	// some versions of Safari provided QSA, but it was buggy and crash-prone.
-	// We need te detect the right "internal" webkit version to make this work.
-	var wk = "WebKit/";
-	var is525 = (
-		has("webkit") &&
-		(nua.indexOf(wk) > 0) &&
-		(parseFloat(nua.split(wk)[1]) > 528)
-	);
 
 	// IE QSA queries may incorrectly include comment nodes, so we throw the
 	// zipping function into "remove" comments mode instead of the normal "skip
@@ -1081,24 +1103,25 @@ define([
 	var noZip = has("ie") ? "commentStrip" : "nozip";
 
 	var qsa = "querySelectorAll";
-	var qsaAvail = (
-		!!getDoc()[qsa] &&
-		// see #5832
-		(!has("safari") || (has("safari") > 3.1) || is525 )
-	);
+	var qsaAvail = !!getDoc()[qsa];
 
 	//Don't bother with n+3 type of matches, IE complains if we modify those.
 	var infixSpaceRe = /n\+\d|([^ ])?([>~+])([^ =])?/g;
 	var infixSpaceFunc = function(match, pre, ch, post){
 		return ch ? (pre ? pre + " " : "") + ch + (post ? " " + post : "") : /*n+3*/ match;
 	};
-
+	
+	//Don't apply the infixSpaceRe to attribute value selectors
+	var attRe = /([^[]*)([^\]]*])?/g;
+	var attFunc = function(match, nonAtt, att) {
+		return nonAtt.replace(infixSpaceRe, infixSpaceFunc) + (att||"");
+	};
 	var getQueryFunc = function(query, forceDOM){
 		//Normalize query. The CSS3 selectors spec allows for omitting spaces around
 		//infix operators, >, ~ and +
 		//Do the work here since detection for spaces is used as a simple "not use QSA"
 		//test below.
-		query = query.replace(infixSpaceRe, infixSpaceFunc);
+		query = query.replace(attRe, attFunc);
 
 		if(qsaAvail){
 			// if we've got a cached variant and we think we can do it, run it!
@@ -1424,18 +1447,11 @@ define([
 		//	|		});
 		//	|	});
 
-		root = root||getDoc();
-		var od = root.ownerDocument||root.documentElement;
+		root = root || getDoc();
 
 		// throw the big case sensitivity switch
-
-		// NOTE:
-		//		Opera in XHTML mode doesn't detect case-sensitivity correctly
-		//		and it's not clear that there's any way to test for it
-		caseSensitive = (root.contentType && root.contentType=="application/xml") ||
-						(has("opera") && (root.doctype || od.toString() == "[object XMLDocument]")) ||
-						(!!od) &&
-				(has("ie") ? od.xml : (root.xmlVersion || od.xmlVersion));
+		var od = root.ownerDocument || root;	// root is either Document or a node inside the document
+		caseSensitive = (od.createElement("div").tagName === "div");
 
 		// NOTE:
 		//		adding "true" as the 2nd argument to getQueryFunc is useful for

@@ -1,9 +1,12 @@
 define(
 //begin v1.x content
 {
+	"dateFormatItem-yMd": "d/M/yyyy",
 	"dateFormat-medium": "dd/MM/yyyy",
 	"dateFormatItem-MMMEd": "E d MMM",
-	"dateFormatItem-yMEd": "EEE، d/M/yyyy",
+	"dateFormatItem-MEd": "E، d/M",
+	"dateFormatItem-yMEd": "E، d/M/yyyy",
+	"dateFormatItem-yMMMd": "d MMM، y",
 	"timeFormat-full": "zzzz h:mm:ss a",
 	"dateFormatItem-Md": "d/M",
 	"months-standAlone-wide": [
@@ -57,7 +60,7 @@ define(
 	"timeFormat-medium": "h:mm:ss a",
 	"dateFormat-long": "d MMMM، y",
 	"dateFormat-short": "d/M/yyyy",
-	"dateFormatItem-yMMMEd": "EEE، d MMMM y",
+	"dateFormatItem-yMMMEd": "E، d MMM، y",
 	"months-format-wide": [
 		"تشري",
 		"مرحشوان",
@@ -72,6 +75,10 @@ define(
 		"تموز",
 		"آب",
 		"أيلول"
+	],
+	"days-standAlone-wide": [
+		"الأحد",
+		"الاثنين"
 	],
 	"dateFormatItem-yM": "M/yyyy",
 	"timeFormat-short": "h:mm a",
@@ -90,16 +97,25 @@ define(
 		"آب",
 		"أيلول"
 	],
-	"timeFormat-long": "z h:mm:ss a",
-	"days-format-wide": [
+	"days-standAlone-abbr": [
 		"الأحد",
-		"الإثنين",
+		"الاثنين",
 		"الثلاثاء",
 		"الأربعاء",
 		"الخميس",
 		"الجمعة",
 		"السبت"
 	],
+	"days-format-wide": [
+		"الأحد",
+		"الاثنين",
+		"الثلاثاء",
+		"الأربعاء",
+		"الخميس",
+		"الجمعة",
+		"السبت"
+	],
+	"timeFormat-long": "z h:mm:ss a",
 	"dateFormatItem-yQ": "yyyy Q",
 	"dateFormatItem-yMMM": "MMM y",
 	"quarters-format-wide": [
@@ -111,14 +127,15 @@ define(
 	"dateFormat-full": "EEEE، d MMMM، y",
 	"dateFormatItem-MMMd": "d MMM",
 	"days-format-abbr": [
-		"أحد",
-		"إثنين",
-		"ثلاثاء",
-		"أربعاء",
-		"خميس",
-		"جمعة",
-		"سبت"
-	]
+		"الأحد",
+		"الاثنين",
+		"الثلاثاء",
+		"الأربعاء",
+		"الخميس",
+		"الجمعة",
+		"السبت"
+	],
+	"dateFormatItem-Ed": "E، d"
 }
 //end v1.x content
 );

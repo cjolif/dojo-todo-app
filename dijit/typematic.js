@@ -72,13 +72,18 @@ var typematic = (dijit.typematic = {
 			this._subsequentDelay = subsequentDelay || 0.90;
 			this._minDelay = minDelay || 10;
 			this._obj = obj;
-			this._evt = evt;
 			this._node = node;
 			this._currentTimeout = -1;
 			this._count = -1;
 			this._callback = lang.hitch(_this, callback);
+			this._evt = { faux: true };
+			for(var attr in evt){
+				if(attr != "layerX" && attr != "layerY"){ // prevent WebKit warnings
+					var v = evt[attr];
+					if(typeof v != "function" && typeof v != "undefined"){ this._evt[attr] = v }
+				}
+			}
 			this._fireEventAndReload();
-			this._evt = lang.mixin({faux: true}, evt);
 		}
 	},
 
@@ -155,24 +160,23 @@ var typematic = (dijit.typematic = {
 		//		a connection handle
 		var handles = [
 			on(node, "mousedown", lang.hitch(this, function(evt){
-				event.stop(evt);
+				evt.preventDefault();
 				typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
 			})),
 			on(node, "mouseup", lang.hitch(this, function(evt){
 				if(this._obj){
-					event.stop(evt);
+					evt.preventDefault();
 				}
 				typematic.stop();
 			})),
 			on(node, "mouseout", lang.hitch(this, function(evt){
-				event.stop(evt);
+				if(this._obj){
+					evt.preventDefault();
+				}
 				typematic.stop();
 			})),
-			on(node, "mousemove", lang.hitch(this, function(evt){
-				evt.preventDefault();
-			})),
 			on(node, "dblclick", lang.hitch(this, function(evt){
-				event.stop(evt);
+				evt.preventDefault();
 				if(has("ie")){
 					typematic.trigger(evt, _this, node, callback, node, subsequentDelay, initialDelay, minDelay);
 					setTimeout(lang.hitch(this, typematic.stop), 50);

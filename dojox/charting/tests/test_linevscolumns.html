@@ -1,0 +1,130 @@
+<!--[if IE 7]>
+<!DOCTYPE>
+<html lang="en">
+	<head>
+<![endif]-->
+<!--[if IE 8]>
+<!DOCTYPE>
+<html lang="en">
+    <head>
+           <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+<![endif]-->
+<![if gte IE 9]>
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+<![endif]>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Chart 2D</title>
+		<style type="text/css">
+			@import "../../../dojo/resources/dojo.css";
+			@import "../../../dijit/tests/css/dijitTests.css";
+		</style>
+		<!-- required for Tooltip: a default dijit theme: -->
+		<link rel="stylesheet" href="../../../dijit/themes/tundra/tundra.css">
+		<script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="isDebug: true, async: true, parseOnLoad: true"></script>
+
+		<script type="text/javascript">
+			var seriesA = [
+				{ x: 1, y : 2 },
+				{ x: 2, y : 1 },
+				{ x: 3, y: null },
+				{ x: 4, y: null },
+				{ x: 5, y: 3 },
+				{ x: 6, y: 4 },
+				{ x: 7, y: null },
+				{ x: 8, y: 2 },
+				{ x: 9, y: 2 }
+			];
+			var seriesB = [6, 3, null, null, 1, 1, null, 5, 4];
+			var seriesC = [
+				{ x: 1, y: 4 },
+				{ x: 2, y: 5 },
+				{ x: 5, y: 2 },
+				{ x: 6, y: 3 },
+				{ x: 8, y: 1 },
+				{ x: 9, y: 3 }
+			];
+			// in theory this should not happen, this is really invalid data set...
+			var seriesD = [
+				{ x: 1, y : 2 },
+				{ x: 2, y : 1 },
+				null,
+				null,
+				{ x: 5, y: 3 },
+				{ x: 6, y: 4 },
+			    null,
+				{ x: 8, y: 2 },
+				{ x: 9, y: 2 }
+			];
+			require([
+			"dojox/charting/widget/Chart",
+			"dojox/charting/axis2d/Default",
+			"dojox/charting/plot2d/Lines",
+			"dojox/charting/plot2d/ClusteredColumns",
+			"dojox/charting/plot2d/Pie",
+			"dojox/charting/themes/Adobebricks",
+			"dojo/parser"]);
+		</script>
+	</head>
+	<body class="tundra">
+		<h1>Chart with missing data points</h1>
+		<table border="0" cellspacing="30">
+			<tr>
+				<td>
+					<div data-dojo-type="dojox/charting/widget/Chart" id="chart1" style="width: 400px; height: 400px;"
+							theme="dojox.charting.themes.Adobebricks">
+						<div class="axis" name="x" font="italic normal normal 8pt Tahoma"></div>
+						<div class="axis" name="y" vertical="true" fixUpper="major" includeZero="true" 
+							font="italic normal normal 8pt Tahoma"></div>
+						<div class="plot" name="default" type="Lines"></div>
+						<div class="series" name="Run A" array="seriesA"></div>
+						<div class="series" name="Run B" array="seriesB"></div>
+						<div class="series" name="Run C" array="seriesC"></div>
+					</div>
+				</td>
+				<td>
+					<div data-dojo-type="dojox.charting.widget.Chart" id="chart2"
+							fill="'lightgrey'" style="width: 400px; height: 400px;"
+							theme="dojox.charting.themes.Adobebricks">
+						<div class="axis" name="x" font="italic normal bold 10pt Tahoma"></div>
+						<div class="axis" name="y" vertical="true" fixUpper="major" includeZero="true" 
+							font="italic normal bold 10pt Tahoma"></div>
+						<div class="plot" name="default" type="ClusteredColumns" gap="2"></div>
+						<div class="series" name="Run A" array="seriesA"></div>
+						<div class="series" name="Run B" array="seriesB"></div>
+						<div class="series" name="Run C" array="seriesC"></div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div data-dojo-type="dojox/charting/widget/Chart" id="chart3" style="width: 400px; height: 400px;"
+							theme="dojox.charting.themes.Adobebricks">
+						<div class="axis" name="x" font="italic normal normal 8pt Tahoma"></div>
+						<div class="axis" name="y" vertical="true" fixUpper="major" includeZero="true"
+							font="italic normal normal 8pt Tahoma"></div>
+						<div class="plot" name="default" type="Lines" interpolate="true"></div>
+						<div class="series" name="Run A" array="seriesA"></div>
+						<div class="series" name="Run B" array="seriesB"></div>
+						<div class="series" name="Run C" array="seriesC"></div>
+					</div>
+				</td>
+				<td>
+					<div data-dojo-type="dojox.charting.widget.Chart" id="chart4"
+							fill="'lightgrey'" style="width: 400px; height: 400px;"
+							theme="dojox.charting.themes.Adobebricks">
+						<div class="axis" name="x" font="italic normal bold 10pt Tahoma"></div>
+						<div class="axis" name="y" vertical="true" fixUpper="major" includeZero="true"
+							font="italic normal bold 10pt Tahoma"></div>
+						<div class="plot" name="default" type="ClusteredColumns" gap="2"></div>
+						<div class="series" name="Run A" array="seriesA"></div>
+						<div class="series" name="Run B" array="seriesB"></div>
+						<div class="series" name="Run C" array="seriesC"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<p>That's all Folks!</p>
+	</body>
+</html>

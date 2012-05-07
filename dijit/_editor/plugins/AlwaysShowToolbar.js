@@ -9,10 +9,6 @@ define([
 	"../_Plugin"
 ], function(declare, domClass, domConstruct, domGeometry, lang, has, win, _Plugin){
 
-/*=====
-	var _Plugin = dijit._editor._Plugin;
-=====*/
-
 // module:
 //		dijit/_editor/plugins/AlwaysShowToolbar
 // summary:
@@ -50,7 +46,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 
 		this.editor = e;
 
-		e.onLoadDeferred.addCallback(lang.hitch(this, this.enable));
+		e.onLoadDeferred.then(lang.hitch(this, this.enable));
 	},
 
 	enable: function(d){
@@ -125,7 +121,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 //			}
 		}
 
-		var scrollPos = domGeometry.docScroll().y;
+		var scrollPos = domGeometry.docScroll(this.editor.ownerDocument).y;
 		var s = tdn.style;
 
 		if(scrollPos > this._scrollThreshold && scrollPos < this._scrollThreshold+this._lastHeight){
@@ -143,7 +139,7 @@ return declare("dijit._editor.plugins.AlwaysShowToolbar", _Plugin, {
 					}else{
 						this._IEOriginalPos = ['last',tdn.parentNode];
 					}
-					win.body().appendChild(tdn);
+					this.editor.ownerDocumentBody.appendChild(tdn);
 					domClass.add(tdn,'dijitIEFixedToolbar');
 				}else{
 					s.position = "fixed";

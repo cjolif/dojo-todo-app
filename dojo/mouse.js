@@ -1,22 +1,10 @@
 define(["./_base/kernel", "./on", "./has", "./dom", "./_base/window"], function(dojo, on, has, dom, win){
 
-	/*=====
-	dojo.mouse = {
+	// module:
+	//		dojo/mouse
 	// summary:
 	//		This module provide mouse event handling utility functions and exports
 	//		mouseenter and mouseleave event emulation.
-	// enter: Synthetic Event
-	//		This is an extension event for the mouseenter that IE provides, emulating the
-	//		behavior on other browsers.
-	// leave: Synthetic Event
-	//		This is an extension event for the mouseleave that IE provides, emulating the
-	//		behavior on other browsers.
-	// isLeft: Function
-	//		Test an event object (from a mousedown event) to see if the left button was pressed.
-	// isMiddle: Function
-	//		Test an event object (from a mousedown event) to see if the middle button was pressed.
-	// isRight: Function
-	//		Test an event object (from a mousedown event) to see if the right button was pressed.
 	// example:
 	//		To use these events, you register a mouseenter like this:
 	//		|	define(["dojo/on", dojo/mouse"], function(on, mouse){
@@ -26,11 +14,9 @@ define(["./_base/kernel", "./on", "./has", "./dom", "./_base/window"], function(
 	//		|		on(targetNode, mouse.leave, function(event){
 	//		|			dojo.removeClass(targetNode, "highlighted");
 	//		|		});
-	};
-	======*/
 
     has.add("dom-quirks", win.doc && win.doc.compatMode == "BackCompat");
- 	has.add("events-mouseenter", win.doc && "onmouseenter" in win.doc.createElement("div"));
+	has.add("events-mouseenter", win.doc && "onmouseenter" in win.doc.createElement("div"));
 
 	var mouseButtons;
 	if(has("dom-quirks") || !has("dom-addeventlistener")){
@@ -124,14 +110,44 @@ define(["./_base/kernel", "./on", "./has", "./dom", "./_base/window"], function(
 					return listener.call(target, evt);
 				} 
 			});
-		}
+		};
 		return handler;
 	}
 	return {
+		_eventHandler: eventHandler,		// for dojo/touch
+
+		// enter: Synthetic Event
+		//		This is an extension event for the mouseenter that IE provides, emulating the
+		//		behavior on other browsers.
 		enter: eventHandler("mouseover"),
+
+		// leave: Synthetic Event
+		//		This is an extension event for the mouseleave that IE provides, emulating the
+		//		behavior on other browsers.
 		leave: eventHandler("mouseout"),
+
 		isLeft: mouseButtons.isLeft,
+		/*=====
+		isLeft: function(){
+			// summary:
+			//		Test an event object (from a mousedown event) to see if the left button was pressed.
+		},
+		=====*/
+
 		isMiddle: mouseButtons.isMiddle,
+		/*=====
+		 isMiddle: function(){
+			 // summary:
+			 //		Test an event object (from a mousedown event) to see if the middle button was pressed.
+		 },
+		 =====*/
+
 		isRight: mouseButtons.isRight
+		/*=====
+		 , isRight: function(){
+			 // summary:
+			 //		Test an event object (from a mousedown event) to see if the right button was pressed.
+		 }
+		 =====*/
 	};
 });

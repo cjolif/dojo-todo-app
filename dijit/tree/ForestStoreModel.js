@@ -1,14 +1,10 @@
 define([
 	"dojo/_base/array", // array.indexOf array.some
 	"dojo/_base/declare", // declare
+	"dojo/_base/kernel", // global
 	"dojo/_base/lang", // lang.hitch
-	"dojo/_base/window", // win.global
 	"./TreeStoreModel"
-], function(array, declare, lang, win, TreeStoreModel){
-
-/*=====
-var TreeStoreModel = dijit.tree.TreeStoreModel;
-=====*/
+], function(array, declare, kernel, lang, TreeStoreModel){
 
 // module:
 //		dijit/tree/ForestStoreModel
@@ -114,7 +110,7 @@ return declare("dijit.tree.ForestStoreModel", TreeStoreModel, {
 
 	fetchItemByIdentity: function(/* object */ keywordArgs){
 		if(keywordArgs.identity == this.root.id){
-			var scope = keywordArgs.scope?keywordArgs.scope:win.global;
+			var scope = keywordArgs.scope || kernel.global;
 			if(keywordArgs.onItem){
 				keywordArgs.onItem.call(scope, this.root);
 			}

@@ -11,10 +11,6 @@ define([
 	"./typematic"
 ], function(declare, domAttr, domClass, domConstruct, event, keys, lang, _CssStateMixin, focus, typematic){
 
-/*=====
-	var _CssStateMixin = dijit._CssStateMixin;
-=====*/
-
 // module:
 //		dijit/_PaletteMixin
 // summary:
@@ -72,22 +68,24 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 	//		CSS class applied to each cell in the palette
 	cellClass: "dijitPaletteCell",
 
-	// dyeClass: [protected] String
-	//	 Name of javascript class for Object created for each cell of the palette.
-	//	 dyeClass should implements dijit.Dye interface
-	dyeClass: '',
+	// dyeClass: [protected] Constructor
+	//		Constructor for Object created for each cell of the palette.
+	//		dyeClass should implements dijit.Dye interface
+	dyeClass: null,
 	
 	// summary: String
 	//		Localized summary for the palette table
 	summary: '',
 	_setSummaryAttr: "paletteTableNode",
 
-	_dyeFactory: function(value /*===== , row, col =====*/){
+	_dyeFactory: function(value /*===== , row, col, title =====*/){
 		// summary:
 		//		Return instance of dijit.Dye for specified cell of palette
 		// tags:
 		//		extension
-		var dyeClassObj = lang.getObject(this.dyeClass);
+
+		// Remove string support for 2.0
+		var dyeClassObj = typeof this.dyeClass == "string" ? lang.getObject(this.dyeClass) : this.dyeClass;
 		return new dyeClassObj(value);
 	},
 
@@ -110,19 +108,17 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 			for(var col=0; col < choices[row].length; col++){
 				var value = choices[row][col];
 				if(value){
-					var cellObject = this._dyeFactory(value, row, col);
+					var cellObject = this._dyeFactory(value, row, col, titles[value]);
 
 					var cellNode = domConstruct.create("td", {
 						"class": this.cellClass,
 						tabIndex: "-1",
 						title: titles[value],
 						role: "gridcell"
-					});
+					}, rowNode);
 
 					// prepare cell inner structure
 					cellObject.fillCell(cellNode, url);
-
-					domConstruct.place(cellNode, rowNode);
 
 					cellNode.idx = this._cells.length;
 
@@ -149,7 +145,7 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 			LEFT_ARROW: this.isLeftToRight() ? -1 : 1
 		};
 		for(var key in keyIncrementMap){
-			this._connects.push(
+			this._adoptHandles(
 				typematic.addKeyListener(
 					this.domNode,
 					{charOrCode:keys[key], ctrlKey:false, altKey:false, shiftKey:false},
@@ -298,8 +294,8 @@ return declare("dijit._PaletteMixin", [_CssStateMixin], {
 			this._setCurrent(focusNode);
 
 			// Actually focus the node, for the benefit of screen readers.
-			// Use setTimeout because IE doesn't like changing focus inside of an event handler
-			setTimeout(lang.hitch(dijit, "focus", focusNode), 0);
+			// Use defer because IE doesn't like changing focus inside of an event handler
+			this.defer(lang.hitch(focus, "focus", focusNode));
 		}
 	},
 

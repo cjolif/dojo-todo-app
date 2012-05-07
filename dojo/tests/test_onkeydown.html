@@ -1,0 +1,21 @@
+<html>
+<head>
+	<script type="text/javascript" src="../dojo.js"></script>
+	<script type="text/javascript">
+		require(["dojo/ready", "dojo/on", "dojo/dom"], function(ready, on, dom){
+			ready(function(){
+				on(dom.byId("mydiv"), "keydown", function(){
+					console.log("here...");
+				});
+				on(dom.byId("mydiv"), "mousedown", function(){
+					console.log("there...");
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+<div></div>
+	<div style="width:640px;height:480px;background: red" tabindex="1" id="mydiv"></div>
+</body>
+</html>

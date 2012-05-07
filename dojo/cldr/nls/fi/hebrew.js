@@ -33,6 +33,12 @@ define(
 		"E"
 	],
 	"dayPeriods-format-wide-am": "ap.",
+	"quarters-standAlone-abbr": [
+		"1. nelj.",
+		"2. nelj.",
+		"3. nelj.",
+		"4. nelj."
+	],
 	"timeFormat-full": "H.mm.ss zzzz",
 	"months-standAlone-narrow-leap": "A",
 	"months-standAlone-abbr": [
@@ -50,6 +56,7 @@ define(
 		"ab",
 		"elúl"
 	],
+	"dateFormatItem-Ed": "ccc d.",
 	"dateFormatItem-yMMM": "LLL y",
 	"days-standAlone-narrow": [
 		"S",
@@ -65,7 +72,16 @@ define(
 	"dateFormatItem-Hm": "H.mm",
 	"dateFormat-medium": "d.M.yyyy",
 	"dateFormatItem-Hms": "H.mm.ss",
+	"dayPeriods-format-narrow-pm": "ip.",
+	"dateFormatItem-yMd": "d.M.yyyy",
+	"quarters-standAlone-wide": [
+		"1. neljännes",
+		"2. neljännes",
+		"3. neljännes",
+		"4. neljännes"
+	],
 	"dateFormatItem-ms": "mm.ss",
+	"dayPeriods-format-narrow-am": "ap.",
 	"months-standAlone-wide": [
 		"tišríkuu",
 		"hešvánkuu",
@@ -115,6 +131,16 @@ define(
 		"pe",
 		"la"
 	],
+	"days-format-narrow": [
+		"S",
+		"M",
+		"T",
+		"K",
+		"T",
+		"P",
+		"L"
+	],
+	"dateFormatItem-yMMMd": "d. MMM y",
 	"dateFormatItem-MEd": "E d.M.",
 	"months-format-narrow": [
 		"T",
@@ -132,13 +158,22 @@ define(
 		"E"
 	],
 	"dateFormatItem-hm": "h.mm a",
+	"days-standAlone-abbr": [
+		"su",
+		"ma",
+		"ti",
+		"ke",
+		"to",
+		"pe",
+		"la"
+	],
 	"months-standAlone-wide-leap": "adárkuu II",
 	"dayPeriods-format-abbr-pm": "ip.",
 	"dateFormat-short": "d.M.yyyy",
-	"dateFormatItem-yMMMEd": "EEE d. MMM y",
-	"dateFormat-full": "cccc d. MMMM y",
+	"dateFormatItem-yMMMEd": "E d. MMM y",
+	"dateFormat-full": "cccc, d. MMMM y",
 	"dateFormatItem-Md": "d.M.",
-	"dateFormatItem-yMEd": "EEE d.M.yyyy",
+	"dateFormatItem-yMEd": "E d.M.yyyy",
 	"months-format-wide": [
 		"tišríkuuta",
 		"hešvánkuuta",

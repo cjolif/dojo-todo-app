@@ -1,7 +1,7 @@
 define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/_base/Color", "dojo/_base/sniff",
-		"dojo/_base/config", "dojo/dom", "dojo/dom-geometry", "dojo/_base/window", 
+		"dojo/_base/config", "dojo/dom", "dojo/dom-geometry", "dojo/_base/kernel",
 		"./_base", "./shape", "./path", "./arc", "./gradient", "./matrix"],
-  function(lang, declare, arr, Color, has, config, dom, domGeom, win, g, gs, pathLib, arcLib, gradient, m){
+  function(lang, declare, arr, Color, has, config, dom, domGeom, kernel, g, gs, pathLib, arcLib, gradient, m){
 /*===== 
 	dojox.gfx.vml = {
 	// module:
@@ -54,6 +54,11 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/_base
 
 	declare("dojox.gfx.vml.Shape", gs.Shape, {
 		// summary: VML-specific implementation of dojox.gfx.Shape methods
+
+		destroy: function(){
+			this.rawNode = null;
+			gs.Shape.prototype.destroy.apply(this, arguments);
+		},
 
 		setFill: function(fill){
 			// summary: sets a fill object (VML)
@@ -268,6 +273,9 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/_base
 			if(this.fillStyle && this.fillStyle.type == "linear"){
 				this.setFill(this.fillStyle);
 			}
+			if(this.clip){
+				this.setClip(this.clip);
+			}
 			return this;
 		},
 
@@ -314,7 +322,36 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/_base
 			// summary: returns the cumulative ("real") transformation matrix
 			//	by combining the shape's matrix with its parent's matrix
 			return this.parentMatrix ? new m.Matrix2D([this.parentMatrix, this.matrix]) : this.matrix;	// dojox.gfx.Matrix2D
-		}
+		},
+		
+		setClip: function(clip){
+			// summary: sets the clipping area of this shape.
+			// description: This method overrides the dojox.gfx.shape.Shape.setClip() method. Only rectangular geometry is supported.
+			// clip: Object
+			//		an object that defines the clipping geometry, or null to remove clip.
+			this.inherited(arguments);
+			var nodeStyle = this.rawNode.style;
+			if(!clip){
+				// remove clip
+				nodeStyle.position = "absolute";
+			    nodeStyle.clip = "rect(0px "+nodeStyle.width+" "+nodeStyle.height+" 0px)";
+			}else{
+				if("width" in clip){
+					var matrix = this._getRealMatrix(),
+						l = parseFloat(nodeStyle.left),
+						t = parseFloat(nodeStyle.top);
+					if(isNaN(l)) l = 0;
+					if(isNaN(t)) t = 0;
+					// transform the clip with the shape transform to compute the correct w/h (e.g. after a scale)
+					var clipt = m.multiplyRectangle(matrix, clip);
+					var pt = m.multiplyPoint(matrix, {x:l,y:t});
+					// clip property is relative to the elt border box
+					nodeStyle.clip = "rect(" + Math.round(clipt.y-pt.y) + "px " + Math.round(clipt.x-pt.x + clipt.width ) + "px " + 
+											Math.round(clipt.y-pt.y + clipt.height ) + "px " + Math.round(clipt.x -pt.x) + "px)";
+				}
+			}
+			return this;
+ 		}
 	});
 
 	declare("dojox.gfx.vml.Group", vml.Shape, {
@@ -330,11 +367,14 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/_base
 			for(var i = 0; i < this.children.length; ++i){
 				this.children[i]._updateParentMatrix(matrix);
 			}
+			if(this.clip){
+				this.setClip(this.clip);
+			}
 			return this;	// self
 		},
 		_setDimensions: function(width, height){
 			// summary: sets the width and height of the rawNode,
-			//	if the surface sixe has been changed
+			//	if the surface size has been changed
 			// width: String: width in pixels
 			// height: String: height in pixels
 			var r = this.rawNode, rs = r.style,
@@ -348,6 +388,45 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/_base
 				this.children[i]._setDimensions(width, height);
 			}
 			return this; // self
+		},
+		setClip: function(clip){
+			// summary: sets the clipping area of this shape.
+			// description: This method overrides the dojox.gfx.shape.Shape.setClip() method.
+			// clip: Object
+			//		an object that defines the clipping geometry, or null to remove clip.
+			
+			this.clip = clip;
+			var nodeStyle = this.rawNode.style;
+			if(!clip){
+				// remove clip
+				nodeStyle.position = "absolute";
+			    nodeStyle.clip = "rect(0px "+nodeStyle.width+" "+nodeStyle.height+" 0px)";
+			}else if("width" in clip){
+				var matrix = this._getRealMatrix();
+				// transform the clip with group transform
+				var clipt = m.multiplyRectangle(matrix, clip);
+				// vml feature :-( ): if the group rawNode bbox x/y are < 0,
+				// need to adjust clip accordingly
+				var bbox = this.getBoundingBox();
+				bbox = bbox ? m.multiplyRectangle(matrix, bbox) : null;
+				var offx = bbox && bbox.x < 0 ? bbox.x : 0,
+					offy = bbox && bbox.y < 0 ? bbox.y : 0;
+				nodeStyle.position = "absolute";
+				nodeStyle.clip = "rect(" + 
+					Math.round(clipt.y - offy) + "px " + 
+					Math.round(clipt.x + clipt.width - offx) + "px " + 
+					Math.round(clipt.y + clipt.height - offy)  + "px " + 
+					Math.round(clipt.x - offx) + "px)";
+			}
+			return this;
+ 		},
+		destroy: function(){
+			// summary:
+			//		Releases all internal resources owned by this shape. Once this method has been called,
+			//		the instance is considered disposed and should not be used anymore.
+			this.clear(true);
+			// avoid this.inherited
+			vml.Shape.prototype.destroy.apply(this, arguments);
 		}
 	});
 	vml.Group.nodeType = "group";
@@ -1081,7 +1160,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array", "dojo/_base
 	
 	// copied from dojox.gfx.utils
 	function forEach(object, f, o){
-		o = o || win.global;
+		o = o || kernel.global;
 		f.call(o, object);
 		if(object instanceof g.Surface || object instanceof g.Group){
 			arr.forEach(object.children, function(shape){

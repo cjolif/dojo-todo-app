@@ -11,18 +11,13 @@ define([
 	"dojo/_base/lang", // lang.getObject, lang.hitch
 	"dojo/sniff", // has("ie") has("webkit")
 	"dojo/string", // string.substitute
-	"dojo/_base/window", // win.doc.createTextNode
 	"./_WidgetBase",
 	"./_TemplatedMixin",
 	"dojo/text!./templates/Calendar.html",
 	"./hccss"	// not used directly, but sets CSS class on <body>
-], function(array, declare, cldrSupplemental, date, locale, stamp, dom, domClass, event, lang, has, string, win,
+], function(array, declare, cldrSupplemental, date, locale, stamp, dom, domClass, event, lang, has, string,
 			_WidgetBase, _TemplatedMixin, template){
 
-/*=====
-	var _WidgetBase = dijit._WidgetBase;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-=====*/
 
 	// module:
 	//		dijit/CalendarLite
@@ -64,7 +59,7 @@ define([
 		value: new Date(""),
 		// TODO: for 2.0 make this a string (ISO format) rather than a Date
 
-		// datePackage: String
+		// datePackage: Object
 		//		JavaScript object containing Calendar functions.  Uses Gregorian Calendar routines
 		//		from dojo.date by default.
 		datePackage: date,
@@ -170,7 +165,7 @@ define([
 			while(node.firstChild){
 				node.removeChild(node.firstChild);
 			}
-			node.appendChild(win.doc.createTextNode(text));
+			node.appendChild(node.ownerDocument.createTextNode(text));
 		},
 
 		_populateGrid: function(){
@@ -363,7 +358,7 @@ define([
 
 			// If the focus is on a different month than the current calendar month, switch the displayed month.
 			// Also will populate the grid initially, on Calendar creation.
-			if(!this._date2cell || this.datePackage.difference(oldFocus, date, "month") != 0){
+			if(!this._date2cell || this.dateFuncObj.difference(oldFocus, date, "month") != 0){
 				this._populateGrid();
 				this._populateControls();
 				this._markSelectedDates([this.value]);

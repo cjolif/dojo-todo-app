@@ -1,9 +1,23 @@
 define(
 //begin v1.x content
 {
+	"months-format-narrow": [
+		"1",
+		"2",
+		"3",
+		"4",
+		"5",
+		"6",
+		"7",
+		"8",
+		"9",
+		"10",
+		"11",
+		"12"
+	],
 	"field-weekday": "יום בשבוע",
 	"dateFormatItem-yQQQ": "y QQQ",
-	"dateFormatItem-yMEd": "EEE, d.M.yyyy",
+	"dateFormatItem-yMEd": "E, d.M.yyyy",
 	"dateFormatItem-MMMEd": "E, d בMMM",
 	"eraNarrow": [
 		"לפנה״ס",
@@ -13,7 +27,7 @@ define(
 	"months-format-wide": [
 		"ינואר",
 		"פברואר",
-		"מרס",
+		"מרץ",
 		"אפריל",
 		"מאי",
 		"יוני",
@@ -24,16 +38,16 @@ define(
 		"נובמבר",
 		"דצמבר"
 	],
-	"dateFormatItem-EEEd": "EEE ה-d",
 	"dayPeriods-format-wide-pm": "אחה״צ",
 	"dateFormat-full": "EEEE, d בMMMM y",
 	"dateFormatItem-Md": "d/M",
+	"dateFormatItem-yMd": "d.M.yyyy",
 	"field-era": "תקופה",
 	"dateFormatItem-yM": "M.yyyy",
 	"months-standAlone-wide": [
 		"ינואר",
 		"פברואר",
-		"מרס",
+		"מרץ",
 		"אפריל",
 		"מאי",
 		"יוני",
@@ -61,7 +75,7 @@ define(
 	"months-format-abbr": [
 		"ינו",
 		"פבר",
-		"מרס",
+		"מרץ",
 		"אפר",
 		"מאי",
 		"יונ",
@@ -78,11 +92,10 @@ define(
 	"field-day-relative+1": "מחר",
 	"field-day-relative+2": "מחרתיים",
 	"dateFormatItem-H": "HH",
-	"field-day-relative+3": "בעוד שלושה ימים",
 	"months-standAlone-abbr": [
 		"ינו׳",
 		"פבר׳",
-		"מרס",
+		"מרץ",
 		"אפר׳",
 		"מאי",
 		"יונ׳",
@@ -142,9 +155,14 @@ define(
 	],
 	"dateFormatItem-d": "d",
 	"dateFormatItem-ms": "mm:ss",
+	"quarters-format-narrow": [
+		"1",
+		"2",
+		"3",
+		"4"
+	],
 	"field-day-relative+-1": "אתמול",
 	"field-day-relative+-2": "שלשום",
-	"field-day-relative+-3": "לפני שלושה ימים",
 	"dateFormatItem-MMMd": "d בMMM",
 	"dateFormatItem-MEd": "E, M-d",
 	"dateFormatItem-yMMMM": "MMMM y",
@@ -161,6 +179,8 @@ define(
 	"field-zone": "אזור",
 	"dateFormatItem-yyyyMM": "MM/yyyy",
 	"dateFormatItem-y": "y",
+	"field-year-relative+-1": "שנה שעברה",
+	"field-month-relative+-1": "חודש שעבר",
 	"dateFormatItem-yyMM": "MM/yy",
 	"dateFormatItem-hm": "h:mm a",
 	"days-format-abbr": [
@@ -172,6 +192,7 @@ define(
 		"יום ו׳",
 		"שבת"
 	],
+	"dateFormatItem-yMMMd": "d בMMM y",
 	"eraNames": [
 		"לפני הספירה",
 		"לספירה"
@@ -200,14 +221,21 @@ define(
 	"dateFormatItem-MMMMEd": "E, d בMMMM",
 	"dateFormat-short": "dd/MM/yy",
 	"field-second": "שנייה",
-	"dateFormatItem-yMMMEd": "EEE, d בMMM y",
+	"dateFormatItem-yMMMEd": "E, d בMMM y",
+	"field-month-relative+0": "החודש",
+	"field-month-relative+1": "חודש הבא",
 	"dateFormatItem-Ed": "E ה-d",
 	"field-week": "שבוע",
 	"dateFormat-medium": "d בMMM yyyy",
+	"field-year-relative+0": "השנה",
+	"field-week-relative+-1": "שבוע שעבר",
+	"field-year-relative+1": "שנה הבאה",
 	"dateFormatItem-mmss": "mm:ss",
 	"dateFormatItem-Hms": "HH:mm:ss",
 	"dateFormatItem-hms": "h:mm:ss a",
-	"dateFormatItem-yyyy": "y"
+	"dateFormatItem-yyyy": "y",
+	"field-week-relative+0": "השבוע",
+	"field-week-relative+1": "שבוע הבא"
 }
 //end v1.x content
 );

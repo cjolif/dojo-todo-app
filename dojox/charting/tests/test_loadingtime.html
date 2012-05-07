@@ -1,0 +1,25 @@
+<html>
+<title>Test loading time</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript"
+	src="../../../dojo/dojo.js"
+	djConfig="isDebug:true,  parseOnLoad: true"></script>
+
+<script type="text/javascript">
+  var initTime = new Date().getTime();
+  dojo.require("dojox.charting.widget.Chart");
+  dojo.require("dojox.charting.widget.Legend")
+  dojo.require("dojox.charting.plot2d.Columns");
+  dojo.require("dojox.charting.axis2d.Default");
+
+  onLoad = function() {
+    console.log("loading time: "+(new Date().getTime() - initTime));
+  };
+
+  dojo.addOnLoad(onLoad);
+</script>
+</head>
+<body>
+</body>
+</html>

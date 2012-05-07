@@ -5,11 +5,8 @@ define(["./_base/lang", "./sniff"], function(lang, has) {
 // summary:
 //		TODOC
 
-var gears = lang.getObject("dojo.gears", true);
-
-/*=====
-var gears = dojo.gears;
-=====*/
+var gears = {};
+lang.setObject("dojo.gears", gears);
 
 gears._gearsObject = function(){
 	// summary:
@@ -52,7 +49,7 @@ gears._gearsObject = function(){
 };
 
 /*=====
-dojo.gears.available = {
+gears.available = {
 	// summary: True if client is using Google Gears
 };
 =====*/

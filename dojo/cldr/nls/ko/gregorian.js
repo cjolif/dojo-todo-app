@@ -17,7 +17,7 @@ define(
 	],
 	"field-weekday": "요일",
 	"dateFormatItem-yQQQ": "y년 QQQ",
-	"dateFormatItem-yMEd": "yyyy. M. d. EEE",
+	"dateFormatItem-yMEd": "yyyy. M. d. (E)",
 	"dateFormatItem-MMMEd": "MMM d일 (E)",
 	"eraNarrow": [
 		"기원전",
@@ -39,10 +39,10 @@ define(
 		"12월"
 	],
 	"dateTimeFormat-medium": "{1} {0}",
-	"dateFormatItem-EEEd": "d일 EEE",
 	"dayPeriods-format-wide-pm": "오후",
 	"dateFormat-full": "y년 M월 d일 EEEE",
 	"dateFormatItem-Md": "M. d.",
+	"dateFormatItem-yMd": "yyyy. M. d.",
 	"field-era": "연호",
 	"dateFormatItem-yM": "yyyy. M.",
 	"months-standAlone-wide": [
@@ -66,6 +66,7 @@ define(
 		"제 3/4분기",
 		"제 4/4분기"
 	],
+	"dateFormatItem-MEEEEd": "M. d. EEEE",
 	"timeFormat-long": "a h시 m분 s초 z",
 	"field-year": "년",
 	"dateFormatItem-yMMM": "y년 MMM",
@@ -92,7 +93,6 @@ define(
 	"field-day-relative+1": "내일",
 	"field-day-relative+2": "모레",
 	"dateFormatItem-H": "H시",
-	"field-day-relative+3": "3일후",
 	"months-standAlone-abbr": [
 		"1월",
 		"2월",
@@ -130,6 +130,7 @@ define(
 		"금요일",
 		"토요일"
 	],
+	"dateFormatItem-yMMMEEEEd": "y년 MMM d일 EEEE",
 	"dateFormatItem-yyMMM": "yy년 MMM",
 	"timeFormat-medium": "a h:mm:ss",
 	"dateFormatItem-Hm": "HH:mm",
@@ -156,12 +157,18 @@ define(
 	],
 	"dateFormatItem-d": "d일",
 	"dateFormatItem-ms": "mm:ss",
+	"quarters-format-narrow": [
+		"1",
+		"2",
+		"3",
+		"4"
+	],
 	"field-day-relative+-1": "어제",
 	"dateFormatItem-h": "a h시",
 	"dateTimeFormat-long": "{1} {0}",
 	"field-day-relative+-2": "그저께",
-	"field-day-relative+-3": "그끄제",
 	"dateFormatItem-MMMd": "MMM d일",
+	"dateFormatItem-EEEEd": "d일 EEEE",
 	"dateFormatItem-MEd": "M. d. (E)",
 	"dateTimeFormat-full": "{1} {0}",
 	"field-day": "일",
@@ -191,7 +198,9 @@ define(
 		"11월",
 		"12월"
 	],
-	"dateFormatItem-yyMM": "YY. M.",
+	"field-year-relative+-1": "지난해",
+	"field-month-relative+-1": "지난달",
+	"dateFormatItem-yyMM": "yy. M.",
 	"dateFormatItem-hm": "a h:mm",
 	"days-format-abbr": [
 		"일",
@@ -230,14 +239,21 @@ define(
 	"dayPeriods-format-wide-am": "오전",
 	"dateFormat-short": "yy. M. d.",
 	"field-second": "초",
-	"dateFormatItem-yMMMEd": "y년 MMM d일 EEE",
+	"dateFormatItem-yMMMEd": "y년 MMM d일 (E)",
+	"field-month-relative+0": "이번 달",
+	"field-month-relative+1": "다음 달",
 	"dateFormatItem-Ed": "d일 (E)",
 	"field-week": "주",
 	"dateFormat-medium": "yyyy. M. d.",
+	"field-year-relative+0": "올해",
+	"field-week-relative+-1": "지난주",
+	"field-year-relative+1": "내년",
 	"dateFormatItem-mmss": "mm:ss",
 	"dateTimeFormat-short": "{1} {0}",
 	"dateFormatItem-Hms": "H시 m분 s초",
-	"dateFormatItem-hms": "a h:mm:ss"
+	"dateFormatItem-hms": "a h:mm:ss",
+	"field-week-relative+0": "이번 주",
+	"field-week-relative+1": "다음 주"
 }
 //end v1.x content
 );

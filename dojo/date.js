@@ -2,16 +2,10 @@ define(["./_base/lang"], function(lang) {
 	// module:
 	//		dojo/date
 	// summary:
-	//		TODOC
+	//		Date manipulation utilities
 
-var date = lang.getObject("dojo.date", true);
-
-/*=====
-dojo.date = {
-	// summary: Date manipulation utilities
-};
-date = dojo.date;
-=====*/
+var date = {};
+lang.setObject("dojo.date", date);
 
 date.getDaysInMonth = function(/*Date*/dateObject){
 	//	summary:

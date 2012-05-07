@@ -138,7 +138,7 @@ define([
 		progStyle: "",
 
 		/* internal properties */	
-		paramsToInherit: "variableHeight,transition,deleteIcon,icon,rightIcon,rightIcon2,uncheckIcon,arrowClass,checkClass,uncheckClass",
+		paramsToInherit: "variableHeight,transition,deleteIcon,icon,rightIcon,rightIcon2,uncheckIcon,arrowClass,checkClass,uncheckClass,deleteIconTitle,deleteIconRole",
 		baseClass: "mblListItem",
 
 		_selStartMethod: "touch",
@@ -175,6 +175,7 @@ define([
 					return (e.target !== this.labelNode);
 				};
 			}
+			this._layoutChildren = [];
 		},
 
 		startup: function(){
@@ -188,15 +189,16 @@ define([
 				this._handleClick = false;
 			}
 
+			this.inherited(arguments);
+			
 			if(domClass.contains(this.domNode, "mblVariableHeight")){
 				this.variableHeight = true;
 			}
 			if(this.variableHeight){
 				domClass.add(this.domNode, "mblVariableHeight");
-				setTimeout(lang.hitch(this, "layoutVariableHeight"));
+				setTimeout(lang.hitch(this, "layoutVariableHeight"), 0);
 			}
 
-			this.inherited(arguments);
 			if(!this._isOnLine){
 				this._isOnLine = true;
 				this.set({ // retry applying the attribute
@@ -214,7 +216,6 @@ define([
 		},
 
 		layoutChildren: function(){
-			this._layoutChildren = [];
 			var centerNode;
 			array.forEach(this.domNode.childNodes, function(n){
 				if(n.nodeType !== 1){ return; }
@@ -253,7 +254,7 @@ define([
 			//		Internal handler for click events.
 			// tags:
 			//		private
-			if(e && e.type === "keydown" && e.keyCode !== 13){ return; }
+			if(this.getParent().isEditing || e && e.type === "keydown" && e.keyCode !== 13){ return; }
 			if(this.onClick(e) === false){ return; } // user's click action
 			var n = this.labelNode;
 			if(this.anchorLabel && e.currentTarget === n){
@@ -358,6 +359,10 @@ define([
 			if(this[type + "Node"]){
 				var cap = type.charAt(0).toUpperCase() + type.substring(1);
 				domClass.add(this[type + "Node"], "mblListItem" + cap);
+			}
+			var role = this[type + "Role"];
+			if(role){
+				this[type + "Node"].setAttribute("role", role);
 			}
 		},
 

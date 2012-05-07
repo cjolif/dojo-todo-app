@@ -3,7 +3,7 @@ define([
 	"dojo/dom-class", // domClass.add domClass.remove
 	"dojo/dom-geometry", // domGeometry.marginBox
 	"dojo/dom-style", // domStyle.getComputedStyle
-	"dojo/_base/lang", // lang.mixin
+	"dojo/_base/lang" // lang.mixin
 ], function(array, domClass, domGeometry, domStyle, lang){
 
 	// module:

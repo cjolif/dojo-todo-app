@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
 	<title>FixedSplitter Test</title>
 
-	<link href="../themes/iphone/FixedSplitter.css" rel="stylesheet">
+	<link href="../themes/iphone/FixedSplitter.css" rel="stylesheet"/>
 	<script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true"></script>
 
 	<script type="text/javascript">
@@ -26,15 +26,13 @@
 				});
 				p0.domNode.style.backgroundColor = "yellow";
 				p0.domNode.style.width = "200px";
-				p0.placeAt(w.domNode);
-				p0.startup();
+				w.addChild(p0);
 
 				var p1 = new Pane({
 					innerHTML: "pane #2"
 				});
 				p1.domNode.style.backgroundColor = "pink";
-				p1.placeAt(w.domNode);
-				p1.startup();
+				w.addChild(p1);
 			});
 		});
 	</script>

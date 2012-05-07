@@ -1,11 +1,9 @@
-dojo.provide("dojox.drawing.util.common");
-dojo.require("dojox.math.round");
+define(["dojo", "dojox/math/round"], function(dojo, round){
 
-(function(){
-	
 	var uidMap = {};
 	var start = 0;
-	dojox.drawing.util.common	= {
+	//dojox.drawing.util.common	= 
+	return {
 		// summary:
 		//		A collection of common methods used for DojoX Drawing.
 		//		This singleton is accessible in most Drawing classes
@@ -55,9 +53,9 @@ dojo.require("dojox.math.round");
 				snap = snap/180;
 				var radians = this.radians(obj),
 					seg = Math.PI * snap,
-					rnd = dojox.math.round(radians/seg),
+					rnd = round(radians/seg),
 					new_radian = rnd*seg;
-				return dojox.math.round(this.radToDeg(new_radian)); // Whole Number
+				return round(this.radToDeg(new_radian)); // Whole Number
 			
 			}else{
 				return this.radToDeg(this.radians(obj)); // Float
@@ -250,10 +248,10 @@ dojo.require("dojox.math.round");
 				if(!value && prop=="id" && elem.target){
 			
 					var n = elem.target;
-					while(!dojo.attr(n, "id")){
+					while(n && !dojo.attr(n, "id")){
 						n = n.parentNode;
 					}
-					return dojo.attr(n, "id");
+					return n && dojo.attr(n, "id");
 				}
 				
 				if(elem.rawNode || elem.target){
@@ -277,4 +275,4 @@ dojo.require("dojox.math.round");
 		}
 	};
 	
-})();
+});

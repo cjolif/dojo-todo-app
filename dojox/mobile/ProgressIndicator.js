@@ -51,6 +51,7 @@ define([
 		//		(mblProg0Color - mblProg11Color) are used.
 		colors: null,
 
+		/* internal properties */	
 		baseClass: "mblProgressIndicator",
 
 		constructor: function(){
@@ -76,6 +77,10 @@ define([
 		},
 
 		scale: function(/*Number*/size){
+			// summary:
+			//		Changes the size of the indicator.
+			// size:
+			//		The size of the indicator in pixels.
 			var scale = size / 40;
 			domStyle.set(this.containerNode, {
 				webkitTransform: "scale(" + scale + ")",
@@ -122,7 +127,7 @@ define([
 				clearInterval(this.timer);
 			}
 			this.timer = null;
-			if(this.removeOnStop && this.domNode.parentNode){
+			if(this.removeOnStop && this.domNode && this.domNode.parentNode){
 				this.domNode.parentNode.removeChild(this.domNode);
 			}
 		},

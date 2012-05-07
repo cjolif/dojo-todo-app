@@ -18,7 +18,7 @@ define(
 	"field-weekday": "Dag van de week",
 	"dateFormatItem-yyQQQQ": "QQQQ yy",
 	"dateFormatItem-yQQQ": "QQQ y",
-	"dateFormatItem-yMEd": "EEE d-M-y",
+	"dateFormatItem-yMEd": "E d-M-y",
 	"dateFormatItem-MMMEd": "E d MMM",
 	"eraNarrow": [
 		"v. Chr.",
@@ -42,6 +42,8 @@ define(
 	"dayPeriods-format-wide-pm": "PM",
 	"dateFormat-full": "EEEE d MMMM y",
 	"dateFormatItem-Md": "d-M",
+	"dayPeriods-format-wide-noon": "12 uur 's middags",
+	"dateFormatItem-yMd": "d-M-y",
 	"field-era": "Tijdperk",
 	"dateFormatItem-yM": "M-y",
 	"months-standAlone-wide": [
@@ -88,23 +90,22 @@ define(
 	],
 	"dateFormatItem-yyQ": "Q yy",
 	"timeFormat-full": "HH:mm:ss zzzz",
-	"field-day-relative+0": "vandaag",
-	"field-day-relative+1": "morgen",
-	"field-day-relative+2": "overmorgen",
-	"field-day-relative+3": "overovermorgen",
+	"field-day-relative+0": "Vandaag",
+	"field-day-relative+1": "Morgen",
+	"field-day-relative+2": "Overmorgen",
 	"months-standAlone-abbr": [
-		"jan.",
-		"feb.",
-		"mrt.",
-		"apr.",
+		"jan",
+		"feb",
+		"mrt",
+		"apr",
 		"mei",
-		"jun.",
-		"jul.",
-		"aug.",
-		"sep.",
-		"okt.",
-		"nov.",
-		"dec."
+		"jun",
+		"jul",
+		"aug",
+		"sep",
+		"okt",
+		"nov",
+		"dec"
 	],
 	"quarters-format-abbr": [
 		"K1",
@@ -129,6 +130,7 @@ define(
 		"zaterdag"
 	],
 	"dateFormatItem-MMMMd": "d MMMM",
+	"dayPeriods-format-abbr-noon": "12 uur 's middags",
 	"dateFormatItem-yyMMM": "MMM yy",
 	"timeFormat-medium": "HH:mm:ss",
 	"dateFormatItem-Hm": "HH:mm",
@@ -155,9 +157,14 @@ define(
 	],
 	"dateFormatItem-d": "d",
 	"dateFormatItem-ms": "mm:ss",
-	"field-day-relative+-1": "gisteren",
-	"field-day-relative+-2": "eergisteren",
-	"field-day-relative+-3": "eereergisteren",
+	"quarters-format-narrow": [
+		"1",
+		"2",
+		"3",
+		"4"
+	],
+	"field-day-relative+-1": "Gisteren",
+	"field-day-relative+-2": "Eergisteren",
 	"dateFormatItem-MMMd": "d-MMM",
 	"dateFormatItem-MEd": "E d-M",
 	"field-day": "Dag",
@@ -186,6 +193,8 @@ define(
 		"N",
 		"D"
 	],
+	"field-year-relative+-1": "Vorig jaar",
+	"field-month-relative+-1": "Vorige maand",
 	"dateFormatItem-yyMM": "MM-yy",
 	"days-format-abbr": [
 		"zo",
@@ -196,6 +205,7 @@ define(
 		"vr",
 		"za"
 	],
+	"dateFormatItem-yMMMd": "d MMM y",
 	"eraNames": [
 		"Voor Christus",
 		"na Christus"
@@ -223,11 +233,19 @@ define(
 	"dayPeriods-format-wide-am": "AM",
 	"dateFormat-short": "dd-MM-yy",
 	"dateFormatItem-MMd": "d-MM",
+	"dayPeriods-format-narrow-noon": "n",
 	"field-second": "Seconde",
-	"dateFormatItem-yMMMEd": "EEE d MMM y",
+	"dateFormatItem-yMMMEd": "E d MMM y",
+	"field-month-relative+0": "Deze maand",
+	"field-month-relative+1": "Volgende maand",
 	"dateFormatItem-Ed": "E d",
-	"field-week": "Week",
-	"dateFormat-medium": "d MMM y"
+	"field-week": "week",
+	"dateFormat-medium": "d MMM y",
+	"field-year-relative+0": "Dit jaar",
+	"field-week-relative+-1": "Vorige week",
+	"field-year-relative+1": "Volgend jaar",
+	"field-week-relative+0": "Deze week",
+	"field-week-relative+1": "Volgende week"
 }
 //end v1.x content
 );

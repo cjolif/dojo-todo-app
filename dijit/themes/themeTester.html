@@ -83,7 +83,6 @@
 			"dijit/dijit",
 			"dijit/dijit-all",
 			"dojo/parser",
-			"dojo/date/locale",
 			"dojo/data/ItemFileReadStore",
 			"dojo/dnd/Source"], function(dojo, dijit){
 				// various function ripped out of inline script type=dojo/* blocks
@@ -399,26 +398,26 @@
 						<td></td>
 						<td>
 							<div id="ttBelow">tooltip below</div>
-							<div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'ttBelow', position:['below']" style="display:none; width: 100px;">I'm <i>below</i>!</div>
+							<div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'ttBelow', position:['below-centered']" style="display:none; width: 100px;">I'm <i>below</i>!</div>
 						</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>
 							<div id="ttRight">tooltip after</div>
-							<div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'ttRight', position:['after']" style="display:none;">I'm on the <i>right</i>!<br>(or left on RTL systems)</div>
+							<div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'ttRight', position:['after-centered']" style="display:none;">I'm on the <i>right</i>!<br>(or left on RTL systems)</div>
 						</td>
 						<td></td>
 						<td>
 							<div id="ttLeft">tooltip before</div>
-							<div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'ttLeft', position:['before','after']" style="display:none;">I'm on the <i>left</i>!<br>(or right on RTL systems)</div>
+							<div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'ttLeft', position:['before-centered','after-centered']" style="display:none;">I'm on the <i>left</i>!<br>(or right on RTL systems)</div>
 						</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>
 							<div id="ttAbove">tooltip above</div>
-							<div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'ttAbove', position:['above']" style="display:none;">I'm <i>above</i>!</div>
+							<div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'ttAbove', position:['above-centered']" style="display:none;">I'm <i>above</i>!</div>
 						</td>
 						<td></td>
 					</tr>
@@ -618,7 +617,7 @@
 					<input type="radio" name="g1" id="g1rb2" value="talk" data-dojo-type="dijit/form/RadioButton"  data-dojo-props='checked:true' checked>
 					<label for="g1rb2">talk</label>
 					<input type="radio" name="g1" id="g1rb3" value="weather" data-dojo-type="dijit/form/RadioButton"  data-dojo-props='disabled:true' disabled>
-					<label for="g1rb3">weather (disabled)</label>
+					<label for="g1rb3">weather <span dir="ltr">(disabled)</span></label>
 				</fieldset>
 			</div> <!-- end of basic form widgets -->
 
@@ -938,7 +937,7 @@ nulla &#8234;facilisi.&#8236;
 				<h2>dijit.form.TimeTextBox</h2>
 
 				(HTML inline before)
-				<!-- set programmatically to match locale; a server might generate this content also. -->
+				<!-- set programmatically to match (; a server might generate this content also. -->
 				<span id="timePicker" data-dojo-type="dijit/InlineEditBox" data-dojo-props='editor:dijit.form.TimeTextBox, width:"150px"'></span>
 				(HTML after)
 

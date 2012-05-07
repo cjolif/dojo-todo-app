@@ -130,7 +130,7 @@ define([
 			array.forEach(this.plugins, this.addPlugin, this);
 
 			// Okay, denote the value can now be set.
-			this.setValueDeferred.callback(true);
+			this.setValueDeferred.resolve(true);
 
 			domClass.add(this.iframe.parentNode, "dijitEditorIFrameContainer");
 			domClass.add(this.iframe, "dijitEditorIFrame");
@@ -290,7 +290,7 @@ define([
 				delete this._cursorToStart; // Remove the force to cursor to start position.
 				delete this._savedSelection; // new mouse position overrides old selection
 				if(e.target.tagName == "BODY"){
-					setTimeout(lang.hitch(this, "placeCursorAtEnd"), 0);
+					this.defer("placeCursorAtEnd");
 				}
 				this.inherited(arguments);
 			}
@@ -345,9 +345,9 @@ define([
 			}
 			if(this.editActionInterval>0){
 				if(this._editTimer){
-					clearTimeout(this._editTimer);
+					this._editTimer.remove();
 				}
-				this._editTimer = setTimeout(lang.hitch(this, this.endEditing), this._editInterval);
+				this._editTimer = this.defer("endEditing", this._editInterval);
 			}
 		},
 
@@ -456,7 +456,7 @@ define([
 						array.forEach(mark,function(n){
 							bookmark.push(rangeapi.getNode(n,this.editNode));
 						},this);
-						win.withGlobal(this.window,'moveToBookmark',dijit,[{mark: bookmark, isCollapsed: col}]);
+						win.withGlobal(this.window,'moveToBookmark',focusBase,[{mark: bookmark, isCollapsed: col}]);
 					}else{
 						if(mark.startContainer && mark.endContainer){
 							// Use the pseudo WC3 range API.  This works better for positions
@@ -560,7 +560,7 @@ define([
 			// tags:
 			//		private
 			if(this._editTimer){
-				clearTimeout(this._editTimer);
+				this._editTimer = this._editTimer.remove();
 			}
 			if(this._inEditing){
 				this._endEditing(ignore_caret);
@@ -681,13 +681,11 @@ define([
 							this.endEditing();//end current typing step if any
 							if(e.keyCode == 88){
 								this.beginEditing('cut');
-								//use timeout to trigger after the cut is complete
-								setTimeout(lang.hitch(this, this.endEditing), 1);
 							}else{
 								this.beginEditing('paste');
-								//use timeout to trigger after the paste is complete
-								setTimeout(lang.hitch(this, this.endEditing), 1);
 							}
+							//use timeout to trigger after the paste is complete
+							this.defer("endEditing", 1);
 							break;
 						}
 						//pass through
@@ -748,7 +746,7 @@ define([
 				// only restore the selection if the current range is collapsed
 				// if not collapsed, then it means the editor does not lose
 				// selection and there is no need to restore it
-				if(win.withGlobal(this.window,'isCollapsed',dijit)){
+				if(win.withGlobal(this.window,'isCollapsed',focusBase)){
 					this._moveToBookmark(this._savedSelection);
 				}
 				delete this._savedSelection;

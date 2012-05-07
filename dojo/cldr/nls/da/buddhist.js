@@ -23,6 +23,7 @@ define(
 		"N",
 		"D"
 	],
+	"dateFormatItem-Gy": "y G",
 	"dayPeriods-format-wide-am": "f.m.",
 	"dateFormatItem-y": "y G",
 	"timeFormat-full": "HH.mm.ss zzzz",
@@ -62,7 +63,7 @@ define(
 	"dateFormatItem-yyMMM": "MMM y G",
 	"dateFormatItem-yMd": "d/M/y G",
 	"dateFormatItem-ms": "mm.ss",
-	"dateFormatItem-MMMMEd": "E, d. MMMM",
+	"dateFormatItem-MMMMEd": "E d. MMMM",
 	"dateFormatItem-MMMd": "d. MMM",
 	"dateFormatItem-yyQ": "Q. 'kvartal' y G",
 	"timeFormat-long": "HH.mm.ss z",
@@ -98,13 +99,14 @@ define(
 		"lør"
 	],
 	"dateFormatItem-M": "M",
+	"dateFormatItem-yMMMd": "d. MMM y G",
 	"dateFormatItem-MEd": "E. d/M",
 	"dateFormatItem-hm": "h.mm a",
 	"dateFormat-short": "d/M/yyyy",
-	"dateFormatItem-yMMMEd": "EEE. d. MMM y G",
+	"dateFormatItem-yMMMEd": "E. d. MMM y G",
 	"dateFormat-full": "EEEE d. MMMM y G",
 	"dateFormatItem-Md": "d/M",
-	"dateFormatItem-yMEd": "EEE. d/M/y G",
+	"dateFormatItem-yMEd": "E. d/M/y G",
 	"months-format-wide": [
 		"januar",
 		"februar",

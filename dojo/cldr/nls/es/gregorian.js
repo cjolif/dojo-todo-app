@@ -15,10 +15,16 @@ define(
 		"N",
 		"D"
 	],
+	"quarters-standAlone-narrow": [
+		"1T",
+		"2T",
+		"3T",
+		"4T"
+	],
 	"field-weekday": "día de la semana",
 	"dateFormatItem-yyQQQQ": "QQQQ 'de' yy",
 	"dateFormatItem-yQQQ": "QQQ y",
-	"dateFormatItem-yMEd": "EEE d/M/y",
+	"dateFormatItem-yMEd": "E d/M/y",
 	"dateFormatItem-MMMEd": "E d MMM",
 	"eraNarrow": [
 		"a.C.",
@@ -40,10 +46,10 @@ define(
 		"noviembre",
 		"diciembre"
 	],
-	"dateFormatItem-EEEd": "EEE d",
 	"dayPeriods-format-wide-pm": "p.m.",
-	"dateFormat-full": "EEEE d 'de' MMMM 'de' y",
+	"dateFormat-full": "EEEE, d 'de' MMMM 'de' y",
 	"dateFormatItem-Md": "d/M",
+	"dateFormatItem-yMd": "d/M/y",
 	"field-era": "era",
 	"dateFormatItem-yM": "M/y",
 	"months-standAlone-wide": [
@@ -91,13 +97,12 @@ define(
 	"field-day-relative+0": "hoy",
 	"field-day-relative+1": "mañana",
 	"field-day-relative+2": "pasado mañana",
-	"field-day-relative+3": "Dentro de tres días",
 	"months-standAlone-abbr": [
 		"ene",
 		"feb",
 		"mar",
 		"abr",
-		"may",
+		"mayo",
 		"jun",
 		"jul",
 		"ago",
@@ -113,10 +118,10 @@ define(
 		"T4"
 	],
 	"quarters-standAlone-wide": [
-		"1er trimestre",
-		"2º trimestre",
-		"3er trimestre",
-		"4º trimestre"
+		"1.er trimestre",
+		"2.º trimestre",
+		"3.er trimestre",
+		"4.º trimestre"
 	],
 	"dateFormatItem-M": "L",
 	"days-standAlone-wide": [
@@ -155,10 +160,15 @@ define(
 	],
 	"dateFormatItem-d": "d",
 	"dateFormatItem-ms": "mm:ss",
+	"quarters-format-narrow": [
+		"1T",
+		"2T",
+		"3T",
+		"4T"
+	],
 	"field-day-relative+-1": "ayer",
 	"dateFormatItem-h": "hh a",
 	"field-day-relative+-2": "antes de ayer",
-	"field-day-relative+-3": "Hace tres días",
 	"dateFormatItem-MMMd": "d MMM",
 	"dateFormatItem-MEd": "E, d/M",
 	"dateFormatItem-yMMMM": "MMMM 'de' y",
@@ -189,6 +199,8 @@ define(
 		"N",
 		"D"
 	],
+	"field-year-relative+-1": "el año pasado",
+	"field-month-relative+-1": "el mes pasado",
 	"dateFormatItem-yyMM": "MM/yy",
 	"dateFormatItem-hm": "hh:mm a",
 	"days-format-abbr": [
@@ -200,6 +212,7 @@ define(
 		"vie",
 		"sáb"
 	],
+	"dateFormatItem-yMMMd": "d MMM y",
 	"eraNames": [
 		"antes de Cristo",
 		"anno Dómini"
@@ -208,7 +221,7 @@ define(
 		"D",
 		"L",
 		"M",
-		"M",
+		"X",
 		"J",
 		"V",
 		"S"
@@ -218,7 +231,7 @@ define(
 		"D",
 		"L",
 		"M",
-		"M",
+		"X",
 		"J",
 		"V",
 		"S"
@@ -228,11 +241,19 @@ define(
 	"dateFormat-short": "dd/MM/yy",
 	"dateFormatItem-MMd": "d/MM",
 	"field-second": "segundo",
-	"dateFormatItem-yMMMEd": "EEE, d MMM y",
+	"dateFormatItem-yMMMEd": "E, d MMM y",
+	"field-month-relative+0": "este mes",
+	"field-month-relative+1": "el próximo mes",
+	"dateFormatItem-Ed": "E d",
 	"field-week": "semana",
 	"dateFormat-medium": "dd/MM/yyyy",
+	"field-year-relative+0": "este año",
+	"field-week-relative+-1": "la semana pasada",
+	"field-year-relative+1": "el próximo año",
 	"dateFormatItem-Hms": "HH:mm:ss",
-	"dateFormatItem-hms": "hh:mm:ss a"
+	"dateFormatItem-hms": "hh:mm:ss a",
+	"field-week-relative+0": "esta semana",
+	"field-week-relative+1": "la próxima semana"
 }
 //end v1.x content
 );

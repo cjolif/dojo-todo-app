@@ -22,6 +22,13 @@ define([
 	kernel.experimental("dojox.mobile.TreeView");
 
 	return declare("dojox.mobile.TreeView", ScrollableView, {
+		// summary:
+		//		A scrollable view with tree-style navigation.
+		// description:
+		//		This widget can be connected to a dojox.data.FileStore as a
+		//		quick directory browser. You may use it when implementing the
+		//		Master-Detail pattern.
+
 		postCreate: function(){
 			this._load();
 			this.inherited(arguments);
@@ -40,10 +47,7 @@ define([
 						item: item
 					});
 					list.addChild(listitem);
-					list.placeAt(this.containerNode);
-					if(this._started){
-						list.startup();
-					}
+					this.addChild(list);
 				})
 			)
 		},
@@ -92,8 +96,8 @@ define([
 					var newView = ScrollableView({
 						id: newViewId
 					}, domConstruct.create("div", null, win.body()));
-					heading.placeAt(newView.containerNode);
-					list.placeAt(newView.containerNode);
+					newView.addChild(heading);
+					newView.addChild(list);
 					newView.startup();
 					prog.stop();
 					registry.byNode(li.domNode).transitionTo(newView.id);

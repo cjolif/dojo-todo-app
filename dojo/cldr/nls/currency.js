@@ -34,6 +34,7 @@ define({ root:
 	"nl": true,
 	"pl": true,
 	"pt": true,
+	"pt-pt": true,
 	"ro": true,
 	"ru": true,
 	"sk": true,

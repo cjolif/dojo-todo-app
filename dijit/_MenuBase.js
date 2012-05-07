@@ -17,11 +17,6 @@ define([
 ], function(array, declare, dom, domAttr, domClass, lang, mouse, on, winUtils,
 			pm, registry, _Widget, _KeyNavContainer, _OnDijitClickMixin, _TemplatedMixin){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _KeyNavContainer = dijit._KeyNavContainer;
-=====*/
 
 // module:
 //		dijit/_MenuBase
@@ -42,16 +37,22 @@ return declare("dijit._MenuBase",
 	//		number of milliseconds before hovering (without clicking) causes the popup to automatically open.
 	popupDelay: 500,
 
+	// autoFocus: Boolean
+	//		A toggle to control whether or not a Menu gets focused when opened as a drop down from a MenuBar
+	//		or DropDownButton/ComboButton.   Note though that it always get focused when opened via the keyboard.
+	autoFocus: false,
+
 	postCreate: function(){
-		var self = this;
-		this._connects.push(
-			on(this.containerNode, on.selector(".dijitMenuItem", mouse.enter), function(){
+		var self = this,
+			matches = function(node){ return domClass.contains(node, "dijitMenuItem"); };
+		this._adoptHandles(
+			on(this.containerNode, on.selector(matches, mouse.enter), function(){
 				self.onItemHover(registry.byNode(this));
 			}),
-			on(this.containerNode, on.selector(".dijitMenuItem", mouse.leave), function(){
+			on(this.containerNode, on.selector(matches, mouse.leave), function(){
 				self.onItemUnhover(registry.byNode(this));
 			}),
-			on(this.containerNode, on.selector(".dijitMenuItem", _OnDijitClickMixin.a11yclick), function(evt){
+			on(this.containerNode, on.selector(matches, _OnDijitClickMixin.a11yclick), function(evt){
 				self.onItemClick(registry.byNode(this), evt);
 				evt.stopPropagation();
 				evt.preventDefault();
@@ -131,7 +132,7 @@ return declare("dijit._MenuBase",
 		if(this.isActive){
 			this.focusChild(item);
 			if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer){
-				this.hover_timer = setTimeout(lang.hitch(this, "_openPopup"), this.popupDelay);
+				this.hover_timer = this.defer("_openPopup", this.popupDelay);
 			}
 		}
 		// if the user is mixing mouse and keyboard navigation,
@@ -158,7 +159,7 @@ return declare("dijit._MenuBase",
 		var itemPopup = item.popup;
 		if(itemPopup){
 			this._stopPendingCloseTimer(itemPopup);
-			itemPopup._pendingClose_timer = setTimeout(function(){
+			itemPopup._pendingClose_timer = this.defer(function(){
 				itemPopup._pendingClose_timer = null;
 				if(itemPopup.parentMenu){
 					itemPopup.parentMenu.currentPopup = null;
@@ -189,8 +190,7 @@ return declare("dijit._MenuBase",
 		// tags:
 		//		private
 		if(this.hover_timer){
-			clearTimeout(this.hover_timer);
-			this.hover_timer = null;
+			this.hover_timer = this.hover_timer.remove();
 		}
 	},
 
@@ -200,8 +200,7 @@ return declare("dijit._MenuBase",
 		// tags:
 		//		private
 		if(popup._pendingClose_timer){
-			clearTimeout(popup._pendingClose_timer);
-			popup._pendingClose_timer = null;
+			popup._pendingClose_timer = popup._pendingClose_timer.remove();
 		}
 	},
 
@@ -211,8 +210,7 @@ return declare("dijit._MenuBase",
 		// tags:
 		//		private
 		if(this._focus_timer){
-			clearTimeout(this._focus_timer);
-			this._focus_timer = null;
+			this._focus_timer = this._focus_timer.remove();
 		}
 	},
 
@@ -241,7 +239,7 @@ return declare("dijit._MenuBase",
 		if(item.disabled){ return false; }
 
 		if(item.popup){
-			this._openPopup();
+			this._openPopup(evt.type == "keypress");
 		}else{
 			// before calling user defined handler, close hierarchy of menus
 			// and restore focus to place it was when menu was opened
@@ -252,9 +250,9 @@ return declare("dijit._MenuBase",
 		}
 	},
 
-	_openPopup: function(){
+	_openPopup: function(/*Boolean*/ focus){
 		// summary:
-		//		Open the popup to the side of/underneath the current menu item
+		//		Open the popup to the side of/underneath the current menu item, and optionally focus first item
 		// tags:
 		//		protected
 
@@ -262,43 +260,44 @@ return declare("dijit._MenuBase",
 		var from_item = this.focusedChild;
 		if(!from_item){ return; } // the focused child lost focus since the timer was started
 		var popup = from_item.popup;
-		if(popup.isShowingNow){ return; }
-		if(this.currentPopup){
-			this._stopPendingCloseTimer(this.currentPopup);
-			pm.close(this.currentPopup);
+		if(!popup.isShowingNow){
+			if(this.currentPopup){
+				this._stopPendingCloseTimer(this.currentPopup);
+				pm.close(this.currentPopup);
+			}
+			popup.parentMenu = this;
+			popup.from_item = from_item; // helps finding the parent item that should be focused for this popup
+			var self = this;
+			pm.open({
+				parent: this,
+				popup: popup,
+				around: from_item.domNode,
+				orient: this._orient || ["after", "before"],
+				onCancel: function(){ // called when the child menu is canceled
+					// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
+					// which seems aligned with the UX of most applications (e.g. notepad, wordpad, paint shop pro)
+					self.focusChild(from_item);	// put focus back on my node
+					self._cleanUp();			// close the submenu (be sure this is done _after_ focus is moved)
+					from_item._setSelected(true); // oops, _cleanUp() deselected the item
+					self.focusedChild = from_item;	// and unset focusedChild
+				},
+				onExecute: lang.hitch(this, "_cleanUp")
+			});
+
+			this.currentPopup = popup;
+			// detect mouseovers to handle lazy mouse movements that temporarily focus other menu items
+			popup.connect(popup.domNode, "onmouseenter", lang.hitch(self, "_onPopupHover")); // cleaned up when the popped-up widget is destroyed on close
 		}
-		popup.parentMenu = this;
-		popup.from_item = from_item; // helps finding the parent item that should be focused for this popup
-		var self = this;
-		pm.open({
-			parent: this,
-			popup: popup,
-			around: from_item.domNode,
-			orient: this._orient || ["after", "before"],
-			onCancel: function(){ // called when the child menu is canceled
-				// set isActive=false (_closeChild vs _cleanUp) so that subsequent hovering will NOT open child menus
-				// which seems aligned with the UX of most applications (e.g. notepad, wordpad, paint shop pro)
-				self.focusChild(from_item);	// put focus back on my node
-				self._cleanUp();			// close the submenu (be sure this is done _after_ focus is moved)
-				from_item._setSelected(true); // oops, _cleanUp() deselected the item
-				self.focusedChild = from_item;	// and unset focusedChild
-			},
-			onExecute: lang.hitch(this, "_cleanUp")
-		});
 
-		this.currentPopup = popup;
-		// detect mouseovers to handle lazy mouse movements that temporarily focus other menu items
-		popup.connect(popup.domNode, "onmouseenter", lang.hitch(self, "_onPopupHover")); // cleaned up when the popped-up widget is destroyed on close
-
-		if(popup.focus){
-			// If user is opening the popup via keyboard (right arrow, or down arrow for MenuBar),
-			// if the cursor happens to collide with the popup, it will generate an onmouseover event
-			// even though the mouse wasn't moved.  Use a setTimeout() to call popup.focus so that
+		if(focus && popup.focus){
+			// If user is opening the popup via keyboard (right arrow, or down arrow for MenuBar), then focus the popup.
+			// If the cursor happens to collide with the popup, it will generate an onmouseover event
+			// even though the mouse wasn't moved.  Use defer() to call popup.focus so that
 			// our focus() call overrides the onmouseover event, rather than vice-versa.  (#8742)
-			popup._focus_timer = setTimeout(lang.hitch(popup, function(){
+			popup._focus_timer = this.defer(lang.hitch(popup, function(){
 				this._focus_timer = null;
 				this.focus();
-			}), 0);
+			}));
 		}
 	},
 

@@ -22,7 +22,7 @@
 <style>
 	.dojoxLegendNode {border: 1px solid #ccc; margin: 5px 10px 5px 10px; padding: 3px;}
 	.dojoxLegendText {vertical-align: text-top; padding-right: 10px}
-	
+
 	#charts {
 		clear: both;
 		margin-bottom: 50px;
@@ -50,7 +50,7 @@
 	function(Chart, StoreSeries, ThreeD, Legend, Default, Markers, Columns, Pie, Tooltip, MoveSlice, Magnify, Shake,
 		Memory, Observable, NumberSpinner,
 		lang, arr, xhr, domConstruct, aspect){
-	
+
 	xhr.get({
 		url: "stock.json",
 		sync: true,
@@ -58,18 +58,18 @@
 	}).then(function(data){
 		store = Observable(new Memory({data:data}));
 	});
-	
+
 	function addLegend(chart, node){
 		var legend = new Legend({chart: chart}, node);
 		aspect.after(chart, "render", lang.hitch(legend, "refresh"));
 	}
-	
+
 	var templates = {
 		low:   "<strong>{0}</strong>: <strong>low {1}</strong> &ndash; {2} &ndash; {3}",
 		price: "<strong>{0}</strong>: {1} &ndash; <strong>price {2}</strong> &ndash; {3}",
 		high:  "<strong>{0}</strong>: {1} &ndash; {2} &ndash; <strong>high {3}</strong>"
 	};
-	
+
 	function valTrans(value, object){
 		return {
 			y: object[value],
@@ -81,9 +81,9 @@
 			)
 		};
 	}
-	
+
 	var chartL, chartC, chartP;
-	
+
 	makeCharts = function(){
 		chartL = new Chart("lines").
 				setTheme(ThreeD).
@@ -101,7 +101,7 @@
 				setTheme(ThreeD).
 				addAxis("x", {natural: true}).
 				addAxis("y", {vertical: true, fixLower: "major", fixUpper: "major", includeZero: true}).
-				addPlot("default", {type: Columns}).
+				addPlot("default", {type: StackedAreas }).
 				addSeries("Low", new StoreSeries(
 					store, {query: {}}, lang.hitch(null, valTrans, "low"))).
 				addSeries("Price", new StoreSeries(
@@ -112,7 +112,7 @@
 		addLegend(chartC, "cols_legend");
 		new dojox.charting.action2d.Shake(chartC, "default", {shiftY: 0});
 		new dojox.charting.action2d.Tooltip(chartC);
-		
+
 		chartP = new dojox.charting.Chart("pie").
 				setTheme(ThreeD).
 				addPlot("default", {type: Pie, radius: 125}).
@@ -146,7 +146,7 @@
 			domConstruct.place('<label>'+nm+'</label>', dojo.byId("spinners"), "last")
 			domConstruct.place(w.domNode, "spinners", "last")
 		});
-		
+
 		var labels = arr.map(objects, function(object, index){
 				return {
 					value: index + 1,
@@ -155,7 +155,7 @@
 			});
 		chartC.addAxis("x", {natural: true, labels: labels}).render();
 	};
-	
+
 	makeCharts();
 	makeSpinners(store.query({}));
 });
@@ -176,7 +176,7 @@
 		<div class="chart-area">
 			<div id="cols_legend"></div>
 			<div id="cols" class="chart"></div>
-		</div>	
+		</div>
 		<div class="chart-area">
 			<div id="pie_legend"></div>
 			<div id="pie" class="chart"></div>

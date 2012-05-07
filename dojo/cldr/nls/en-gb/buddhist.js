@@ -1,13 +1,15 @@
 define(
 //begin v1.x content
 {
+	"dateFormatItem-yMd": "d/M/yyyy",
 	"dateFormat-medium": "d MMM y G",
 	"dateFormatItem-MMMEd": "E d MMM",
 	"dateFormatItem-MMdd": "dd/MM",
 	"dateFormatItem-MEd": "E, d/M",
-	"dateFormatItem-yMEd": "EEE, d/M/y G",
+	"dateFormatItem-yMEd": "E, d/M/y G",
 	"dateFormatItem-yyMMM": "MMM y G",
 	"dateFormatItem-y": "y",
+	"dateFormatItem-yMMMd": "d MMM y G",
 	"dateFormatItem-Md": "d/M",
 	"months-standAlone-narrow": [
 		"J",
@@ -38,7 +40,7 @@ define(
 	"dateFormatItem-yyyyMM": "MM/y G",
 	"dateFormat-long": "d MMMM y G",
 	"dateFormat-short": "dd/MM/y G",
-	"dateFormatItem-yMMMEd": "EEE, MMM d, y",
+	"dateFormatItem-yMMMEd": "E, d MMM y G",
 	"months-format-wide": [
 		"January",
 		"February",
@@ -54,6 +56,7 @@ define(
 		"December"
 	],
 	"dateFormatItem-yM": "M/y",
+	"dayPeriods-format-narrow-pm": "p",
 	"months-format-abbr": [
 		"Jan",
 		"Feb",
@@ -79,6 +82,7 @@ define(
 	],
 	"dateFormatItem-yQ": "Q y",
 	"dateFormatItem-yMMM": "MMM y",
+	"dayPeriods-format-narrow-am": "a",
 	"quarters-format-wide": [
 		"1st quarter",
 		"2nd quarter",
@@ -86,6 +90,7 @@ define(
 		"4th quarter"
 	],
 	"dateFormat-full": "EEEE, d MMMM y G",
+	"dateFormatItem-MMMd": "d MMM",
 	"dateFormatItem-yyyyMd": "d/M/y G",
 	"days-format-abbr": [
 		"Sun",

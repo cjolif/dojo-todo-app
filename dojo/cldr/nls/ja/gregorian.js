@@ -3,7 +3,7 @@ define(
 {
 	"field-weekday": "曜日",
 	"dateFormatItem-yQQQ": "yQQQ",
-	"dateFormatItem-yMEd": "y/M/d(EEE)",
+	"dateFormatItem-yMEd": "y/M/d(E)",
 	"dateFormatItem-MMMEd": "M月d日(E)",
 	"eraNarrow": [
 		"BC",
@@ -28,6 +28,7 @@ define(
 	"dayPeriods-format-wide-pm": "午後",
 	"dateFormat-full": "y年M月d日EEEE",
 	"dateFormatItem-Md": "M/d",
+	"dayPeriods-format-wide-noon": "正午",
 	"dateFormatItem-yMd": "y/M/d",
 	"field-era": "時代",
 	"dateFormatItem-yM": "y/M",
@@ -78,7 +79,6 @@ define(
 	"field-day-relative+1": "明日",
 	"field-day-relative+2": "明後日",
 	"dateFormatItem-H": "H時",
-	"field-day-relative+3": "3日後",
 	"months-standAlone-abbr": [
 		"1月",
 		"2月",
@@ -118,6 +118,12 @@ define(
 	"dateFormatItem-yyMMM": "y年M月",
 	"timeFormat-medium": "H:mm:ss",
 	"dateFormatItem-Hm": "H:mm",
+	"quarters-standAlone-abbr": [
+		"Q1",
+		"Q2",
+		"Q3",
+		"Q4"
+	],
 	"eraAbbr": [
 		"BC",
 		"AD"
@@ -135,14 +141,19 @@ define(
 	],
 	"dateFormatItem-d": "d日",
 	"dateFormatItem-ms": "mm:ss",
+	"quarters-format-narrow": [
+		"1",
+		"2",
+		"3",
+		"4"
+	],
 	"field-day-relative+-1": "昨日",
-	"dateFormatItem-h": "ah時",
-	"dateTimeFormat-long": "{1}{0}",
+	"dateFormatItem-h": "aK時",
+	"dateTimeFormat-long": "{1} {0}",
 	"field-day-relative+-2": "一昨日",
-	"field-day-relative+-3": "3日前",
 	"dateFormatItem-MMMd": "M月d日",
 	"dateFormatItem-MEd": "M/d(E)",
-	"dateTimeFormat-full": "{1}{0}",
+	"dateTimeFormat-full": "{1} {0}",
 	"field-day": "日",
 	"days-format-wide": [
 		"日曜日",
@@ -170,7 +181,9 @@ define(
 		"11",
 		"12"
 	],
-	"dateFormatItem-hm": "ah:mm",
+	"field-year-relative+-1": "昨年",
+	"field-month-relative+-1": "先月",
+	"dateFormatItem-hm": "aK:mm",
 	"dateFormatItem-GGGGyMd": "GGGGy年M月d日",
 	"days-format-abbr": [
 		"日",
@@ -205,18 +218,25 @@ define(
 		"金",
 		"土"
 	],
-	"dateFormatItem-MMM": "LLL",
+	"dateFormatItem-MMM": "M月",
 	"dayPeriods-format-wide-am": "午前",
-	"dateFormat-short": "yy/MM/dd",
+	"dateFormat-short": "yyyy/MM/dd",
 	"field-second": "秒",
-	"dateFormatItem-yMMMEd": "y年M月d日(EEE)",
-	"dateFormatItem-Ed": "d日(EEE)",
+	"dateFormatItem-yMMMEd": "y年M月d日(E)",
+	"field-month-relative+0": "今月",
+	"field-month-relative+1": "翌月",
+	"dateFormatItem-Ed": "d日(E)",
 	"field-week": "週",
 	"dateFormat-medium": "yyyy/MM/dd",
+	"field-year-relative+0": "今年",
+	"field-week-relative+-1": "先週",
+	"field-year-relative+1": "翌年",
 	"dateTimeFormat-short": "{1} {0}",
 	"dateFormatItem-Hms": "H:mm:ss",
-	"dateFormatItem-hms": "ah:mm:ss",
-	"dateFormatItem-yyyy": "y年"
+	"dateFormatItem-hms": "aK:mm:ss",
+	"dateFormatItem-yyyy": "y年",
+	"field-week-relative+0": "今週",
+	"field-week-relative+1": "翌週"
 }
 //end v1.x content
 );

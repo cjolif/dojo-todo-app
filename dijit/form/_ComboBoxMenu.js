@@ -1,22 +1,15 @@
 define([
 	"dojo/_base/declare", // declare
 	"dojo/dom-class", // domClass.add domClass.remove
-	"dojo/dom-construct", // domConstruct.create
 	"dojo/dom-style", // domStyle.get
 	"dojo/keys", // keys.DOWN_ARROW keys.PAGE_DOWN keys.PAGE_UP keys.UP_ARROW
 	"../_WidgetBase",
 	"../_TemplatedMixin",
 	"./_ComboBoxMenuMixin",
 	"./_ListMouseMixin"
-], function(declare, domClass, domConstruct, domStyle, keys,
+], function(declare, domClass, domStyle, keys,
 			_WidgetBase, _TemplatedMixin, _ComboBoxMenuMixin, _ListMouseMixin){
 
-/*=====
-	var _WidgetBase = dijit._WidgetBase;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _ComboBoxMenuMixin = dijit.form._ComboBoxMenuMixin;
-	var _ListMouseMixin = dijit.form._ListMouseMixin;
-=====*/
 
 	// module:
 	//		dijit/form/_ComboBoxMenu
@@ -48,10 +41,11 @@ define([
 		},
 
 		_createMenuItem: function(){
-			return domConstruct.create("div", {
-				"class": "dijitReset dijitMenuItem" +(this.isLeftToRight() ? "" : " dijitMenuItemRtl"),
-				role: "option"
-			});
+			// note: not using domConstruct.create() because need to specify document
+			var item = this.ownerDocument.createElement("div");
+			item.className = "dijitReset dijitMenuItem" +(this.isLeftToRight() ? "" : " dijitMenuItemRtl");
+			item.setAttribute("role", "option");
+			return item;
 		},
 
 		onHover: function(/*DomNode*/ node){

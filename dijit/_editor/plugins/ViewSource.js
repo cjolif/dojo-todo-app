@@ -23,10 +23,6 @@ define([
 ], function(array, declare, domAttr, domConstruct, domGeometry, domStyle, event, i18n, keys, lang, on, has, win,
 	winUtils, focus, _Plugin, ToggleButton, dijit, registry, aspect){
 
-/*=====
-	var _Plugin = dijit._editor._Plugin;
-=====*/
-
 // module:
 //		dijit/_editor/plugins/ViewSource
 // summary:
@@ -104,7 +100,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 					position: "absolute",
 					top: "-1000px"
 				}
-			}, win.body());
+			}, editor.ownerDocumentBody);
 		}
 		// Make sure readonly mode doesn't make the wrong cursor appear over the button.
 		this.button.set("readOnly", false);
@@ -193,7 +189,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 					// function to handle resize events.
 					// Will check current VP and only resize if
 					// different.
-					var vp = winUtils.getBox();
+					var vp = winUtils.getBox(ed.ownerDocument);
 
 					if("_prevW" in this && "_prevH" in this){
 						// No actual size change, ignore.
@@ -330,7 +326,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 		// adapt.
 		if(this._fsPlugin && this._fsPlugin.isFullscreen){
 			//Okay, probably in FS, adjust.
-			var vp = winUtils.getBox();
+			var vp = winUtils.getBox(ed.ownerDocument);
 			edb.w = (vp.w - extents.w);
 			edb.h = (vp.h - (tbH + extents.h + fH));
 		}
@@ -546,7 +542,7 @@ var ViewSource = declare("dijit._editor.plugins.ViewSource",_Plugin, {
 		//		Over-ride to remove the node used to correct for IE's
 		//		zoom bug.
 		if(this._ieFixNode){
-			win.body().removeChild(this._ieFixNode);
+			domConstruct.destroy(this._ieFixNode);
 		}
 		if(this._resizer){
 			clearTimeout(this._resizer);

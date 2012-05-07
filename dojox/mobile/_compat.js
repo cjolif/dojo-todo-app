@@ -173,9 +173,8 @@ define([
 					});
 					anim.play();
 				}
-				dm.currentView = registry.byNode(toNode);
 			},
-		
+
 			wakeUp: function(/*DomNode*/node){
 				// summary:
 				//		Function to force IE to redraw a node since its layout
@@ -200,7 +199,7 @@ define([
 			}
 		});	
 
-	
+
 		lang.extend(Switch, {
 			_changeState: function(/*String*/state, /*Boolean*/anim){
 				// summary:
@@ -212,17 +211,17 @@ define([
 				// tags:
 				//		private
 				var on = (state === "on");
-		
+
 				var pos;
 				if(!on){
 					pos = -this.inner.firstChild.firstChild.offsetWidth;
 				}else{
 					pos = 0;
 				}
-		
+
 				this.left.style.display = "";
 				this.right.style.display = "";
-		
+
 				var _this = this;
 				var f = function(){
 					domClass.remove(_this.domNode, on ? "mblSwitchOff" : "mblSwitchOn");
@@ -230,7 +229,7 @@ define([
 					_this.left.style.display = on ? "" : "none";
 					_this.right.style.display = !on ? "" : "none";
 				};
-		
+
 				if(anim){
 					var a = fx.slideTo({
 						node: this.inner,
@@ -248,7 +247,7 @@ define([
 			}
 		});	
 
-	
+
 		lang.extend(ProgressIndicator, {
 			scale: function(/*Number*/size){
 				if(has("ie")){
@@ -268,7 +267,7 @@ define([
 			}
 		});	
 
-	
+
 		if(has("ie")){
 			lang.extend(RoundRect, {
 				buildRendering: function(){
@@ -284,6 +283,7 @@ define([
 
 
 			RoundRectList._addChild = RoundRectList.prototype.addChild;
+			RoundRectList._postCreate = RoundRectList.prototype.postCreate;
 			lang.extend(RoundRectList, {
 				buildRendering: function(){
 					// summary:
@@ -294,11 +294,12 @@ define([
 					dm.createRoundRect(this, true);
 					this.domNode.className = "mblRoundRectList";
 				},
-			
+
 				postCreate: function(){
+					RoundRectList._postCreate.apply(this, arguments);
 					this.redrawBorders();
 				},
-		
+
 				addChild: function(widget, /*Number?*/insertIndex){
 					RoundRectList._addChild.apply(this, arguments);
 					this.redrawBorders();
@@ -306,14 +307,14 @@ define([
 						dm.applyPngFilter(widget.domNode);
 					}
 				},
-			
+
 				redrawBorders: function(){
 					// summary:
 					//		Function to adjust the creation of RoundRectLists on IE.
 					//		Removed undesired styles.
 					// tags:
 					//		public
-			
+
 					// Remove a border of the last ListItem.
 					// This is for browsers that do not support the last-child CSS pseudo-class.
 
@@ -371,12 +372,12 @@ define([
 						_this.srcNodeRef = null;
 					}
 					_this.domNode.appendChild(_this.containerNode);
-		
+
 					for(i = 0; i <= 5; i++){
 						var top = domConstruct.create("div");
 						top.className = "mblRoundCorner mblRoundCorner"+i+"T";
 						_this.domNode.insertBefore(top, _this.containerNode);
-		
+
 						var bottom = domConstruct.create("div");
 						bottom.className = "mblRoundCorner mblRoundCorner"+i+"B";
 						_this.domNode.appendChild(bottom);
@@ -514,7 +515,7 @@ define([
 					}
 				}
 			}
-		
+
 			// find <link>
 			var elems = win.doc.getElementsByTagName("link");
 			for(i = 0, len = elems.length; i < len; i++){
@@ -548,7 +549,7 @@ define([
 				}
 			}
 		};
-	
+
 		dm.hideAddressBar = function(/*Event?*/evt, /*Boolean?*/doResize){
 			if(doResize !== false){ dm.resizeAll(); }
 		};

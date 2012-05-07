@@ -53,6 +53,10 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array",
 		//	fill: dojox.gfx.Fill?
 		//		Any fill to be used for elements on the plot (such as areas).
 		fill:		{},
+
+		//	styleFunc: Function?
+		//		A function that returns a styling object for the a given data item.
+		styleFunc:	null,
 	
 		//	font: String?
 		//		A font definition to be used for labels and other text-based elements on the plot.
@@ -123,6 +127,7 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array",
 			outline:	{},
 			shadow:		{},
 			fill:		{},
+			styleFunc: null,
 			font:		"",
 			fontColor:	"",
 			markerStroke:		{},
@@ -219,14 +224,16 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array",
 					eventSeries = this._eventSeries[run.name] = new Array(run.data.length);
 				
 				// optim works only for index based case
-				var indexed = typeof run.data[0] == "number";
+				var indexed = arr.some(run.data, function(item){
+					return typeof item == "number";
+				});
 				var min = indexed?Math.max(0, Math.floor(this._hScaler.bounds.from - 1)):0, 
 						max = indexed?Math.min(run.data.length, Math.ceil(this._hScaler.bounds.to)):run.data.length;
 
 				// split the run data into dense segments (each containing no nulls)
-				// except if interpolates is null in which case ignore null between valid data
+				// except if interpolates is false in which case ignore null between valid data
 				for(var j = min; j < max; j++){
-					if((indexed && run.data[j] != null) || (!indexed && run.data[j] != null && run.data[j].y != null)){
+					if(run.data[j] != null && (indexed || run.data[j].y != null)){
 						if(!rseg){
 							rseg = [];
 							startindexes.push(j);
@@ -246,14 +253,16 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array",
 						lpoly = arr.map(rsegments[seg], function(v, i){
 							return {
 								x: ht(i + startindexes[seg] + 1) + offsets.l,
-								y: dim.height - offsets.b - vt(v)
+								y: dim.height - offsets.b - vt(v),
+								data: v
 							};
 						}, this);
 					}else{
 						lpoly = arr.map(rsegments[seg], function(v){
 							return {
 								x: ht(v.x) + offsets.l,
-								y: dim.height - offsets.b - vt(v.y)
+								y: dim.height - offsets.b - vt(v.y),
+								data: v
 							};
 						}, this);
 					}
@@ -265,7 +274,8 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array",
 							lpoly = lpoly.concat(arr.map(rsegments[seg], function(v, i){
 								return {
 									x: ht(i + startindexes[seg] + 1) + offsets.l,
-									y: dim.height - offsets.b - vt(v)
+									y: dim.height - offsets.b - vt(v),
+									data: v
 								};
 							}, this));
 						}
@@ -335,22 +345,32 @@ define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/array",
 						}
 					}
 					if(this.opt.markers){
+						var markerTheme = theme; 
 						frontMarkers = new Array(lpoly.length);
 						outlineMarkers = new Array(lpoly.length);
 						outline = null;
-						if(theme.marker.outline){
-							outline = dc.makeStroke(theme.marker.outline);
-							outline.width = 2 * outline.width + (theme.marker.stroke ? theme.marker.stroke.width : 0);
+						if(markerTheme.marker.outline){
+							outline = dc.makeStroke(markerTheme.marker.outline);
+							outline.width = 2 * outline.width + (markerTheme.marker.stroke ? markerTheme.marker.stroke.width : 0);
 						}
 						arr.forEach(lpoly, function(c, i){
-							var path = "M" + c.x + " " + c.y + " " + theme.symbol;
+							if(this.opt.styleFunc || typeof c.data != "number"){
+								var tMixin = typeof c.data != "number" ? [c.data] : [];
+								if(this.opt.styleFunc){
+									tMixin.push(this.opt.styleFunc(c.data));
+								}
+								markerTheme = t.addMixin(theme, "marker", tMixin, true);
+							}else{
+								markerTheme = t.post(theme, "marker");
+							}
+							var path = "M" + c.x + " " + c.y + " " + markerTheme.symbol;
 							if(outline){
 								outlineMarkers[i] = this.createPath(run, s, path).setStroke(outline);
 							}
-							frontMarkers[i] = this.createPath(run, s, path).setStroke(theme.marker.stroke).setFill(theme.marker.fill);
+							frontMarkers[i] = this.createPath(run, s, path).setStroke(markerTheme.marker.stroke).setFill(markerTheme.marker.fill);
 						}, this);
-						run.dyn.markerFill = theme.marker.fill;
-						run.dyn.markerStroke = theme.marker.stroke;
+						run.dyn.markerFill = markerTheme.marker.fill;
+						run.dyn.markerStroke = markerTheme.marker.stroke;
 						if(events){
 							arr.forEach(frontMarkers, function(s, i){
 								var o = {

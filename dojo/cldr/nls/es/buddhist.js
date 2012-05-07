@@ -22,22 +22,30 @@ define(
 		"N",
 		"D"
 	],
+	"dateFormatItem-Gy": "y G",
 	"dayPeriods-format-wide-am": "a.m.",
 	"dateFormatItem-y": "y G",
 	"dateFormatItem-MMMdd": "dd-MMM",
+	"months-standAlone-abbr": [
+		"ene",
+		"feb",
+		"mar",
+		"abr",
+		"mayo"
+	],
+	"dateFormatItem-Ed": "E d",
 	"dateFormatItem-yMMM": "MMM y G",
 	"days-standAlone-narrow": [
 		"D",
 		"L",
 		"M",
-		"M",
+		"X",
 		"J",
 		"V",
 		"S"
 	],
 	"dateFormatItem-yyyyMM": "MM/y G",
 	"dateFormat-long": "d 'de' MMMM 'de' y G",
-	"dateFormatItem-EEEd": "EEE d",
 	"dateFormatItem-Hm": "HH:mm",
 	"dateFormatItem-MMd": "d/MM",
 	"dateFormatItem-yyMM": "MM/y G",
@@ -46,9 +54,27 @@ define(
 	"dateFormatItem-yyMMM": "MMM-y G",
 	"dateFormatItem-yyQQQQ": "QQQQ 'de' y G",
 	"dateFormatItem-yMd": "d/M/y G",
+	"quarters-standAlone-wide": [
+		"1.er trimestre",
+		"2.º trimestre",
+		"3.er trimestre",
+		"4.º trimestre"
+	],
 	"dateFormatItem-yMMMM": "MMMM 'de' y G",
 	"dateFormatItem-ms": "mm:ss",
+	"quarters-standAlone-narrow": [
+		"1T",
+		"2T",
+		"3T",
+		"4T"
+	],
 	"dateFormatItem-MMMd": "d MMM",
+	"quarters-format-narrow": [
+		"1T",
+		"2T",
+		"3T",
+		"4T"
+	],
 	"dateFormatItem-yyQ": "Q y G",
 	"months-format-abbr": [
 		"ene",
@@ -85,10 +111,10 @@ define(
 	"dateFormatItem-MEd": "E, d/M",
 	"dateFormatItem-hm": "hh:mm a",
 	"dateFormat-short": "dd/MM/y G",
-	"dateFormatItem-yMMMEd": "EEE, d MMM y G",
-	"dateFormat-full": "EEEE d 'de' MMMM 'de' y G",
+	"dateFormatItem-yMMMEd": "E, d MMM y G",
+	"dateFormat-full": "EEEE, d 'de' MMMM 'de' y G",
 	"dateFormatItem-Md": "d/M",
-	"dateFormatItem-yMEd": "EEE d/M/y G",
+	"dateFormatItem-yMEd": "E d/M/y G",
 	"months-format-wide": [
 		"enero",
 		"febrero",

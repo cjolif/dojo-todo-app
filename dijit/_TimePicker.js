@@ -20,39 +20,13 @@ define([
 ], function(array, ddate, locale, stamp, declare, domClass, domConstruct, event, kernel, keys, lang, has, query,
 			typematic, _Widget, _TemplatedMixin, _FormValueWidget, template){
 
-/*=====
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _FormValueWidget = dijit.form._FormValueWidget;
-=====*/
-
 	// module:
 	//		dijit/_TimePicker
 	// summary:
 	//		A graphical time picker.
 
 
-	/*=====
-	declare(
-		"dijit._TimePicker.__Constraints",
-		locale.__FormatOptions,
-		{
-			// clickableIncrement: String
-			//		See `dijit._TimePicker.clickableIncrement`
-			clickableIncrement: "T00:15:00",
-
-			// visibleIncrement: String
-			//		See `dijit._TimePicker.visibleIncrement`
-			visibleIncrement: "T01:00:00",
-
-			// visibleRange: String
-			//		See `dijit._TimePicker.visibleRange`
-			visibleRange: "T05:00:00"
-		}
-	);
-	=====*/
-
-	return declare("dijit._TimePicker", [_Widget, _TemplatedMixin], {
+	var TimePicker = declare("dijit._TimePicker", [_Widget, _TemplatedMixin], {
 		// summary:
 		//		A graphical time picker.
 		//		This widget is used internally by other widgets and is not available
@@ -105,7 +79,7 @@ define([
 		_clickableIncrement:1,
 		_totalIncrements:10,
 
-		// constraints: dijit._TimePicker.__Constraints
+		// constraints: TimePicker.__Constraints
 		//		Specifies valid range of times (start time, end time)
 		constraints:{},
 
@@ -242,8 +216,8 @@ define([
 				moreAfter = [],
 				estBeforeLength = count - after.length,
 				before = this._getFilteredNodes(0, estBeforeLength, true, after[0]);
-				if(before.length < estBeforeLength){
-					moreAfter = this._getFilteredNodes(after.length, estBeforeLength - before.length, false);
+				if(before.length < estBeforeLength && after.length > 0){
+					moreAfter = this._getFilteredNodes(after.length, estBeforeLength - before.length, false, after[after.length-1]);
 				}
 			array.forEach(before.concat(after, moreAfter), function(n){ this.timeMenu.appendChild(n); }, this);
 		},
@@ -270,8 +244,10 @@ define([
 		postCreate: function(){
 			// assign typematic mouse listeners to the arrow buttons
 			this.connect(this.timeMenu, has("mozilla") ? 'DOMMouseScroll' : "onmousewheel", "_mouseWheeled");
-			this._connects.push(typematic.addMouseListener(this.upArrow, this, "_onArrowUp", 33, 250));
-			this._connects.push(typematic.addMouseListener(this.downArrow, this, "_onArrowDown", 33, 250));
+			this._adoptHandles(
+				typematic.addMouseListener(this.upArrow, this, "_onArrowUp", 33, 250),
+				typematic.addMouseListener(this.downArrow, this, "_onArrowDown", 33, 250)
+			);
 
 			this.inherited(arguments);
 		},
@@ -295,9 +271,10 @@ define([
 			//		private
 			var date = new Date(this._refDate);
 			var incrementDate = this._clickableIncrementDate;
-			date.setHours(date.getHours() + incrementDate.getHours() * index,
-				date.getMinutes() + incrementDate.getMinutes() * index,
-				date.getSeconds() + incrementDate.getSeconds() * index);
+			date.setTime(date.getTime()
+				+ incrementDate.getHours() * index * 3600000
+				+ incrementDate.getMinutes() * index * 60000
+				+ incrementDate.getSeconds() * index * 1000);
 			if(this.constraints.selector == "time"){
 				date.setFullYear(1970,0,1); // make sure each time is for the same date
 			}
@@ -307,7 +284,8 @@ define([
 				return null;
 			}
 
-			var div = domConstruct.create("div", {"class": this.baseClass+"Item"});
+			var div = this.ownerDocument.createElement("div");
+			div.className = this.baseClass+"Item";
 			div.date = date;
 			div.idx = index;
 			domConstruct.create('div',{
@@ -425,7 +403,13 @@ define([
 			//		Removes the bottom time and add one to the top
 			// tags:
 			//		private
-			if(typeof count == "number" && count == -1){ return; } // typematic end
+			if(count === -1){
+				domClass.remove(this.upArrow, "dijitUpArrowActive");
+				return;
+			}else if(count === 0){
+				domClass.add(this.upArrow, "dijitUpArrowActive");
+
+			} // typematic end
 			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[0].idx;
 			var divs = this._getFilteredNodes(index, 1, true, this.timeMenu.childNodes[0]);
@@ -442,7 +426,12 @@ define([
 			//		Remove the top time and add one to the bottom
 			// tags:
 			//		private
-			if(typeof count == "number" && count == -1){ return; } // typematic end
+			if(count === -1){
+				domClass.remove(this.downArrow, "dijitDownArrowActive");
+				return;
+			}else if(count === 0){
+				domClass.add(this.downArrow, "dijitDownArrowActive");
+			} // typematic end
 			if(!this.timeMenu.childNodes.length){ return; }
 			var index = this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1].idx + 1;
 			var divs = this._getFilteredNodes(index, 1, false, this.timeMenu.childNodes[this.timeMenu.childNodes.length - 1]);
@@ -501,4 +490,22 @@ define([
 			return undefined;
 		}
 	});
+
+	/*=====
+	 TimePicker.__Constraints = declare(locale.__FormatOptions, {
+		 // clickableIncrement: String
+		 //		See `dijit._TimePicker.clickableIncrement`
+		 clickableIncrement: "T00:15:00",
+
+		 // visibleIncrement: String
+		 //		See `dijit._TimePicker.visibleIncrement`
+		 visibleIncrement: "T01:00:00",
+
+		 // visibleRange: String
+		 //		See `dijit._TimePicker.visibleRange`
+		 visibleRange: "T05:00:00"
+	 });
+	 =====*/
+
+	return TimePicker;
 });

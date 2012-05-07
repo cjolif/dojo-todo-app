@@ -11,21 +11,13 @@ define([
 	"dojo/_base/lang", // lang.getObject lang.hitch
 	"dojo/on",
 	"dojo/touch",
-	"dojo/_base/window", // win.body win.doc win.doc.createElement
 	"../_WidgetBase",
 	"../_Widget",
 	"../_TemplatedMixin",
 	"./_LayoutWidget",
 	"./utils"		// layoutUtils.layoutChildren
-], function(array, cookie, declare, domClass, domConstruct, domGeometry, domStyle, event, keys, lang, on, touch, win,
+], function(array, cookie, declare, domClass, domConstruct, domGeometry, domStyle, event, keys, lang, on, touch,
 			_WidgetBase, _Widget, _TemplatedMixin, _LayoutWidget, layoutUtils){
-
-/*=====
-	var _WidgetBase = dijit._WidgetBase;
-	var _Widget = dijit._Widget;
-	var _TemplatedMixin = dijit._TemplatedMixin;
-	var _LayoutWidget = dijit.layout._LayoutWidget;
-=====*/
 
 // module:
 //		dijit/layout/BorderContainer
@@ -104,9 +96,7 @@ var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 
 	_startDrag: function(e){
 		if(!this.cover){
-			this.cover = win.doc.createElement('div');
-			domClass.add(this.cover, "dijitSplitterCover");
-			domConstruct.place(this.cover, this.child.domNode, "after");
+			this.cover = domConstruct.place("<div class=dijitSplitterCover></div>", this.child.domNode, "after");
 		}
 		domClass.add(this.cover, "dijitSplitterCoverActive");
 
@@ -138,7 +128,7 @@ var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 			splitterStart = parseInt(splitterStyle[splitterAttr], 10),
 			resize = this._resize,
 			layoutFunc = lang.hitch(this.container, "_layoutChildren", this.child.id),
-			de = win.doc;
+			de = this.ownerDocument;
 
 		this._handlers = this._handlers.concat([
 			on(de, touch.move, this._drag = function(e, forceResize){
@@ -153,7 +143,7 @@ var _Splitter = declare("dijit.layout._Splitter", [_Widget, _TemplatedMixin ],
 				splitterStyle[splitterAttr] = delta + splitterStart + factor*(boundChildSize - childSize) + "px";
 			}),
 			on(de, "dragstart", event.stop),
-			on(win.body(), "selectstart", event.stop),
+			on(this.ownerDocumentBody, "selectstart", event.stop),
 			on(de, touch.release, lang.hitch(this, "_stopDrag"))
 		]);
 		event.stop(e);

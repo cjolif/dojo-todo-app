@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Dojo Charting</title>
+
+<!-- change these to the right folders -->
+<script type="text/javascript" src="../../../dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true"></script>
+
+	<script type="text/javascript">
+		dojo.require("dojox.charting.Chart2D");
+		dojo.require("dojox.charting.themes.Julie");
+
+		dojo.ready(function(){
+		makecharts = function(id, axis, series, ymax, title){
+			var chart = new dojox.charting.Chart2D(id, {title: title});
+			chart.setTheme(dojox.charting.themes.Julie);
+			chart.addPlot('default', {type: 'ClusteredColumns'});
+			chart.addAxis('x', axis);
+			chart.addAxis('y', {vertical: true, to: ymax});
+			chart.addSeries('Series 1', series);
+			chart.render();
+		};
+
+	makecharts('chart-1', {labels: [ {value: 1, text: 'A'},
+									 {value: 2, text: 'B'},
+									 {value: 3, text: 'C'},
+									 {value: 4, text: 'D'}]},
+			   [0, 12, 23, 55],
+			   70, 'Chart 1');
+	makecharts('chart-2', {labels: [ {value: 1, text: 'A'},
+									 {value: 2, text: 'B'},
+									 {value: 3, text: 'C'},
+									 {value: 4, text: 'D'}]},
+			   [42, 12, 23, 55],
+			   20, 'Chart 2');
+		});
+	</script>
+
+</head>
+
+<body class="tundra" style="padding:20px;">
+
+<div style="overflow:auto; height: 300px; width:430px">
+<h2>Chart 1</h2>
+
+<div id="chart-area-1" style="border:1px solid #DDDDDD; margin: 10px 2px 0; width: 402px; height: 242px;">
+<div id="chart-1" style="width:400px;height:200px;"></div>
+<div id="legend-1"></div>
+</div>
+
+<div id="chart-area-2" style="border:1px solid #DDDDDD; margin: 10px 2px 0; width: 402px; height: 242px;"> 
+<div id="chart-2" style="width:400px;height:200px;"></div>
+<div id="legend-2"></div>
+</div>
+
+</div>
+
+</body>
+</html>
+
