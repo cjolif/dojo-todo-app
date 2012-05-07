@@ -1,0 +1,22 @@
+<div class="view mblView">
+	<h1 data-dojo-type="dojox.mobile.Heading" label="Edit" region="top">
+		<div id="configuration_done" data-dojo-type="dojox.mobile.ToolBarButton" label="Done" style="float:right;" transitionOptions='{title:"Configuration",target:"configuration,configure",url: "#configuration,configure"}'>
+		</div>
+	</h1>
+	<h2 data-dojo-type="dojox.mobile.RoundRectCategory" region="top">Search Reminders</h2>
+	<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
+		<ul data-dojo-type="dojox.mobile.RoundRectList">
+			<li data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Add New List ..."'
+				transitionOptions='{title:"Add List",target:"configuration,add",url: "#configuration,add"}'>
+			</li>
+		</ul>
+		<ul data-dojo-type="dojox.mobile.RoundRectList" id="configure_edit" data-dojo-mixins="dojox/mvc/Repeat" 
+			data-dojo-props="exprchar:'#', children: at(this.loadedModels.listsmodel, 'model')">
+				<li id="editList#{this.index}" data-dojo-type="dojox.mobile.ListItem" 
+					data-dojo-props='rightIcon2:"mblDomButtonRedCircleMinus"'>
+					<span data-dojo-type="dojox.mvc.Output" 
+							data-dojo-props="value: at('rel:#{this.index}','title')"></span>
+				</li>
+		</ul>
+	</div>
+</div>

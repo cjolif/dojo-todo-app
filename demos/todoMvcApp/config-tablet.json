@@ -1,0 +1,176 @@
+{
+	"id": "toDoApp",
+	"name": "ToDo App",
+	"description": "These is a ToDo sample application based on the Dojo Toolkit and provided under Dojo license.",
+	"splash": "splash",
+
+	"dependencies": [
+		"dojox/mobile/_base",
+		"dojox/mobile/TabBar",
+		"dojox/mobile/RoundRect",
+		"dojox/mobile/TabBarButton",
+		"dojox/mobile/TextBox",
+		"dojox/mobile/TextArea",
+		"dojox/mobile/CheckBox",
+		"dojox/mobile/ExpandingTextArea",
+		"dojox/mobile/Button",
+		"dojox/mobile/RoundRect",
+		"dojox/mobile/Heading",
+		"dojox/mobile/ListItem",
+		"dojox/mobile/RoundRectList",
+		"dojox/mobile/RoundRectCategory",
+		"dojox/mobile/Switch",
+		"dojox/mobile/SimpleDialog",
+		"dojox/mobile/ValuePickerDatePicker",
+		"dojo/date/stamp",
+		"dojox/app/widgets/Container",
+		"dojo/store/Memory",
+		"dojo/data/ItemFileWriteStore",
+		"dojo/store/DataStore",
+		"dojox/app/utils/mvcModel",
+		"dojox/mvc/EditStoreRefListController",
+		"dojox/mvc/Repeat",
+		"dojox/mvc/Group",
+		"dojox/mvc/Output",
+		"dojox/mvc/at"
+	],
+	// Modules for the application.  They are basically used as the second
+	// array of mixins in a dojo.declare().  Modify the top level behavior
+	// of the application, how it processes the config or any other life cycle
+	// by creating and including one or more of these
+	"modules": [
+		"dojox/app/module/lifecycle"
+	],
+	"controllers": [
+		"dojox/app/controllers/History"
+	],
+	//stores we are using
+	"stores": {
+		"listsDataStore":{
+	       "type": "dojo.data.ItemFileWriteStore",
+		   "params": {
+				"url": "./resources/data/lists.json"
+		   }
+		},
+		
+		"itemlistStore":{
+	       "type": "dojo.data.ItemFileWriteStore",
+		   "params": {
+				"url": "./resources/data/items-for-0.json"
+		   }
+		},
+		
+		"completedStore":{
+	       "type": "dojo.store.Memory",
+		   "params": {
+		      "data": "[]"
+		   }
+	   }
+	},
+
+	//models and instantiation parameters for the models. Including 'type' as a property allows
+	//one to overide the class that will be used for the model.  By default it is dojox/mvc/model
+	"models": {
+		"listsmodel": {
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"datastore": {"$ref":"#stores.listsDataStore"}
+     		}           
+        },
+		
+		"itemlistmodel": {
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"datastore": {"$ref":"#stores.itemlistStore"}
+     		}           
+        },
+	
+		"completedmodel": {
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"store": {"$ref":"#stores.completedStore"}
+     		}           
+        }
+	},
+	
+	"template": "./templates/tablet/navigation.html",
+	"definition": "./views/tablet/navigation.js",
+
+	//the name of the scene to load when the app is initialized.
+	"defaultView": "items,list",
+
+	"defaultTransition": "fade",
+	//scenes are groups of views and models loaded at once
+	"views": {
+		"configuration": {
+			"defaultView": "configure",
+			"defaultTransition": "fade",
+			"definition": "none",
+
+			"views": {
+				"configure": {
+					"template": "./templates/configuration/configure.html"
+				},
+
+				"edit": {
+					"template": "./templates/configuration/edit.html"
+				},
+
+				"add": {
+					"template": "./templates/configuration/add.html"
+				}
+			}
+		},
+
+		//item scene, include list view and date view
+		"items": {
+			"template": "./templates/items.html",
+			"defaultView": "list",
+			"defaultTransition": "fade",
+			//the views available to this scene
+			"views": {
+				"list":{
+					"template": "./templates/items/list.html"
+				},
+
+				"add":{
+					"template": "./templates/items/add.html"
+				},
+				"date":{
+					"template": "./templates/items/date.html",
+					"definition": "none"
+				}
+			}
+		},
+
+		//details scene, include list view and date view
+		"details": {
+			"defaultView": "detail",
+			"defaultTransition": "fade",
+			"definition": "none",
+
+			"views": {
+				"detail":{
+					"template": "./templates/details/detail.html"
+				},
+
+				"repeat":{
+					"template": "./templates/details/repeat.html"
+				},
+
+				"remind":{
+					"template": "./templates/details/remind.html"
+				},
+				"priority":{
+					"template": "./templates/details/priority.html"
+				},
+				"list":{
+					"template": "./templates/details/list.html"
+				}
+			}
+		}
+	}
+}

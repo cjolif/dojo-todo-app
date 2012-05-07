@@ -1,0 +1,50 @@
+<div class="view mblView">
+	<h1 data-dojo-type="dojox.mobile.Heading" region="top" label="Details" back="Back"></h1>
+	<div data-dojo-type="dojox.app.widgets.Container" id="details" scrollable="true">
+		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" 
+				data-dojo-props="target: at(this.loadedModels.itemlistmodel, 'cursor')">
+				<div  class="itemcellwrapper">
+					<input id="todo" data-dojo-type="dojox.mobile.TextBox"  class="itemcell"
+						placeholder="Title"  
+						data-dojo-props="value: at('rel:', 'title')"/>
+				</div>
+			<ul data-dojo-type="dojox.mobile.RoundRectList">
+				<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>
+				Remind Me
+				</li>
+				<li id="detail_repeat" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,repeat",url: "#details,repeat"}'>
+				Repeat
+				</li>
+			</ul>
+			<ul data-dojo-type="dojox.mobile.RoundRectList" >
+				<li id="detail_showMore" data-dojo-type="dojox.mobile.ListItem" clickable="true">
+				Show More...
+				</li>
+				<div id="moreDetail" style="display:none;">
+					<li id="detail_priority" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Priority",target:"details,priority",url: "#details,priority"}'>
+					Priority
+					</li>
+					<li id="detail_list" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,list",url: "#details,list"}'>
+					List
+					</li>
+				</div>
+			</ul>
+			<div id="moreDetailNotes" class="itemcellwrapper" style="display:none;">
+				<textarea  data-dojo-type="dojox.mobile.ExpandingTextArea" 
+						class="itemcell" placeholder="Notes"  
+						data-dojo-props="value: at('rel:', 'notes')">
+				</textarea>
+			</div>			
+		</div>
+
+		<button id="markAsComplete" data-dojo-type="dojox.mobile.Button" class="baseBtn whiteBtn">Complete</button>
+		<button id="deleteCurrentItem" data-dojo-type="dojox.mobile.Button" class="baseBtn whiteBtn">Delete</button>
+
+		<div id="dlg_confirm" data-dojo-type="dojox.mobile.SimpleDialog">
+			<div id="dlg_title" class="mblSimpleDialogTitle">Confirm</div>
+			<div id="dlg_text" class="mblSimpleDialogText">Are you sure?</div>
+			<button id="confirm_no" data-dojo-type="dojox.mobile.Button" class="mblSimpleDialogButton"> No </button>
+			<button id="confirm_yes" data-dojo-type="dojox.mobile.Button" class="mblSimpleDialogButton mblBlueButton">Yes</button>
+		</div>
+	</div>
+</div>

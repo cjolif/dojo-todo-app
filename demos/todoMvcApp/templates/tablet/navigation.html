@@ -1,0 +1,25 @@
+<div>
+	<!-- left -->
+	<div dojoType="dojox.app.widgets.Container" class="navPane" region="left">
+		<h1 region="top" dojoType="dojox.mobile.Heading">Todo App</h1>
+		<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
+			<h2 dojoType="dojox.mobile.EdgeToEdgeCategory" style="height: 42px;">
+				<div style="float:left; height: 29px; margin:7px; line-height: 29px; text-align: center">Configure</div>
+				<div id="setting" data-dojo-type="dojox.mobile.ToolBarButton" label="Edit" style="float:right;"></div>
+			</h2>
+
+			<ul data-dojo-type="dojox.mobile.RoundRectList">
+				<li id="nav_completeLi" data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Completed", clickable: true, noArrow: true, onClick: function(e){todoApp.selectItems(this, -1);}'>
+				</li>
+			</ul>
+			<ul data-dojo-type="dojox.mobile.RoundRectList" id="configrepeatlist" 
+					data-dojo-mixins="dojox/mvc/Repeat"  select="single"
+					data-dojo-props="exprchar: '#', children: at(this.loadedModels.listsmodel, 'model')">
+				<li id="nav_ListLi#{this.index}" data-dojo-type="dojox.mobile.ListItem" clickable="true" 
+					data-dojo-props="label:at('rel:#{this.index}','title'), checked: at('rel:#{this.index}',  'Checked'), onClick: function(){todoApp.selectItems(this, '#{this.index}');}">  
+				</li>
+			</ul>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,28 @@
+<div class="view mblView">
+	<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
+	<h2 id="list_type" data-dojo-type="dojox.mobile.RoundRectCategory" region="top">Reminders</h2>
+		<div  id="addNewItemUl">
+			<ul data-dojo-type="dojox.mobile.RoundRectList">
+				<li data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Add New Item ..."'
+					transitionOptions='{title:"Add Item",target:"items,add",url: "#items,add"}'>
+				</li>
+			</ul>
+		</div>
+		<ul data-dojo-type="dojox.mobile.RoundRectList" id="items_list"   
+			data-dojo-mixins="dojox/mvc/Repeat" 
+			data-dojo-props="exprchar:'#', children: at(this.loadedModels.itemlistmodel, 'model')">
+				<li  data-dojo-type="dojox.mobile.ListItem" clickable="true" 
+					data-dojo-props="onClick: function(){todoApp.showItemDetails('#{this.index}');}"
+					transitionOptions='{title:"Detail",target:"details,detail",url: "#details,detail"}'>  
+					<table><tr>
+						<td><input preventTouch='true' type='checkbox' 
+								data-dojo-type="dojox.mobile.CheckBox" 
+								data-dojo-props="checked: at('rel:#{this.index}','completed')"/></td>
+							
+						<td data-dojo-type="dojox.mvc.Output" 
+							data-dojo-props="value: at('rel:#{this.index}','title')"></td>
+					</tr></table>
+				</li>
+		</ul>	
+	</div>
+</div>
