@@ -15,7 +15,7 @@ function(dom, lang, dom, dstyle, connect, Deferred, when, registry, at, Transiti
 			var today = new Date();
 			date = datestamp.toISOString(today, {selector: "date"});
 		}
-		console.log("remind showDateDialog date = ", date);
+		//console.log("remind showDateDialog date = ", date);
 		registry.byId("reminddlgpicker1").set("value", date);							
 		registry.byId("reminddlg1").show();
 	};	
@@ -50,7 +50,7 @@ function(dom, lang, dom, dstyle, connect, Deferred, when, registry, at, Transiti
 		
 			var connectResult;
 			connectResult = connect.connect(registry.byId('remind_day_switch'), 'onStateChanged', lang.hitch(this, function(newState){
-				console.log("remind_day_switch = ", newState);
+				//console.log("remind_day_switch = ", newState);
 				// update remind on a day value to the data model
 				//ToDo: Why is the reminderOnAday not updated by the at() set above?
 				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
@@ -67,7 +67,7 @@ function(dom, lang, dom, dstyle, connect, Deferred, when, registry, at, Transiti
 			_connectResults.push(connectResult);
 
 			connectResult = connect.connect(registry.byId('remind_location_switch'), 'onStateChanged', lang.hitch(this, function(newState){
-				console.log("remind_location_switch = ", newState);
+				//console.log("remind_location_switch = ", newState);
 				// update remind on a day value to the data model
 				//ToDo: Why is the reminderOnAlocation not updated by the at() set above?
 				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
@@ -76,13 +76,13 @@ function(dom, lang, dom, dstyle, connect, Deferred, when, registry, at, Transiti
 			_connectResults.push(connectResult);
 
 			connectResult = connect.connect(dom.byId('remind_date'), 'click', lang.hitch(this, function(){
-				console.log("remind_date clicked call showDateDialog ");
+				//console.log("remind_date clicked call showDateDialog ");
 				showDateDialog();
 			}));
 			_connectResults.push(connectResult);
 
 			connectResult = connect.connect(dom.byId('reminddlgSet'), 'click', lang.hitch(this, function(){
-				console.log("reminddlgSet clicked ");
+				//console.log("reminddlgSet clicked ");
 				// update remind on a day value to the data model
 				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
 				date = registry.byId("reminddlgpicker1").get("value") 
@@ -92,7 +92,7 @@ function(dom, lang, dom, dstyle, connect, Deferred, when, registry, at, Transiti
 			_connectResults.push(connectResult);
 
 			connectResult = connect.connect(dom.byId('reminddlgCancel'), 'click', lang.hitch(this, function(){
-				console.log("reminddlgCancel clicked ");
+				//console.log("reminddlgCancel clicked ");
 				registry.byId("reminddlg1").hide();
 			}));
 			_connectResults.push(connectResult);
@@ -107,11 +107,11 @@ function(dom, lang, dom, dstyle, connect, Deferred, when, registry, at, Transiti
 		},
 
 		beforeDeactivate: function(){
-			console.log("remind.js beforeDeactivate called ");
+			//console.log("remind.js beforeDeactivate called ");
 		},
 
 		afterDeactivate: function(){
-			console.log("remind.js afterDeactivate called ");
+			//console.log("remind.js afterDeactivate called ");
 		},
 
 		destroy: function(){

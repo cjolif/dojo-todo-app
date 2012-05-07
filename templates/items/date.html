@@ -1,37 +1,30 @@
 <div class="view mblView">
+	<h2 data-dojo-type="dojox.mobile.RoundRectCategory" region="top">All items by date</h2>
 	<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
-		<h2 data-dojo-type="dojox.mobile.RoundRectCategory" region="top">17, Thursday, November 2011</h2>
-		<ul data-dojo-type="dojox.mobile.RoundRectList">
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions="{id:'1',target:'details',url:'#details'}">
-				Dry clean my suits
-			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions="{id:'2',target:'details',url:'#details'}">
-				Enroll for IBM benefits enrollment
-			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions="{id:'3',target:'details',url:'#details'}">
-				Check the squirrel trap
-			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions="{id:'4',target:'details',url:'#details'}">
-				Review dojo zip files
-			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions="{id:'5',target:'details',url:'#details'}">
-				item 5
-			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions="{id:'6',target:'details',url:'#details'}">
-				item 6
-			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions="{id:'7',target:'details',url:'#details'}">
-				item 7
-			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions="{id:'8',target:'details',url:'#details'}">
-				item 8
-			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions="{id:'9',target:'details',url:'#details'}">
-				item 9
-			</li>
-			<li data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions="{id:'10',target:'details',url:'#details'}">
-				item 10
-			</li>
-		</ul>
+		<div  id="addNewItemDateUl">
+			<ul data-dojo-type="dojox.mobile.RoundRectList">
+				<li data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Add New Item ..."'
+					transitionOptions='{title:"Add Item",target:"items,add",url: "#items,add"}'>
+				</li>
+			</ul>
+		</div>
+		<ul data-dojo-type="dojox.mobile.RoundRectList" id="itemsDate_list"   
+			data-dojo-mixins="dojox/mvc/Repeat" 
+			data-dojo-props="exprchar:'#', children: at(this.loadedModels.itemlistmodel, 'model')">
+				<li  data-dojo-type="dojox.mobile.ListItem" clickable="true" 
+					data-dojo-props="onClick: function(){todoApp.showItemDetails('#{this.index}');}"
+					transitionOptions='{title:"Detail",target:"details,detail",url: "#details,detail"}'>  
+					<div data-dojo-type="dojox.mvc.Output" class="mblListItemRightText"
+							data-dojo-props="value: at('rel:#{this.index}','reminderDate')"></div>					
+					<table><tr>
+						<td><input preventTouch='true' type='checkbox' 
+								data-dojo-type="dojox.mobile.CheckBox" 
+								data-dojo-props="checked: at('rel:#{this.index}','completed')"/></td>
+							
+						<td data-dojo-type="dojox.mvc.Output" 
+							data-dojo-props="value: at('rel:#{this.index}','title')"></td>
+					</tr></table>
+				</li>
+		</ul>	
 	</div>
 </div>
