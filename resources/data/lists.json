@@ -5,6 +5,7 @@
                     	"title":"Reminders",
 						"id":0,
 						"parentId":null,
+						"Checked": true,
 						"itemsurl":"./resources/data/items-for-0.json"
                     },
                     {
