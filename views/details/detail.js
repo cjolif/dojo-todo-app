@@ -106,11 +106,7 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 				var datamodel = this.loadedModels.itemlistmodel;
 				var index = todoApp.selected_item;
 				if(_isComplete){
-					var completedmodel = this.loadedModels.completedmodel;
-					//move item to Completed list
-					var t = datamodel.model.splice(index, 1);
-					t[0].set("completed", true);
-					completedmodel.model.push(t[0]);
+					datamodel.model[index].set("completed", true);
 				}else if(_isDelete){
 					var datamodel = this.loadedModels.itemlistmodel.model;
 					var len = datamodel.length;
@@ -119,6 +115,7 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 						datamodel.splice(index, 1);
 					}
 				}
+				this.loadedModels.itemlistmodel.commit(); // commit updates
 				//hide confirm dialog
 				hide();
 				//transition to list view
@@ -143,6 +140,14 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 			itemlistmodel = this.loadedModels.itemlistmodel;
 
 			refreshData();
+			registry.byId("todo").focus();
+		},
+
+		beforeDeactivate: function(){
+			//console.log("detials beforeDeactivate called");
+			dom.byId("detail_reminder").focus();
+			itemlistmodel.commit();
+			//console.log("detials in beforeDeactivate after commit called",itemlistmodel);
 		},
 
 		destroy: function(){

@@ -53,17 +53,10 @@
 		   }
 		},
 		
-		"itemlistStore":{
+		"allitemlistStore":{
 	       "type": "dojo.data.ItemFileWriteStore",
 		   "params": {
-				"url": "./resources/data/items-for-0.json"
-		   }
-		},
-		
-		"completedStore":{
-	       "type": "dojo.store.Memory",
-		   "params": {
-		      "data": "[]"
+				"url": "./resources/data/all-items.json"
 		   }
 	   }
 	},
@@ -79,19 +72,20 @@
      		}           
         },
 		
+		"allitemlistmodel": {
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"datastore": {"$ref":"#stores.allitemlistStore"}
+     		}           
+        },
+		
 		"itemlistmodel": {
 			"modelLoader": "dojox/app/utils/mvcModel",
 			"type": "dojox/mvc/EditStoreRefListController",
      		"params":{
-     			"datastore": {"$ref":"#stores.itemlistStore"}
-     		}           
-        },
-	
-		"completedmodel": {
-			"modelLoader": "dojox/app/utils/mvcModel",
-			"type": "dojox/mvc/EditStoreRefListController",
-     		"params":{
-     			"store": {"$ref":"#stores.completedStore"}
+     			"datastore": {"$ref":"#stores.allitemlistStore"},
+             					"query": {"parentId": 0}
      		}           
         }
 	},
@@ -137,8 +131,7 @@
 					"template": "./templates/items/add.html"
 				},
 				"date":{
-					"template": "./templates/items/date.html",
-					"definition": "none"
+					"template": "./templates/items/date.html"
 				}
 			}
 		},

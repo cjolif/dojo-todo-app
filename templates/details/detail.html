@@ -10,6 +10,9 @@
 				</div>
 			<ul data-dojo-type="dojox.mobile.RoundRectList">
 				<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>
+					<div data-dojo-type="dojox.mvc.Output" class="mblListItemRightText"
+							data-dojo-props="value: at('rel:','reminderDate')"></div>					
+				
 				Remind Me
 				</li>
 				<li id="detail_repeat" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,repeat",url: "#details,repeat"}'>
@@ -30,7 +33,7 @@
 				</div>
 			</ul>
 			<div id="moreDetailNotes" class="itemcellwrapper" style="display:none;">
-				<textarea  data-dojo-type="dojox.mobile.ExpandingTextArea" 
+				<textarea  id="todoNote" data-dojo-type="dojox.mobile.ExpandingTextArea" 
 						class="itemcell" placeholder="Notes"  
 						data-dojo-props="value: at('rel:', 'notes')">
 				</textarea>
