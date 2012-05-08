@@ -17,6 +17,6 @@ require(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/loader"], function(
 	}
 
 	require(requireModules, function(dojo, Application, jsonRef, connect, config){
-		app = Application(jsonRef.fromJson(config));
+		Application(jsonRef.fromJson(config));
 	});
 });
