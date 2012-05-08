@@ -62,7 +62,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			console.log("items/lists beforeActivate called ",this.loadedModels.itemlistmodel);
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
-			todoApp.selected_item = "-1"; // reset selected item
+			todoApp.selected_item = 0; // reset selected item to 0, -1 is out of index
 			this.refreshData();
 		},
 
