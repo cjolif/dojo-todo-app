@@ -62,7 +62,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			//console.log("items/lists beforeActivate called ",this.loadedModels.itemlistmodel);
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
-			todoApp.selected_item = "-1"; // reset selected item
+			todoApp.selected_item = 0; // reset selected item to 0, -1 is out of index
 			this.refreshData();
 		},
 
@@ -96,7 +96,6 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 						this.loadedModels.listsmodel.model[i].set("Checked", false);						
 					}
 				}
-			
 			}else{
 				//var query = {"parentId": select_data.id, "completed": false};
 				query["parentId"] = select_data.id;
@@ -109,7 +108,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 					registry.byId("nav_completeLi").set("checked",false);
 				}
 			}
-			var writestore = app.stores.allitemlistStore.store
+			var writestore = app.stores.allitemlistStore.store;
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			when(listCtl.queryStore(query), lang.hitch(this, function(datamodel){
 						this.loadedModels.itemlistmodel = listCtl;
