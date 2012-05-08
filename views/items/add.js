@@ -16,7 +16,7 @@ function(dom, connect, registry, TransitionEvent, getStateful){
 		}
 
 		itemlistmodel.model.push(new getStateful({
-			"id": (new Date().getTime()),
+			"id": parseInt((new Date().getTime())),
 			"parentId": parentId,
 			"title": dom.byId('item_title').value,
 			"notes": dom.byId('item_notes').value,
