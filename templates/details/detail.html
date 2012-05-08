@@ -4,9 +4,9 @@
 		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" 
 				data-dojo-props="target: at(this.loadedModels.itemlistmodel, 'cursor')">
 				<div  class="itemcellwrapper">
-					<input id="todo" data-dojo-type="dojox.mobile.TextBox"  class="itemcell"
+					<textarea id="todo" data-dojo-type="dojox.mobile.ExpandingTextArea"  class="itemcell"
 						placeholder="Title"  
-						data-dojo-props="value: at('rel:', 'title')"/>
+						data-dojo-props="value: at('rel:', 'title')"></textarea>
 				</div>
 			<ul data-dojo-type="dojox.mobile.RoundRectList">
 				<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>

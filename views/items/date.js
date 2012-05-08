@@ -11,15 +11,15 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 
 	todoApp.showItemDetails = function(index){
 		//console.log("in items/lists select item ", index);
-		todoApp.selected_item = index;
-		itemlistmodel.set("cursorIndex",index);
+		todoApp.selected_item = parseInt(index);
+		itemlistmodel.set("cursorIndex",todoApp.selected_item);
 	};
 
 	var listsmodel = null;
 	var itemlistmodel = null;
 
 	var showListData = function(datamodel){
-		console.log("in showListData datamodel = ",datamodel);
+		//console.log("in showListData datamodel = ",datamodel);
 		var listWidget = registry.byId("itemsDate_list");
 		var datamodel = at(datamodel, 'model');
 		listWidget.set("children", datamodel);		
@@ -30,11 +30,9 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 		var type;
 		if(todoApp.selected_configuration_item == -1){
 			type = "Completed";			
-			//dstyle.set(dom.byId("addNewItemDateUl"), 'visibility', 'hidden'); // hide the new item link
-			dstyle.set(dom.byId("addNewItemDateUl"), 'display', 'none'); // hide the new item link
+			dstyle.set(dom.byId("addbutton"), 'visibility', 'hidden'); // hide the new item link
 		}else{
-			//dstyle.set(dom.byId("addNewItemDateUl"), 'visibility', ''); // show the new item link			
-			dstyle.set(dom.byId("addNewItemDateUl"), 'display', ''); // hide the new item link
+			dstyle.set(dom.byId("addbutton"), 'visibility', ''); // show the new item link			
 			var listdata = listsmodel.model[todoApp.selected_configuration_item];
 			if(listdata && listdata.title){
 				type = listdata.title;
@@ -59,10 +57,11 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 		},
 
 		beforeActivate: function(){
-			console.log("items/lists beforeActivate called ",this.loadedModels.itemlistmodel);
+			//console.log("items/lists beforeActivate called ",this.loadedModels.itemlistmodel);
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			todoApp.selected_item = 0; // reset selected item to 0, -1 is out of index
+			registry.byId("tabButtonDate").set("selected", true);
 			this.refreshData();
 		},
 
@@ -71,12 +70,12 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 		},
 
 		beforeDeactivate: function(){
-			console.log("items/lists beforeDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			//console.log("items/lists beforeDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
 			itemlistmodel.commit();
 		},
 	
 		refreshData: function(){
-			console.log("****in items/lists refreshData ");
+			//console.log("****in items/lists refreshData ");
 			showListType();
 			
 			var select_data = listsmodel.model[todoApp.selected_configuration_item];
@@ -85,10 +84,10 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			if(todoApp.selected_configuration_item == -1){
 	//			query["completed"] = true;
 				if(registry.byId("configure_completeLi")){
-					registry.byId("configure_completeLi").set("checked",true);
+					registry.byId("configure_completeLi").set("checked",false);
 				}
 				if(registry.byId("nav_completeLi")){
-					registry.byId("nav_completeLi").set("checked",true);
+					registry.byId("nav_completeLi").set("checked",false);
 				}
 				
 				// when show completed need to un-select the other list.
@@ -109,6 +108,13 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 				if(registry.byId("nav_completeLi")){
 					registry.byId("nav_completeLi").set("checked",false);
 				}
+				// when show completed need to un-select the other list.
+				for(var a = this.loadedModels.listsmodel.model, i = 0; i < a.length; i++){
+					if(this.loadedModels.listsmodel.model[i].Checked){
+						this.loadedModels.listsmodel.model[i].set("Checked", false);						
+					}
+				}
+				
 			}
 			var writestore = app.stores.allitemlistStore.store
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});

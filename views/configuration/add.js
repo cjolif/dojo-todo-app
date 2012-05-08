@@ -7,8 +7,7 @@ function(dom, connect, TransitionEvent, getStateful){
 		listsmodel.model.push(new getStateful({
 			"id": (new Date().getTime()),
 			"title": dom.byId("titleInput").value,
-			"description": dom.byId("desInput").value,
-			"itemsurl": "items-for-"+listsmodel.model.length+".json"
+			"description": dom.byId("desInput").value
 		}));
 	};
 
