@@ -9,7 +9,7 @@ function(lang, connect, registry, at, TransitionEvent, utils){
 			var connectResult;
 			connectResult = connect.connect(registry.byId("configure_list"), "onCheckStateChanged", null, function(item, state){
 				// save the select value to data store
-				if (state) {
+				if(state && !todoApp.stopTransition){
 					var index = utils.getIndexByListItem(registry.byId("configure_list"), item);
 					//console.log("configure.js onCheckStateChanged setting todoApp.selected_configuration_item = "+index);
 					todoApp.selected_configuration_item = index;
@@ -27,6 +27,7 @@ function(lang, connect, registry, at, TransitionEvent, utils){
 			_connectResults.push(connectResult);
 		},
 		beforeActivate: function(){
+			todoApp.stopTransition = false;
 			//console.log("configuration/configure beforeActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 		},
 		

@@ -6,6 +6,8 @@ function(dom, connect, registry, at, TransitionEvent){
 	var _connectResults = []; // events connect result
 	var listsmodel = null;
 
+	todoApp.stopTransition = false;
+
 	todoApp.selectItems = function(node, index){
 		if (todoApp.selected_configuration_item == index) {
 			return;
@@ -18,6 +20,7 @@ function(dom, connect, registry, at, TransitionEvent){
 		// Advantage: Reuse the phone version
 		// Disadvantage: low effectiveness
 		app.trigger("transition", {"viewId": "items,list"});
+		todoApp.stopTransition = true;
 
 		// Solution 2:
 		// Reset the data model, and bind data model to list view
