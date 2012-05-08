@@ -12,14 +12,17 @@ function(dom, connect, registry, at, TransitionEvent){
 		}
 		todoApp.selected_configuration_item = index;
 
-		// publish transition event
-		var transOpts = {
-			title:"List",
-			target:"items,list",
-			url: "#items,list"
-		};
-		var e = window.event;
-		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
+		// Solution 1:
+		// Refresh list data by transition from "items,list" to "items,list". It's a liiter trick here.
+		// transition to the "items,list" view, Do Not record the history.
+		// Advantage: Reuse the phone version
+		// Disadvantage: low effectiveness
+		app.trigger("transition", {"viewId": "items,list"});
+
+		// Solution 2:
+		// Reset the data model, and bind data model to list view
+		// Advantage: high effectiveness
+		// Disadvantage: need to add code special for tablet
 	};
 
 	var editConfiguration = function(){
