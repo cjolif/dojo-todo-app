@@ -9,9 +9,9 @@ function(dom, connect, registry, at, TransitionEvent){
 	todoApp.stopTransition = false;
 
 	todoApp.selectItems = function(node, index){
-		if (todoApp.selected_configuration_item == index) {
-			return;
-		}
+		//if (todoApp.selected_configuration_item == index) {
+		//	return;
+		//}
 		todoApp.selected_configuration_item = index;
 
 		// Solution 1:

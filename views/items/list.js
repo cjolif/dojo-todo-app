@@ -11,8 +11,8 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 
 	todoApp.showItemDetails = function(index){
 		//console.log("in items/lists select item ", index);
-		todoApp.selected_item = index;
-		itemlistmodel.set("cursorIndex",index);
+		todoApp.selected_item = parseInt(index);
+		itemlistmodel.set("cursorIndex",todoApp.selected_item);
 	};
 
 	var listsmodel = null;
@@ -30,11 +30,9 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 		var type;
 		if(todoApp.selected_configuration_item == -1){
 			type = "Completed";			
-			//dstyle.set(dom.byId("addNewItemUl"), 'visibility', 'hidden'); // hide the new item link
-			dstyle.set(dom.byId("addNewItemUl"), 'display', 'none'); // hide the new item link
+			dstyle.set(dom.byId("addbutton"), 'visibility', 'hidden'); // hide the new item link
 		}else{
-			//dstyle.set(dom.byId("addNewItemUl"), 'visibility', ''); // show the new item link			
-			dstyle.set(dom.byId("addNewItemUl"), 'display', ''); // hide the new item link
+			dstyle.set(dom.byId("addbutton"), 'visibility', ''); // show the new item link			
 			var listdata = listsmodel.model[todoApp.selected_configuration_item];
 			if(listdata && listdata.title){
 				type = listdata.title;
@@ -63,6 +61,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			todoApp.selected_item = 0; // reset selected item to 0, -1 is out of index
+			registry.byId("tabButtonList").set("selected", true);
 			this.refreshData();
 		},
 
@@ -107,6 +106,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 				if(registry.byId("nav_completeLi")){
 					registry.byId("nav_completeLi").set("checked",false);
 				}
+				this.loadedModels.listsmodel.model[todoApp.selected_configuration_item].set("Checked", true);
 			}
 			var writestore = app.stores.allitemlistStore.store;
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
