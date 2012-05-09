@@ -15,14 +15,11 @@ function(dom, connect, TransitionEvent, getStateful){
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
 
-			var connectResult;
-			connectResult = connect.connect(dom.byId('addList_cancel'), "click", dojo.hitch(this, function(e){
-				history.back();
-			}));
-			_connectResults.push(connectResult);
-
 			connectResult = connect.connect(dom.byId('addList_add'), "click", dojo.hitch(this, function(e){
-				add();
+				var title = dom.byId("titleInput").value;
+				if(title){
+					add();
+				}
 				history.back();
 			}));
 			_connectResults.push(connectResult);
