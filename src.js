@@ -4,9 +4,9 @@ require(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/loader"], function(
 	todoApp.selected_item = 0;
 	todoApp.selected_configuration_item = 0;
 
-	var configurationFile = "./config-phone.json"
+	var configurationFile = "./config-phone.json";
 	if(window.innerWidth > 600){
-		configurationFile = "./config-tablet.json"
+		configurationFile = "./config-tablet.json";
 		todoApp.isTablet = true;
 	}
 
