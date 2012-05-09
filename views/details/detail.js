@@ -3,6 +3,7 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 	window.at = at;	// set global namespace for dojox.mvc.at
 	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
+	var listsmodel = null;
 	var _isComplete = false;
 	var _isDelete = false;
 
@@ -18,6 +19,38 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 			dstyle.set(dom.byId('moreDetailNotes'), 'display', 'none');
 			registry.byId("detail_showMore").set("label","Show More...");
 		}
+	};
+	
+	var addNewItem = function(){
+		var datamodel = itemlistmodel.model;
+
+		var parentId;
+		try{
+			parentId = datamodel[0].parentId;
+		}catch(e){
+			console.log("Warning: itemlistmodel is empty, get parentId from listsmodel");
+			parentId = listsmodel.model[todoApp.selected_configuration_item].id;
+		}
+
+		itemlistmodel.model.push(new getStateful({
+			"id": parseInt((new Date().getTime())),
+			"parentId": parentId,
+			"title": "",
+			"notes": "",
+			"due": null,
+			"completionDate": "",
+			"reminderOnAday": "off",   
+			"reminderDate": "",
+			"reminderOnAlocation": "off",   
+			"reminderLocation": null,
+			"repeat": 0,
+			"priority": 0,
+			"hidden": false,
+			"completed": false,
+			"deleted": false
+		}));
+		todoApp.selected_item = itemlistmodel.model.length - 1;
+		itemlistmodel.commit();
 	};
 
 	var refreshData = function(){
@@ -49,7 +82,6 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		}
 
 		if(datamodel.parentId >= 0){
-			var listsmodel = app.loadedModels.listsmodel.model;
 			var parentModel;
 			for(var i=0; i<listsmodel.length; i++){
 				if(listsmodel[i].id == datamodel.parentId){
@@ -77,6 +109,7 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		init: function(){
 			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
+			listsmodel = this.loadedModels.listsmodel;
 
 			var connectResult;
 			connectResult = connect.connect(dom.byId("detail_showMore"), "click", null, function(){
@@ -138,16 +171,24 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		beforeActivate: function(){
 			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
-
+			if(todoApp.addNewItem){
+				addNewItem();
+			}
 			refreshData();
-			registry.byId("todo").focus();
+			registry.byId("detail_todo").focus();
+			todoApp.addNewItem = false;
 		},
 
 		beforeDeactivate: function(){
-			//console.log("detials beforeDeactivate called");
-			dom.byId("detail_reminder").focus();
+			if(todoApp.addNewItem){
+				return;	// refresh view operation, DO NOT commit the data change 
+			}
+			var title = dom.byId("detail_todo").value;
+			if(!title){
+				// remove this item
+				itemlistmodel.model.splice(todoApp.selected_item, 1);
+			}
 			itemlistmodel.commit();
-			//console.log("detials in beforeDeactivate after commit called",itemlistmodel);
 		},
 
 		destroy: function(){

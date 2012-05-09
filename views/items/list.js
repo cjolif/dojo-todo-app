@@ -30,9 +30,9 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 		var type;
 		if(todoApp.selected_configuration_item == -1){
 			type = "Completed";			
-			dstyle.set(dom.byId("addbutton"), 'visibility', 'hidden'); // hide the new item link
+			dstyle.set(dom.byId("itemslist_add"), 'visibility', 'hidden'); // hide the new item link
 		}else{
-			dstyle.set(dom.byId("addbutton"), 'visibility', ''); // show the new item link			
+			dstyle.set(dom.byId("itemslist_add"), 'visibility', ''); // show the new item link			
 			var listdata = listsmodel.model[todoApp.selected_configuration_item];
 			if(listdata && listdata.title){
 				type = listdata.title;
@@ -71,7 +71,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 
 		beforeDeactivate: function(){
 			//console.log("items/lists beforeDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
-			itemlistmodel.commit();
+			//itemlistmodel.commit(); No need to commit, data commit in detail view
 		},
 	
 		refreshData: function(){

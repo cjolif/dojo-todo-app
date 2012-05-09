@@ -4,7 +4,7 @@
 		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" 
 				data-dojo-props="target: at(this.loadedModels.itemlistmodel, 'cursor')">
 				<div  class="itemcellwrapper">
-					<textarea id="todo" data-dojo-type="dojox.mobile.ExpandingTextArea"  class="itemcell"
+					<textarea id="detail_todo" data-dojo-type="dojox.mobile.ExpandingTextArea"  class="itemcell"
 						placeholder="Title"  
 						data-dojo-props="value: at('rel:', 'title')"></textarea>
 				</div>
@@ -33,7 +33,7 @@
 				</div>
 			</ul>
 			<div id="moreDetailNotes" class="itemcellwrapper" style="display:none;">
-				<textarea  id="todoNote" data-dojo-type="dojox.mobile.ExpandingTextArea" 
+				<textarea id="detail_todoNote" data-dojo-type="dojox.mobile.ExpandingTextArea" 
 						class="itemcell" placeholder="Notes"  
 						data-dojo-props="value: at('rel:', 'notes')">
 				</textarea>
