@@ -19,7 +19,7 @@ function(dom, connect, registry, at, TransitionEvent){
 		// transition to the "items,list" view, Do Not record the history.
 		// Advantage: Reuse the phone version
 		// Disadvantage: low effectiveness
-		app.trigger("transition", {"viewId": "items,list"});
+		todoApp.trigger("transition", {"viewId": "items,list"});
 		todoApp.stopTransition = true;
 
 		// Solution 2:

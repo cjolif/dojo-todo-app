@@ -108,7 +108,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 				}
 				this.loadedModels.listsmodel.model[todoApp.selected_configuration_item].set("Checked", true);
 			}
-			var writestore = app.stores.allitemlistStore.store;
+			var writestore = todoApp.stores.allitemlistStore.store;
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			when(listCtl.queryStore(query), lang.hitch(this, function(datamodel){
 						this.loadedModels.itemlistmodel = listCtl;

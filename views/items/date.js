@@ -116,7 +116,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 				}
 				
 			}
-			var writestore = app.stores.allitemlistStore.store
+			var writestore = todoApp.stores.allitemlistStore.store
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
 						this.loadedModels.itemlistmodel = listCtl;
