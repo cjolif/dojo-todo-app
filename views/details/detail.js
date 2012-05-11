@@ -181,6 +181,7 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		},
 
 		beforeDeactivate: function(){
+			dom.byId("detail_reminder").focus();
 			if(todoApp._addNewItem){
 				return;	// refresh view operation, DO NOT commit the data change 
 			}
