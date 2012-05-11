@@ -1,5 +1,11 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/_base/connect", "dijit/registry", "../utils/utils"],
-function(lang, dom, connect, registry, utils){
+define.amd.jQuery = true;
+define(["dojo/_base/lang", "dojo/dom", "dojo/_base/connect", "dijit/registry", "../utils/utils",
+	"http://code.jquery.com/jquery-1.7.2.js", "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.js"],
+	function(lang, dom, connect, registry, utils){
+
+	// need to disable jQuery Mobile hash support that woulc clash with dojox/app own support
+	$.mobile.hashListeningEnabled = false;
+
 	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
 
@@ -7,11 +13,12 @@ function(lang, dom, connect, registry, utils){
 		var datamodel = itemlistmodel.model[todoApp.selected_item];
 		if(datamodel){
 			// select repeat type
-			var widget = registry.byId('list_repeat');
+			/*
+			var widget = registry.byId("list_repeat");
 			var repeatWidget = utils.getListItemByIndex(widget, datamodel.repeat);
 			if(repeatWidget){
 				repeatWidget.set("checked", true);
-			}
+			}*/
 		}
 	};
 
