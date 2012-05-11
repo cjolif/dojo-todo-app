@@ -1,6 +1,5 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at"],
 function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at){
-	window.at = at;	// set global namespace for dojox.mvc.at
 	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
 	var listsmodel = null;

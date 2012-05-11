@@ -2,9 +2,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/Deferred", "dojo/
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent"],
 function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, TransitionEvent){
-	window.at = at;	// set global namespace for dojox.mvc.at
-	dojox.debugDataBinding = false;	//disable dojox.mvc data binding debug
-
 	//set todoApp showItemDetails function
 	todoApp.cachedDataModel = {};
 	todoApp.currentItemListModel = null;
