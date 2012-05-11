@@ -71,7 +71,10 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 
 		beforeDeactivate: function(){
 			//console.log("items/lists beforeDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
-			//itemlistmodel.commit(); No need to commit, data commit in detail view
+			if(!todoApp._addNewItemCommit){
+				itemlistmodel.commit(); //commit mark item as Complete change
+			}
+			todoApp._addNewItemCommit = false;
 		},
 	
 		refreshData: function(){

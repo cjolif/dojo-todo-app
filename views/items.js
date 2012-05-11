@@ -5,7 +5,7 @@ function(dom, dstyle, connect, TransitionEvent, getStateful){
 
 	var add = function(){
 		// use selected_item = -1 to identify add a new item
-		todoApp.addNewItem = true;
+		todoApp._addNewItem = true;
 
 		// transition to detail view for edit
 		var transOpts = {

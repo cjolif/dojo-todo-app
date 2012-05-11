@@ -6,6 +6,7 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 	var listsmodel = null;
 	var _isComplete = false;
 	var _isDelete = false;
+	todoApp._addNewItemCommit = false; // identify the new item is committed
 
 	var showMoreDetail = function(){
 		var widget = dom.byId('moreDetail');
@@ -171,16 +172,16 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		beforeActivate: function(){
 			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
-			if(todoApp.addNewItem){
+			if(todoApp._addNewItem){
 				addNewItem();
 			}
 			refreshData();
 			registry.byId("detail_todo").focus();
-			todoApp.addNewItem = false;
+			todoApp._addNewItem = false;
 		},
 
 		beforeDeactivate: function(){
-			if(todoApp.addNewItem){
+			if(todoApp._addNewItem){
 				return;	// refresh view operation, DO NOT commit the data change 
 			}
 			var title = dom.byId("detail_todo").value;
@@ -189,6 +190,7 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 				itemlistmodel.model.splice(todoApp.selected_item, 1);
 			}
 			itemlistmodel.commit();
+			todoApp._addNewItemCommit = true;
 		},
 
 		destroy: function(){
