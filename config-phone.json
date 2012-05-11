@@ -6,6 +6,7 @@
 
 	"dependencies": [
 		"dojox/mobile/_base",
+		"dojox/mobile/_compat",
 		"dojox/mobile/TabBar",
 		"dojox/mobile/RoundRect",
 		"dojox/mobile/TabBarButton",
