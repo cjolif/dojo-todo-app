@@ -38,9 +38,7 @@
 	// array of mixins in a dojo.declare().  Modify the top level behavior
 	// of the application, how it processes the config or any other life cycle
 	// by creating and including one or more of these
-	"modules": [
-		"dojox/app/module/lifecycle"
-	],
+	"modules": [],
 	"controllers": [
 		"dojox/app/controllers/History"
 	],
