@@ -9,17 +9,16 @@
 				</td>
 				<td>
 					<div data-dojo-type="dojox.mobile.TabBar" data-dojo-props='barType:"segmentedControl"' style="margin:auto; display:block; width:203px; float:center;">
-						<div style="width:80px" id="tabButtonList" data-dojo-type="dojox.mobile.TabBarButton" transitionOptions='{title:"List",target:"items,list",url: "#items,list"}' selected="true">
+						<div id="tabButtonList" data-dojo-type="dojox.mobile.TabBarButton" transitionOptions='{title:"List",target:"items,list",url: "#items,list"}' selected="true">
 							List
 						</div>
-						<div style="width:80px" id="tabButtonDate" data-dojo-type="dojox.mobile.TabBarButton" transitionOptions='{title:"Date",target:"items,date",url: "#items,date"}'>
+						<div id="tabButtonDate" data-dojo-type="dojox.mobile.TabBarButton" transitionOptions='{title:"Date",target:"items,date",url: "#items,date"}'>
 							Date
 						</div>
 					</div>
 				</td>
-				<td>
-					<div id="itemslist_add" data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props="icon:'mblDomButtonWhitePlus'" style="float:right;">
-					</div>
+				<td align="right">
+					<span id="itemslist_add" data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='icon:"mblDomButtonWhitePlus"' style="float:right;"></span>
 				</td>
 			</tr>
 		</table>
