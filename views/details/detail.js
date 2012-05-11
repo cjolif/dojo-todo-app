@@ -1,6 +1,5 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at"],
 function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at){
-	window.at = at;	// set global namespace for dojox.mvc.at
 	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
 	var listsmodel = null;
@@ -72,6 +71,9 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		itemlistmodel.set("cursorIndex",todoApp.selected_item);
 		widget.set("target", at(itemlistmodel, 'cursor'));
 
+		console.log("setting detailwrapper visible 1");
+		dstyle.set(dom.byId("detailwrapper"), 'visibility', 'visible'); // show the items list
+		
 		var repeatArray = ["None", "Every Day", "Every Week", "Every 2 Week", "Every Month", "Every Year"];
 		if(datamodel.repeat>=0 && datamodel.repeat<repeatArray.length){
 			registry.byId('detail_repeat').set("rightText", repeatArray[datamodel.repeat]);
@@ -178,6 +180,12 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 			refreshData();
 			registry.byId("detail_todo").focus();
 			todoApp._addNewItem = false;
+		},
+
+		afterDeactivate: function(){
+			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			console.log("setting detailwrapper hidden");
+			dstyle.set(dom.byId("detailwrapper"), 'visibility', 'hidden'); // hide the items list 
 		},
 
 		beforeDeactivate: function(){
