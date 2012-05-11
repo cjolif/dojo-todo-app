@@ -35,7 +35,6 @@ function(lang, dom, connect, registry, utils){
 					if (datamodel) {
 						var listsmodel = this.loadedModels.listsmodel.model;
 						if(index>=0 && index<listsmodel.length){
-							//TODO: need to udpate data by dojox.mvc
 							datamodel.parentId = listsmodel[index].id;
 						}
 					}

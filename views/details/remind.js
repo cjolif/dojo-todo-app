@@ -2,9 +2,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/_base/connect",
         "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at", 
         "dojox/mobile/TransitionEvent", "dojo/date/stamp"],
 function(dom, lang, dstyle, connect, Deferred, when, registry, at, TransitionEvent, datestamp){
-	window.at = at;	// set global namespace for dojox.mvc.at
-	dojox.debugDataBinding = false;	//disable dojox.mvc data binding debug
-
 	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
 
