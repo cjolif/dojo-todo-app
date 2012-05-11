@@ -64,6 +64,8 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 
 		afterDeactivate: function(){
 			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			console.log("setting datewrapper hidden");
+			dstyle.set(dom.byId("datewrapper"), 'visibility', 'hidden'); // hide the items list 
 		},
 
 		beforeDeactivate: function(){
@@ -127,6 +129,9 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 						listsmodel = this.loadedModels.listsmodel;
 						
 						showListData(listCtl);
+
+						console.log("setting datewrapper visible 1");
+						dstyle.set(dom.byId("datewrapper"), 'visibility', 'visible'); // show the items list
 			}));
 		}
 	};
