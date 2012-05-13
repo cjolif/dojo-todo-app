@@ -5,6 +5,8 @@ define(["http://code.jquery.com/jquery-1.7.2.js", "http://code.jquery.com/mobile
 	// need to disable jQuery Mobile hash support that it clashes with dojox/app own support
 	$.mobile.hashListeningEnabled = false;
 
+		// $.mobile.autoInitializePage = false
+		// data-role="none"
 	var itemlistmodel = null;
 
 	var refreshData = function(){
@@ -12,12 +14,6 @@ define(["http://code.jquery.com/jquery-1.7.2.js", "http://code.jquery.com/mobile
 		if(datamodel){
 			// select repeat type
 			$("#radio-choice-"+(datamodel.repeat+1)).attr("checked", true);
-			/*
-			var widget = registry.byId("list_repeat");
-			var repeatWidget = utils.getListItemByIndex(widget, datamodel.repeat);
-			if(repeatWidget){
-				repeatWidget.set("checked", true);
-			}*/
 		}
 	};
 
@@ -27,16 +23,14 @@ define(["http://code.jquery.com/jquery-1.7.2.js", "http://code.jquery.com/mobile
 			itemlistmodel = this.loadedModels.itemlistmodel;
 
 			// connect a listener on the list that does update the model
-			/*
-				// save the select value to data store
-				if(state){
-					var index = utils.getIndexByListItem(registry.byId("list_repeat"), item);
-					var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
-					if(datamodel){
-						datamodel.repeat = index;
-					}
+			$("#list_repeat").change(function(e){
+			    // stuff
+				var index = parseInt(e.target.value)-1;
+				var datamodel = itemlistmodel.model[todoApp.selected_item];
+				if(datamodel){
+					datamodel.repeat = index;
 				}
-			*/
+			});
 		},
 
 		beforeActivate: function(){
