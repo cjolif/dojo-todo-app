@@ -58,8 +58,11 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			todoApp.selected_item = 0; // reset selected item to 0, -1 is out of index
+			todoApp.showProgressIndicator(true);
 			registry.byId("tabButtonDate").set("selected", true);
 			this.refreshData();
+			// set stopTransition=true to prevent twice transition when transition from date view to list view.
+			todoApp.stopTransition = true;
 		},
 
 		afterDeactivate: function(){
@@ -130,8 +133,11 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 						
 						showListData(listCtl);
 
-						console.log("setting datewrapper visible 1");
-						dstyle.set(dom.byId("datewrapper"), 'visibility', 'visible'); // show the items list
+				setTimeout(function(){
+					dstyle.set(dom.byId("datewrapper"), 'visibility', 'visible'); // show the items list
+					todoApp.showProgressIndicator(false);
+					todoApp.progressIndicator.domNode.style.visibility = "hidden";
+				}, todoApp.progressDisplayTime);
 			}));
 		}
 	};

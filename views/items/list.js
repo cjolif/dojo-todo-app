@@ -58,6 +58,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			todoApp.selected_item = 0; // reset selected item to 0, -1 is out of index
+			todoApp.showProgressIndicator(true);
 			registry.byId("tabButtonList").set("selected", true);
 			this.refreshData();
 		},
@@ -123,7 +124,11 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 						showListData(listCtl);
 
 						console.log("setting itemslistwrapper visible 1");
-						dstyle.set(dom.byId("itemslistwrapper"), 'visibility', 'visible'); // show the items list
+				setTimeout(function(){
+					dstyle.set(dom.byId("itemslistwrapper"), 'visibility', 'visible'); // show the items list
+					todoApp.showProgressIndicator(false);
+					todoApp.progressIndicator.domNode.style.visibility = "hidden";
+				}, todoApp.progressDisplayTime);
 			}));
 		}
 	};
