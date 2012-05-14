@@ -14,7 +14,11 @@
 				mblHideAddressBar: false,
 				mblAndroidWorkaround: false,
 				mblAlwaysHideAddressBar: false,
-				async: 1">
+				async: true,
+				packages: [
+					    { name: 'jquery', location: 'http://code.jquery.com/', main: 'jquery-1.7.2' },
+					    { name: 'jquerym', location: 'http://code.jquery.com/mobile/1.1.0/', main: 'jquery.mobile-1.1.0' }
+				 ]">
 		</script>
 		<script>
 			require(["dojox/mobile/deviceTheme", "./src.js"], function(){

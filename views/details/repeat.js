@@ -1,5 +1,5 @@
 define.amd.jQuery = true;
-define(["http://code.jquery.com/jquery-1.7.2.js", "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.js"],
+define(["jquery", "jquerym"],
 	function(){
 
 	// need to disable jQuery Mobile hash support that it clashes with dojox/app own support
