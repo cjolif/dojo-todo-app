@@ -86,9 +86,9 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 
 		if(datamodel.parentId >= 0){
 			var parentModel;
-			for(var i=0; i<listsmodel.length; i++){
-				if(listsmodel[i].id == datamodel.parentId){
-					parentModel = listsmodel[i];
+			for(var i=0; i<listsmodel.model.length; i++){
+				if(listsmodel.model[i].id == datamodel.parentId){
+					parentModel = listsmodel.model[i];
 					break;
 				}
 			}
