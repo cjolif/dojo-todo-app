@@ -23,6 +23,8 @@
 		"dojox/mobile/Switch",
 		"dojox/mobile/SimpleDialog",
 		"dojox/mobile/ValuePickerDatePicker",
+		"dojox/mobile/SpinWheelDatePicker",
+		"dojox/mobile/Opener",
 		"dojo/date/stamp",
 		"dojox/app/widgets/Container",
 		"dojo/store/Memory",

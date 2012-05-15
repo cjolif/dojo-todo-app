@@ -84,17 +84,16 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			showListType();
 			
 			var select_data = listsmodel.model[todoApp.selected_configuration_item];
-			var query = {};
-			var options = {sort:[{attribute:"reminderDate", descending: true}]};
+			var query = {}; // query empty to show all items by date
+			// set options to sort by reminderDate and priority
+			var options = {sort:[{attribute:"reminderDate", descending: true},{attribute:"priority", descending: true}]};
 			if(todoApp.selected_configuration_item == -1){
-	//			query["completed"] = true;
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",false);
 				}
 				if(registry.byId("nav_completeLi")){
 					registry.byId("nav_completeLi").set("checked",false);
 				}
-				
 				// when show completed need to un-select the other list.
 				for(var a = this.loadedModels.listsmodel.model, i = 0; i < a.length; i++){
 					if(this.loadedModels.listsmodel.model[i].Checked){
@@ -103,9 +102,6 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 				}
 			
 			}else{
-				//var query = {"completed": false};  // all items together
-				//query["parentId"] = select_data.id;
-	//			query["completed"] = false;
 				// selected an item so uncheck complete on configure or nav
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",false);
@@ -125,14 +121,10 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
 						this.loadedModels.itemlistmodel = listCtl;
-						//todoApp.cachedDataModel[select_data.id] = listCtl;
 						todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
-
 						itemlistmodel = listCtl;
 						listsmodel = this.loadedModels.listsmodel;
-						
 						showListData(listCtl);
-
 				setTimeout(function(){
 					dstyle.set(dom.byId("datewrapper"), 'visibility', 'visible'); // show the items list
 					todoApp.showProgressIndicator(false);
