@@ -14,8 +14,18 @@ define(["jquery", "jquerym"],
 	var refreshData = function(){
 		var datamodel = itemlistmodel.model[todoApp.selected_item];
 		if(datamodel){
+			// we need to try/catch because at first initialization the checkboxes are not yet
+			// created and refresh will throw an error
+			// deselect everything
+			try{
+				$("input[type='radio']").attr("checked", false).checkboxradio("refresh");
+			}catch(e){
+			}
 			// select repeat type
-			$("#radio-choice-"+(datamodel.repeat+1)).attr("checked", true);
+			try{
+				$("#radio-choice-"+(datamodel.repeat+1)).attr("checked", true).checkboxradio("refresh");
+			}catch(e){
+			}
 		}
 	};
 
