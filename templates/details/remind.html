@@ -16,12 +16,11 @@
 			</div>
 		</li>
 	</ul>
-	<div id="reminddlg1" data-dojo-type="dojox.mobile.SimpleDialog">
-		<div id="reminddlgpicker1" data-dojo-type="dojox.mobile.ValuePickerDatePicker"></div>
-		<div style="background-color:#bdbabd;margin-top:6px;">
-			<span id="reminddlgSet" data-dojo-type="dojox.mobile.ToolBarButton" class="dlgBtn">Set</span>
-			<span id="reminddlgCancel" data-dojo-type="dojox.mobile.ToolBarButton" class="dlgBtn">Cancel</span>
-		</div>
+	<div id="datePicker" data-dojo-type="dojox.mobile.Opener">
+ 		<h1 data-dojo-type="dojox.mobile.Heading" label="Date Picker">
+			<span data-dojo-type="dojox.mobile.ToolBarButton" id="reminddlgSet" label="Done" class="mblColorBlue" style="position:absolute;width:45px;right:0;"></span>
+			<span data-dojo-type="dojox.mobile.ToolBarButton" id="reminddlgCancel" label="Cancel" class="mblColorBlue" style="position:absolute;width:45px;left:0;"></span>
+		</h1>
+		<div id="reminddlgpicker1" data-dojo-type="dojox.mobile.SpinWheelDatePicker"></div>
 	</div>
-	
 </div>

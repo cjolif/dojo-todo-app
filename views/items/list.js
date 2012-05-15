@@ -65,7 +65,6 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 
 		afterDeactivate: function(){
 			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
-			console.log("setting itemslistwrapper hidden");
 			dstyle.set(dom.byId("itemslistwrapper"), 'visibility', 'hidden'); // hide the items list 
 		},
 
@@ -82,9 +81,10 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			showListType();
 			
 			var select_data = listsmodel.model[todoApp.selected_configuration_item];
-			var query = {};
+			var query = {};  
+			var options = {sort:[{attribute:"priority", descending: true}]};  // sort by priority
 			if(todoApp.selected_configuration_item == -1){
-				query["completed"] = true;
+				query["completed"] = true; // query for completed items
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",true);
 				}
@@ -100,8 +100,9 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 				}
 			}else{
 				//var query = {"parentId": select_data.id, "completed": false};
-				query["parentId"] = select_data.id;
-				query["completed"] = false;
+				query["parentId"] = select_data.id;  // query for items in this list which are not completed.
+				query["completed"] = false;          
+				
 				// selected an item so uncheck complete on configure or nav
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",false);
@@ -113,17 +114,13 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			}
 			var writestore = todoApp.stores.allitemlistStore.store;
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
-			when(listCtl.queryStore(query), lang.hitch(this, function(datamodel){
+			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
 						this.loadedModels.itemlistmodel = listCtl;
 						//todoApp.cachedDataModel[select_data.id] = listCtl;
 						todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
-
 						itemlistmodel = listCtl;
 						listsmodel = this.loadedModels.listsmodel;
-						
 						showListData(listCtl);
-
-						console.log("setting itemslistwrapper visible 1");
 				setTimeout(function(){
 					dstyle.set(dom.byId("itemslistwrapper"), 'visibility', 'visible'); // show the items list
 					todoApp.showProgressIndicator(false);
