@@ -53,6 +53,7 @@ define(["jquery"], function($){
 
 		destroy: function(){
 			// disconnect listener on the list
+			$("#list_repeat").off("change");
 		}
 	};
 });
