@@ -1,9 +1,11 @@
 define.amd.jQuery = true;
 define(["jquery", "jquerym"],
-	function(){
+	function($){
 
 	// need to disable jQuery Mobile hash support that it clashes with dojox/app own support
 	$.mobile.hashListeningEnabled = false;
+	// need to disable jQuery Mobile pushState support
+	$.mobile.pushStateEnabled = false;
 
 		// $.mobile.autoInitializePage = false
 		// data-role="none"
