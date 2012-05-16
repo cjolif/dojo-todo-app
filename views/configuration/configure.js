@@ -1,11 +1,10 @@
-define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "../utils/utils"],
-function(dom, lang, dstyle, connect, registry, at, TransitionEvent, utils){
-	var _connectResults = []; // events connect result
+define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", 
+	"dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "../utils/utils"],
+function(dom, lang, domStyle, connect, registry, at, TransitionEvent, utils){
 
 	return {
 		init: function(){
-			var connectResult;
-			connectResult = connect.connect(registry.byId("configure_list"), "onCheckStateChanged", null, function(item, state){
+			 registry.byId("configure_list").on("checkStateChanged", function(item, state){
 				// save the select value to data store
 				if(state && !todoApp.stopTransition){
 					var index = utils.getIndexByListItem(registry.byId("configure_list"), item);
@@ -23,7 +22,6 @@ function(dom, lang, dstyle, connect, registry, at, TransitionEvent, utils){
 					
 				}
 			});
-			_connectResults.push(connectResult);
 		},
 		beforeActivate: function(){
 			todoApp.stopTransition = false;
@@ -33,7 +31,7 @@ function(dom, lang, dstyle, connect, registry, at, TransitionEvent, utils){
 		afterActivate: function(){
 			console.log("configuration/configure afterActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 			console.log("setting configurewrapper visible 1");
-			dstyle.set(dom.byId("configurewrapper"), 'visibility', 'visible'); // show the items list
+			domStyle.set(dom.byId("configurewrapper"), "visibility", "visible"); // show the items list
 		},
 		
 		beforeDeactivate: function(){
@@ -43,15 +41,11 @@ function(dom, lang, dstyle, connect, registry, at, TransitionEvent, utils){
 		afterDeactivate: function(){
 			console.log("configuration/configure afterDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 			console.log("setting configurewrapper hidden");
-			dstyle.set(dom.byId("configurewrapper"), 'visibility', 'hidden'); // hide the items list 
+			domStyle.set(dom.byId("configurewrapper"), "visibility", "hidden"); // hide the items list 
 		},
 
 		destroy: function(){
-			var connectResult = _connectResults.pop();
-			while(connectResult){
-				connect.disconnect(connectResult);
-				connectResult = _connectResults.pop();
-			}
+			// _WidgetBase.on listener is automatically destroyed when the Widget itself his.
 		}
 	}
 });

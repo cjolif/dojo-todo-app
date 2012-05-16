@@ -1,6 +1,6 @@
-define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent"], 
-function(dom, connect, registry, at, TransitionEvent){
-	var _connectResults = []; // events connect result
+define(["dojo/dom", "dojo/on", "dijit/registry", "dojox/mobile/TransitionEvent"],
+function(dom, on, registry, TransitionEvent){
+	var signals = []; // events connect result
 	var listsmodel = null;
 
 	todoApp.stopTransition = false;
@@ -28,8 +28,8 @@ function(dom, connect, registry, at, TransitionEvent){
 	var editConfiguration = function(){
 		// publish transition event
 		var transOpts = {
-			title:"Edit",
-			target:"configuration,edit",
+			title: "Edit",
+			target: "configuration,edit",
 			url: "#configuration,edit"
 		};
 		var e = window.event;
@@ -40,19 +40,18 @@ function(dom, connect, registry, at, TransitionEvent){
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
 
-			var connectResult;
-			connectResult = connect.connect(dom.byId('setting'), "click", dojo.hitch(this, function(e){
+			var signal = on(dom.byId("setting"), "click", dojo.hitch(this, function(e){
 				editConfiguration();
 			}));
-			_connectResults.push(connectResult);
+			signals.push(signal);
 			console.log("navigation view init ok");
 		},
 		
 		destroy: function(){
-			var connectResult = _connectResults.pop();
-			while(connectResult){
-				connect.disconnect(connectResult);
-				connectResult = _connectResults.pop();
+			var signal = signals.pop();
+			while(signal){
+				signal.remove();
+				signal = signals.pop();
 			}
 		}
 	};

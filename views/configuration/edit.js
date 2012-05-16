@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "dojox/mvc", "dojox/mobile/TransitionEvent", "../utils/utils"], function(dom, dstyle, connect, registry, mvc, TransitionEvent, utils){
-	var _connectResults = []; // events connect result
+define(["dojo/dom", "dojo/on"], function(dom, on){
+	var signals = []; // events connect result
 
 	var listsmodel = null;	//repeat view data model
 
@@ -19,7 +19,7 @@ define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "d
 	
 	// delete configuration item.
 	var _deleteConfItem = function(index){
-		if(!window.confirm('Are you sure to delete this item ?')){
+		if(!window.confirm("Are you sure to delete this item ?")){
 			return;
 		}
 		var datamodel = listsmodel.model;
@@ -32,21 +32,21 @@ define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "d
 	return {
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
-			var configureListDom = dom.byId('configure_edit');
+			var configureListDom = dom.byId("configure_edit");
 			var connectResult;
-			connectResult = connect.connect(configureListDom, "div .mblDomButtonRedCircleMinus:click", function(e){
+			var signal = on(configureListDom, "div .mblDomButtonRedCircleMinus:click", function(e){
 				var index = getIndexFromId(e.target, "editList");
 				_deleteConfItem(index);
 			});
-			_connectResults.push(connectResult);
+			signals.push(signal);
 		},
 
 		// repeate view destroy
 		destroy: function(){
-			var connectResult = _connectResults.pop();
-			while(connectResult){
-				connect.disconnect(connectResult);
-				connectResult = _connectResults.pop();
+			var signal = signals.pop();
+			while(signal){
+				signal.remove();
+				signal = signals.pop();
 			}
 		}
 	}

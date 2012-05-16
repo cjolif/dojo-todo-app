@@ -1,22 +1,23 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dijit/registry", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at"],
-function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at){
-	var _connectResults = []; // events connect result
+define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/registry",
+	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at"],
+function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 	var itemlistmodel = null;
 	var listsmodel = null;
+	var signals = [];
 	var _isComplete = false;
 	var _isDelete = false;
 	todoApp._addNewItemCommit = false; // identify the new item is committed
 
 	var showMoreDetail = function(){
-		var widget = dom.byId('moreDetail');
-		var display = dstyle.get(widget, 'display');
-		if(display == 'none'){
-			dstyle.set(widget, 'display', '');
-			dstyle.set(dom.byId('moreDetailNotes'), 'display', '');
+		var widget = dom.byId("moreDetail");
+		var display = domStyle.get(widget, "display");
+		if(display == "none"){
+			domStyle.set(widget, "display", "");
+			domStyle.set(dom.byId("moreDetailNotes"), "display", "");
 			registry.byId("detail_showMore").set("label","Show Less...");
 		}else{
-			dstyle.set(widget, 'display', 'none');
-			dstyle.set(dom.byId('moreDetailNotes'), 'display', 'none');
+			domStyle.set(widget, "display", "none");
+			domStyle.set(dom.byId("moreDetailNotes"), "display", "none");
 			registry.byId("detail_showMore").set("label","Show More...");
 		}
 	};
@@ -56,9 +57,9 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 	var refreshData = function(){
 		if(todoApp.selected_configuration_item === -1){
 			//undisplay "Complete" button
-			dstyle.set(dom.byId('markAsComplete'), 'display', 'none');
+			domStyle.set(dom.byId("markAsComplete"), "display", "none");
 		}else{
-			dstyle.set(dom.byId('markAsComplete'), 'display', '');
+			domStyle.set(dom.byId("markAsComplete"), "display", "");
 		}
 
 		var datamodel = itemlistmodel.model[todoApp.selected_item];
@@ -69,19 +70,19 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		var widget = registry.byId("item_detailsGroup");
 		widget.target = null;
 		itemlistmodel.set("cursorIndex",todoApp.selected_item);
-		widget.set("target", at(itemlistmodel, 'cursor'));
+		widget.set("target", at(itemlistmodel, "cursor"));
 
 		console.log("setting detailwrapper visible 1");
-		dstyle.set(dom.byId("detailwrapper"), 'visibility', 'visible'); // show the items list
+		domStyle.set(dom.byId("detailwrapper"), "visibility", "visible"); // show the items list
 		
 		var repeatArray = ["None", "Every Day", "Every Week", "Every 2 Week", "Every Month", "Every Year"];
 		if(datamodel.repeat>=0 && datamodel.repeat<repeatArray.length){
-			registry.byId('detail_repeat').set("rightText", repeatArray[datamodel.repeat]);
+			registry.byId("detail_repeat").set("rightText", repeatArray[datamodel.repeat]);
 		}
 
 		var priorityArray = ["None", "Low", "Medium", "High"];
 		if(datamodel.priority>=0 && datamodel.priority<priorityArray.length){
-			registry.byId('detail_priority').set("rightText", priorityArray[datamodel.priority]);
+			registry.byId("detail_priority").set("rightText", priorityArray[datamodel.priority]);
 		}
 
 		if(datamodel.parentId >= 0){
@@ -94,18 +95,18 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 			}
 
 			if(parentModel){
-				registry.byId('detail_list').set("rightText", parentModel.title);
+				registry.byId("detail_list").set("rightText", parentModel.title);
 			}
 		}
 
 	};
 
 	var show = function(){
-		registry.byId('dlg_confirm').show();
+		registry.byId("dlg_confirm").show();
 	};
 
 	var hide = function(){
-		registry.byId('dlg_confirm').hide();
+		registry.byId("dlg_confirm").hide();
 	};
 
 	return {
@@ -114,31 +115,32 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 
-			var connectResult;
-			connectResult = connect.connect(dom.byId("detail_showMore"), "click", null, function(){
+			var signal;
+
+			signal = on(dom.byId("detail_showMore"), "click", function(){
 				showMoreDetail();
 			});
-			_connectResults.push(connectResult);
+			signals.push(signal);
 
-			connectResult = connect.connect(dom.byId("markAsComplete"), "click", null, lang.hitch(this, function(){
+			signal = on(dom.byId("markAsComplete"), "click", lang.hitch(this, function(){
 				_isComplete = true;
 				_isDelete = false;
 				dom.byId("dlg_title").innerHTML = "Mark As Complete";
 				dom.byId("dlg_text").innerHTML = "Are you sure mark this item as complete?";
 				show();
 			}));
-			_connectResults.push(connectResult);
+			signals.push(signal);
 
-			connectResult = connect.connect(dom.byId("deleteCurrentItem"), "click", null, lang.hitch(this, function(){
+			signal = on(dom.byId("deleteCurrentItem"), "click", lang.hitch(this, function(){
 				_isComplete = false;
 				_isDelete = true;
 				dom.byId("dlg_title").innerHTML = "Delete";
 				dom.byId("dlg_text").innerHTML = "Are you sure delete this item?";
 				show();
 			}));
-			_connectResults.push(connectResult);
+			signals.push(signal);
 
-			connectResult = connect.connect(dom.byId("confirm_yes"), "click", null, lang.hitch(this, function(){
+			signal = on(dom.byId("confirm_yes"), "click", lang.hitch(this, function(){
 				var datamodel = this.loadedModels.itemlistmodel;
 				var index = todoApp.selected_item;
 				if(_isComplete){
@@ -163,12 +165,12 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 				var e = window.event;
 				new TransitionEvent(dom.byId("item_detailsGroup"), transOpts, null).dispatch();
 			}));
-			_connectResults.push(connectResult);
+			signals.push(signal);
 
-			connectResult = connect.connect(dom.byId("confirm_no"), "click", null, lang.hitch(this, function(){
+			signal = on(dom.byId("confirm_no"), "click", lang.hitch(this, function(){
 				hide();
 			}));
-			_connectResults.push(connectResult);
+			signals.push(signal);
 		},
 
 		beforeActivate: function(){
@@ -185,7 +187,7 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		afterDeactivate: function(){
 			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
 			console.log("setting detailwrapper hidden");
-			dstyle.set(dom.byId("detailwrapper"), 'visibility', 'hidden'); // hide the items list 
+			domStyle.set(dom.byId("detailwrapper"), "visibility", "hidden"); // hide the items list 
 		},
 
 		beforeDeactivate: function(){
@@ -203,10 +205,10 @@ function(lang, dom, dstyle, connect, registry, TransitionEvent, getStateful, at)
 		},
 
 		destroy: function(){
-			var connectResult = _connectResults.pop();
-			while(connectResult){
-				connect.disconnect(connectResult);
-				connectResult = _connectResults.pop();
+			var signal = signals.pop();
+			while(signal){
+				signal.remove();
+				signal = signals.pop();
 			}
 		}
 	}
