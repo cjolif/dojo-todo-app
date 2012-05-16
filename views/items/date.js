@@ -1,7 +1,7 @@
-define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at",
+define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
-        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent"],
-function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, TransitionEvent){
+        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore"],
+function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore){
 	//set todoApp showItemDetails function
 	todoApp.cachedDataModel = {};
 	todoApp.currentItemListModel = null;
@@ -18,7 +18,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 	var showListData = function(datamodel){
 		//console.log("in showListData datamodel = ",datamodel);
 		var listWidget = registry.byId("itemsDate_list");
-		var datamodel = at(datamodel, 'model');
+		var datamodel = at(datamodel, "model");
 		listWidget.set("children", datamodel);		
 	};
 
@@ -27,9 +27,9 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 		var type;
 		if(todoApp.selected_configuration_item == -1){
 			type = "Completed";			
-			dstyle.set(dom.byId("itemslist_add"), 'visibility', 'hidden'); // hide the new item link
+			domStyle.set(dom.byId("itemslist_add"), "visibility", "hidden"); // hide the new item link
 		}else{
-			dstyle.set(dom.byId("itemslist_add"), 'visibility', ''); // show the new item link			
+			domStyle.set(dom.byId("itemslist_add"), "visibility", ""); // show the new item link			
 			var listdata = listsmodel.model[todoApp.selected_configuration_item];
 			if(listdata && listdata.title){
 				type = listdata.title;
@@ -37,7 +37,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 				type = "Unknown";
 			}
 		}
-		dom.byId('list_type').innerHTML = type;
+		dom.byId("list_type").innerHTML = type;
 	};
 
 	return {
@@ -68,7 +68,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 		afterDeactivate: function(){
 			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
 			console.log("setting datewrapper hidden");
-			dstyle.set(dom.byId("datewrapper"), 'visibility', 'hidden'); // hide the items list 
+			domStyle.set(dom.byId("datewrapper"), "visibility", "hidden"); // hide the items list 
 		},
 
 		beforeDeactivate: function(){
@@ -126,7 +126,7 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 						listsmodel = this.loadedModels.listsmodel;
 						showListData(listCtl);
 				setTimeout(function(){
-					dstyle.set(dom.byId("datewrapper"), 'visibility', 'visible'); // show the items list
+					domStyle.set(dom.byId("datewrapper"), "visibility", "visible"); // show the items list
 					todoApp.showProgressIndicator(false);
 					todoApp.progressIndicator.domNode.style.visibility = "hidden";
 				}, todoApp.progressDisplayTime);

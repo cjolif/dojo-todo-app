@@ -1,8 +1,8 @@
-define(["dojo/dom", "dojo/_base/connect", "dijit/registry", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful"],
-function(dom, connect, registry, TransitionEvent, getStateful){
-	var _connectResults = []; // events connect result
+define(["dojo/dom", "dojo/on", "dijit/registry", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful"],
+function(dom, on, registry, TransitionEvent, getStateful){
 	var itemlistmodel = null;
 	var listsmodel = null;
+	var signals = [];
 
 	var add = function(){
 		var datamodel = itemlistmodel.model;
@@ -41,14 +41,13 @@ function(dom, connect, registry, TransitionEvent, getStateful){
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 
-			var connectResult;
-			connectResult = connect.connect(dom.byId('addItem_cancel'), "click", dojo.hitch(this, function(e){
+			var signal;
+
+			signal = on(dom.byId('addItem_cancel'), "click", dojo.hitch(this, function(e){
 				history.back();
 			}));
-			_connectResults.push(connectResult);
-			
-			var connectResult;
-			connectResult = connect.connect(dom.byId('addItem_add'), "click", dojo.hitch(this, function(e){
+
+			signal = on(dom.byId('addItem_add'), "click", dojo.hitch(this, function(e){
 				add();
 				var transOpts = {
 					title:"List",
@@ -57,7 +56,8 @@ function(dom, connect, registry, TransitionEvent, getStateful){
 				}
 				new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 			}));
-			_connectResults.push(connectResult);
+
+			signals.push(signal);
 		},
 
 		beforeActivate: function(){
@@ -72,10 +72,10 @@ function(dom, connect, registry, TransitionEvent, getStateful){
 		},
 
 		destroy: function(){
-			var connectResult = _connectResults.pop();
-			while(connectResult){
-				connect.disconnect(connectResult);
-				connectResult = _connectResults.pop();
+			var signal = signals.pop();
+			while(signal){
+				signal.remove();
+				signal = signals.pop();
 			}
 		}
 	}
