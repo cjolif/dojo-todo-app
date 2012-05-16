@@ -2,9 +2,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/Deferred", "dojo/
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent"],
 function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, TransitionEvent){
-	window.at = at;	// set global namespace for dojox.mvc.at
-	dojox.debugDataBinding = false;	//disable dojox.mvc data binding debug
-
 	//set todoApp showItemDetails function
 	todoApp.cachedDataModel = {};
 	todoApp.currentItemListModel = null;
@@ -61,12 +58,14 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			todoApp.selected_item = 0; // reset selected item to 0, -1 is out of index
+			todoApp.showProgressIndicator(true);
 			registry.byId("tabButtonList").set("selected", true);
 			this.refreshData();
 		},
 
 		afterDeactivate: function(){
 			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			dstyle.set(dom.byId("itemslistwrapper"), 'visibility', 'hidden'); // hide the items list 
 		},
 
 		beforeDeactivate: function(){
@@ -82,9 +81,10 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			showListType();
 			
 			var select_data = listsmodel.model[todoApp.selected_configuration_item];
-			var query = {};
+			var query = {};  
+			var options = {sort:[{attribute:"priority", descending: true}]};  // sort by priority
 			if(todoApp.selected_configuration_item == -1){
-				query["completed"] = true;
+				query["completed"] = true; // query for completed items
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",true);
 				}
@@ -100,8 +100,9 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 				}
 			}else{
 				//var query = {"parentId": select_data.id, "completed": false};
-				query["parentId"] = select_data.id;
-				query["completed"] = false;
+				query["parentId"] = select_data.id;  // query for items in this list which are not completed.
+				query["completed"] = false;          
+				
 				// selected an item so uncheck complete on configure or nav
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",false);
@@ -113,15 +114,18 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			}
 			var writestore = todoApp.stores.allitemlistStore.store;
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
-			when(listCtl.queryStore(query), lang.hitch(this, function(datamodel){
+			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
 						this.loadedModels.itemlistmodel = listCtl;
 						//todoApp.cachedDataModel[select_data.id] = listCtl;
 						todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
-
 						itemlistmodel = listCtl;
 						listsmodel = this.loadedModels.listsmodel;
-						
 						showListData(listCtl);
+				setTimeout(function(){
+					dstyle.set(dom.byId("itemslistwrapper"), 'visibility', 'visible'); // show the items list
+					todoApp.showProgressIndicator(false);
+					todoApp.progressIndicator.domNode.style.visibility = "hidden";
+				}, todoApp.progressDisplayTime);
 			}));
 		}
 	};

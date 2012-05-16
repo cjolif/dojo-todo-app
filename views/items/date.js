@@ -2,9 +2,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/Deferred", "dojo/
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/TransitionEvent"],
 function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, TransitionEvent){
-	window.at = at;	// set global namespace for dojox.mvc.at
-	dojox.debugDataBinding = false;	//disable dojox.mvc data binding debug
-
 	//set todoApp showItemDetails function
 	todoApp.cachedDataModel = {};
 	todoApp.currentItemListModel = null;
@@ -61,12 +58,17 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			todoApp.selected_item = 0; // reset selected item to 0, -1 is out of index
+			todoApp.showProgressIndicator(true);
 			registry.byId("tabButtonDate").set("selected", true);
 			this.refreshData();
+			// set stopTransition=true to prevent twice transition when transition from date view to list view.
+			todoApp.stopTransition = true;
 		},
 
 		afterDeactivate: function(){
 			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			console.log("setting datewrapper hidden");
+			dstyle.set(dom.byId("datewrapper"), 'visibility', 'hidden'); // hide the items list 
 		},
 
 		beforeDeactivate: function(){
@@ -82,17 +84,16 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			showListType();
 			
 			var select_data = listsmodel.model[todoApp.selected_configuration_item];
-			var query = {};
-			var options = {sort:[{attribute:"reminderDate", descending: true}]};
+			var query = {}; // query empty to show all items by date
+			// set options to sort by reminderDate and priority
+			var options = {sort:[{attribute:"reminderDate", descending: true},{attribute:"priority", descending: true}]};
 			if(todoApp.selected_configuration_item == -1){
-	//			query["completed"] = true;
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",false);
 				}
 				if(registry.byId("nav_completeLi")){
 					registry.byId("nav_completeLi").set("checked",false);
 				}
-				
 				// when show completed need to un-select the other list.
 				for(var a = this.loadedModels.listsmodel.model, i = 0; i < a.length; i++){
 					if(this.loadedModels.listsmodel.model[i].Checked){
@@ -101,9 +102,6 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 				}
 			
 			}else{
-				//var query = {"completed": false};  // all items together
-				//query["parentId"] = select_data.id;
-	//			query["completed"] = false;
 				// selected an item so uncheck complete on configure or nav
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",false);
@@ -123,13 +121,15 @@ function(dom, lang, dstyle, Deferred, when, registry, at, EditStoreRefListContro
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
 						this.loadedModels.itemlistmodel = listCtl;
-						//todoApp.cachedDataModel[select_data.id] = listCtl;
 						todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
-
 						itemlistmodel = listCtl;
 						listsmodel = this.loadedModels.listsmodel;
-						
 						showListData(listCtl);
+				setTimeout(function(){
+					dstyle.set(dom.byId("datewrapper"), 'visibility', 'visible'); // show the items list
+					todoApp.showProgressIndicator(false);
+					todoApp.progressIndicator.domNode.style.visibility = "hidden";
+				}, todoApp.progressDisplayTime);
 			}));
 		}
 	};

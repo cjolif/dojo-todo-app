@@ -2,9 +2,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/_base/connect",
         "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at", 
         "dojox/mobile/TransitionEvent", "dojo/date/stamp"],
 function(dom, lang, dstyle, connect, Deferred, when, registry, at, TransitionEvent, datestamp){
-	window.at = at;	// set global namespace for dojox.mvc.at
-	dojox.debugDataBinding = false;	//disable dojox.mvc data binding debug
-
 	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
 
@@ -17,7 +14,7 @@ function(dom, lang, dstyle, connect, Deferred, when, registry, at, TransitionEve
 		}
 		//console.log("remind showDateDialog date = ", date);
 		registry.byId("reminddlgpicker1").set("value", date);							
-		registry.byId("reminddlg1").show();
+		registry.byId('datePicker').show(dom.byId('remind_date'),['above-centered','below-centered','after','before']);
 	};	
 	
 	var refreshData = function(){
@@ -87,13 +84,13 @@ function(dom, lang, dstyle, connect, Deferred, when, registry, at, TransitionEve
 				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
 				date = registry.byId("reminddlgpicker1").get("value") 
 				datamodel.set("reminderDate", date);
-				registry.byId("reminddlg1").hide();
+				registry.byId('datePicker').hide(true)
 			}));
 			_connectResults.push(connectResult);
 
 			connectResult = connect.connect(dom.byId('reminddlgCancel'), 'click', lang.hitch(this, function(){
 				//console.log("reminddlgCancel clicked ");
-				registry.byId("reminddlg1").hide();
+				registry.byId('datePicker').hide(false)
 			}));
 			_connectResults.push(connectResult);
 		},
