@@ -15,7 +15,7 @@ function(dom, on, TransitionEvent, getStateful){
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
 
-			var signal = on(dom.byId('addList_add'), "click", dojo.hitch(this, function(e){
+			var signal = on(dom.byId("addList_add"), "click", dojo.hitch(this, function(e){
 				var title = dom.byId("titleInput").value;
 				if(title){
 					add();
@@ -26,8 +26,8 @@ function(dom, on, TransitionEvent, getStateful){
 		},
 
 		beforeActivate: function(){
-			dom.byId('titleInput').value = '';
-			dom.byId('desInput').value = '';
+			dom.byId("titleInput").value = "";
+			dom.byId("desInput").value = "";
 		},
 
 		destroy: function(){

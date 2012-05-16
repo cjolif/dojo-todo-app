@@ -19,7 +19,7 @@ define(["dojo/dom", "dojo/on"], function(dom, on){
 	
 	// delete configuration item.
 	var _deleteConfItem = function(index){
-		if(!window.confirm('Are you sure to delete this item ?')){
+		if(!window.confirm("Are you sure to delete this item ?")){
 			return;
 		}
 		var datamodel = listsmodel.model;
@@ -32,7 +32,7 @@ define(["dojo/dom", "dojo/on"], function(dom, on){
 	return {
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
-			var configureListDom = dom.byId('configure_edit');
+			var configureListDom = dom.byId("configure_edit");
 			var connectResult;
 			var signal = on(configureListDom, "div .mblDomButtonRedCircleMinus:click", function(e){
 				var index = getIndexFromId(e.target, "editList");

@@ -31,7 +31,7 @@ function(dom, lang, domStyle, connect, registry, at, TransitionEvent, utils){
 		afterActivate: function(){
 			console.log("configuration/configure afterActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 			console.log("setting configurewrapper visible 1");
-			domStyle.set(dom.byId("configurewrapper"), 'visibility', 'visible'); // show the items list
+			domStyle.set(dom.byId("configurewrapper"), "visibility", "visible"); // show the items list
 		},
 		
 		beforeDeactivate: function(){
@@ -41,7 +41,7 @@ function(dom, lang, domStyle, connect, registry, at, TransitionEvent, utils){
 		afterDeactivate: function(){
 			console.log("configuration/configure afterDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 			console.log("setting configurewrapper hidden");
-			domStyle.set(dom.byId("configurewrapper"), 'visibility', 'hidden'); // hide the items list 
+			domStyle.set(dom.byId("configurewrapper"), "visibility", "hidden"); // hide the items list 
 		},
 
 		destroy: function(){
