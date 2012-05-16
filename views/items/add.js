@@ -18,8 +18,8 @@ function(dom, on, registry, TransitionEvent, getStateful){
 		itemlistmodel.model.push(new getStateful({
 			"id": parseInt((new Date().getTime())),
 			"parentId": parentId,
-			"title": dom.byId('item_title').value,
-			"notes": dom.byId('item_notes').value,
+			"title": dom.byId("item_title").value,
+			"notes": dom.byId("item_notes").value,
 			"due": null,
 			"completionDate": "",
 			"reminderOnAday": "off",   
@@ -43,11 +43,11 @@ function(dom, on, registry, TransitionEvent, getStateful){
 
 			var signal;
 
-			signal = on(dom.byId('addItem_cancel'), "click", dojo.hitch(this, function(e){
+			signal = on(dom.byId("addItem_cancel"), "click", dojo.hitch(this, function(e){
 				history.back();
 			}));
 
-			signal = on(dom.byId('addItem_add'), "click", dojo.hitch(this, function(e){
+			signal = on(dom.byId("addItem_add"), "click", dojo.hitch(this, function(e){
 				add();
 				var transOpts = {
 					title:"List",
@@ -63,12 +63,12 @@ function(dom, on, registry, TransitionEvent, getStateful){
 		beforeActivate: function(){
 			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
-			dom.byId('item_title').value = '';
-			dom.byId('item_notes').value = '';
+			dom.byId("item_title").value = "";
+			dom.byId("item_notes").value = "";
 		},
 
 		afterActivate: function(){
-			registry.byId('item_title').focus();
+			registry.byId("item_title").focus();
 		},
 
 		destroy: function(){

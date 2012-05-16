@@ -18,7 +18,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 	var showListData = function(datamodel){
 		//console.log("in showListData datamodel = ",datamodel);
 		var listWidget = registry.byId("items_list");
-		var datamodel = at(datamodel, 'model');
+		var datamodel = at(datamodel, "model");
 		listWidget.set("children", datamodel);		
 	};
 
