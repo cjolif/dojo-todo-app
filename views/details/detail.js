@@ -1,7 +1,6 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/_base/on", "dijit/registry",
 	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at"],
 function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
-	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
 	var listsmodel = null;
 	var signals = [];
