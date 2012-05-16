@@ -1,9 +1,8 @@
-define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/_base/connect", 
-        "dojo/Deferred", "dojo/when", "dijit/registry", "dojox/mvc/at", 
-        "dojox/mobile/TransitionEvent", "dojo/date/stamp"],
-function(dom, lang, dstyle, connect, Deferred, when, registry, at, TransitionEvent, datestamp){
-	var _connectResults = []; // events connect result
+define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/registry", "dojox/mvc/at",
+        "dojo/date/stamp"],
+function(dom, lang, domStyle, on, registry, at, datestamp){
 	var itemlistmodel = null;
+	var signals = [];
 
 	var showDateDialog = function(){
 		var datamodel = itemlistmodel.model[todoApp.selected_item];
@@ -33,9 +32,9 @@ function(dom, lang, dstyle, connect, Deferred, when, registry, at, TransitionEve
 			if (widget) { 
 				widget.set("label", at(datamodel, "reminderDate"));				
 				if(datamodel.reminderOnAday == "on"){
-					dstyle.set(dom.byId('remind_date'), 'display', '');
+					domStyle.set(dom.byId('remind_date'), 'display', '');
 				}else{
-					dstyle.set(dom.byId('remind_date'), 'display', 'none');					
+					domStyle.set(dom.byId('remind_date'), 'display', 'none');					
 				}
 			}
 		}
@@ -43,56 +42,54 @@ function(dom, lang, dstyle, connect, Deferred, when, registry, at, TransitionEve
 	return {
 		init: function(){
 			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
-			itemlistmodel = this.loadedModels.itemlistmodel;
+			itemlistmodel = this.loadedModels.itemlistmodel
+			var signal;
 		
-			var connectResult;
-			connectResult = connect.connect(registry.byId('remind_day_switch'), 'onStateChanged', lang.hitch(this, function(newState){
+			registry.byId("remind_day_switch").on("stateChanged", lang.hitch(this, function(newState){
 				//console.log("remind_day_switch = ", newState);
 				// update remind on a day value to the data model
 				//ToDo: Why is the reminderOnAday not updated by the at() set above?
 				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
 				datamodel.set("reminderOnAday",newState);
 				if(datamodel.reminderOnAday == "on"){
-					dstyle.set(dom.byId('remind_date'), 'display', '');
+					domStyle.set(dom.byId('remind_date'), 'display', '');
 					if(!activateInProgress){
 						showDateDialog();
 					}
 				}else{
-					dstyle.set(dom.byId('remind_date'), 'display', 'none');					
+					domStyle.set(dom.byId('remind_date'), 'display', 'none');					
 				}				
 			}));
-			_connectResults.push(connectResult);
 
-			connectResult = connect.connect(registry.byId('remind_location_switch'), 'onStateChanged', lang.hitch(this, function(newState){
+			registry.byId("remind_location_switch").on("stateChanged", lang.hitch(this, function(newState){
 				//console.log("remind_location_switch = ", newState);
 				// update remind on a day value to the data model
 				//ToDo: Why is the reminderOnAlocation not updated by the at() set above?
 				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
 				datamodel.set("reminderOnAlocation",newState);				
 			}));
-			_connectResults.push(connectResult);
 
-			connectResult = connect.connect(dom.byId('remind_date'), 'click', lang.hitch(this, function(){
+			signal = on(dom.byId("remind_date"), "click", lang.hitch(this, function(){
 				//console.log("remind_date clicked call showDateDialog ");
 				showDateDialog();
 			}));
-			_connectResults.push(connectResult);
+			signals.push(signal);
 
-			connectResult = connect.connect(dom.byId('reminddlgSet'), 'click', lang.hitch(this, function(){
+			signal = on(dom.byId("reminddlgSet"), "click", lang.hitch(this, function(){
 				//console.log("reminddlgSet clicked ");
 				// update remind on a day value to the data model
 				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
-				date = registry.byId("reminddlgpicker1").get("value") 
+				date = registry.byId("reminddlgpicker1").get("value");
 				datamodel.set("reminderDate", date);
 				registry.byId('datePicker').hide(true)
 			}));
-			_connectResults.push(connectResult);
+			signals.push(signal);
 
-			connectResult = connect.connect(dom.byId('reminddlgCancel'), 'click', lang.hitch(this, function(){
+			signal = on(dom.byId("reminddlgCancel"), "click", lang.hitch(this, function(){
 				//console.log("reminddlgCancel clicked ");
-				registry.byId('datePicker').hide(false)
+				registry.byId("datePicker").hide(false)
 			}));
-			_connectResults.push(connectResult);
+			signals.push(signal);
 		},
 
 		beforeActivate: function(){
@@ -112,10 +109,10 @@ function(dom, lang, dstyle, connect, Deferred, when, registry, at, TransitionEve
 		},
 
 		destroy: function(){
-			var connectResult = _connectResults.pop();
-			while(connectResult){
-				connect.disconnect(connectResult);
-				connectResult = _connectResults.pop();
+			var signal = signals.pop();
+			while(signal){
+				signal.remove();
+				signal = signals.pop();
 			}
 		}
 	}
