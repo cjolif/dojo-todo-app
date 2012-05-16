@@ -1,4 +1,4 @@
-define(["dojo/dom", "dojo/_base/connect", "dijit/registry"], function(dom, connect, registry){
+define(["dojo/dom", "dijit/registry"], function(dom, registry){
 	var _getListItemByIndex = function(widget, index){
 		var children = widget.domNode.children;
 		var list = [];
