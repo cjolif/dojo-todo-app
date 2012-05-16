@@ -48,7 +48,7 @@ define(["jquery"], function($){
 		beforeActivate: function(){
 			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
-			refreshData($);
+			refreshData();
 		},
 
 		destroy: function(){
