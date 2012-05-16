@@ -8,6 +8,9 @@
 		<title>ToDo App</title>
 		<link rel="stylesheet" type="text/css" href="css/tablet.css">
 		<link type="text/css" href="css/demo.css" rel="stylesheet">
+		
+		<script type="text/javascript" src="../../dojox/mobile/deviceTheme.js"
+   					data-dojo-config="mblThemeFiles:['@theme',['demos/toDoMvcApp','toDoMvcApp']]"></script>
 
 		<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="parseOnLoad: false,
 				mblHideAddressBar: false,
@@ -16,9 +19,10 @@
 				async: 1">
 		</script>
 		<script>
-			require(["dojox/mobile/deviceTheme", "./src.js"], function(){
+			require(["./src.js"], function(){
 			});
 		</script>
+		
 	</head>
 	<body style="overflow-y:hidden; overflow-x:hidden;">
 	</body>
