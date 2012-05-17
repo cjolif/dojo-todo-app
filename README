@@ -1,1 +1,48 @@
+
+-------------------------------------------------------------------------------
+
 This is a ToDo sample application based on the Dojo Toolkit and provided under Dojo license.
+-------------------------------------------------------------------------------
+demos/todolist app 
+
+-------------------------------------------------------------------------------
+Version 0.1
+
+-------------------------------------------------------------------------------
+Project state: EXPERIMENTAL / Under Construction
+
+-------------------------------------------------------------------------------
+Project authors
+	Christophe Jolif
+	Eric Wang
+	Ed Chatelain
+
+-------------------------------------------------------------------------------
+Project description
+
+demos/todolist is an application do demonstrate the use of dojox/mobile, dojox/app, and dojox/mvc.
+
+-------------------------------------------------------------------------------
+Dependencies:
+
+Dojo Core (dojox/mobile, dojox/app, dojox/mvc).
+-------------------------------------------------------------------------------
+
+When doing a  checkout of this project you will want to put it in the demos directory and use the name "todolist", 
+if a different directory name is used the themes will not work correctly. 
+-------------------------------------------------------------------------------
+
+Known Limitations:
+
+1) This app is really only usable for tracking to do's, because all of the Reminder functions are no-op'd due to limitations.
+
+	It's not possible to properly implement the Remind me settings without:
+
+	a) Notification Backend to check/send the reminders on a date.
+	b) No local/offline background timer process available--might be able to do this with Phonegap.
+	c) Check-in/location checking mechanism/backend (plus 1 above)
+
+	For now, these features are no-op'd
+
+2) The items and lists are only saved in memory, so if the browser is refreshed your updates are lost.
+	
