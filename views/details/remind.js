@@ -57,6 +57,7 @@ function(dom, lang, domStyle, on, registry, at, datestamp){
 						showDateDialog("remind_day_switch");
 					}
 				}else{
+					datamodel.set("reminderDate","");
 					domStyle.set(dom.byId('remind_date'), 'display', 'none');					
 				}				
 			}));
@@ -88,6 +89,11 @@ function(dom, lang, domStyle, on, registry, at, datestamp){
 			signal = on(dom.byId("reminddlgCancel"), "click", lang.hitch(this, function(){
 				//console.log("reminddlgCancel clicked ");
 				registry.byId("datePicker").hide(false)
+				var datamodel = itemlistmodel.model[todoApp.selected_item];
+				date = datamodel.get("reminderDate");
+				if(!date){ // cancelled and no date set, so need to set 
+					datamodel.set("reminderOnAday", "off");
+				}
 			}));
 			signals.push(signal);
 		},
