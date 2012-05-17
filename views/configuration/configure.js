@@ -1,6 +1,6 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", 
 	"dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "../utils/utils"],
-function(dom, lang, domStyle, connect, registry, at, TransitionEvent, utils){
+function(dom, lang, domStyle, registry, at, TransitionEvent, utils){
 
 	return {
 		init: function(){

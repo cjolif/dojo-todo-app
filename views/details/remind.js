@@ -4,7 +4,7 @@ function(dom, lang, domStyle, on, registry, at, datestamp){
 	var itemlistmodel = null;
 	var signals = [];
 
-	var showDateDialog = function(){
+	var showDateDialog = function(widgetid){
 		var datamodel = itemlistmodel.model[todoApp.selected_item];
 		date = datamodel.get("reminderDate");
 		if(!date){
@@ -13,7 +13,7 @@ function(dom, lang, domStyle, on, registry, at, datestamp){
 		}
 		//console.log("remind showDateDialog date = ", date);
 		registry.byId("reminddlgpicker1").set("value", date);							
-		registry.byId('datePicker').show(dom.byId('remind_date'),['above-centered','below-centered','after','before']);
+		registry.byId('datePicker').show(dom.byId(widgetid),['above-centered','below-centered','after','before']);
 	};	
 	
 	var refreshData = function(){
@@ -54,7 +54,7 @@ function(dom, lang, domStyle, on, registry, at, datestamp){
 				if(datamodel.reminderOnAday == "on"){
 					domStyle.set(dom.byId('remind_date'), 'display', '');
 					if(!activateInProgress){
-						showDateDialog();
+						showDateDialog("remind_day_switch");
 					}
 				}else{
 					domStyle.set(dom.byId('remind_date'), 'display', 'none');					
@@ -71,7 +71,7 @@ function(dom, lang, domStyle, on, registry, at, datestamp){
 
 			signal = on(dom.byId("remind_date"), "click", lang.hitch(this, function(){
 				//console.log("remind_date clicked call showDateDialog ");
-				showDateDialog();
+				showDateDialog('remind_date');
 			}));
 			signals.push(signal);
 
