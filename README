@@ -1,37 +1,33 @@
-
 -------------------------------------------------------------------------------
-
-This is a ToDo sample application based on the Dojo Toolkit and provided under Dojo license.
+To Do Application - This is a ToDo sample application based on dojox/app, dojox/mobile & dojox/mvc modules
 -------------------------------------------------------------------------------
-demos/todolist app 
-
+Authors: Christophe Jolif, Eric Wang, Ed Chatelain, Chris Mitchell
 -------------------------------------------------------------------------------
-Version 0.1
+Demo description
 
--------------------------------------------------------------------------------
-Project state: EXPERIMENTAL / Under Construction
-
--------------------------------------------------------------------------------
-Project authors
-	Christophe Jolif
-	Eric Wang
-	Ed Chatelain
-
--------------------------------------------------------------------------------
-Project description
-
-demos/todolist is an application do demonstrate the use of dojox/mobile, dojox/app, and dojox/mvc.
+	This demonstrates how dojox/app, dojox/mobile & dojox/mvc can be used
+	together to create a real application.
 
 -------------------------------------------------------------------------------
 Dependencies:
 
-Dojo Core (dojox/mobile, dojox/app, dojox/mvc).
--------------------------------------------------------------------------------
+	Dojo
+	dojox/mobile
+	dojox/app
+	dojox/mvc
 
-When doing a  checkout of this project you will want to put it in the demos directory and use the name "todolist", 
+-------------------------------------------------------------------------------
+Installation instructions
+
+	Simply run the included demo.html
+
+	To build, use the supplied demo.profile.js as your profileFile
+
+-------------------------------------------------------------------------------
+If you are using this project from github when doing a checkout you will want
+to put it in the demos directory and use the name "todolist",
 if a different directory name is used the themes will not work correctly. 
 -------------------------------------------------------------------------------
-
 Known Limitations:
 
 1) This app is really only usable for tracking to do's, because all of the Reminder functions are no-op'd due to limitations.
@@ -45,4 +41,5 @@ Known Limitations:
 	For now, these features are no-op'd
 
 2) The items and lists are only saved in memory, so if the browser is refreshed your updates are lost.
-	
+-------------------------------------------------------------------------------
+@rank:194 @categories:mobile
