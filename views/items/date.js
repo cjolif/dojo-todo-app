@@ -67,7 +67,6 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 
 		afterDeactivate: function(){
 			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
-			console.log("setting datewrapper hidden");
 			domStyle.set(dom.byId("datewrapper"), "visibility", "hidden"); // hide the items list 
 		},
 
