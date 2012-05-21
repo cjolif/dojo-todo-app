@@ -72,7 +72,6 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 		itemlistmodel.set("cursorIndex",todoApp.selected_item);
 		widget.set("target", at(itemlistmodel, "cursor"));
 
-		console.log("setting detailwrapper visible 1");
 		domStyle.set(dom.byId("detailwrapper"), "visibility", "visible"); // show the items list
 		
 		var repeatArray = ["None", "Every Day", "Every Week", "Every 2 Week", "Every Month", "Every Year"];
@@ -186,7 +185,6 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 
 		afterDeactivate: function(){
 			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
-			console.log("setting detailwrapper hidden");
 			domStyle.set(dom.byId("detailwrapper"), "visibility", "hidden"); // hide the items list 
 		},
 

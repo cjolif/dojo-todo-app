@@ -25,7 +25,7 @@ Installation instructions
 
 -------------------------------------------------------------------------------
 If you are using this project from github when doing a checkout you will want
-to put it in the demos directory and use the name "todolist",
+to put it in the demos directory and use the name "todoApp",
 if a different directory name is used the themes will not work correctly. 
 -------------------------------------------------------------------------------
 Known Limitations:
