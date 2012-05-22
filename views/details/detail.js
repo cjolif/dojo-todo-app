@@ -71,8 +71,6 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 		widget.target = null;
 		itemlistmodel.set("cursorIndex",todoApp.selected_item);
 		widget.set("target", at(itemlistmodel, "cursor"));
-
-		domStyle.set(dom.byId("detailwrapper"), "visibility", "visible"); // show the items list
 		
 		var repeatArray = ["None", "Every Day", "Every Week", "Every 2 Week", "Every Month", "Every Year"];
 		if(datamodel.repeat>=0 && datamodel.repeat<repeatArray.length){
@@ -97,6 +95,8 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 				registry.byId("detail_list").set("rightText", parentModel.title);
 			}
 		}
+
+		domStyle.set(dom.byId("detailwrapper"), "visibility", "visible"); // show the items list
 
 	};
 
