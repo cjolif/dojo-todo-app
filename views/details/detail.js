@@ -8,6 +8,36 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 	var _isDelete = false;
 	todoApp._addNewItemCommit = false; // identify the new item is committed
 
+	// transform the repeat to the correct text
+	repeatTransform = {
+		format : function(value) {
+			var repeatArray = ["None", "Every Day", "Every Week", "Every 2 Week", "Every Month", "Every Year"];
+			return repeatArray[value] ? repeatArray[value] : '';
+		}
+	};
+
+	// transform the priority to the correct text
+	priorityTransform = {
+		format : function(value) {
+			var priorityArray = ["None", "Low", "Medium", "High"];
+			return priorityArray[value] ? priorityArray[value] : '';
+		}
+	};
+
+	// transform the priority to the correct text
+	parentTitleTransform = {
+		format : function(value) {
+			var parentModel;
+			for(var i=0; i<listsmodel.model.length; i++){
+				if(listsmodel.model[i].id == value){  // find the parentId in the listsmodel
+					parentModel = listsmodel.model[i];
+					return parentModel.title;  // set the parentModel title
+				}
+			}
+			return "";
+		}
+	};
+
 	var showMoreDetail = function(){
 		var widget = dom.byId("moreDetail");
 		var display = domStyle.get(widget, "display");
@@ -68,33 +98,9 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 		}
 
 		var widget = registry.byId("item_detailsGroup");
-		widget.target = null;
+		//widget.target = null;
 		itemlistmodel.set("cursorIndex",todoApp.selected_item);
 		widget.set("target", at(itemlistmodel, "cursor"));
-		
-		var repeatArray = ["None", "Every Day", "Every Week", "Every 2 Week", "Every Month", "Every Year"];
-		if(datamodel.repeat>=0 && datamodel.repeat<repeatArray.length){
-			registry.byId("detail_repeat").set("rightText", repeatArray[datamodel.repeat]);
-		}
-
-		var priorityArray = ["None", "Low", "Medium", "High"];
-		if(datamodel.priority>=0 && datamodel.priority<priorityArray.length){
-			registry.byId("detail_priority").set("rightText", priorityArray[datamodel.priority]);
-		}
-
-		if(datamodel.parentId >= 0){
-			var parentModel;
-			for(var i=0; i<listsmodel.model.length; i++){
-				if(listsmodel.model[i].id == datamodel.parentId){
-					parentModel = listsmodel.model[i];
-					break;
-				}
-			}
-
-			if(parentModel){
-				registry.byId("detail_list").set("rightText", parentModel.title);
-			}
-		}
 
 		domStyle.set(dom.byId("detailwrapper"), "visibility", "visible"); // show the items list
 
