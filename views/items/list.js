@@ -115,17 +115,15 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			var writestore = todoApp.stores.allitemlistStore.store;
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
-						this.loadedModels.itemlistmodel = listCtl;
-						//todoApp.cachedDataModel[select_data.id] = listCtl;
-						todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
-						itemlistmodel = listCtl;
-						listsmodel = this.loadedModels.listsmodel;
-						showListData(listCtl);
-				setTimeout(function(){
-					domStyle.set(dom.byId("itemslistwrapper"), "visibility", "visible"); // show the items list
-					todoApp.showProgressIndicator(false);
-					todoApp.progressIndicator.domNode.style.visibility = "hidden";
-				}, todoApp.progressDisplayTime);
+				this.loadedModels.itemlistmodel = listCtl;
+				//todoApp.cachedDataModel[select_data.id] = listCtl;
+				todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
+				itemlistmodel = listCtl;
+				listsmodel = this.loadedModels.listsmodel;
+				showListData(listCtl);
+				domStyle.set(dom.byId("itemslistwrapper"), "visibility", "visible"); // show the items list
+				todoApp.showProgressIndicator(false);
+				todoApp.progressIndicator.domNode.style.visibility = "hidden";
 			}));
 		}
 	};
