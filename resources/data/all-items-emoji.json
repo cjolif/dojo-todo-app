@@ -4,7 +4,7 @@
 		{
 			"id": 100,
 			"parentId":0,
-			"title": "Call Mary",
+			"title": "📞 Call Mary",
 			"notes": "I need to invite her for Emma's birthday",
 			"due": null,
 			"completionDate": "",
@@ -21,7 +21,7 @@
 		{
 			"id": 101,
 			"parentId":0,
-			"title": "Trumpet rehearsal",
+			"title": "🎺 Trumpet rehearsal",
 			"notes": "Bring the score",
 			"due": null,
 			"completionDate": "",
@@ -38,7 +38,7 @@
 		{
 			"id": 102,
 			"parentId":0,
-			"title": "Go to the swimming pool",
+			"title": "🏊 Go to the swimming pool",
 			"notes": "Have fun with kids!",
 			"due": null,
 			"completionDate": "",
@@ -55,7 +55,7 @@
 		{
 			"id": 103,
 			"parentId":0,
-			"title": "Invite Caroline for dinner",
+			"title": "🍴 Invite Caroline for dinner",
 			"notes": "Pick a nice French restaurant",
 			"due": null,
 			"completionDate": "",
@@ -72,7 +72,7 @@
 		{
 			"id": 104,
 			"parentId":1,
-			"title": "Check latest figures",
+			"title": " Check latest figures",
 			"notes": "Make sure our production is inline with plan",
 			"priority": 0,
 			"due": null,
@@ -89,7 +89,7 @@
 		{
 			"id": 105,
 			"parentId":1,
-			"title": "Book my flights",
+			"title": " Book my flights",
 			"notes": "Try to get a direct flight to the conference",
 			"priority": 0,
 			"due": null,
@@ -106,7 +106,7 @@
 		{
 			"id": 106,
 			"parentId":1,
-			"title": "Prepare our visit to France",
+			"title": "🇫🇷 Prepare our visit to France",
 			"notes": "We need to discuss our strategy for Europe",
 			"priority": 0,
 			"due": null,
@@ -123,7 +123,7 @@
 		{
 			"id": 107,
 			"parentId":1,
-			"title": "Send mail to the team",
+			"title": "📩 Send mail to the teams",
 			"notes": "Announce promotions",
 			"priority": 0,
 			"due": null,
