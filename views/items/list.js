@@ -77,10 +77,23 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		},
 	
 		refreshData: function(){
-			//console.log("****in items/lists refreshData ");
+			// Display the selected list if click on the navigation list.
+			// when delete one list, the listsmodel length will decrease, the display policy is:
+			// 1. display the new list which index is the same as the deleted one (for example: delete index 1, then show the new list which index is 1)
+			// 2. if no new list which index the same as the old one, but the listmodels has models, display the first one (index=0)
+			// 3. display "Completed" list
+			var select_data = listsmodel.model[todoApp.selected_configuration_item]; // 1. display the selected one or the same index list
+			if(!select_data){
+				if((listsmodel.model.length > 0) && (todoApp.selected_configuration_item >= listsmodel.model.length)){
+					todoApp.selected_configuration_item = 0; // 2. display the first list
+					select_data = listsmodel.model[0];
+				}else{
+					todoApp.selected_configuration_item = -1; // 3. select Completed list
+				}
+			}
+			// show list type
 			showListType();
-			
-			var select_data = listsmodel.model[todoApp.selected_configuration_item];
+
 			var query = {};  
 			var options = {sort:[{attribute:"priority", descending: true}]};  // sort by priority
 			if(todoApp.selected_configuration_item == -1){

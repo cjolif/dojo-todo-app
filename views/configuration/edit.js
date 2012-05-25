@@ -1,4 +1,4 @@
-define(["dojo/dom", "dojo/on"], function(dom, on){
+define(["dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"], function(dom, on, TransitionEvent){
 	var signals = []; // events connect result
 
 	var listsmodel = null;	//repeat view data model
@@ -39,9 +39,31 @@ define(["dojo/dom", "dojo/on"], function(dom, on){
 				_deleteConfItem(index);
 			});
 			signals.push(signal);
+			
+			signal = on(dom.byId("configuration_done"), "click", dojo.hitch(this, function(e){
+				var transOpts;
+				// on tablet directly transition to list view because tablet has navigation bar on the left
+				if(todoApp.isTablet){
+					transOpts = {
+						title: "List",
+						target: "items,list",
+						url: "#items,list"
+					}
+					console.log("tablet transition to list view");
+				}else{
+					// on phone transition to configure view to select the item
+					transOpts = {
+						title: "Configuration",
+						target: "configuration,configure",
+						url: "#configuration,configure"
+					}
+				}
+				new TransitionEvent(e.srcElement,transOpts,e).dispatch();
+			}));
+			signals.push(signal);
 		},
 
-		// repeate view destroy
+		// destroy the events signals
 		destroy: function(){
 			var signal = signals.pop();
 			while(signal){
