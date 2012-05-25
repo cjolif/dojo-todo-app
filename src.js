@@ -5,7 +5,6 @@ function(dojo, lang, win, ProgressIndicator){
 	todoApp.selected_item = 0;
 	todoApp.selected_configuration_item = 0;
 	todoApp.progressIndicator = null;
-	todoApp.progressDisplayTime = 300;
 
 	var configurationFile = "./config-phone.json";
 	if(window.innerWidth > 600){

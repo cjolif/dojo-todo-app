@@ -2,7 +2,7 @@
 	<script type="dojo/require">at: "dojox/mvc/at"</script>
 	<h1 data-dojo-type="dojox.mobile.Heading" region="top" label="Details" back="Back"></h1>
 	<div data-dojo-type="dojox.app.widgets.Container" id="details" scrollable="true">
-	<div id="detailwrapper">
+	<div id="detailwrapper" style="visibility:hidden">
 		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" 
 				data-dojo-props="target: at(this.loadedModels.itemlistmodel, 'cursor')">
 				<div  class="itemcellwrapper">
@@ -17,7 +17,8 @@
 				
 				Remind Me
 				</li>
-				<li id="detail_repeat" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,repeat",url: "#details,repeat"}'>
+				<li id="detail_repeat" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,repeat",url: "#details,repeat"}'
+							data-dojo-props="rightText: at('rel:','repeat').direction(at.from).transform(repeatTransform)">
 				Repeat
 				</li>
 			</ul>
@@ -26,10 +27,12 @@
 				Show More...
 				</li>
 				<div id="moreDetail" style="display:none;">
-					<li id="detail_priority" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Priority",target:"details,priority",url: "#details,priority"}'>
+					<li id="detail_priority" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Priority",target:"details,priority",url: "#details,priority"}'
+							data-dojo-props="rightText: at('rel:','priority').direction(at.from).transform(priorityTransform)">
 					Priority
 					</li>
-					<li id="detail_list" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,list",url: "#details,list"}'>
+					<li id="detail_list" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,list",url: "#details,list"}'
+							data-dojo-props="rightText: at('rel:','parentId').direction(at.from).transform(parentTitleTransform)">
 					List
 					</li>
 				</div>
