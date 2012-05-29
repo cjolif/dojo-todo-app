@@ -1,6 +1,6 @@
-define(["dojo/dom", "dojo/_base/connect", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful"],
-function(dom, connect, TransitionEvent, getStateful){
-	var _connectResults = []; // events connect result
+define(["dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful"],
+function(dom, on, TransitionEvent, getStateful){
+	var signals = []; // events connect result
 	var listsmodel = null;
 
 	var add = function(){
@@ -15,26 +15,26 @@ function(dom, connect, TransitionEvent, getStateful){
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
 
-			connectResult = connect.connect(dom.byId('addList_add'), "click", dojo.hitch(this, function(e){
+			var signal = on(dom.byId("addList_add"), "click", dojo.hitch(this, function(e){
 				var title = dom.byId("titleInput").value;
 				if(title){
 					add();
 				}
 				history.back();
 			}));
-			_connectResults.push(connectResult);
+			signals.push(signal);
 		},
 
 		beforeActivate: function(){
-			dom.byId('titleInput').value = '';
-			dom.byId('desInput').value = '';
+			dom.byId("titleInput").value = "";
+			dom.byId("desInput").value = "";
 		},
 
 		destroy: function(){
-			var connectResult = _connectResults.pop();
-			while (connectResult) {
-				connect.disconnect(connectResult);
-				connectResult = _connectResults.pop();
+			var signal = signals.pop();
+			while(signal){
+				signal.remove();
+				signal = signals.pop();
 			}
 		}
 	}

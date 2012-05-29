@@ -9,6 +9,9 @@
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/tablet.css">
 		<link type="text/css" href="css/demo.css" rel="stylesheet">
+		
+		<script type="text/javascript" src="../../dojox/mobile/deviceTheme.js"
+   					data-dojo-config="mblThemeFiles:['@theme',['demos/todoApp','todo']]"></script>
 
 		<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="parseOnLoad: false,
 				mblHideAddressBar: false,
@@ -21,9 +24,10 @@
 				 ]">
 		</script>
 		<script>
-			require(["dojox/mobile/deviceTheme", "./src.js"], function(){
+			require(["./src.js"], function(){
 			});
 		</script>
+		
 	</head>
 	<body style="overflow-y:hidden; overflow-x:hidden;">
 	</body>

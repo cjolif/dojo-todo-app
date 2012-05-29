@@ -2,13 +2,13 @@
   "identifier": "id",
   "items": [ 
 			{
-				"title": "Personal Reminders",
+				"title": "🏠 Personal Reminders",
 				"id": 0,
 				"parentId": null,
 				"Checked": true
 			},
 			{
-				"title": "Work Items",
+				"title": "🏭 Work Items",
 				"id": 1,
 				"Checked": false,
 				"parentId" :null

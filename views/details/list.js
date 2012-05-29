@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/_base/connect", "dijit/registry", "../utils/utils"],
-function(lang, dom, connect, registry, utils){
+define(["dojo/_base/lang", "dojo/dom", "dijit/registry", "../utils/utils"],
+function(lang, dom, registry, utils){
 	var _connectResults = []; // events connect result
 	var itemlistmodel = null;
 	var listsmodel = null;
@@ -26,8 +26,7 @@ function(lang, dom, connect, registry, utils){
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 
-			var connectResult;
-			connectResult = connect.connect(registry.byId("list_list"), "onCheckStateChanged", null, lang.hitch(this, function(item, state){
+			registry.byId("list_list").on("checkStateChanged", lang.hitch(this, function(item, state){
 				// save the select value to data store
 				if (state) {
 					var index = utils.getIndexByListItem(registry.byId("list_list"), item);
@@ -40,7 +39,6 @@ function(lang, dom, connect, registry, utils){
 					}
 				}
 			}));
-			_connectResults.push(connectResult);
 		},
 
 		beforeActivate: function(){
@@ -51,11 +49,6 @@ function(lang, dom, connect, registry, utils){
 		},
 
 		destroy: function(){
-			var connectResult = _connectResults.pop();
-			while(connectResult){
-				connect.disconnect(connectResult);
-				connectResult = _connectResults.pop();
-			}
 		}
 	}
 });
