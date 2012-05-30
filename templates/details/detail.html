@@ -1,6 +1,9 @@
 <div class="view mblView">
 	<script type="dojo/require">at: "dojox/mvc/at"</script>
-	<h1 data-dojo-type="dojox.mobile.Heading" region="top" label="Details" back="Back"></h1>
+	<h1 data-dojo-type="dojox.mobile.Heading" region="top" label="Details">
+		<div id="detail_back" data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='arrow: "left", label:"Back"' style="float:left;">
+		</div>
+	</h1>
 	<div data-dojo-type="dojox.app.widgets.Container" id="details" scrollable="true">
 	<div id="detailwrapper" style="visibility:hidden">
 		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" 

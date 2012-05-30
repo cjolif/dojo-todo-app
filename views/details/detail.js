@@ -28,6 +28,10 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 	parentTitleTransform = {
 		format : function(value) {
 			var parentModel;
+			// check listsmodel because this transform method will be called by dojox.mvc before detail view initial
+			if(!listsmodel || !listsmodel.model){
+				return "";
+			}
 			for(var i=0; i<listsmodel.model.length; i++){
 				if(listsmodel.model[i].id == value){  // find the parentId in the listsmodel
 					parentModel = listsmodel.model[i];
@@ -126,6 +130,13 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 				showMoreDetail();
 			});
 			signals.push(signal);
+			
+			// use this.backFlag to identify the detail view back to items,list view
+			signal = on(dom.byId("detail_back"), "click", lang.hitch(this, function(){
+				this.backFlag = true;
+				history.back();
+			}));
+			signals.push(signal);
 
 			signal = on(dom.byId("markAsComplete"), "click", lang.hitch(this, function(){
 				_isComplete = true;
@@ -200,12 +211,15 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 				return;	// refresh view operation, DO NOT commit the data change 
 			}
 			var title = dom.byId("detail_todo").value;
-			if(!title){
+			// a user maybe set "Priority" first and then set title. This operation will cause detail view beforeDeactivate() be called.
+			// So we use this.backFlag to identify only back from detail view and item's title is empty, the item need to be removed.
+			if(!title && this.backFlag){
 				// remove this item
 				itemlistmodel.model.splice(todoApp.selected_item, 1);
 			}
 			itemlistmodel.commit();
 			todoApp._addNewItemCommit = true;
+			this.backFlag = false;
 		},
 
 		destroy: function(){
