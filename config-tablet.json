@@ -150,8 +150,8 @@
 					"template": "./templates/details/EditItemRepeat.html"
 				},
 
-				"EditItemRemind":{
-					"template": "./templates/details/EditItemRemind.html"
+				"EditItemRemindMe":{
+					"template": "./templates/details/EditItemRemindMe.html"
 				},
 				"EditItemPriority":{
 					"template": "./templates/details/EditItemPriority.html"
