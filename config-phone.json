@@ -85,80 +85,76 @@
 			"type": "dojox/mvc/EditStoreRefListController",
      		"params":{
      			"datastore": {"$ref":"#stores.allitemlistStore"},
-             					"query": {"parentId": 0}
+             					"query": {"listId": 0}
      		}           
         }
 	},
 
 	//the name of the scene to load when the app is initialized.
-	"defaultView": "items,list",
+	"defaultView": "items,ViewListTodoItemsByPriority",
 
 	"defaultTransition": "fade",
 	//scenes are groups of views and models loaded at once
 	"views": {
 		"configuration": {
-			"defaultView": "configure",
+			"defaultView": "SelectTodoList",
 			"defaultTransition": "fade",
 			"definition": "none",
 
 			"views": {
-				"configure": {
-					"template": "./templates/configuration/configure.html"
+				"SelectTodoList": {
+					"template": "./templates/configuration/SelectTodoList.html"
 				},
 
-				"edit": {
-					"template": "./templates/configuration/edit.html"
+				"ModifyTodoLists": {
+					"template": "./templates/configuration/ModifyTodoLists.html"
 				},
 
-				"add": {
-					"template": "./templates/configuration/add.html"
+				"EditTodoList": {
+					"template": "./templates/configuration/EditTodoList.html"
 				}
 			}
 		},
 
-		//item scene, include list view and date view
+		//items scene, include ViewListTodoItemsByPriority view and ViewAllTodoItemsByDate view
 		"items": {
 			"template": "./templates/items.html",
-			"defaultView": "list",
+			"defaultView": "ViewListTodoItemsByPriority",
 			"defaultTransition": "fade",
 			//the views available to this scene
 			"views": {
-				"list":{
-					"template": "./templates/items/list.html"
+				"ViewListTodoItemsByPriority":{
+					"template": "./templates/items/ViewListTodoItemsByPriority.html"
 				},
-
-				"add":{
-					"template": "./templates/items/add.html"
-				},
-				"date":{
-					"template": "./templates/items/date.html"
+				"ViewAllTodoItemsByDate":{
+					"template": "./templates/items/ViewAllTodoItemsByDate.html"
 				}
 			}
 		},
 
 		//details scene, include list view and date view
 		"details": {
-			"defaultView": "detail",
+			"defaultView": "EditTodoItem",
 			"defaultTransition": "fade",
 			"definition": "none",
 
 			"views": {
-				"detail":{
-					"template": "./templates/details/detail.html"
+				"EditTodoItem":{
+					"template": "./templates/details/EditTodoItem.html"
 				},
 
-				"repeat":{
-					"template": "./templates/details/repeat.html"
+				"EditItemRepeat":{
+					"template": "./templates/details/EditItemRepeat.html"
 				},
 
-				"remind":{
-					"template": "./templates/details/remind.html"
+				"EditItemRemind":{
+					"template": "./templates/details/EditItemRemind.html"
 				},
-				"priority":{
-					"template": "./templates/details/priority.html"
+				"EditItemPriority":{
+					"template": "./templates/details/EditItemPriority.html"
 				},
-				"list":{
-					"template": "./templates/details/list.html"
+				"EditItemList":{
+					"template": "./templates/details/EditItemList.html"
 				}
 			}
 		}

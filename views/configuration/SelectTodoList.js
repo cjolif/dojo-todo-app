@@ -14,8 +14,8 @@ function(dom, lang, domStyle, registry, at, TransitionEvent, utils){
 					// transition to list view
 					var transOpts = {
 						title:"List",
-						target:"items,list",
-						url: "#items,list"
+						target:"items,ViewListTodoItemsByPriority",
+						url: "#items,ViewListTodoItemsByPriority"
 					};
 					var e = window.event;
 					new TransitionEvent(e.srcElement,transOpts,e).dispatch();
@@ -25,21 +25,21 @@ function(dom, lang, domStyle, registry, at, TransitionEvent, utils){
 		},
 		beforeActivate: function(){
 			todoApp.stopTransition = false;
-			console.log("configuration/configure beforeActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
+			console.log("configuration/SelectTodoList beforeActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 		},
 		
 		afterActivate: function(){
-			console.log("configuration/configure afterActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
+			console.log("configuration/SelectTodoList afterActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 			console.log("setting configurewrapper visible 1");
 			domStyle.set(dom.byId("configurewrapper"), "visibility", "visible"); // show the items list
 		},
 		
 		beforeDeactivate: function(){
-			console.log("configuration/configure beforeDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
+			console.log("configuration/SelectTodoList beforeDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 		},
 
 		afterDeactivate: function(){
-			console.log("configuration/configure afterDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
+			console.log("configuration/SelectTodoList afterDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
 			console.log("setting configurewrapper hidden");
 			domStyle.set(dom.byId("configurewrapper"), "visibility", "hidden"); // hide the items list 
 		},

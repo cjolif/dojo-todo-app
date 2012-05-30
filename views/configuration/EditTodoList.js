@@ -10,7 +10,7 @@ function(dom, on, TransitionEvent, getStateful){
 			var signal = on(dom.byId("addList_add"), "click", dojo.hitch(this, function(e){
 				var title = dom.byId("titleInput").value;
 				if(title){
-					// stop transition because listsmodel update will trigger transition to items,list view by default.
+					// stop transition because listsmodel update will trigger transition to items,ViewListTodoItemsByPriority view by default.
 					todoApp.stopTransition = true;
 
 					listsmodel.model.push(new getStateful({
