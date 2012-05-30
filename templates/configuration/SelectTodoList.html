@@ -1,9 +1,9 @@
 <div class="view mblView">
 	<script type="dojo/require">at: "dojox/mvc/at"</script>
 	<h1 data-dojo-type="dojox.mobile.Heading" label="Configure" region="top">
-		<div data-dojo-type="dojox.mobile.ToolBarButton" label="Done" style="float:left;" transitionOptions='{title:"List",target:"items,list",url: "#items,list"}'>
+		<div data-dojo-type="dojox.mobile.ToolBarButton" label="Done" style="float:left;" transitionOptions='{title:"List",target:"items,ViewListTodoItemsByPriority",url: "#items,ViewListTodoItemsByPriority"}'>
 		</div>
-		<div data-dojo-type="dojox.mobile.ToolBarButton" label="Edit" style="float:right;" transitionOptions='{title:"Configuration Edit",target:"configuration,edit",url: "#configuration,edit"}'>
+		<div data-dojo-type="dojox.mobile.ToolBarButton" label="Edit" style="float:right;" transitionOptions='{title:"Configuration Edit",target:"configuration,ModifyTodoLists",url: "#configuration,ModifyTodoLists"}'>
 		</div>
 	</h1>
 	<h2 data-dojo-type="dojox.mobile.RoundRectCategory" region="top">Search Reminders</h2>
@@ -11,7 +11,7 @@
 	<div id="configurewrapper" style="visibility:hidden">
 		<ul data-dojo-type="dojox.mobile.RoundRectList">
 			<li id="configure_completeLi" data-dojo-type="dojox.mobile.ListItem" data-dojo-props='label: "Completed", clickable: true, noArrow: true, onClick: function(e){todoApp.selected_configuration_item = -1;}'
-				transitionOptions='{title:"List",target:"items,list",url: "#items,list"}'>
+				transitionOptions='{title:"List",target:"items,ViewListTodoItemsByPriority",url: "#items,ViewListTodoItemsByPriority"}'>
 			</li>
 		</ul>
 		

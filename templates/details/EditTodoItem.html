@@ -14,13 +14,13 @@
 						data-dojo-props="value: at('rel:', 'title')"></textarea>
 				</div>
 			<ul data-dojo-type="dojox.mobile.RoundRectList">
-				<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>
+				<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,EditItemRemindMe",url: "#details,EditItemRemindMe"}'>
 					<div data-dojo-type="dojox.mvc.Output" class="mblListItemRightText"
 							data-dojo-props="value: at('rel:','reminderDate')"></div>					
 				
 				Remind Me
 				</li>
-				<li id="detail_repeat" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,repeat",url: "#details,repeat"}'
+				<li id="detail_repeat" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,EditItemRepeat",url: "#details,EditItemRepeat"}'
 							data-dojo-props="rightText: at('rel:','repeat').direction(at.from).transform(repeatTransform)">
 				Repeat
 				</li>
@@ -30,12 +30,12 @@
 				Show More...
 				</li>
 				<div id="moreDetail" style="display:none;">
-					<li id="detail_priority" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Priority",target:"details,priority",url: "#details,priority"}'
+					<li id="detail_priority" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Priority",target:"details,EditItemPriority",url: "#details,EditItemPriority"}'
 							data-dojo-props="rightText: at('rel:','priority').direction(at.from).transform(priorityTransform)">
 					Priority
 					</li>
-					<li id="detail_list" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,list",url: "#details,list"}'
-							data-dojo-props="rightText: at('rel:','parentId').direction(at.from).transform(parentTitleTransform)">
+					<li id="detail_list" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,EditItemList",url: "#details,EditItemList"}'
+							data-dojo-props="rightText: at('rel:','listId').direction(at.from).transform(parentTitleTransform)">
 					List
 					</li>
 				</div>

@@ -12,11 +12,11 @@ function(dom, on, registry, TransitionEvent){
 		todoApp.selected_configuration_item = index;
 
 		// Solution 1:
-		// Refresh list data by transition from "items,list" to "items,list". It's a liiter trick here.
-		// transition to the "items,list" view, Do Not record the history.
+		// Refresh list data by transition from "items,ViewListTodoItemsByPriority" to "items,ViewListTodoItemsByPriority". It's a liiter trick here.
+		// transition to the "items,ViewListTodoItemsByPriority" view, Do Not record the history.
 		// Advantage: Reuse the phone version
 		// Disadvantage: low effectiveness
-		todoApp.trigger("transition", {"viewId": "items,list"});
+		todoApp.trigger("transition", {"viewId": "items,ViewListTodoItemsByPriority"});
 		todoApp.stopTransition = true;
 
 		// Solution 2:
@@ -29,8 +29,8 @@ function(dom, on, registry, TransitionEvent){
 		// publish transition event
 		var transOpts = {
 			title: "Edit",
-			target: "configuration,edit",
-			url: "#configuration,edit"
+			target: "configuration,ModifyTodoLists",
+			url: "#configuration,ModifyTodoLists"
 		};
 		var e = window.event;
 		new TransitionEvent(e.srcElement,transOpts,e).dispatch();

@@ -10,8 +10,8 @@ function(dom, dstyle, connect, TransitionEvent, getStateful){
 		// transition to detail view for edit
 		var transOpts = {
 			title:"Detail",
-			target:"details,detail",
-			url: "#details,detail"
+			target:"details,EditTodoItem",
+			url: "#details,EditTodoItem"
 		};
 		var e = window.event;
 		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
