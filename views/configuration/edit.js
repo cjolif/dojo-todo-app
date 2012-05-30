@@ -35,6 +35,9 @@ define(["dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"], function(dom, on
 			var configureListDom = dom.byId("configure_edit");
 			var connectResult;
 			var signal = on(configureListDom, "div .mblDomButtonRedCircleMinus:click", function(e){
+				// stop transition because listsmodel update will trigger transition to items,list view by default.
+				todoApp.stopTransition = true;
+
 				var index = getIndexFromId(e.target, "editList");
 				_deleteConfItem(index);
 			});

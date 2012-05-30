@@ -3,14 +3,6 @@ function(dom, on, TransitionEvent, getStateful){
 	var signals = []; // events connect result
 	var listsmodel = null;
 
-	var add = function(){
-		listsmodel.model.push(new getStateful({
-			"id": (new Date().getTime()),
-			"title": dom.byId("titleInput").value,
-			"description": dom.byId("desInput").value
-		}));
-	};
-
 	return {
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
@@ -18,7 +10,14 @@ function(dom, on, TransitionEvent, getStateful){
 			var signal = on(dom.byId("addList_add"), "click", dojo.hitch(this, function(e){
 				var title = dom.byId("titleInput").value;
 				if(title){
-					add();
+					// stop transition because listsmodel update will trigger transition to items,list view by default.
+					todoApp.stopTransition = true;
+
+					listsmodel.model.push(new getStateful({
+						"id": (new Date().getTime()),
+						"title": dom.byId("titleInput").value,
+						"description": dom.byId("desInput").value
+					}));
 				}
 				history.back();
 			}));
