@@ -28,12 +28,12 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 	parentTitleTransform = {
 		format : function(value) {
 			var parentModel;
-			// check listsmodel because this transform method will be called by dojox.mvc before detail view initial
+			// check listsmodel because this transform method will be called by dojox.mvc before EditTodoItem view initial
 			if(!listsmodel || !listsmodel.model){
 				return "";
 			}
 			for(var i=0; i<listsmodel.model.length; i++){
-				if(listsmodel.model[i].id == value){  // find the parentId in the listsmodel
+				if(listsmodel.model[i].id == value){  // find the listId in the listsmodel
 					parentModel = listsmodel.model[i];
 					return parentModel.title;  // set the parentModel title
 				}
@@ -59,17 +59,17 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 	var addNewItem = function(){
 		var datamodel = itemlistmodel.model;
 
-		var parentId;
+		var listId;
 		try{
-			parentId = datamodel[0].parentId;
+			listId = datamodel[0].listId;
 		}catch(e){
-			console.log("Warning: itemlistmodel is empty, get parentId from listsmodel");
-			parentId = listsmodel.model[todoApp.selected_configuration_item].id;
+			//console.log("Warning: itemlistmodel is empty, get listId from listsmodel");
+			listId = listsmodel.model[todoApp.selected_configuration_item].id;
 		}
 
 		itemlistmodel.model.push(new getStateful({
 			"id": parseInt((new Date().getTime())),
-			"parentId": parentId,
+			"listId": listId,
 			"title": "",
 			"notes": "",
 			"due": null,
@@ -131,7 +131,7 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 			});
 			signals.push(signal);
 			
-			// use this.backFlag to identify the detail view back to items,list view
+			// use this.backFlag to identify the EditTodoItem view back to items,ViewListTodoItemsByPriority view
 			signal = on(dom.byId("detail_back"), "click", lang.hitch(this, function(){
 				this.backFlag = true;
 				history.back();
@@ -175,8 +175,8 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 				//transition to list view
 				var transOpts = {
 						title:"List",
-						target:"items,list",
-						url: "#items,list"
+						target:"items,ViewListTodoItemsByPriority",
+						url: "#items,ViewListTodoItemsByPriority"
 				};
 				var e = window.event;
 				new TransitionEvent(dom.byId("item_detailsGroup"), transOpts, null).dispatch();
@@ -211,8 +211,8 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 				return;	// refresh view operation, DO NOT commit the data change 
 			}
 			var title = dom.byId("detail_todo").value;
-			// a user maybe set "Priority" first and then set title. This operation will cause detail view beforeDeactivate() be called.
-			// So we use this.backFlag to identify only back from detail view and item's title is empty, the item need to be removed.
+			// a user maybe set "Priority" first and then set title. This operation will cause EditTodoItem view beforeDeactivate() be called.
+			// So we use this.backFlag to identify only back from EditTodoItem view and item's title is empty, the item need to be removed.
 			if(!title && this.backFlag){
 				// remove this item
 				itemlistmodel.model.splice(todoApp.selected_item, 1);

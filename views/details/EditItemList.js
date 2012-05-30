@@ -12,7 +12,7 @@ function(lang, dom, registry, utils){
 
 		for(var i=0; i<listsmodel.model.length; i++){
 			var options = {label: listsmodel.model[i].title};
-			if(currentDatamodel.parentId == listsmodel.model[i].id){ // select current listitem's parent
+			if(currentDatamodel.listId == listsmodel.model[i].id){ // select current listitem's parent
 				options = {label: listsmodel.model[i].title, checked:true};
 			}
 			var listItem = new dojox.mobile.ListItem(options);
@@ -34,7 +34,7 @@ function(lang, dom, registry, utils){
 					if (datamodel) {
 						var listsmodel = this.loadedModels.listsmodel.model;
 						if(index>=0 && index<listsmodel.length){
-							datamodel.parentId = listsmodel[index].id;
+							datamodel.listId = listsmodel[index].id;
 						}
 					}
 				}

@@ -3,7 +3,7 @@
 	"items": [
 		{
 			"id": 100,
-			"parentId":0,
+			"listId":0,
 			"title": "📞 Call Mary",
 			"notes": "I need to invite her for Emma's birthday",
 			"due": null,
@@ -20,7 +20,7 @@
 		},
 		{
 			"id": 101,
-			"parentId":0,
+			"listId":0,
 			"title": "🎺 Trumpet rehearsal",
 			"notes": "Bring the score",
 			"due": null,
@@ -37,7 +37,7 @@
 		},
 		{
 			"id": 102,
-			"parentId":0,
+			"listId":0,
 			"title": "🏊 Go to the swimming pool",
 			"notes": "Have fun with kids!",
 			"due": null,
@@ -54,7 +54,7 @@
 		},
 		{
 			"id": 103,
-			"parentId":0,
+			"listId":0,
 			"title": "🍴 Invite Caroline for dinner",
 			"notes": "Pick a nice French restaurant",
 			"due": null,
@@ -71,7 +71,7 @@
 		},
 		{
 			"id": 104,
-			"parentId":1,
+			"listId":1,
 			"title": " Check latest figures",
 			"notes": "Make sure our production is inline with plan",
 			"priority": 0,
@@ -88,7 +88,7 @@
 		},
 		{
 			"id": 105,
-			"parentId":1,
+			"listId":1,
 			"title": " Book my flights",
 			"notes": "Try to get a direct flight to the conference",
 			"priority": 0,
@@ -105,7 +105,7 @@
 		},
 		{
 			"id": 106,
-			"parentId":1,
+			"listId":1,
 			"title": "🇫🇷 Prepare our visit to France",
 			"notes": "We need to discuss our strategy for Europe",
 			"priority": 0,
@@ -122,7 +122,7 @@
 		},
 		{
 			"id": 107,
-			"parentId":1,
+			"listId":1,
 			"title": "📩 Send mail to the teams",
 			"notes": "Announce promotions",
 			"priority": 0,

@@ -3,16 +3,16 @@
 		<table cellpadding="0" cellspacing="0" style="width:100%;">
 			<tr>
 				<td>
-					<span id="gotoConfigurationView" data-dojo-type="dojox.mobile.ToolBarButton" transitionOptions='{title:"Configure",target:"configuration,configure",url: "#configuration,configure"}'>
+					<span id="gotoConfigurationView" data-dojo-type="dojox.mobile.ToolBarButton" transitionOptions='{title:"Configure",target:"configuration,SelectTodoList",url: "#configuration,SelectTodoList"}'>
 						Lists
 					</span>
 				</td>
 				<td>
 					<div data-dojo-type="dojox.mobile.TabBar" data-dojo-props='barType:"segmentedControl"' style="margin:auto; display:block; width:203px; float:center;">
-						<div id="tabButtonList" data-dojo-type="dojox.mobile.TabBarButton" transitionOptions='{title:"List",target:"items,list",url: "#items,list"}' selected="true">
+						<div id="tabButtonList" data-dojo-type="dojox.mobile.TabBarButton" transitionOptions='{title:"List",target:"items,ViewListTodoItemsByPriority",url: "#items,ViewListTodoItemsByPriority"}' selected="true">
 							List
 						</div>
-						<div id="tabButtonDate" data-dojo-type="dojox.mobile.TabBarButton" transitionOptions='{title:"Date",target:"items,date",url: "#items,date"}'>
+						<div id="tabButtonDate" data-dojo-type="dojox.mobile.TabBarButton" transitionOptions='{title:"Date",target:"items,ViewAllTodoItemsByDate",url: "#items,ViewAllTodoItemsByDate"}'>
 							Date
 						</div>
 					</div>
