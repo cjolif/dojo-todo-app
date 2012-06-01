@@ -20,8 +20,9 @@
 						<tr>
 							<td></td>
 							<td>	
-								<div data-dojo-type="dojox.mvc.Output" style="font-size: .6em; color: #324f85;" 
-									data-dojo-props="value: at('rel:#{this.index}','reminderDate')"></div>
+								<div data-dojo-type="dojox.mvc.Output" class="dateLabel" 
+									data-dojo-props="value: at('rel:#{this.index}','reminderDate'),
+													class: at('rel:#{this.index}','reminderDate').direction(at.from).transform(dateListClassTransform)"></div>
 							</td>					
 						</tr>
 					</table>
