@@ -16,7 +16,8 @@
 			<ul data-dojo-type="dojox.mobile.RoundRectList">
 				<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,EditItemRemindMe",url: "#details,EditItemRemindMe"}'>
 					<div data-dojo-type="dojox.mvc.Output" class="mblListItemRightText"
-							data-dojo-props="value: at('rel:','reminderDate')"></div>					
+							data-dojo-props="value: at('rel:','reminderDate'),
+											class: at('rel:','reminderDate').transform(dateClassTransform2)"></div>					
 				
 				Remind Me
 				</li>
