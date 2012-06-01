@@ -1,6 +1,6 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/registry", "dojox/mvc/at",
-        "dojo/date/stamp"],
-function(dom, lang, domStyle, on, registry, at, datestamp){
+        "dojo/date/stamp", "dojo/dom-class"],
+function(dom, lang, domStyle, on, registry, at, stamp, domClass){
 	var itemlistmodel = null;
 	var signals = [];
 
@@ -8,8 +8,7 @@ function(dom, lang, domStyle, on, registry, at, datestamp){
 		var datamodel = itemlistmodel.model[todoApp.selected_item];
 		date = datamodel.get("reminderDate");
 		if(!date){
-			var today = new Date();
-			date = datestamp.toISOString(today, {selector: "date"});
+			date = stamp.toISOString(new Date(), {selector: "date"});
 		}
 		//console.log("remind showDateDialog date = ", date);
 		registry.byId("reminddlgpicker1").set("value", date);							
@@ -30,7 +29,13 @@ function(dom, lang, domStyle, on, registry, at, datestamp){
 			//set remind time
 			widget = registry.byId('remind_date');
 			if (widget) { 
-				widget.set("label", at(datamodel, "reminderDate"));				
+				widget.set("label", at(datamodel, "reminderDate"));	
+				var value = datamodel.get("reminderDate");
+				if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
+					domClass.add(widget.domNode, "dateLabelInvalid");
+				}else{
+					domClass.remove(widget.domNode, "dateLabelInvalid");
+				}
 				if(datamodel.reminderOnAday == "on"){
 					domStyle.set(dom.byId('remind_date'), 'display', '');
 				}else{
@@ -81,13 +86,24 @@ function(dom, lang, domStyle, on, registry, at, datestamp){
 				// update remind on a day value to the data model
 				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
 				date = registry.byId("reminddlgpicker1").get("value");
-				datamodel.set("reminderDate", date);
-				registry.byId('datePicker').hide(true)
+				// have to check to see if the date is valid
+				var todayDate = stamp.toISOString(new Date(), {selector: "date"});
+				if(date < todayDate){
+					domStyle.set(dom.byId("invalidDate"), "visibility", "visible");
+					registry.byId("reminddlgpicker1").set("value", todayDate);							
+					
+				}else{
+					datamodel.set("reminderDate", date);
+					domClass.remove(registry.byId('remind_date').domNode, "dateLabelInvalid");
+					registry.byId('datePicker').hide(true);
+					domStyle.set(dom.byId("invalidDate"), "visibility", "hidden");
+				}
 			}));
 			signals.push(signal);
 
 			signal = on(dom.byId("reminddlgCancel"), "click", lang.hitch(this, function(){
 				//console.log("reminddlgCancel clicked ");
+				domStyle.set(dom.byId("invalidDate"), "visibility", "hidden");
 				registry.byId("datePicker").hide(false)
 				var datamodel = itemlistmodel.model[todoApp.selected_item];
 				date = datamodel.get("reminderDate");

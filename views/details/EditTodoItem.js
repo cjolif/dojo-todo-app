@@ -1,12 +1,23 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/registry",
-	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at"],
-function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
+	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at", "dojo/date/stamp"],
+function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, stamp){
 	var itemlistmodel = null;
 	var listsmodel = null;
 	var signals = [];
 	var _isComplete = false;
 	var _isDelete = false;
 	todoApp._addNewItemCommit = false; // identify the new item is committed
+
+	dateClassTransform2 = {
+		format : function(value) {
+			// check to see if the date is in the past, if so display it in red
+			if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
+				return "dateLabelInvalid";
+			}else{
+				return "";
+			}
+		}
+	};
 
 	// transform the repeat to the correct text
 	repeatTransform = {

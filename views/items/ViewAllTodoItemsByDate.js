@@ -1,7 +1,7 @@
-define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",
+define(["dojo/dom","dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
-        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore"],
-function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore){
+        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojo/date/stamp"],
+function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, stamp){
 	//set todoApp showItemDetails function
 	todoApp.cachedDataModel = {};
 	todoApp.currentItemListModel = null;
@@ -10,6 +10,17 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		//console.log("in items/lists select item ", index);
 		todoApp.selected_item = parseInt(index);
 		itemlistmodel.set("cursorIndex",todoApp.selected_item);
+	};
+
+	dateListClassTransform = {
+		format : function(value) {
+			// check to see if the date is in the past, if so display it in red
+			if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
+				return "dateLabelInvalid";
+			}else{
+				return "";
+			}
+		}
 	};
 
 	var listsmodel = null;

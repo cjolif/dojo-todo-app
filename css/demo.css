@@ -23,6 +23,16 @@ html,body {
 	margin-left: 10px;
 	margin-right: 10px;
 }
+
+.dateLabel { 
+	font-size: .6em; 
+	color: #324f85; 
+}
+
+.dateLabelInvalid { 
+	color: red;
+}
+
 /*
 button.baseBtn {
 	-webkit-background-clip: padding-box;

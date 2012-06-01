@@ -1,5 +1,4 @@
 <div style="background:#c5ccd3;" class="view mblView">
-	<script type="dojo/require">at: "dojox/mvc/at"</script>
 	<h1 data-dojo-type="dojox.mobile.Heading" label="Remind Me" back="Back"></h1>
 	<ul data-dojo-type="dojox.mobile.RoundRectList">
 		<li data-dojo-type="dojox.mobile.ListItem">
@@ -22,5 +21,6 @@
 			<span data-dojo-type="dojox.mobile.ToolBarButton" id="reminddlgCancel" label="Cancel" class="mblColorBlue" style="position:absolute;width:45px;left:0;"></span>
 		</h1>
 		<div id="reminddlgpicker1" data-dojo-type="dojox.mobile.DatePicker"></div>
+		<div id="invalidDate" style="visibility:hidden; color:red;">Invalid date, the date can not be in the past!</div>
 	</div>
 </div>
