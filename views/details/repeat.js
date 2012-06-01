@@ -1,5 +1,5 @@
 define.amd.jQuery = true;
-define(["jquery"], function($){
+define(["jquery", "./jQueryMStateful", "dojox/mvc/sync"], function($, jQueryStateful, sync){
 	// we need to do it like that to workaround jQuery mobile #4364
 	$.mobile = {
 		// need to disable jQuery Mobile hash support that it clashes with dojox/app own support
@@ -7,53 +7,51 @@ define(["jquery"], function($){
 		// need to disable jQuery Mobile pushState support
 		pushStateEnabled: false
 	};
-	var itemlistmodel = null;
-
-	var refreshData = function(){
-		var datamodel = itemlistmodel.model[todoApp.selected_item];
-		if(datamodel){
-			// we need to try/catch because at first initialization the checkboxes are not yet
-			// created and refresh will throw an error
-			// deselect everything
-			try{
-				$("input[type='radio']").attr("checked", false).checkboxradio("refresh");
-			}catch(e){
-			}
-			// select repeat type
-			try{
-				$("#radio-choice-"+(datamodel.repeat+1)).attr("checked", true).checkboxradio("refresh");
-			}catch(e){
-			}
-		}
-	};
+	var radios = [];
+	var init = false;
 
 	return {
 		init: function(){
-			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
-			itemlistmodel = this.loadedModels.itemlistmodel;
-			// need to load mobile on init, needs to do it here to allow room for
-			// the hack to workaround #4364
 			require(["jquerym"], function(){
-				// connect a listener on the list that does update the model
-				$("#list_repeat").change(function(e){
-					var index = parseInt(e.target.value)-1;
-					var datamodel = itemlistmodel.model[todoApp.selected_item];
-					if(datamodel){
-						datamodel.repeat = index;
-					}
-				});
+				// we need to load jQuery Mobile at init to parse the page
 			});
 		},
 
 		beforeActivate: function(){
 			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
-			itemlistmodel = this.loadedModels.itemlistmodel;
-			refreshData();
+			var itemlistmodel = this.loadedModels.itemlistmodel;
+			var datamodel = itemlistmodel.model[todoApp.selected_item];
+			if(datamodel){
+				require(["jquerym"], function(){
+					// make sure jQuery Mobile has finished loading and perform binding
+					if(!init){
+						$("input[type='radio']").each(function(index){
+							radios.push(new jQueryStateful($(this), "checkboxradio"));
+						});
+						init = true;
+					}
+					radios.forEach(function(item, index){
+						sync(datamodel, "repeat", item, "checked", {
+							converter: {
+								parse: function(value){
+									if(!value){
+										throw new Error();
+									}else{
+										return index;
+									}
+								},
+								format :function(value){
+									return (value == index);
+								}
+							}
+						});
+					});
+				});
+			}
 		},
 
 		destroy: function(){
-			// disconnect listener on the list
-			$("#list_repeat").off("change");
+			// should probably release jQueryMobileStateful
 		}
 	};
 });
