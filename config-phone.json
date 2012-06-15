@@ -47,14 +47,14 @@
 	//stores we are using
 	"stores": {
 		"listsDataStore":{
-	       "type": "dojo.data.ItemFileWriteStore",
+	       "type": "dojo/data/ItemFileWriteStore",
 		   "params": {
 				"url": "./resources/data/lists.json"
 		   }
 		},
 		
 		"allitemlistStore":{
-	       "type": "dojo.data.ItemFileWriteStore",
+	       "type": "dojo/data/ItemFileWriteStore",
 		   "params": {
 				"url": "./resources/data/all-items.json"
 		   }
