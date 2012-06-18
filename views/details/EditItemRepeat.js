@@ -1,6 +1,5 @@
-define(["dojo/_base/lang", "dojo/dom", "dijit/registry", "../utils/utils"],
-function(lang, dom, registry, utils){
-	var _connectResults = []; // events connect result
+define(["dojo/_base/lang", "dijit/registry", "../utils/utils"],
+function(lang, registry, utils){
 	var itemlistmodel = null;
 
 	var refreshData = function(){

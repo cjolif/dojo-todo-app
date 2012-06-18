@@ -1,7 +1,6 @@
-define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dojox/mobile/TransitionEvent", "dojox/mvc/getStateful"],
-function(dom, dstyle, connect, TransitionEvent, getStateful){
-	var _connectResults = []; // events connect result
-	var listsmodel = null;
+define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dojox/mobile/TransitionEvent"],
+function(dom, dstyle, connect, TransitionEvent){
+	var signals = []; // events connect result
 
 	var add = function(){
 		// use selected_item = -1 to identify add a new item
@@ -23,17 +22,17 @@ function(dom, dstyle, connect, TransitionEvent, getStateful){
 				dstyle.set(dom.byId("gotoConfigurationView"), "display", "none");
 			}
 
-			connectResult = connect.connect(dom.byId('itemslist_add'), "click", dojo.hitch(this, function(e){
+			var signal = connect.connect(dom.byId('itemslist_add'), "click", dojo.hitch(this, function(e){
 				add();
 			}));
-			_connectResults.push(connectResult);
+			signals.push(signal);
 		},
 		
 		destroy: function(){
-			var connectResult = _connectResults.pop();
-			while (connectResult) {
-				connect.disconnect(connectResult);
-				connectResult = _connectResults.pop();
+			var signal = signals.pop();
+			while(signal){
+				signal.remove();
+				signal = signals.pop();
 			}
 		}
 	}

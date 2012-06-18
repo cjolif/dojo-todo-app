@@ -1,5 +1,5 @@
-require(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/window", "dojox/mobile/ProgressIndicator", "dojo/_base/loader"],
-function(dojo, lang, win, ProgressIndicator){
+require(["dojox/mobile/ProgressIndicator", "dojox/app/main", "dojox/json/ref"],
+	function(ProgressIndicator, Application, json){
 	window.todoApp = {};
 	// the default select_item is 0, or will throw an error if directly transition to #details,EditTodoItem view
 	todoApp.selected_item = 0;
@@ -12,14 +12,8 @@ function(dojo, lang, win, ProgressIndicator){
 		todoApp.isTablet = true;
 	}
 
-	var requireModules = ["dojo", "dojox/app/main", "dojox/json/ref", "dojo/_base/connect"];
-	requireModules.push("dojo/text!"+configurationFile);
-	if(window.isTablet){
-		requireModules.push("./views/tablet/ViewTodoLists.js");
-	}
-
-	require(requireModules, function(dojo, Application, jsonRef, connect, config){
-		Application(jsonRef.fromJson(config));
+	require(["dojo/text!"+configurationFile], function(config){
+		Application(json.fromJson(config));
 	});
 	
 	/*

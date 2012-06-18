@@ -91,7 +91,7 @@
 	},
 	
 	"template": "./templates/tablet/ViewTodoLists.html",
-	"definition": "./views/tablet/ViewTodoLists.js",
+	"definition": "./views/tablet/ViewTodoLists",
 
 	//the name of the scene to load when the app is initialized.
 	"defaultView": "items,ViewListTodoItemsByPriority",
