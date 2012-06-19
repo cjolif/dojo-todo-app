@@ -1,6 +1,6 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/registry",
 	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at", "dojo/date/stamp"],
-function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, stamp){
+	function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, stamp){
 	var itemlistmodel = null;
 	var listsmodel = null;
 	var signals = [];

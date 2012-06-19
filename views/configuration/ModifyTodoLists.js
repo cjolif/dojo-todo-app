@@ -1,4 +1,4 @@
-define(["dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"], function(dom, on, TransitionEvent){
+define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"], function(lang, dom, on, TransitionEvent){
 	var signals = []; // events connect result
 
 	var listsmodel = null;	//repeat view data model
@@ -11,7 +11,7 @@ define(["dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"], function(dom, on
 		var nodeId = node.id;
 		var len = perfix.length;
 		if(nodeId.length <= len){
-			throw Error("repeate node id error.");
+			throw Error("repeat node id error.");
 		}
 		var index = nodeId.substring(len, nodeId.length);
 		return parseInt(index);
@@ -43,7 +43,7 @@ define(["dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"], function(dom, on
 			});
 			signals.push(signal);
 			
-			signal = on(dom.byId("configuration_done"), "click", dojo.hitch(this, function(e){
+			signal = on(dom.byId("configuration_done"), "click", lang.hitch(this, function(e){
 				var transOpts;
 				// on tablet directly transition to list view because tablet has navigation bar on the left
 				if(todoApp.isTablet){

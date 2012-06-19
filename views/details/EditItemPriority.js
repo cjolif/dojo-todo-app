@@ -1,12 +1,11 @@
-define(["dojo/_base/lang", "dojo/dom", "dijit/registry", "../utils/utils"],
-function(lang, dom, registry, utils){
+define(["dojo/_base/lang", "dijit/registry", "../utils/utils"], function(lang, registry, utils){
 	var itemlistmodel = null;
 
 	var refreshData = function(){
 		var datamodel = itemlistmodel.model[todoApp.selected_item];
 		if (datamodel) {
 			// select repeat type
-			var widget = registry.byId('list_priority');
+			var widget = registry.byId("list_priority");
 			var priorityWidget = utils.getListItemByIndex(widget, datamodel.priority);
 			if (priorityWidget) {
 				priorityWidget.set("checked", true);

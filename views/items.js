@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/dom-style", "dojo/_base/connect", "dojox/mobile/TransitionEvent"],
-function(dom, dstyle, connect, TransitionEvent){
+define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dojox/mobile/TransitionEvent"],
+	function(lang, dom, domStyle, on, TransitionEvent){
 	var signals = []; // events connect result
 
 	var add = function(){
@@ -19,10 +19,10 @@ function(dom, dstyle, connect, TransitionEvent){
 		init: function(){
 
 			if(todoApp.isTablet){
-				dstyle.set(dom.byId("gotoConfigurationView"), "display", "none");
+				domStyle.set(dom.byId("gotoConfigurationView"), "display", "none");
 			}
 
-			var signal = connect.connect(dom.byId('itemslist_add'), "click", dojo.hitch(this, function(e){
+			var signal = on(dom.byId("itemslist_add"), "click", lang.hitch(this, function(e){
 				add();
 			}));
 			signals.push(signal);

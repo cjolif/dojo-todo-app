@@ -1,15 +1,14 @@
-define(["dojo/_base/lang", "dojo/dom", "dijit/registry", "../utils/utils"],
-function(lang, dom, registry, utils){
+define(["dojo/_base/lang", "dijit/registry", "../utils/utils"], function(lang, registry, utils){
 	var itemlistmodel = null;
 	var listsmodel = null;
 
 	var refreshData = function(){
-		var listWidget = registry.byId('list_list');
+		var listWidget = registry.byId("list_list");
 		listWidget.destroyDescendants();
 
 		var currentDatamodel = itemlistmodel.model[todoApp.selected_item];
 
-		for(var i=0; i<listsmodel.model.length; i++){
+		for(var i=0; i < listsmodel.model.length; i++){
 			var options = {label: listsmodel.model[i].title};
 			if(currentDatamodel.listId == listsmodel.model[i].id){ // select current listitem's parent
 				options = {label: listsmodel.model[i].title, checked:true};

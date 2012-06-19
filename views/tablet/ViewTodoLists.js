@@ -1,7 +1,6 @@
-define(["dojo/dom", "dojo/on", "dijit/registry", "dojox/mobile/TransitionEvent"],
-function(dom, on, registry, TransitionEvent){
+define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dijit/registry", "dojox/mobile/TransitionEvent"],
+function(lang, dom, on, registry, TransitionEvent){
 	var signals = []; // events connect result
-	var listsmodel = null;
 
 	todoApp.stopTransition = false;
 
@@ -38,9 +37,7 @@ function(dom, on, registry, TransitionEvent){
 	
 	return {
 		init: function(){
-			listsmodel = this.loadedModels.listsmodel;
-
-			var signal = on(dom.byId("setting"), "click", dojo.hitch(this, function(e){
+			var signal = on(dom.byId("setting"), "click", lang.hitch(this, function(e){
 				editConfiguration();
 			}));
 			signals.push(signal);

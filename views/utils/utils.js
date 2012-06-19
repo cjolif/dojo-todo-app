@@ -4,8 +4,8 @@ define(["dijit/registry"], function (registry){
 			var children = widget.domNode.children;
 			var list = [];
 			//get all list items
-			for(var i=0; i < children.length; i++){
-				var child=children[i];
+			for(var i = 0; i < children.length; i++){
+				var child = children[i];
 				if(child.nodeName == "LI" || children.nodeName == "li"){
 					list.push(child);
 				}
@@ -22,7 +22,7 @@ define(["dijit/registry"], function (registry){
 			var i;
 			//get all list items
 			for(i=0; i < children.length; i++){
-				var child=children[i];
+				var child = children[i];
 				if(child.nodeName == "LI" || children.nodeName == "li"){
 					list.push(child);
 				}

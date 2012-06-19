@@ -1,6 +1,6 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/registry", "dojox/mvc/at",
         "dojo/date/stamp", "dojo/dom-class"],
-function(dom, lang, domStyle, on, registry, at, stamp, domClass){
+	function(dom, lang, domStyle, on, registry, at, stamp, domClass){
 	var itemlistmodel = null;
 	var signals = [];
 
