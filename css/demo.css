@@ -27,12 +27,20 @@ html,body {
 .dateLabel { 
 	font-size: .6em; 
 	color: #324f85; 
+	margin-left: 3em;
 }
 
 .dateLabelInvalid { 
 	color: red;
 }
 
+.lineItemPreventTouch {
+	width:2.5em;
+	height:3em; 
+	position:absolute; 
+	margin-left: -8px;
+	margin-top: -11px;
+}
 /*
 button.baseBtn {
 	-webkit-background-clip: padding-box;
