@@ -1,24 +1,28 @@
 <div>
-	<div data-dojo-type="dojox.mobile.Heading" region="top">
-		<table cellpadding="0" cellspacing="0" style="width:100%;">
+	<div data-dojo-type="dojox/mobile/Heading" region="top">
+		<table cellpadding="0" cellspacing="0" style="width:100%">
 			<tr>
 				<td>
-					<span id="gotoConfigurationView" data-dojo-type="dojox.mobile.ToolBarButton" transitionOptions='{title:"Configure",target:"configuration,SelectTodoList",url: "#configuration,SelectTodoList"}'>
+					<span id="gotoConfigurationView" data-dojo-type="dojox/mobile/ToolBarButton"
+						  data-dojo-props="transitionOptions: {title: 'Configure', target: 'configuration,SelectTodoList', url: '#configuration,SelectTodoList'}">
 						Lists
 					</span>
 				</td>
 				<td>
-					<div data-dojo-type="dojox.mobile.TabBar" data-dojo-props='barType:"segmentedControl"' style="margin:auto; display:block; width:203px; float:center;">
-						<div id="tabButtonList" data-dojo-type="dojox.mobile.TabBarButton" transitionOptions='{title:"List",target:"items,ViewListTodoItemsByPriority",url: "#items,ViewListTodoItemsByPriority"}' selected="true">
+					<div data-dojo-type="dojox/mobile/TabBar" data-dojo-props="barType: 'segmentedControl'" style="margin:auto; display: block; width: 203px; float: center">
+						<div id="tabButtonList" data-dojo-type="dojox/mobile/TabBarButton"
+							 data-dojo-props="transitionOptions: {title:'List',target:'items,ViewListTodoItemsByPriority', url: '#items,ViewListTodoItemsByPriority'}, selected: true">
 							List
 						</div>
-						<div id="tabButtonDate" data-dojo-type="dojox.mobile.TabBarButton" transitionOptions='{title:"Date",target:"items,ViewAllTodoItemsByDate",url: "#items,ViewAllTodoItemsByDate"}'>
+						<div id="tabButtonDate" data-dojo-type="dojox/mobile/TabBarButton"
+							 data-dojo-props="transitionOptions: {title:'Date', target: 'items,ViewAllTodoItemsByDate', url: '#items,ViewAllTodoItemsByDate'}">
 							Date
 						</div>
 					</div>
 				</td>
 				<td align="right">
-					<span id="itemslist_add" data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='icon:"mblDomButtonWhitePlus"' style="float:right;"></span>
+					<span id="itemslist_add" data-dojo-type="dojox/mobile/ToolBarButton"
+						  data-dojo-props="icon: 'mblDomButtonWhitePlus'" style="float:right"></span>
 				</td>
 			</tr>
 		</table>

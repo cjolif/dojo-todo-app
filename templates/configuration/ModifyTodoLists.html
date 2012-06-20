@@ -1,16 +1,17 @@
 <div class="view mblView">
-	<div data-dojo-type="dojox.mobile.Heading" label="Edit" region="top">
-		<span id="configuration_done" data-dojo-type="dojox.mobile.ToolBarButton" label="Done" style="float:left;"></span>
-		<span data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='icon:"mblDomButtonWhitePlus"' style="float:right;"
-				transitionOptions='{title:"Add List",target:"configuration,EditTodoList",url: "#configuration,EditTodoList"}'></span>
+	<div data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Edit'" region="top">
+		<span id="configuration_done" data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="label:'Done'" style="float: left"></span>
+		<span data-dojo-type="dojox/mobile/ToolBarButton" data-dojo-props="icon:'mblDomButtonWhitePlus',
+			transitionOptions: {title:'Add List', target: 'configuration,EditTodoList', url: '#configuration,EditTodoList'}"
+			  style="float: right"></span>
 	</div>
-	<h2 data-dojo-type="dojox.mobile.RoundRectCategory" region="top">Search Reminders</h2>
-	<div data-dojo-type="dojox.app.widgets.Container" region="center" scrollable="true">
-		<ul data-dojo-type="dojox.mobile.RoundRectList" id="configure_edit" data-dojo-mixins="dojox/mvc/Repeat" 
+	<h2 data-dojo-type="dojox/mobile/RoundRectCategory" region="top">Search Reminders</h2>
+	<div data-dojo-type="dojox/app/widgets/Container" region="center" data-dojo-props="scrollable: true">
+		<ul data-dojo-type="dojox/mobile/RoundRectList" id="configure_edit" data-dojo-mixins="dojox/mvc/Repeat"
 			data-dojo-props="exprchar:'#', children: at(this.loadedModels.listsmodel, 'model')">
 				<li id="editList#{this.index}" data-dojo-type="dojox.mobile.ListItem" 
-					data-dojo-props='rightIcon2:"mblDomButtonRedCircleMinus"'>
-					<span data-dojo-type="dojox.mvc.Output" 
+					data-dojo-props="rightIcon2: 'mblDomButtonRedCircleMinus'">
+					<span data-dojo-type="dojox/mvc/Output"
 							data-dojo-props="value: at('rel:#{this.index}','title')"></span>
 				</li>
 		</ul>
