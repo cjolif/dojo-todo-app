@@ -9,8 +9,8 @@
 				<li data-dojo-type="dojox/mobile/ListItem" class="mblVariableHeight"
 					data-dojo-props="clickable: true, onClick: function(){todoApp.showItemDetails('#{this.index}');},
 					transitionOptions: {title:'Detail', target:'details,EditTodoItem',url: '#details,EditTodoItem'}">
-						<div data-dojo-props="preventTouch: true" class="lineItemPreventTouch"></div>
-						<input preventTouch="true" type="checkbox"
+						<div preventTouch="true" class="lineItemPreventTouch"></div>
+						<input type="checkbox"
 							data-dojo-type="dojox/mobile/CheckBox"
 							data-dojo-props="preventTouch: true, checked: at('rel:#{this.index}','completed')"/>
 						<div data-dojo-type="dojox/mvc/Output" style="display: inline"
