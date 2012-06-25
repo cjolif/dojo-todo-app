@@ -5,7 +5,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 	var signals = [];
 
 	var showDateDialog = function(widgetid){
-		var datamodel = itemlistmodel.model[todoApp.selected_item];
+		var datamodel = itemlistmodel.model[this.app.selected_item];
 		date = datamodel.get("reminderDate");
 		if(!date){
 			date = stamp.toISOString(new Date(), {selector: "date"});
@@ -16,7 +16,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 	};	
 	
 	var refreshData = function(){
-		var datamodel = itemlistmodel.model[todoApp.selected_item];
+		var datamodel = itemlistmodel.model[this.app.selected_item];
 		if (datamodel) {
 			// need to add reminderOnAday property to the original data store
 			var widget = registry.byId('remind_day_switch');
@@ -46,7 +46,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 	};
 	return {
 		init: function(){
-			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
+			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel
 			var signal;
 		
@@ -54,7 +54,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 				//console.log("remind_day_switch = ", newState);
 				// update remind on a day value to the data model
 				//ToDo: Why is the reminderOnAday not updated by the at() set above?
-				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
+				var datamodel = this.loadedModels.itemlistmodel.model[this.app.selected_item];
 				datamodel.set("reminderOnAday",newState);
 				if(datamodel.reminderOnAday == "on"){
 					domStyle.set(dom.byId('remind_date'), 'display', '');
@@ -71,7 +71,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 				//console.log("remind_location_switch = ", newState);
 				// update remind on a day value to the data model
 				//ToDo: Why is the reminderOnAlocation not updated by the at() set above?
-				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
+				var datamodel = this.loadedModels.itemlistmodel.model[this.app.selected_item];
 				datamodel.set("reminderOnAlocation",newState);				
 			}));
 
@@ -84,7 +84,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 			signal = on(dom.byId("reminddlgSet"), "click", lang.hitch(this, function(){
 				//console.log("reminddlgSet clicked ");
 				// update remind on a day value to the data model
-				var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
+				var datamodel = this.loadedModels.itemlistmodel.model[this.app.selected_item];
 				date = registry.byId("reminddlgpicker1").get("value");
 				// have to check to see if the date is valid
 				var todayDate = stamp.toISOString(new Date(), {selector: "date"});
@@ -105,7 +105,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 				//console.log("reminddlgCancel clicked ");
 				domStyle.set(dom.byId("invalidDate"), "visibility", "hidden");
 				registry.byId("datePicker").hide(false)
-				var datamodel = itemlistmodel.model[todoApp.selected_item];
+				var datamodel = itemlistmodel.model[this.app.selected_item];
 				date = datamodel.get("reminderDate");
 				if(!date){ // cancelled and no date set, so need to set 
 					datamodel.set("reminderOnAday", "off");
@@ -116,7 +116,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 
 		beforeActivate: function(){
 			activateInProgress = true;
-			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
+			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			refreshData();
 			activateInProgress = false;

@@ -6,7 +6,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils/utils"], function(lang, r
 		var listWidget = registry.byId("list_list");
 		listWidget.destroyDescendants();
 
-		var currentDatamodel = itemlistmodel.model[todoApp.selected_item];
+		var currentDatamodel = itemlistmodel.model[this.app.selected_item];
 
 		for(var i=0; i < listsmodel.model.length; i++){
 			var options = {label: listsmodel.model[i].title};
@@ -20,7 +20,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils/utils"], function(lang, r
 
 	return {
 		init: function(){
-			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
+			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 
@@ -28,7 +28,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils/utils"], function(lang, r
 				// save the select value to data store
 				if (state) {
 					var index = utils.getIndexByListItem(registry.byId("list_list"), item);
-					var datamodel = this.loadedModels.itemlistmodel.model[todoApp.selected_item];
+					var datamodel = this.loadedModels.itemlistmodel.model[this.app.selected_item];
 					if (datamodel) {
 						var listsmodel = this.loadedModels.listsmodel.model;
 						if(index>=0 && index<listsmodel.length){
@@ -40,7 +40,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils/utils"], function(lang, r
 		},
 
 		beforeActivate: function(){
-			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
+			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 			refreshData();

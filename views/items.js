@@ -4,7 +4,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dojox/mobil
 
 	var add = function(){
 		// use selected_item = -1 to identify add a new item
-		todoApp._addNewItem = true;
+		this.app._addNewItem = true;
 
 		// transition to detail view for edit
 		var transOpts = {
@@ -18,7 +18,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dojox/mobil
 	return {
 		init: function(){
 
-			if(todoApp.isTablet){
+			if(this.app.isTablet){
 				domStyle.set(dom.byId("gotoConfigurationView"), "display", "none");
 			}
 

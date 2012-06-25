@@ -2,14 +2,14 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/reg
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore"],
 function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore){
-	//set todoApp showItemDetails function
-	todoApp.cachedDataModel = {};
-	todoApp.currentItemListModel = null;
+	this.app.cachedDataModel = {};
+	this.app.currentItemListModel = null;
 
-	todoApp.showItemDetails = function(index){
+	//showItemDetails function
+	showItemDetails = function(index){
 		//console.log("in items/lists select item ", index);
-		todoApp.selected_item = parseInt(index);
-		itemlistmodel.set("cursorIndex", todoApp.selected_item);
+		this.app.selected_item = parseInt(index);
+		itemlistmodel.set("cursorIndex", this.app.selected_item);
 	};
 
 	var listsmodel = null;
@@ -25,12 +25,12 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 	var showListType = function(){
 		//console.log("in items/lists showListType ");
 		var type;
-		if(todoApp.selected_configuration_item == -1){
+		if(this.app.selected_configuration_item == -1){
 			type = "Completed";			
 			domStyle.set(dom.byId("itemslist_add"), "visibility", "hidden"); // hide the new item link
 		}else{
 			domStyle.set(dom.byId("itemslist_add"), "visibility", ""); // show the new item link
-			var listdata = listsmodel.model[todoApp.selected_configuration_item];
+			var listdata = listsmodel.model[this.app.selected_configuration_item];
 			if(listdata && listdata.title){
 				type = listdata.title;
 			}else{
@@ -48,8 +48,8 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 
 			if (itemlistmodel && (itemlistmodel.model[0].listId || 0 == itemlistmodel.model[0].listId)) {
 				var index = itemlistmodel.model[0].listId;
-				todoApp.cachedDataModel[index] = itemlistmodel;
-				todoApp.currentItemListModel = itemlistmodel;
+				this.app.cachedDataModel[index] = itemlistmodel;
+				this.app.currentItemListModel = itemlistmodel;
 			}
 		},
 
@@ -57,23 +57,23 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			//console.log("items/lists beforeActivate called ",this.loadedModels.itemlistmodel);
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
-			todoApp.selected_item = 0; // reset selected item to 0, -1 is out of index
-			todoApp.showProgressIndicator(true);
+			this.app.selected_item = 0; // reset selected item to 0, -1 is out of index
+			this.app.showProgressIndicator(true);
 			registry.byId("tabButtonList").set("selected", true);
 			this.refreshData();
 		},
 
 		afterDeactivate: function(){
-			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			//console.log("items/lists afterDeactivate called this.app.selected_configuration_item =",this.app.selected_configuration_item);
 			domStyle.set(dom.byId("itemslistwrapper"), "visibility", "hidden"); // hide the items list
 		},
 
 		beforeDeactivate: function(){
-			//console.log("items/lists beforeDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
-			if(!todoApp._addNewItemCommit){
+			//console.log("items/lists beforeDeactivate called this.app.selected_configuration_item =",this.app.selected_configuration_item);
+			if(!this.app._addNewItemCommit){
 				itemlistmodel.commit(); //commit mark item as Complete change
 			}
-			todoApp._addNewItemCommit = false;
+			this.app._addNewItemCommit = false;
 		},
 	
 		refreshData: function(){
@@ -82,13 +82,13 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			// 1. display the new list which index is the same as the deleted one (for example: delete index 1, then show the new list which index is 1)
 			// 2. if no new list which index the same as the old one, but the listmodels has models, display the first one (index=0)
 			// 3. display "Completed" list
-			var select_data = listsmodel.model[todoApp.selected_configuration_item]; // 1. display the selected one or the same index list
+			var select_data = listsmodel.model[this.app.selected_configuration_item]; // 1. display the selected one or the same index list
 			if(!select_data){
-				if((listsmodel.model.length > 0) && (todoApp.selected_configuration_item >= listsmodel.model.length)){
-					todoApp.selected_configuration_item = 0; // 2. display the first list
+				if((listsmodel.model.length > 0) && (this.app.selected_configuration_item >= listsmodel.model.length)){
+					this.app.selected_configuration_item = 0; // 2. display the first list
 					select_data = listsmodel.model[0];
 				}else{
-					todoApp.selected_configuration_item = -1; // 3. select Completed list
+					this.app.selected_configuration_item = -1; // 3. select Completed list
 				}
 			}
 			// show list type
@@ -96,7 +96,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 
 			var query = {};  
 			var options = {sort:[{attribute:"priority", descending: true}]};  // sort by priority
-			if(todoApp.selected_configuration_item == -1){
+			if(this.app.selected_configuration_item == -1){
 				query["completed"] = true; // query for completed items
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",true);
@@ -123,20 +123,21 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 				if(registry.byId("nav_completeLi")){
 					registry.byId("nav_completeLi").set("checked",false);
 				}
-				this.loadedModels.listsmodel.model[todoApp.selected_configuration_item].set("Checked", true);
+				this.loadedModels.listsmodel.model[this.app.selected_configuration_item].set("Checked", true);
 			}
-			var writestore = todoApp.stores.allitemlistStore.store;
+			var writestore = this.app.stores.allitemlistStore.store;
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
 				this.loadedModels.itemlistmodel = listCtl;
-				//todoApp.cachedDataModel[select_data.id] = listCtl;
-				todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
+				//this.app.cachedDataModel[select_data.id] = listCtl;
+				this.app.currentItemListModel = this.loadedModels.itemlistmodel;
 				itemlistmodel = listCtl;
 				listsmodel = this.loadedModels.listsmodel;
 				showListData(listCtl);
+				domStyle.set(dom.byId("itemswrapper"), "visibility", "visible"); // show the items list
 				domStyle.set(dom.byId("itemslistwrapper"), "visibility", "visible"); // show the items list
-				todoApp.showProgressIndicator(false);
-				todoApp.progressIndicator.domNode.style.visibility = "hidden";
+				this.app.showProgressIndicator(false);
+				this.app.progressIndicator.domNode.style.visibility = "hidden";
 			}));
 		}
 	};

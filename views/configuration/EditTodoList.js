@@ -10,7 +10,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mvc/getStateful"], func
 				var title = dom.byId("titleInput").value;
 				if(title){
 					// stop transition because listsmodel update will trigger transition to items,ViewListTodoItemsByPriority view by default.
-					todoApp.stopTransition = true;
+					this.app.stopTransition = true;
 
 					listsmodel.model.push(new getStateful({
 						"id": (new Date().getTime()),

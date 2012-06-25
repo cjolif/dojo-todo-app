@@ -2,21 +2,21 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dijit/registry", "dojox/mobil
 function(lang, dom, on, registry, TransitionEvent){
 	var signals = []; // events connect result
 
-	todoApp.stopTransition = false;
+	this.app.stopTransition = false;
 
-	todoApp.selectItems = function(node, index){
-		//if (todoApp.selected_configuration_item == index) {
+	selectItems = function(node, index){
+		//if (this.app.selected_configuration_item == index) {
 		//	return;
 		//}
-		todoApp.selected_configuration_item = index;
+		this.app.selected_configuration_item = index;
 
 		// Solution 1:
 		// Refresh list data by transition from "items,ViewListTodoItemsByPriority" to "items,ViewListTodoItemsByPriority". It's a liiter trick here.
 		// transition to the "items,ViewListTodoItemsByPriority" view, Do Not record the history.
 		// Advantage: Reuse the phone version
 		// Disadvantage: low effectiveness
-		todoApp.trigger("transition", {"viewId": "items,ViewListTodoItemsByPriority"});
-		todoApp.stopTransition = true;
+		this.app.trigger("transition", {"viewId": "items,ViewListTodoItemsByPriority"});
+		this.app.stopTransition = true;
 
 		// Solution 2:
 		// Reset the data model, and bind data model to list view
