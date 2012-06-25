@@ -1,4 +1,4 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"], function(lang, dom, on, TransitionEvent){
+define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent", "dijit/registry",], function(lang, dom, on, TransitionEvent, registry){
 	var signals = []; // events connect result
 
 	var listsmodel = null;	//repeat view data model
@@ -19,34 +19,56 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 	
 	// delete configuration item.
 	var _deleteConfItem = function(index){
-		if(!window.confirm("Are you sure to delete this item ?")){
-			return;
-		}
-		var datamodel = listsmodel.model;
-		var len = datamodel.length;
-		if (index >= 0 && index < len) {
-			datamodel.splice(index, 1);
-		}
+		dom.byId("dlg_titleMod").innerHTML = "Delete";
+		dom.byId("dlg_textMod").innerHTML = "Are you sure you want to delete this list?";
+		show();
 	};
+
+	var show = function(){
+		registry.byId("dlg_confirmMod").show();
+	};
+
+	var hide = function(){
+		registry.byId("dlg_confirmMod").hide();
+	};
+
 
 	return {
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
 			var configureListDom = dom.byId("configure_edit");
 			var connectResult;
-			var signal = on(configureListDom, "div .mblDomButtonRedCircleMinus:click", function(e){
+			var signal = on(configureListDom, "div .mblDomButtonRedCircleMinus:click", lang.hitch(this, function(e){
 				// stop transition because listsmodel update will trigger transition to items,ViewListTodoItemsByPriority view by default.
-				todoApp.stopTransition = true;
+				this.app.stopTransition = true;
 
 				var index = getIndexFromId(e.target, "editList");
+				this.deleteList = index;
 				_deleteConfItem(index);
-			});
+			}));
+			signals.push(signal);
+
+			signal = on(dom.byId("confirm_yesMod"), "click", lang.hitch(this, function(){
+				var datamodel = listsmodel.model;
+				var len = datamodel.length;
+				var index = this.deleteList;				
+				if (index >= 0 && index < len) {
+					datamodel.splice(index, 1);
+				}
+				//hide confirm dialog
+				hide();
+			}));
+			signals.push(signal);
+
+			signal = on(dom.byId("confirm_noMod"), "click", lang.hitch(this, function(){
+				hide();
+			}));
 			signals.push(signal);
 			
 			signal = on(dom.byId("configuration_done"), "click", lang.hitch(this, function(e){
 				var transOpts;
 				// on tablet directly transition to list view because tablet has navigation bar on the left
-				if(todoApp.isTablet){
+				if(this.app.isTablet){
 					transOpts = {
 						title: "List",
 						target: "items,ViewListTodoItemsByPriority",

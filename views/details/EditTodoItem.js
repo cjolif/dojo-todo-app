@@ -6,7 +6,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 	var signals = [];
 	var _isComplete = false;
 	var _isDelete = false;
-	todoApp._addNewItemCommit = false; // identify the new item is committed
+	this.app._addNewItemCommit = false; // identify the new item is committed
 
 	dateClassTransform2 = {
 		format : function(value) {
@@ -75,7 +75,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			listId = datamodel[0].listId;
 		}catch(e){
 			//console.log("Warning: itemlistmodel is empty, get listId from listsmodel");
-			listId = listsmodel.model[todoApp.selected_configuration_item].id;
+			listId = listsmodel.model[this.app.selected_configuration_item].id;
 		}
 
 		itemlistmodel.model.push(new getStateful({
@@ -95,26 +95,26 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			"completed": false,
 			"deleted": false
 		}));
-		todoApp.selected_item = itemlistmodel.model.length - 1;
+		this.app.selected_item = itemlistmodel.model.length - 1;
 		itemlistmodel.commit();
 	};
 
 	var refreshData = function(){
-		if(todoApp.selected_configuration_item === -1){
+		if(this.app.selected_configuration_item === -1){
 			//undisplay "Complete" button
 			domStyle.set(dom.byId("markAsComplete"), "display", "none");
 		}else{
 			domStyle.set(dom.byId("markAsComplete"), "display", "");
 		}
 
-		var datamodel = itemlistmodel.model[todoApp.selected_item];
+		var datamodel = itemlistmodel.model[this.app.selected_item];
 		if(!datamodel){
 			return;
 		}
 
 		var widget = registry.byId("item_detailsGroup");
 		//widget.target = null;
-		itemlistmodel.set("cursorIndex",todoApp.selected_item);
+		itemlistmodel.set("cursorIndex",this.app.selected_item);
 		widget.set("target", at(itemlistmodel, "cursor"));
 
 		domStyle.set(dom.byId("detailwrapper"), "visibility", "visible"); // show the items list
@@ -131,7 +131,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 
 	return {
 		init: function(){
-			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
+			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 
@@ -153,7 +153,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 				_isComplete = true;
 				_isDelete = false;
 				dom.byId("dlg_title").innerHTML = "Mark As Complete";
-				dom.byId("dlg_text").innerHTML = "Are you sure mark this item as complete?";
+				dom.byId("dlg_text").innerHTML = "Are you sure you want to mark this item as complete?";
 				show();
 			}));
 			signals.push(signal);
@@ -162,14 +162,14 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 				_isComplete = false;
 				_isDelete = true;
 				dom.byId("dlg_title").innerHTML = "Delete";
-				dom.byId("dlg_text").innerHTML = "Are you sure delete this item?";
+				dom.byId("dlg_text").innerHTML = "Are you sure you want to delete this item?";
 				show();
 			}));
 			signals.push(signal);
 
 			signal = on(dom.byId("confirm_yes"), "click", lang.hitch(this, function(){
 				var datamodel = this.loadedModels.itemlistmodel;
-				var index = todoApp.selected_item;
+				var index = this.app.selected_item;
 				if(_isComplete){
 					datamodel.model[index].set("completed", true);
 				}else if(_isDelete){
@@ -201,24 +201,24 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 		},
 
 		beforeActivate: function(){
-			this.loadedModels.itemlistmodel = todoApp.currentItemListModel;
+			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
-			if(todoApp._addNewItem){
+			if(this.app._addNewItem){
 				addNewItem();
 			}
 			refreshData();
 			registry.byId("detail_todo").focus();
-			todoApp._addNewItem = false;
+			this.app._addNewItem = false;
 		},
 
 		afterDeactivate: function(){
-			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			//console.log("items/lists afterDeactivate called this.app.selected_configuration_item =",this.app.selected_configuration_item);
 			domStyle.set(dom.byId("detailwrapper"), "visibility", "hidden"); // hide the items list 
 		},
 
 		beforeDeactivate: function(){
 			dom.byId("detail_reminder").focus();
-			if(todoApp._addNewItem){
+			if(this.app._addNewItem){
 				return;	// refresh view operation, DO NOT commit the data change 
 			}
 			var title = dom.byId("detail_todo").value;
@@ -226,10 +226,10 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			// So we use this.backFlag to identify only back from EditTodoItem view and item's title is empty, the item need to be removed.
 			if(!title && this.backFlag){
 				// remove this item
-				itemlistmodel.model.splice(todoApp.selected_item, 1);
+				itemlistmodel.model.splice(this.app.selected_item, 1);
 			}
 			itemlistmodel.commit();
-			todoApp._addNewItemCommit = true;
+			this.app._addNewItemCommit = true;
 			this.backFlag = false;
 		},
 
