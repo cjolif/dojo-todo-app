@@ -7,7 +7,7 @@
 			data-dojo-mixins="dojox/mvc/Repeat" 
 			data-dojo-props="exprchar:'#', children: at(this.loadedModels.itemlistmodel, 'model')">
 				<li data-dojo-type="dojox/mobile/ListItem" class="mblVariableHeight"
-					data-dojo-props="clickable: true, onClick: function(){todoApp.showItemDetails('#{this.index}');},
+					data-dojo-props="clickable: true, onClick: function(){showItemDetails('#{this.index}');},
 					  transitionOptions: {title:'Detail',target:'details,EditTodoItem',url: '#details,EditTodoItem'}">
 					<div preventTouch="true" class="lineItemPreventTouch"></div>
 					<input type="checkbox"
