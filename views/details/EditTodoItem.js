@@ -1,7 +1,6 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/registry",
 	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at", "dojo/date/stamp"],
 	function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, stamp){
-	var itemlistmodel = null;
 	var listsmodel = null;
 	var signals = [];
 	var _isComplete = false;
@@ -69,7 +68,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 	};
 	
 	var addNewItem = function(){
-		var datamodel = itemlistmodel.model;
+		var datamodel = this.app.currentItemListModel.model;
 
 		var listId;
 		try{
@@ -79,7 +78,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			listId = listsmodel.model[this.app.selected_configuration_item].id;
 		}
 
-		itemlistmodel.model.push(new getStateful({
+		this.app.currentItemListModel.model.push(new getStateful({
 			"id": parseInt((new Date().getTime())),
 			"listId": listId,
 			"title": "",
@@ -96,8 +95,9 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			"completed": false,
 			"deleted": false
 		}));
-		this.app.selected_item = itemlistmodel.model.length - 1;
-		itemlistmodel.commit();
+		this.app.selected_item = this.app.currentItemListModel.model.length - 1;
+		this.app.currentItemListModel.commit();
+		this.app.currentItemListModel.set("cursorIndex", this.app.selected_item);
 	};
 
 	var refreshData = function(){
@@ -108,14 +108,14 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			domStyle.set(dom.byId("markAsComplete"), "display", "");
 		}
 
-		var datamodel = itemlistmodel.model[this.app.selected_item];
+		var datamodel = this.app.currentItemListModel.model[this.app.selected_item];
 		if(!datamodel){
 			return;
 		}
 
 		// we need to set the target for the group each time since itemlistmodel is reset for each list
 		// the cursorIndex is set in the showItemDetails function in ViewListTodoItemsByPriority or ViewAllTodoItemsByDate 
-		registry.byId("item_detailsGroup").set("target", at(itemlistmodel, "cursor"));
+		registry.byId("item_detailsGroup").set("target", at(this.app.currentItemListModel, "cursor"));
 
 		if(!_detailsSetup){  // these bindings only have to be setup once.
 			_detailsSetup = true;
@@ -159,8 +159,6 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 
 	return {
 		init: function(){
-			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
-			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 
 			var signal;
@@ -196,19 +194,19 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			signals.push(signal);
 
 			signal = on(dom.byId("confirm_yes"), "click", lang.hitch(this, function(){
-				var datamodel = this.loadedModels.itemlistmodel;
+				var datamodel = this.app.currentItemListModel;
 				var index = this.app.selected_item;
 				if(_isComplete){
 					datamodel.model[index].set("completed", true);
 				}else if(_isDelete){
-					var datamodel = this.loadedModels.itemlistmodel.model;
+					var datamodel = this.app.currentItemListModel.model;
 					var len = datamodel.length;
 					//remove from current datamodel
 					if(index>=0 && index<len){
 						datamodel.splice(index, 1);
 					}
 				}
-				this.loadedModels.itemlistmodel.commit(); // commit updates
+				this.app.currentItemListModel.commit(); // commit updates
 				//hide confirm dialog
 				hide();
 				//transition to list view
@@ -229,8 +227,6 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 		},
 
 		beforeActivate: function(){
-			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
-			itemlistmodel = this.loadedModels.itemlistmodel;
 			if(this.app._addNewItem){
 				addNewItem();
 			}
@@ -254,9 +250,9 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			// So we use this.backFlag to identify only back from EditTodoItem view and item's title is empty, the item need to be removed.
 			if(!title && this.backFlag){
 				// remove this item
-				itemlistmodel.model.splice(this.app.selected_item, 1);
+				this.app.currentItemListModel.model.splice(this.app.selected_item, 1);
 			}
-			itemlistmodel.commit();
+			this.app.currentItemListModel.commit();
 			this.app._addNewItemCommit = true;
 			this.backFlag = false;
 		},

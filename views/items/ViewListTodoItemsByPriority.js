@@ -2,28 +2,25 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/reg
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore"],
 function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore){
-	this.app.cachedDataModel = {};
-	this.app.currentItemListModel = null;
 
-	//showItemDetails function
 	showItemDetails = function(index){
-		//console.log("in items/lists select item ", index);
+		// summary:
+		//		set the cursorIndex for this.app.currentItemListModel so the selected item will be displayed after transition to details 
 		this.app.selected_item = parseInt(index);
-		itemlistmodel.set("cursorIndex", this.app.selected_item);
+		this.app.currentItemListModel.set("cursorIndex", this.app.selected_item);
 	};
 
-	var listsmodel = null;
-	var itemlistmodel = null;
-
 	var showListData = function(datamodel){
-		//console.log("in showListData datamodel = ",datamodel);
+		// summary:
+		//		set the children for items_list widget to the datamodel to show the items in the selected list. 
 		var listWidget = registry.byId("items_list");
 		var datamodel = at(datamodel, "model");
 		listWidget.set("children", datamodel);		
 	};
 
-	var showListType = function(){
-		//console.log("in items/lists showListType ");
+	var showListType = function(listsmodel){
+		// summary:
+		//		show the new Item link if the Completed list is not selected, and set the type into the list_type dom node.
 		var type;
 		if(this.app.selected_configuration_item == -1){
 			type = "Completed";			
@@ -42,21 +39,23 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 
 	return {
 		init: function(){
-			//console.log("****in items/lists init ");
-			itemlistmodel = this.loadedModels.itemlistmodel;
-			listsmodel = this.loadedModels.listsmodel;
-
-			if (itemlistmodel && (itemlistmodel.model[0].listId || 0 == itemlistmodel.model[0].listId)) {
-				var index = itemlistmodel.model[0].listId;
-				this.app.cachedDataModel[index] = itemlistmodel;
-				this.app.currentItemListModel = itemlistmodel;
-			}
+			// summary:
+			//		view life cycle init()
+			// description:
+			//		init is doing the same thing as beforeAcitvate only to handle the case where a page  
+			//		page refresh is done on a selected item, without this code in init the details will not display.
+			this.app.selected_item = 0; // reset selected item to 0, -1 is out of index
+			this.app.showProgressIndicator(true);
+			registry.byId("tabButtonList").set("selected", true);
+			this.refreshData();
 		},
 
 		beforeActivate: function(){
-			//console.log("items/lists beforeActivate called ",this.loadedModels.itemlistmodel);
-			itemlistmodel = this.loadedModels.itemlistmodel;
-			listsmodel = this.loadedModels.listsmodel;
+			// summary:
+			//		view life cycle beforeActivate()
+			// description:
+			//		beforeAcitvate will call refreshData to create the  
+			//		model/controller and show the list.
 			this.app.selected_item = 0; // reset selected item to 0, -1 is out of index
 			this.app.showProgressIndicator(true);
 			registry.byId("tabButtonList").set("selected", true);
@@ -64,35 +63,39 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		},
 
 		afterDeactivate: function(){
-			//console.log("items/lists afterDeactivate called this.app.selected_configuration_item =",this.app.selected_configuration_item);
+			// summary:
+			//		view life cycle afterDeactivate()
 			domStyle.set(dom.byId("itemslistwrapper"), "visibility", "hidden"); // hide the items list
 		},
 
 		beforeDeactivate: function(){
-			//console.log("items/lists beforeDeactivate called this.app.selected_configuration_item =",this.app.selected_configuration_item);
+			// summary:
+			//		view life cycle beforeDeactivate()
 			if(!this.app._addNewItemCommit){
-				itemlistmodel.commit(); //commit mark item as Complete change
+				this.app.currentItemListModel.commit(); //commit mark item as Complete change
 			}
 			this.app._addNewItemCommit = false;
 		},
 	
 		refreshData: function(){
-			// Display the selected list if click on the navigation list.
-			// when delete one list, the listsmodel length will decrease, the display policy is:
-			// 1. display the new list which index is the same as the deleted one (for example: delete index 1, then show the new list which index is 1)
-			// 2. if no new list which index the same as the old one, but the listmodels has models, display the first one (index=0)
-			// 3. display "Completed" list
-			var select_data = listsmodel.model[this.app.selected_configuration_item]; // 1. display the selected one or the same index list
+			// summary:
+			//		Display the selected list if click on the navigation list.
+			// description:
+			//		1) Determine which todoList to display, and set this.app.selected_configuration_item to the appropriate value if it is not already set.
+			//		2) Call showListType to show the Completed Items or the selected items as appropriate
+			//		3) Setup the query for the Completed Items or the selected items as appropriate
+			//		4) Create the EditStoreRefListController and query the store, then set this.app.currentItemListModel and display the list
+			var select_data = this.loadedModels.listsmodel.model[this.app.selected_configuration_item]; // display the selected one or the same index list
 			if(!select_data){
-				if((listsmodel.model.length > 0) && (this.app.selected_configuration_item >= listsmodel.model.length)){
-					this.app.selected_configuration_item = 0; // 2. display the first list
-					select_data = listsmodel.model[0];
+				if((this.loadedModels.listsmodel.model.length > 0) && (this.app.selected_configuration_item >= this.loadedModels.listsmodel.model.length)){
+					this.app.selected_configuration_item = 0; // display the first list
+					select_data = this.loadedModels.listsmodel.model[0];
 				}else{
-					this.app.selected_configuration_item = -1; // 3. select Completed list
+					this.app.selected_configuration_item = -1; // select Completed list
 				}
 			}
 			// show list type
-			showListType();
+			showListType(this.loadedModels.listsmodel);
 
 			var query = {};  
 			var options = {sort:[{attribute:"priority", descending: true}]};  // sort by priority
@@ -128,14 +131,10 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			var writestore = this.app.stores.allitemlistStore.store;
 			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
-				this.loadedModels.itemlistmodel = listCtl;
-				//this.app.cachedDataModel[select_data.id] = listCtl;
-				this.app.currentItemListModel = this.loadedModels.itemlistmodel;
-				itemlistmodel = listCtl;
-				listsmodel = this.loadedModels.listsmodel;
+				this.app.currentItemListModel = listCtl;
 				showListData(listCtl);
-				domStyle.set(dom.byId("itemswrapper"), "visibility", "visible"); // show the items list
-				domStyle.set(dom.byId("itemslistwrapper"), "visibility", "visible"); // show the items list
+				domStyle.set(dom.byId("itemswrapper"), "visibility", "visible"); // show the items heading and toolbar from items.html
+				domStyle.set(dom.byId("itemslistwrapper"), "visibility", "visible"); // show the items in the list
 				this.app.showProgressIndicator(false);
 				this.app.progressIndicator.domNode.style.visibility = "hidden";
 			}));

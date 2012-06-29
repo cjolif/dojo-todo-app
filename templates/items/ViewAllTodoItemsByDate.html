@@ -5,7 +5,7 @@
 		<h2 data-dojo-type="dojox/mobile/RoundRectCategory" region="top">All items by date</h2>
 		<ul data-dojo-type="dojox/mobile/RoundRectList" id="itemsDate_list"
 			data-dojo-mixins="dojox/mvc/Repeat" 
-			data-dojo-props="exprchar:'#', children: at(this.loadedModels.itemlistmodel, 'model')">
+			data-dojo-props="exprchar:'#'">
 				<li data-dojo-type="dojox/mobile/ListItem" class="mblVariableHeight"
 					data-dojo-props="clickable: true, onClick: function(){showItemDetails('#{this.index}');},
 					transitionOptions: {title:'Detail', target:'details,EditTodoItem',url: '#details,EditTodoItem'}">
