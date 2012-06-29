@@ -1,6 +1,11 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "../utils/utils"],
 	function(dom, lang, domStyle, registry, at, TransitionEvent, utils){
 
+
+	selectCompleted = function(index){
+		this.app.selected_configuration_item = index;
+	};
+
 	return {
 		init: function(){
 			 registry.byId("configure_list").on("checkStateChanged", lang.hitch(this, function(item, state){
