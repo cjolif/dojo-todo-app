@@ -78,15 +78,6 @@
      		"params":{
      			"datastore": {"$ref":"#stores.allitemlistStore"}
      		}           
-        },
-		
-		"itemlistmodel": {
-			"modelLoader": "dojox/app/utils/mvcModel",
-			"type": "dojox/mvc/EditStoreRefListController",
-     		"params":{
-     			"datastore": {"$ref":"#stores.allitemlistStore"},
-             					"query": {"listId": 0}
-     		}           
         }
 	},
 	
