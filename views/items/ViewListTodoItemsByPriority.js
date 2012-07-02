@@ -71,7 +71,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		beforeDeactivate: function(){
 			// summary:
 			//		view life cycle beforeDeactivate()
-			if(!this.app._addNewItemCommit){
+			if(!this.app._addNewItemCommit && this.app.currentItemListModel){
 				this.app.currentItemListModel.commit(); //commit mark item as Complete change
 			}
 			this.app._addNewItemCommit = false;
@@ -128,8 +128,11 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 				}
 				this.loadedModels.listsmodel.model[this.app.selected_configuration_item].set("Checked", true);
 			}
-			var writestore = this.app.stores.allitemlistStore.store;
-			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
+			var listCtl = this.app.currentItemListModel;
+			if(!listCtl){
+				var writestore = this.app.stores.allitemlistStore.store;
+				listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
+			}			
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
 				this.app.currentItemListModel = listCtl;
 				showListData(listCtl);

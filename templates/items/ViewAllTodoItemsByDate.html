@@ -3,23 +3,28 @@
 	<div id="datewrapper">
 	<div data-dojo-type="dojox/app/widgets/Container" region="center" data-dojo-props="scrollable: true">
 		<h2 data-dojo-type="dojox/mobile/RoundRectCategory" region="top">All items by date</h2>
-		<ul data-dojo-type="dojox/mobile/RoundRectList" id="itemsDate_list"
-			data-dojo-mixins="dojox/mvc/Repeat" 
-			data-dojo-props="exprchar:'#'">
-				<li data-dojo-type="dojox/mobile/ListItem" class="mblVariableHeight"
-					data-dojo-props="clickable: true, onClick: function(){showItemDetails('#{this.index}');},
-					transitionOptions: {title:'Detail', target:'details,EditTodoItem',url: '#details,EditTodoItem'}">
+		<ul id="itemsDate_list"
+			data-dojo-type="dojox/mobile/RoundRectList"
+			data-dojo-mixins="dojox/mvc/WidgetList,dojox/mvc/_InlineTemplateMixin"
+			data-mvc-child-type="dojox/mvc/Templated"
+			data-mvc-child-mixins="dojox/mobile/ListItem"
+			data-mvc-child-props="clickable: true,
+				transitionOptions: {title:'Detail', target:'details,EditTodoItem',url: '#details,EditTodoItem'},
+				onClick: function(){showItemDetails(this.indexAtStartup);}">
+			<script type="dojox/mvc/InlineTemplate">
+				<li class="mblVariableHeight">
 						<div preventTouch="true" class="lineItemPreventTouch"></div>
 						<input type="checkbox"
 							data-dojo-type="dojox/mobile/CheckBox"
-							data-dojo-props="preventTouch: true, checked: at('rel:#{this.index}','completed')"/>
-						<div data-dojo-type="dojox/mvc/Output" style="display: inline"
-							data-dojo-props="value: at('rel:#{this.index}','title')"></div>
-								<div data-dojo-type="dojox/mvc/Output" class="dateLabel"
-									data-dojo-props="value: at('rel:#{this.index}','reminderDate'),
-													class: at('rel:#{this.index}','reminderDate').direction(at.from).transform(dateListClassTransform)"></div>
+							data-dojo-props="preventTouch: true, checked: at('rel:', 'completed')"/>
+							<div data-dojo-type="dojox/mvc/Output" style="display: inline"
+								data-dojo-props="value: at('rel:','title')"></div>
+							<div data-dojo-type="dojox/mvc/Output" class="dateLabel"
+								data-dojo-props="value: at('rel:','reminderDate'),
+													class: at('rel:','reminderDate').direction(at.from).transform(dateListClassTransform)"></div>
 				</li>
-		</ul>	
+			</script>
+		</ul>
 	</div>
 	</div>
 </div>

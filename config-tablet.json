@@ -32,6 +32,7 @@
 		"dojox/app/utils/mvcModel",
 		"dojox/mvc/EditStoreRefListController",
 		"dojox/mvc/Repeat",
+		"dojox/mvc/WidgetList",
 		"dojox/mvc/Group",
 		"dojox/mvc/Output",
 		"dojox/mvc/at"
