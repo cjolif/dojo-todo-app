@@ -1,7 +1,8 @@
 define(["dojo/dom","dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
+		"dojox/mvc/WidgetList", "dojox/mvc/Templated", "dojox/mvc/_InlineTemplateMixin",
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojo/date/stamp"],
-function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, stamp){
+function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, WidgetList, Templated, _InlineTemplateMixin, ItemFileWriteStore, DataStore, stamp){
 
 	showItemDetails = function(index){
 		// summary:
@@ -82,7 +83,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		beforeDeactivate: function(){
 			// summary:
 			//		view life cycle beforeDeactivate()
-			if(!this.app._addNewItemCommit){
+			if(!this.app._addNewItemCommit && this.app.currentItemListModel){
 				this.app.currentItemListModel.commit(); //commit mark item as Complete change
 			}
 			this.app._addNewItemCommit = false;
@@ -131,8 +132,11 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 					}
 				}
 			}
-			var writestore = this.app.stores.allitemlistStore.store
-			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
+			var listCtl = this.app.currentItemListModel;
+			if(!listCtl){
+				var writestore = this.app.stores.allitemlistStore.store
+				listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
+			}
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
 				this.app.currentItemListModel = listCtl;
 				showListData(listCtl);
