@@ -24,17 +24,25 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		}
 	};
 
-	var showListData = function(datamodel){
+	var showListData = function(/*dojox/mvc/EditStoreRefListController*/ datamodel){
 		// summary:
 		//		set the children for items_list widget to the datamodel to show the items in the selected list. 
+		//
+		// datamodel: dojox/mvc/EditStoreRefListController
+		//		The EditStoreRefListController whose model holds the items for the selected list.
+		//
 		var listWidget = registry.byId("itemsDate_list");
 		var datamodel = at(datamodel, "model");
 		listWidget.set("children", datamodel);		
 	};
 
-	var showListType = function(listsmodel){
+	var showListType = function(/*dojox/mvc/EditStoreRefListController*/ listsmodel){
 		// summary:
 		//		show the new Item link if the Completed list is not selected, and set the type into the list_type dom node.
+		//
+		// listsmodel: dojox/mvc/EditStoreRefListController
+		//		The EditStoreRefListController whose model holds the available lists.
+		//
 		var type;
 		if(this.app.selected_configuration_item == -1){
 			type = "Completed";			
@@ -67,6 +75,9 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			//		beforeAcitvate will call refreshData to create the  
 			//		model/controller and show the list.
 			this.app.selected_item = 0; // reset selected item to 0, -1 is out of index
+			if(dom.byId("itemslistwrapper")){ 
+				domStyle.set(dom.byId("itemslistwrapper"), "visibility", "hidden"); // hide the item list before showing the date items list
+			}
 			this.app.showProgressIndicator(true);
 			registry.byId("tabButtonDate").set("selected", true);
 			this.refreshData();
@@ -77,7 +88,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		afterDeactivate: function(){
 			// summary:
 			//		view life cycle afterDeactivate()
-			domStyle.set(dom.byId("datewrapper"), "visibility", "hidden"); // hide the items list 
+			domStyle.set(dom.byId("datewrapper"), "visibility", "hidden"); // hide the items list
 		},
 
 		beforeDeactivate: function(){
@@ -92,11 +103,14 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		refreshData: function(){
 			// summary:
 			//		Display the selected list if click on the navigation list.
+			//
 			// description:
-			//		1) Determine which todoList to display, and set this.app.selected_configuration_item to the appropriate value if it is not already set.
-			//		2) Call showListType to show the Completed Items or the selected items as appropriate
-			//		3) Setup the query for the Completed Items or the selected items as appropriate
-			//		4) Create the EditStoreRefListController and query the store, then set this.app.currentItemListModel and display the list
+			//
+			//		1. Determine which todoList to display, and set this.app.selected_configuration_item to the appropriate value if it is not already set.
+			//		2. Call showListType to show the Completed Items or the selected items as appropriate
+			//		3. Setup the query for the Completed Items or the selected items as appropriate
+			//		4. Create the EditStoreRefListController and query the store, then set this.app.currentItemListModel and display the list
+			//
 			showListType(this.loadedModels.listsmodel);
 			
 			var select_data = this.loadedModels.listsmodel.model[this.app.selected_configuration_item];
