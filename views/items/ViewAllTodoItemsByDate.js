@@ -1,15 +1,16 @@
 define(["dojo/dom","dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
+		"dojox/mvc/WidgetList", "dojox/mvc/Templated", "dojox/mvc/_InlineTemplateMixin",
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojo/date/stamp"],
-function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, stamp){
-	//set todoApp showItemDetails function
-	todoApp.cachedDataModel = {};
-	todoApp.currentItemListModel = null;
+function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, WidgetList, Templated, _InlineTemplateMixin, ItemFileWriteStore, DataStore, stamp){
 
-	todoApp.showItemDetails = function(index){
-		//console.log("in items/lists select item ", index);
-		todoApp.selected_item = parseInt(index);
-		itemlistmodel.set("cursorIndex",todoApp.selected_item);
+	showItemDetails = function(index){
+		// summary:
+		//		set the cursorIndex for this.app.currentItemListModel so the selected item will be displayed after transition to details 
+
+		//console.log("in views/items/ViewAllTodoItemsByDate select item ", index);
+		this.app.selected_item = parseInt(index);
+		this.app.currentItemListModel.set("cursorIndex",this.app.selected_item);
 	};
 
 	dateListClassTransform = {
@@ -23,25 +24,24 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		}
 	};
 
-	var listsmodel = null;
-	var itemlistmodel = null;
-
 	var showListData = function(datamodel){
-		//console.log("in showListData datamodel = ",datamodel);
+		// summary:
+		//		set the children for items_list widget to the datamodel to show the items in the selected list. 
 		var listWidget = registry.byId("itemsDate_list");
 		var datamodel = at(datamodel, "model");
 		listWidget.set("children", datamodel);		
 	};
 
-	var showListType = function(){
-		//console.log("in items/lists showListType ");
+	var showListType = function(listsmodel){
+		// summary:
+		//		show the new Item link if the Completed list is not selected, and set the type into the list_type dom node.
 		var type;
-		if(todoApp.selected_configuration_item == -1){
+		if(this.app.selected_configuration_item == -1){
 			type = "Completed";			
 			domStyle.set(dom.byId("itemslist_add"), "visibility", "hidden"); // hide the new item link
 		}else{
 			domStyle.set(dom.byId("itemslist_add"), "visibility", ""); // show the new item link			
-			var listdata = listsmodel.model[todoApp.selected_configuration_item];
+			var listdata = listsmodel.model[this.app.selected_configuration_item];
 			if(listdata && listdata.title){
 				type = listdata.title;
 			}else{
@@ -53,51 +53,57 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 
 	return {
 		init: function(){
-			//console.log("****in items/lists init ");
-			itemlistmodel = this.loadedModels.itemlistmodel;
-			listsmodel = this.loadedModels.listsmodel;
-
-			if (itemlistmodel && (itemlistmodel.model[0].listId || 0 == itemlistmodel.model[0].listId)) {
-				var index = itemlistmodel.model[0].listId;
-				todoApp.cachedDataModel[index] = itemlistmodel;
-				todoApp.currentItemListModel = itemlistmodel;
-			}
+			// summary:
+			//		view life cycle init()
+			// description:
+			//		nothing to do in init, beforeAcitvate will call refreshData to create the  
+			//		model/controller and show the list.
 		},
 
 		beforeActivate: function(){
-			//console.log("items/lists beforeActivate called ",this.loadedModels.itemlistmodel);
-			itemlistmodel = this.loadedModels.itemlistmodel;
-			listsmodel = this.loadedModels.listsmodel;
-			todoApp.selected_item = 0; // reset selected item to 0, -1 is out of index
-			todoApp.showProgressIndicator(true);
+			// summary:
+			//		view life cycle beforeActivate()
+			// description:
+			//		beforeAcitvate will call refreshData to create the  
+			//		model/controller and show the list.
+			this.app.selected_item = 0; // reset selected item to 0, -1 is out of index
+			this.app.showProgressIndicator(true);
 			registry.byId("tabButtonDate").set("selected", true);
 			this.refreshData();
 			// set stopTransition=true to prevent twice transition when transition from date view to list view.
-			todoApp.stopTransition = true;
+			this.app.stopTransition = true;
 		},
 
 		afterDeactivate: function(){
-			//console.log("items/lists afterDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
+			// summary:
+			//		view life cycle afterDeactivate()
 			domStyle.set(dom.byId("datewrapper"), "visibility", "hidden"); // hide the items list 
 		},
 
 		beforeDeactivate: function(){
-			//console.log("items/lists beforeDeactivate called todoApp.selected_configuration_item =",todoApp.selected_configuration_item);
-			if(!todoApp._addNewItemCommit){
-				itemlistmodel.commit(); //commit mark item as Complete change
+			// summary:
+			//		view life cycle beforeDeactivate()
+			if(!this.app._addNewItemCommit && this.app.currentItemListModel){
+				this.app.currentItemListModel.commit(); //commit mark item as Complete change
 			}
-			todoApp._addNewItemCommit = false;
+			this.app._addNewItemCommit = false;
 		},
 	
 		refreshData: function(){
-			//console.log("****in items/lists refreshData ");
-			showListType();
+			// summary:
+			//		Display the selected list if click on the navigation list.
+			// description:
+			//		1) Determine which todoList to display, and set this.app.selected_configuration_item to the appropriate value if it is not already set.
+			//		2) Call showListType to show the Completed Items or the selected items as appropriate
+			//		3) Setup the query for the Completed Items or the selected items as appropriate
+			//		4) Create the EditStoreRefListController and query the store, then set this.app.currentItemListModel and display the list
+			showListType(this.loadedModels.listsmodel);
 			
-			var select_data = listsmodel.model[todoApp.selected_configuration_item];
+			var select_data = this.loadedModels.listsmodel.model[this.app.selected_configuration_item];
 			var query = {}; // query empty to show all items by date
 			// set options to sort by reminderDate and priority
 			var options = {sort:[{attribute:"reminderDate", descending: true},{attribute:"priority", descending: true}]};
-			if(todoApp.selected_configuration_item == -1){
+			if(this.app.selected_configuration_item == -1){
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",false);
 				}
@@ -126,17 +132,18 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 					}
 				}
 			}
-			var writestore = todoApp.stores.allitemlistStore.store
-			var listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
+			var listCtl = this.app.currentItemListModel;
+			if(!listCtl){
+				var writestore = this.app.stores.allitemlistStore.store
+				listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
+			}
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
-				this.loadedModels.itemlistmodel = listCtl;
-				todoApp.currentItemListModel = this.loadedModels.itemlistmodel;
-				itemlistmodel = listCtl;
-				listsmodel = this.loadedModels.listsmodel;
+				this.app.currentItemListModel = listCtl;
 				showListData(listCtl);
-				domStyle.set(dom.byId("datewrapper"), "visibility", "visible"); // show the items list
-				todoApp.showProgressIndicator(false);
-				todoApp.progressIndicator.domNode.style.visibility = "hidden";
+				domStyle.set(dom.byId("itemswrapper"), "visibility", "visible"); // show the items heading and toolbar from items.html
+				domStyle.set(dom.byId("datewrapper"), "visibility", "visible"); // show the date items list
+				this.app.showProgressIndicator(false);
+				this.app.progressIndicator.domNode.style.visibility = "hidden";
 			}));
 		}
 	};

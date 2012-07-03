@@ -1,14 +1,19 @@
-define(["dojo/dom", "dojo/dom-style", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "../utils/utils"],
-	function(dom, domStyle, registry, at, TransitionEvent, utils){
+define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "../utils/utils"],
+	function(dom, lang, domStyle, registry, at, TransitionEvent, utils){
+
+
+	selectCompleted = function(index){
+		this.app.selected_configuration_item = index;
+	};
 
 	return {
 		init: function(){
-			 registry.byId("configure_list").on("checkStateChanged", function(item, state){
+			 registry.byId("configure_list").on("checkStateChanged", lang.hitch(this, function(item, state){
 				// save the select value to data store
-				if(state && !todoApp.stopTransition){
+				if(state && !this.app.stopTransition){
 					var index = utils.getIndexByListItem(registry.byId("configure_list"), item);
-					//console.log("configure.js onCheckStateChanged setting todoApp.selected_configuration_item = "+index);
-					todoApp.selected_configuration_item = index;
+					//console.log("configure.js onCheckStateChanged setting this.app.selected_configuration_item = "+index);
+					this.app.selected_configuration_item = index;
 
 					// transition to list view
 					var transOpts = {
@@ -20,26 +25,26 @@ define(["dojo/dom", "dojo/dom-style", "dijit/registry", "dojox/mvc/at", "dojox/m
 					new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 					
 				}
-			});
+			}));
 		},
 		beforeActivate: function(){
-			todoApp.stopTransition = false;
-			console.log("configuration/SelectTodoList beforeActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
+			this.app.stopTransition = false;
+			//console.log("configuration/SelectTodoList beforeActivate called this.app.selected_configuration_item=",this.app.selected_configuration_item);
 		},
 		
 		afterActivate: function(){
-			console.log("configuration/SelectTodoList afterActivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
-			console.log("setting configurewrapper visible 1");
+			//console.log("configuration/SelectTodoList afterActivate called this.app.selected_configuration_item=",this.app.selected_configuration_item);
+			//console.log("setting configurewrapper visible 1");
 			domStyle.set(dom.byId("configurewrapper"), "visibility", "visible"); // show the items list
 		},
 		
 		beforeDeactivate: function(){
-			console.log("configuration/SelectTodoList beforeDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
+			//console.log("configuration/SelectTodoList beforeDeactivate called this.app.selected_configuration_item=",this.app.selected_configuration_item);
 		},
 
 		afterDeactivate: function(){
-			console.log("configuration/SelectTodoList afterDeactivate called todoApp.selected_configuration_item=",todoApp.selected_configuration_item);
-			console.log("setting configurewrapper hidden");
+			//console.log("configuration/SelectTodoList afterDeactivate called this.app.selected_configuration_item=",this.app.selected_configuration_item);
+			//console.log("setting configurewrapper hidden");
 			domStyle.set(dom.byId("configurewrapper"), "visibility", "hidden"); // hide the items list 
 		},
 

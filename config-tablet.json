@@ -32,6 +32,7 @@
 		"dojox/app/utils/mvcModel",
 		"dojox/mvc/EditStoreRefListController",
 		"dojox/mvc/Repeat",
+		"dojox/mvc/WidgetList",
 		"dojox/mvc/Group",
 		"dojox/mvc/Output",
 		"dojox/mvc/at"
@@ -77,15 +78,6 @@
 			"type": "dojox/mvc/EditStoreRefListController",
      		"params":{
      			"datastore": {"$ref":"#stores.allitemlistStore"}
-     		}           
-        },
-		
-		"itemlistmodel": {
-			"modelLoader": "dojox/app/utils/mvcModel",
-			"type": "dojox/mvc/EditStoreRefListController",
-     		"params":{
-     			"datastore": {"$ref":"#stores.allitemlistStore"},
-             					"query": {"listId": 0}
      		}           
         }
 	},
