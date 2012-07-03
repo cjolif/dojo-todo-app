@@ -1,8 +1,9 @@
-define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",
-        "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
-        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore"],
-function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore){
-
+define(["dojo/dom", "dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",  
+		"dojox/mvc/Repeat", "dojox/mobile/RoundRectList", "dojox/mvc/WidgetList", "dojox/mvc/Templated",
+		"dojox/mobile/ListItem", "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
+        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/parser", 	
+        "dojo/text!../../templates/items/RoundRectWidListTemplate.html", "dojox/mvc/Output"],
+function(dom, lang, declare, domStyle, when, registry, at, Repeat, RoundRectList, WidgetList, Templated, ListItem, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, parser, RoundRectWidListTemplate, Output){
 	showItemDetails = function(index){
 		// summary:
 		//		set the cursorIndex for this.app.currentItemListModel so the selected item will be displayed after transition to details 
@@ -10,12 +11,38 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		this.app.currentItemListModel.set("cursorIndex", this.app.selected_item);
 	};
 
-	var showListData = function(datamodel){
+	var roundRectWidList = null;
+
+	var showListData = function(/*dojox/mvc/EditStoreRefListController*/ datamodel){
 		// summary:
-		//		set the children for items_list widget to the datamodel to show the items in the selected list. 
-		var listWidget = registry.byId("items_list");
-		var datamodel = at(datamodel, "model");
-		listWidget.set("children", datamodel);		
+		//		create the WidgetList programatically if it has not been created, and 
+		//		set the children for items_list widget to the datamodel to show the items in the selected list.
+		//		RoundRectWidListTemplate is used for the templateString of the WidgetList.
+		//
+		// datamodel: dojox/mvc/EditStoreRefListController
+		//		The EditStoreRefListController whose model holds the items for the selected list.
+		//
+		if(!roundRectWidList) {
+			var clz = declare([WidgetList, RoundRectList], {});
+			roundRectWidList = new clz({
+				children: at(datamodel, 'model'),
+				childClz: declare([Templated /* dojox/mvc/Templated module return value */, ListItem /* dojox/mobile/ListItem module return value */]),
+				childParams: {
+					transitionOptions: {title:'Detail',target:'details,EditTodoItem',url: '#details,EditTodoItem'},
+					clickable: true,
+					onClick: function(){showItemDetails(this.indexAtStartup);}
+				},
+				childBindings: {
+					titleNode: {value: at("rel:", "title")},
+					checkedNode: {checked: at("rel:", "completed")}
+				},
+				templateString: RoundRectWidListTemplate
+			});
+			roundRectWidList.placeAt(list_container);		
+			roundRectWidList.startup();
+		}else{
+			roundRectWidList.set("children", at(datamodel, 'model'));
+		}
 	};
 
 	var showListType = function(listsmodel){
@@ -57,6 +84,9 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			//		beforeAcitvate will call refreshData to create the  
 			//		model/controller and show the list.
 			this.app.selected_item = 0; // reset selected item to 0, -1 is out of index
+			if(dom.byId("datewrapper")){ 
+				domStyle.set(dom.byId("datewrapper"), "visibility", "hidden"); // hide the date item list before showing the date items list
+			}
 			this.app.showProgressIndicator(true);
 			registry.byId("tabButtonList").set("selected", true);
 			this.refreshData();
@@ -80,11 +110,14 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		refreshData: function(){
 			// summary:
 			//		Display the selected list if click on the navigation list.
+			//
 			// description:
-			//		1) Determine which todoList to display, and set this.app.selected_configuration_item to the appropriate value if it is not already set.
-			//		2) Call showListType to show the Completed Items or the selected items as appropriate
-			//		3) Setup the query for the Completed Items or the selected items as appropriate
-			//		4) Create the EditStoreRefListController and query the store, then set this.app.currentItemListModel and display the list
+			//
+			//		1. Determine which todoList to display, and set this.app.selected_configuration_item to the appropriate value if it is not already set.
+			//		2. Call showListType to show the Completed Items or the selected items as appropriate
+			//		3. Setup the query for the Completed Items or the selected items as appropriate
+			//		4. Create the EditStoreRefListController and query the store, then set this.app.currentItemListModel and display the list
+			//
 			var select_data = this.loadedModels.listsmodel.model[this.app.selected_configuration_item]; // display the selected one or the same index list
 			if(!select_data){
 				if((this.loadedModels.listsmodel.model.length > 0) && (this.app.selected_configuration_item >= this.loadedModels.listsmodel.model.length)){
