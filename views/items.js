@@ -1,4 +1,4 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dojox/mobile/TransitionEvent", "utils"],
+define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dojox/mobile/TransitionEvent", "./utils"],
 	function(lang, dom, domStyle, on, TransitionEvent, utils){
 	var signals = []; // events connect result
 
