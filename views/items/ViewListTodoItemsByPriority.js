@@ -2,8 +2,8 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style", "
 		"dojox/mvc/Repeat", "dojox/mobile/RoundRectList", "dojox/mvc/WidgetList", "dojox/mvc/Templated",
 		"dojox/mobile/ListItem", "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/parser", 	
-        "dojo/text!../../templates/items/RoundRectWidListTemplate.html", "dojox/mvc/Output"],
-function(dom, lang, declare, domStyle, when, registry, at, Repeat, RoundRectList, WidgetList, Templated, ListItem, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, parser, RoundRectWidListTemplate, Output){
+        "dojo/text!../../templates/items/RoundRectWidListTemplate.html"],
+function(dom, lang, declare, domStyle, when, registry, at, Repeat, RoundRectList, WidgetList, Templated, ListItem, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, parser, RoundRectWidListTemplate){
 	showItemDetails = function(index){
 		// summary:
 		//		set the cursorIndex for this.app.currentItemListModel so the selected item will be displayed after transition to details 
@@ -25,10 +25,10 @@ function(dom, lang, declare, domStyle, when, registry, at, Repeat, RoundRectList
 		if(!roundRectWidList) {
 			var clz = declare([WidgetList, RoundRectList], {});
 			roundRectWidList = new clz({
-				children: at(datamodel, 'model'),
+				children: at(datamodel, "model"),
 				childClz: declare([Templated /* dojox/mvc/Templated module return value */, ListItem /* dojox/mobile/ListItem module return value */]),
 				childParams: {
-					transitionOptions: {title:'Detail',target:'details,EditTodoItem',url: '#details,EditTodoItem'},
+					transitionOptions: {title: "Detail",target: "details,EditTodoItem",url: "#details,EditTodoItem"},
 					clickable: true,
 					onClick: function(){showItemDetails(this.indexAtStartup);}
 				},

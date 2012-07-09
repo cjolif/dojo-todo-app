@@ -1,7 +1,6 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "../utils"],
 	function(dom, lang, domStyle, registry, at, TransitionEvent, utils){
 
-
 	selectCompleted = function(index){
 		this.app.selected_configuration_item = index;
 	};
@@ -23,7 +22,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dijit/registry", "dojo
 					};
 					var e = window.event;
 					new TransitionEvent(e.srcElement,transOpts,e).dispatch();
-					
 				}
 			}));
 		},

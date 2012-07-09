@@ -8,7 +8,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 	var detailsSetup = false;
 	this.app._addNewItemCommit = false; // identify the new item is committed
 
-	dateClassTransform2 = {
+	var dateClassTransform2 = {
 		format : function(value) {
 			// check to see if the date is in the past, if so display it in red
 			if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
@@ -20,7 +20,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 	};
 
 	// transform the repeat to the correct text
-	repeatTransform = {
+	var repeatTransform = {
 		format : function(value) {
 			var repeatArray = ["None", "Every Day", "Every Week", "Every 2 Week", "Every Month", "Every Year"];
 			return repeatArray[value] ? repeatArray[value] : '';
@@ -28,7 +28,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 	};
 
 	// transform the priority to the correct text
-	priorityTransform = {
+	var priorityTransform = {
 		format : function(value) {
 			var priorityArray = ["None", "Low", "Medium", "High"];
 			return priorityArray[value] ? priorityArray[value] : '';
@@ -36,7 +36,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 	};
 
 	// transform the priority to the correct text
-	parentTitleTransform = {
+	var parentTitleTransform = {
 		format : function(value) {
 			var parentModel;
 			// check listsmodel because this transform method will be called by dojox.mvc before EditTodoItem view initial
@@ -141,12 +141,12 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 	};
 
 	var bindAttributes = function(bindingArray){
-		for(var i=0; i<bindingArray.length; i++){
-				item = bindingArray[i]; 
-				var binding = at(item.atparm1, item.atparm2).direction(item.direction);
-				if (item.transform){ binding.transform(item.transform); }
-				registry.byId(item.id).set(item.attribute, binding);
-		}			
+		for(var i=0; i < bindingArray.length; i++){
+			item = bindingArray[i];
+			var binding = at(item.atparm1, item.atparm2).direction(item.direction);
+			if (item.transform){ binding.transform(item.transform); }
+			registry.byId(item.id).set(item.attribute, binding);
+		}
 	};
 
 	var show = function(){
@@ -168,9 +168,9 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			});
 			signals.push(signal);
 			
-			// use this.backFlag to identify the EditTodoItem view back to items,ViewListTodoItemsByPriority view
+			// use _this.backFlag to identify the EditTodoItem view back to items,ViewListTodoItemsByPriority view
 			signal = on(dom.byId("detail_back"), "click", lang.hitch(this, function(){
-				this.backFlag = true;
+				this._backFlag = true;
 				history.back();
 			}));
 			signals.push(signal);
@@ -247,14 +247,14 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			}
 			var title = dom.byId("detail_todo").value;
 			// a user maybe set "Priority" first and then set title. This operation will cause EditTodoItem view beforeDeactivate() be called.
-			// So we use this.backFlag to identify only back from EditTodoItem view and item's title is empty, the item need to be removed.
-			if(!title && this.backFlag){
+			// So we use this._backFlag to identify only back from EditTodoItem view and item's title is empty, the item need to be removed.
+			if(!title && this._backFlag){
 				// remove this item
 				this.app.currentItemListModel.model.splice(this.app.selected_item, 1);
 			}
 			this.app.currentItemListModel.commit();
 			this.app._addNewItemCommit = true;
-			this.backFlag = false;
+			this._backFlag = false;
 		},
 
 		destroy: function(){

@@ -7,7 +7,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils"], function(lang, registr
 			// select repeat type
 			var widget = registry.byId("list_priority");
 			var priorityWidget = utils.getListItemByIndex(widget, datamodel.priority);
-			if (priorityWidget) {
+			if(priorityWidget){
 				priorityWidget.set("checked", true);
 			}
 		}
@@ -20,7 +20,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils"], function(lang, registr
 		
 			registry.byId("list_priority").on("checkStateChanged", lang.hitch(this, function(item, state){
 				// save the select value to data store
-				if (state) {
+				if(state){
 					var index = utils.getIndexByListItem(registry.byId("list_priority"), item);
 					var datamodel = itemlistmodel.model[this.app.selected_item];
 					if (datamodel) {

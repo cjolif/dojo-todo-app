@@ -2,7 +2,8 @@ define(["dojo/dom","dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/regi
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
 		"dojox/mvc/WidgetList", "dojox/mvc/Templated", "dojox/mvc/_InlineTemplateMixin",
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojo/date/stamp"],
-function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, WidgetList, Templated, _InlineTemplateMixin, ItemFileWriteStore, DataStore, stamp){
+function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, WidgetList,
+		 Templated, _InlineTemplateMixin, ItemFileWriteStore, DataStore, stamp){
 
 	showItemDetails = function(index){
 		// summary:
@@ -10,7 +11,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 
 		//console.log("in views/items/ViewAllTodoItemsByDate select item ", index);
 		this.app.selected_item = parseInt(index);
-		this.app.currentItemListModel.set("cursorIndex",this.app.selected_item);
+		this.app.currentItemListModel.set("cursorIndex", this.app.selected_item);
 	};
 
 	dateListClassTransform = {
@@ -64,7 +65,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			// summary:
 			//		view life cycle init()
 			// description:
-			//		nothing to do in init, beforeAcitvate will call refreshData to create the  
+			//		nothing to do in init, beforeActivate will call refreshData to create the
 			//		model/controller and show the list.
 		},
 
@@ -72,7 +73,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			// summary:
 			//		view life cycle beforeActivate()
 			// description:
-			//		beforeAcitvate will call refreshData to create the  
+			//		beforeActivate will call refreshData to create the
 			//		model/controller and show the list.
 			this.app.selected_item = 0; // reset selected item to 0, -1 is out of index
 			if(dom.byId("itemslistwrapper")){ 
@@ -112,7 +113,8 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			//		4. Create the EditStoreRefListController and query the store, then set this.app.currentItemListModel and display the list
 			//
 			showListType(this.loadedModels.listsmodel);
-			
+
+			// TODO select_data is un-used, check if that is needed
 			var select_data = this.loadedModels.listsmodel.model[this.app.selected_configuration_item];
 			var query = {}; // query empty to show all items by date
 			// set options to sort by reminderDate and priority

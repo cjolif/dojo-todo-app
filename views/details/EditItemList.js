@@ -7,7 +7,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils"], function(lang, registr
 				if (state) {
 					var index = utils.getIndexByListItem(registry.byId("list_list"), item);
 					var datamodel = this.app.currentItemListModel.model[this.app.selected_item];
-					if (datamodel) {
+					if(datamodel){
 						var listsmodel = this.loadedModels.listsmodel.model;
 						if(index>=0 && index < listsmodel.length){
 							datamodel.listId = listsmodel[index].id;

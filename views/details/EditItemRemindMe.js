@@ -6,7 +6,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 
 	var showDateDialog = function(widgetid){
 		var datamodel = itemlistmodel.model[this.app.selected_item];
-		date = datamodel.get("reminderDate");
+		var date = datamodel.get("reminderDate");
 		if(!date){
 			date = stamp.toISOString(new Date(), {selector: "date"});
 		}
