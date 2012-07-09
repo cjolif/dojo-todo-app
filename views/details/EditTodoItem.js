@@ -43,7 +43,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			if(!listsmodel || !listsmodel.model){
 				return "";
 			}
-			for(var i=0; i<listsmodel.model.length; i++){
+			for(var i = 0; i < listsmodel.model.length; i++){
 				if(listsmodel.model[i].id == value){  // find the listId in the listsmodel
 					parentModel = listsmodel.model[i];
 					return parentModel.title;  // set the parentModel title
