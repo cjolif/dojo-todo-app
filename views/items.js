@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dojox/mobile/TransitionEvent"],
-	function(lang, dom, domStyle, on, TransitionEvent){
+define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dojox/mobile/TransitionEvent", "utils"],
+	function(lang, dom, domStyle, on, TransitionEvent, utils){
 	var signals = []; // events connect result
 
 	var add = function(){
@@ -29,11 +29,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dojox/mobil
 		},
 		
 		destroy: function(){
-			var signal = signals.pop();
-			while(signal){
-				signal.remove();
-				signal = signals.pop();
-			}
+			utils.destroySignals(signals);
 		}
 	}
 });

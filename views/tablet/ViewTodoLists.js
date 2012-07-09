@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dijit/registry", "dojox/mobile/TransitionEvent"],
-function(lang, dom, on, registry, TransitionEvent){
+define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dijit/registry", "dojox/mobile/TransitionEvent", "../utils"],
+function(lang, dom, on, registry, TransitionEvent, utils){
 	var signals = []; // events connect result
 
 	this.app.stopTransition = false;
@@ -45,11 +45,7 @@ function(lang, dom, on, registry, TransitionEvent){
 		},
 		
 		destroy: function(){
-			var signal = signals.pop();
-			while(signal){
-				signal.remove();
-				signal = signals.pop();
-			}
+			utils.destroySignals(signals);
 		}
 	};
 });

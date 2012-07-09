@@ -1,4 +1,4 @@
-define(["dojo/_base/lang", "dijit/registry", "../utils/utils"], function(lang, registry, utils){
+define(["dojo/_base/lang", "dijit/registry", "../utils"], function(lang, registry, utils){
 	var itemlistmodel = null;
 
 	var refreshData = function(){

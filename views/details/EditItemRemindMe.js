@@ -1,6 +1,6 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/registry", "dojox/mvc/at",
-        "dojo/date/stamp", "dojo/dom-class"],
-	function(dom, lang, domStyle, on, registry, at, stamp, domClass){
+        "dojo/date/stamp", "dojo/dom-class", "../utils"],
+	function(dom, lang, domStyle, on, registry, at, stamp, domClass, utils){
 	var itemlistmodel = null;
 	var signals = [];
 
@@ -131,11 +131,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 		},
 
 		destroy: function(){
-			var signal = signals.pop();
-			while(signal){
-				signal.remove();
-				signal = signals.pop();
-			}
+			utils.destroySignals(signals);
 		}
 	}
 });

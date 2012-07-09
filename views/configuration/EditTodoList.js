@@ -1,4 +1,5 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mvc/getStateful"], function(lang, dom, on, getStateful){
+define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mvc/getStateful", "../utils"],
+	function(lang, dom, on, getStateful, utils){
 	var signals = []; // events connect result
 
 	return {
@@ -26,11 +27,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mvc/getStateful"], func
 		},
 
 		destroy: function(){
-			var signal = signals.pop();
-			while(signal){
-				signal.remove();
-				signal = signals.pop();
-			}
+			utils.destroySignals(signals);
 		}
 	}
 });

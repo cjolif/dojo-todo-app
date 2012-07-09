@@ -1,6 +1,6 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/registry",
-	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at", "dojo/date/stamp"],
-	function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, stamp){
+	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at", "dojo/date/stamp", "../utils"],
+	function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, stamp, utils){
 	var listsmodel = null;
 	var signals = [];
 	var _isComplete = false;
@@ -144,7 +144,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 		for(var i=0; i<bindingArray.length; i++){
 				item = bindingArray[i]; 
 				var binding = at(item.atparm1, item.atparm2).direction(item.direction);
-				if (item.transform){ binding.transform(item.transform); };
+				if (item.transform){ binding.transform(item.transform); }
 				registry.byId(item.id).set(item.attribute, binding);
 		}			
 	};
@@ -258,11 +258,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 		},
 
 		destroy: function(){
-			var signal = signals.pop();
-			while(signal){
-				signal.remove();
-				signal = signals.pop();
-			}
+			utils.destroySignals(signals);
 		}
 	}
 });

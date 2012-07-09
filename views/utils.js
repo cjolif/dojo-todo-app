@@ -1,5 +1,12 @@
 define(["dijit/registry"], function (registry){
 	return {
+		destroySignals: function(signals){
+			var signal = signals.pop();
+			while(signal){
+				signal.remove();
+				signal = signals.pop();
+			}
+		},
 		getListItemByIndex: function(widget, index){
 			var children = widget.domNode.children;
 			var list = [];

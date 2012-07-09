@@ -1,4 +1,4 @@
-define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "../utils/utils"],
+define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dijit/registry", "dojox/mvc/at", "dojox/mobile/TransitionEvent", "../utils"],
 	function(dom, lang, domStyle, registry, at, TransitionEvent, utils){
 
 

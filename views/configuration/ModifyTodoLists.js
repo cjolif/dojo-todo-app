@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent", "dijit/registry"],
-	function(lang, dom, on, TransitionEvent, registry){
+define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent", "dijit/registry", "../utils"],
+	function(lang, dom, on, TransitionEvent, registry, utils){
 	var signals = []; // events connect result
 
 	// get index from dom node id
@@ -87,11 +87,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 
 		// destroy the events signals
 		destroy: function(){
-			var signal = signals.pop();
-			while(signal){
-				signal.remove();
-				signal = signals.pop();
-			}
+			utils.destroySignals(signals);
 		}
 	}
 });
