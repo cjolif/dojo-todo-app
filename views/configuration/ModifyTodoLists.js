@@ -3,12 +3,12 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 	var signals = []; // events connect result
 
 	// get index from dom node id
-	var getIndexFromId = function(node, perfix){
+	var getIndexFromId = function(node, prefix){
 		while(node && !node.id){
 			node = node.parentNode;
 		}
 		var nodeId = node.id;
-		var len = perfix.length;
+		var len = prefix.length;
 		if(nodeId.length <= len){
 			throw Error("repeat node id error.");
 		}
@@ -49,7 +49,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 				var datamodel = this.loadedModels.listsmodel;
 				var len = datamodel.length;
 				var index = this.deleteList;				
-				if (index >= 0 && index < len) {
+				if(index >= 0 && index < len){
 					datamodel.splice(index, 1);
 				}
 				//hide confirm dialog
