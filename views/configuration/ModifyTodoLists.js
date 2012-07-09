@@ -16,13 +16,6 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 		return parseInt(index);
 	};
 	
-	// delete configuration item.
-	var deleteConfItem = function(index){
-		dom.byId("dlg_titleMod").innerHTML = "Delete";
-		dom.byId("dlg_textMod").innerHTML = "Are you sure you want to delete this list?";
-		show();
-	};
-
 	var show = function(){
 		registry.byId("dlg_confirmMod").show();
 	};
@@ -40,15 +33,15 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 				this.app.stopTransition = true;
 
 				var index = getIndexFromId(e.target, "editList");
-				this.deleteList = index;
-				deleteConfItem(index);
+				this._deleteListIndex = index;
+				show();
 			}));
 			signals.push(signal);
 
 			signal = on(dom.byId("confirm_yesMod"), "click", lang.hitch(this, function(){
-				var datamodel = this.loadedModels.listsmodel;
+				var datamodel = this.loadedModels.listsmodel.model;
 				var len = datamodel.length;
-				var index = this.deleteList;				
+				var index = this._deleteListIndex;
 				if(index >= 0 && index < len){
 					datamodel.splice(index, 1);
 				}
