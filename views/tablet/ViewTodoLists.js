@@ -1,6 +1,6 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dijit/registry", "dojox/mobile/TransitionEvent", "../utils"],
 function(lang, dom, on, registry, TransitionEvent, utils){
-	var signals = []; // events connect result
+	var signal;
 
 	this.app.stopTransition = false;
 
@@ -37,15 +37,14 @@ function(lang, dom, on, registry, TransitionEvent, utils){
 	
 	return {
 		init: function(){
-			var signal = on(dom.byId("setting"), "click", lang.hitch(this, function(e){
+			signal = on(dom.byId("setting"), "click", lang.hitch(this, function(e){
 				editConfiguration();
 			}));
-			signals.push(signal);
 			console.log("navigation view init ok");
 		},
 		
 		destroy: function(){
-			utils.destroySignals(signals);
+			utils.destroySignals([signal]);
 		}
 	};
 });
