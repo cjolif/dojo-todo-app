@@ -47,7 +47,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 	return {
 		init: function(){
 			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
-			itemlistmodel = this.loadedModels.itemlistmodel
+			itemlistmodel = this.loadedModels.itemlistmodel;
 			var signal;
 		
 			registry.byId("remind_day_switch").on("stateChanged", lang.hitch(this, function(newState){
@@ -104,7 +104,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 			signal = on(dom.byId("reminddlgCancel"), "click", lang.hitch(this, function(){
 				//console.log("reminddlgCancel clicked ");
 				domStyle.set(dom.byId("invalidDate"), "visibility", "hidden");
-				registry.byId("datePicker").hide(false)
+				registry.byId("datePicker").hide(false);
 				var datamodel = itemlistmodel.model[this.app.selected_item];
 				date = datamodel.get("reminderDate");
 				if(!date){ // cancelled and no date set, so need to set 

@@ -148,7 +148,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			}
 			var listCtl = this.app.currentItemListModel;
 			if(!listCtl){
-				var writestore = this.app.stores.allitemlistStore.store
+				var writestore = this.app.stores.allitemlistStore.store;
 				listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			}
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){

@@ -129,8 +129,8 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 				{"id":"detail_todoNote", "attribute":"value", "atparm1":'rel:', "atparm2":'notes',"direction":at.both,"transform":null},			
 				{"id":"detail_repeat", "attribute":"rightText", "atparm1":'rel:', "atparm2":'repeat',"direction":at.from,"transform":repeatTransform},			
 				{"id":"detail_priority", "attribute":"rightText", "atparm1":'rel:', "atparm2":'priority',"direction":at.from,"transform":priorityTransform},			
-				{"id":"detail_list", "attribute":"rightText", "atparm1":'rel:', "atparm2":'listId',"direction":at.from,"transform":parentTitleTransform},			
-			]
+				{"id":"detail_list", "attribute":"rightText", "atparm1":'rel:', "atparm2":'listId',"direction":at.from,"transform":parentTitleTransform}
+			];
 			
 			// bind all of the attrbutes setup in the bindingArray, this is a one time setup
 			bindAttributes(bindingArray);

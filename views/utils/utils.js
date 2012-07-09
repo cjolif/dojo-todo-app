@@ -16,7 +16,7 @@ define(["dijit/registry"], function (registry){
 			}
 			return null;
 		},
-		getIndexByListItem: function (widget, item){
+		getIndexByListItem: function(widget, item){
 			var children = widget.domNode.children;
 			var list = [];
 			var i;

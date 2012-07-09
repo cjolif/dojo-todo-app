@@ -1,4 +1,5 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent", "dijit/registry",], function(lang, dom, on, TransitionEvent, registry){
+define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent", "dijit/registry"],
+	function(lang, dom, on, TransitionEvent, registry){
 	var signals = []; // events connect result
 
 	var listsmodel = null;	//repeat view data model
@@ -73,7 +74,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 						title: "List",
 						target: "items,ViewListTodoItemsByPriority",
 						url: "#items,ViewListTodoItemsByPriority"
-					}
+					};
 					console.log("tablet transition to list view");
 				}else{
 					// on phone transition to configure view to select the item
