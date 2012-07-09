@@ -3,9 +3,9 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 	function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, stamp, utils){
 	var listsmodel = null;
 	var signals = [];
-	var _isComplete = false;
-	var _isDelete = false;
-	var _detailsSetup = false;
+	var isComplete = false;
+	var isDelete = false;
+	var detailsSetup = false;
 	this.app._addNewItemCommit = false; // identify the new item is committed
 
 	dateClassTransform2 = {
@@ -117,8 +117,8 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 		// the cursorIndex is set in the showItemDetails function in ViewListTodoItemsByPriority or ViewAllTodoItemsByDate 
 		registry.byId("item_detailsGroup").set("target", at(this.app.currentItemListModel, "cursor"));
 
-		if(!_detailsSetup){  // these bindings only have to be setup once.
-			_detailsSetup = true;
+		if(!detailsSetup){  // these bindings only have to be setup once.
+			detailsSetup = true;
 
 			// Setup data bindings here for the fields inside the item_detailsGroup.
 			// use at() to bind the attribute of the widget with the id to value from the model
@@ -176,8 +176,8 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			signals.push(signal);
 
 			signal = on(dom.byId("markAsComplete"), "click", lang.hitch(this, function(){
-				_isComplete = true;
-				_isDelete = false;
+				isComplete = true;
+				isDelete = false;
 				dom.byId("dlg_title").innerHTML = "Mark As Complete";
 				dom.byId("dlg_text").innerHTML = "Are you sure you want to mark this item as complete?";
 				show();
@@ -185,8 +185,8 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			signals.push(signal);
 
 			signal = on(dom.byId("deleteCurrentItem"), "click", lang.hitch(this, function(){
-				_isComplete = false;
-				_isDelete = true;
+				isComplete = false;
+				isDelete = true;
 				dom.byId("dlg_title").innerHTML = "Delete";
 				dom.byId("dlg_text").innerHTML = "Are you sure you want to delete this item?";
 				show();
@@ -196,9 +196,9 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			signal = on(dom.byId("confirm_yes"), "click", lang.hitch(this, function(){
 				var datamodel = this.app.currentItemListModel;
 				var index = this.app.selected_item;
-				if(_isComplete){
+				if(isComplete){
 					datamodel.model[index].set("completed", true);
-				}else if(_isDelete){
+				}else if(isDelete){
 					var datamodel = this.app.currentItemListModel.model;
 					var len = datamodel.length;
 					//remove from current datamodel

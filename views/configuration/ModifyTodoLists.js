@@ -17,7 +17,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 	};
 	
 	// delete configuration item.
-	var _deleteConfItem = function(index){
+	var deleteConfItem = function(index){
 		dom.byId("dlg_titleMod").innerHTML = "Delete";
 		dom.byId("dlg_textMod").innerHTML = "Are you sure you want to delete this list?";
 		show();
@@ -41,7 +41,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 
 				var index = getIndexFromId(e.target, "editList");
 				this.deleteList = index;
-				_deleteConfItem(index);
+				deleteConfItem(index);
 			}));
 			signals.push(signal);
 
