@@ -2,8 +2,6 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 	function(lang, dom, on, TransitionEvent, registry){
 	var signals = []; // events connect result
 
-	var listsmodel = null;	//repeat view data model
-
 	// get index from dom node id
 	var getIndexFromId = function(node, perfix){
 		while(node && !node.id){
@@ -36,9 +34,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 
 	return {
 		init: function(){
-			listsmodel = this.loadedModels.listsmodel;
 			var configureListDom = dom.byId("configure_edit");
-			var connectResult;
 			var signal = on(configureListDom, "div .mblDomButtonRedCircleMinus:click", lang.hitch(this, function(e){
 				// stop transition because listsmodel update will trigger transition to items,ViewListTodoItemsByPriority view by default.
 				this.app.stopTransition = true;
@@ -50,7 +46,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 			signals.push(signal);
 
 			signal = on(dom.byId("confirm_yesMod"), "click", lang.hitch(this, function(){
-				var datamodel = listsmodel.model;
+				var datamodel = this.loadedModels.listsmodel;
 				var len = datamodel.length;
 				var index = this.deleteList;				
 				if (index >= 0 && index < len) {

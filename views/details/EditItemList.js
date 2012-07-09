@@ -9,7 +9,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils/utils"], function(lang, r
 					var datamodel = this.app.currentItemListModel.model[this.app.selected_item];
 					if (datamodel) {
 						var listsmodel = this.loadedModels.listsmodel.model;
-						if(index>=0 && index<listsmodel.length){
+						if(index>=0 && index < listsmodel.length){
 							datamodel.listId = listsmodel[index].id;
 						}
 					}
@@ -18,7 +18,6 @@ define(["dojo/_base/lang", "dijit/registry", "../utils/utils"], function(lang, r
 		},
 
 		beforeActivate: function(){
-			listsmodel = this.loadedModels.listsmodel;
 			this.refreshData();
 		},
 
