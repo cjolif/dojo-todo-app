@@ -1,5 +1,5 @@
 <div style="background:#c5ccd3" class="view mblView">
-	<h1 data-dojo-type="dojox/mobile/Heading" label="Remind Me" back="Back"></h1>
+	<h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Remind Me', back: 'Back'"></h1>
 	<ul data-dojo-type="dojox/mobile/RoundRectList">
 		<li data-dojo-type="dojox/mobile/ListItem">
 			On a Day
@@ -10,15 +10,15 @@
 	<ul data-dojo-type="dojox/mobile/RoundRectList">
 		<li data-dojo-type="dojox/mobile/ListItem">
 			At a Location
-			<div class="mblItemSwitch" id="remind_location_switch" data-dojo-type="dojox.mobile.Switch" data-dojo-props="value: 'off'"></div>
+			<div class="mblItemSwitch" id="remind_location_switch" data-dojo-type="dojox/mobile/Switch" data-dojo-props="value: 'off'"></div>
 		</li>
 	</ul>
 	<div id="datePicker" data-dojo-type="dojox/mobile/Opener">
- 		<h1 data-dojo-type="dojox/mobile/Heading" label="Date Picker">
+ 		<h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Date Picker'">
 			<span data-dojo-type="dojox/mobile/ToolBarButton" id="reminddlgSet" data-dojo-props="label: 'Done'" class="mblColorBlue" style="position:absolute;width:45px;right:0"></span>
 			<span data-dojo-type="dojox/mobile/ToolBarButton" id="reminddlgCancel" data-dojo-props="label: 'Cancel'" class="mblColorBlue" style="position:absolute;width:45px;left:0"></span>
 		</h1>
-		<div id="reminddlgpicker1" data-dojo-type="dojox.mobile.DatePicker"></div>
+		<div id="reminddlgpicker1" data-dojo-type="dojox/mobile/DatePicker"></div>
 		<div id="invalidDate" style="visibility:hidden; color:red">Invalid date, the date can not be in the past!</div>
 	</div>
 </div>

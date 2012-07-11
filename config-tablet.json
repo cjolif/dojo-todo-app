@@ -4,6 +4,12 @@
 	"description": "These is a ToDo sample application based on the Dojo Toolkit and provided under Dojo license.",
 	"splash": "splash",
 
+	"loaderConfig": {
+		"paths": {
+			"todoApp": "../demos/todoApp"
+		}
+	},
+
 	"dependencies": [
 		"dojox/mobile/_base",
 		"dojox/mobile/_compat",
@@ -41,7 +47,10 @@
 	// array of mixins in a dojo.declare().  Modify the top level behavior
 	// of the application, how it processes the config or any other life cycle
 	// by creating and including one or more of these
-	"modules": [],
+	"modules": [
+		"todoApp/todoApp"
+	],
+
 	"controllers": [
 		"dojox/app/controllers/History"
 	],
@@ -98,31 +107,31 @@
 
 			"views": {
 				"SelectTodoList": {
-					"template": "./templates/configuration/SelectTodoList.html"
+					"template": "todoApp/templates/configuration/SelectTodoList.html"
 				},
 
 				"ModifyTodoLists": {
-					"template": "./templates/configuration/ModifyTodoLists.html"
+					"template": "todoApp/templates/configuration/ModifyTodoLists.html"
 				},
 
 				"EditTodoList": {
-					"template": "./templates/configuration/EditTodoList.html"
+					"template": "todoApp/templates/configuration/EditTodoList.html"
 				}
 			}
 		},
 
 		//items scene, include ViewListTodoItemsByPriority view and ViewAllTodoItemsByDate view
 		"items": {
-			"template": "./templates/items.html",
+			"template": "todoApp/templates/items.html",
 			"defaultView": "ViewListTodoItemsByPriority",
 			"defaultTransition": "fade",
 			//the views available to this scene
 			"views": {
 				"ViewListTodoItemsByPriority":{
-					"template": "./templates/items/ViewListTodoItemsByPriority.html"
+					"template": "todoApp/templates/items/ViewListTodoItemsByPriority.html"
 				},
 				"ViewAllTodoItemsByDate":{
-					"template": "./templates/items/ViewAllTodoItemsByDate.html"
+					"template": "todoApp/templates/items/ViewAllTodoItemsByDate.html"
 				}
 			}
 		},
@@ -135,21 +144,21 @@
 
 			"views": {
 				"EditTodoItem":{
-					"template": "./templates/details/EditTodoItem.html"
+					"template": "todoApp/templates/details/EditTodoItem.html"
 				},
 
 				"EditItemRepeat":{
-					"template": "./templates/details/EditItemRepeat.html"
+					"template": "todoApp/templates/details/EditItemRepeat.html"
 				},
 
 				"EditItemRemindMe":{
-					"template": "./templates/details/EditItemRemindMe.html"
+					"template": "todoApp/templates/details/EditItemRemindMe.html"
 				},
 				"EditItemPriority":{
-					"template": "./templates/details/EditItemPriority.html"
+					"template": "todoApp/templates/details/EditItemPriority.html"
 				},
 				"EditItemList":{
-					"template": "./templates/details/EditItemList.html"
+					"template": "todoApp/templates/details/EditItemList.html"
 				}
 			}
 		}
