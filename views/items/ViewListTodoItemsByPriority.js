@@ -38,7 +38,7 @@ function(dom, lang, declare, domStyle, when, registry, at, Repeat, RoundRectList
 				},
 				templateString: RoundRectWidListTemplate
 			});
-			roundRectWidList.placeAt(list_container);		
+			roundRectWidList.placeAt(dom.byId("list_container"));
 			roundRectWidList.startup();
 		}else{
 			roundRectWidList.set("children", at(datamodel, 'model'));
