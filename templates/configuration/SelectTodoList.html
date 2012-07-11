@@ -1,6 +1,6 @@
 <div class="view mblView">
 	<script type="dojo/require">at: "dojox/mvc/at"</script>
-	<h1 data-dojo-type="dojox/mobile/Heading" label="Configure" region="top">
+	<h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Configure'" data-app-region="top">
 		<div data-dojo-type="dojox/mobile/ToolBarButton" label="Done" style="float:left"
 			 data-dojo-props="transitionOptions: {title:'List',target: 'items,ViewListTodoItemsByPriority',url: '#items,ViewListTodoItemsByPriority'}">
 		</div>
@@ -8,8 +8,8 @@
 			 data-dojo-props="transitionOptions: {title:'Configuration Edit',target: 'configuration,ModifyTodoLists',url: '#configuration,ModifyTodoLists'}">
 		</div>
 	</h1>
-	<h2 data-dojo-type="dojox/mobile/RoundRectCategory" region="top">Search Reminders</h2>
-	<div data-dojo-type="dojox/app/widgets/Container" region="center" data-dojo-prop="scrollable: true">
+	<h2 data-dojo-type="dojox/mobile/RoundRectCategory" data-app-region="top">Search Reminders</h2>
+	<div data-dojo-type="dojox/app/widgets/Container" data-app-region="center" data-dojo-prop="scrollable: true">
 	<div id="configurewrapper" style="visibility:hidden">
 		<ul data-dojo-type="dojox/mobile/RoundRectList">
 			<li id="configure_completeLi" data-dojo-type="dojox/mobile/ListItem"
@@ -17,8 +17,8 @@
 				transitionOptions: {title:'List',target: 'items,ViewListTodoItemsByPriority', url: '#items,ViewListTodoItemsByPriority'}">
 			</li>
 		</ul>
-		<ul data-dojo-type="dojox/mobile/RoundRectList" id="configure_list" select="single"
-				 data-dojo-mixins="dojox/mvc/Repeat" data-dojo-props="exprchar: '#', children: at(this.loadedModels.listsmodel, 'model')">
+		<ul data-dojo-type="dojox/mobile/RoundRectList" id="configure_list" data-dojo-mixins="dojox/mvc/Repeat"
+			data-dojo-props="select: 'single', exprchar: '#', children: at(this.loadedModels.listsmodel, 'model')">
 			<li id="configure_itemmix1#{this.index}" data-dojo-type="dojox/mobile/ListItem"
 				data-dojo-props="label: at('rel:#{this.index}', 'title'), checked: at('rel:#{this.index}', 'Checked')">
 			</li>
