@@ -159,6 +159,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 				domStyle.set(dom.byId("itemswrapper"), "visibility", "visible"); // show the items heading and toolbar from items.html
 				domStyle.set(dom.byId("datewrapper"), "visibility", "visible"); // show the date items list
 				this.app.showProgressIndicator(false);
+				// TODO: showProgressIndicator does this, so why do we need it?
 				this.app.progressIndicator.domNode.style.visibility = "hidden";
 			}));
 		}

@@ -172,6 +172,7 @@ function(dom, lang, declare, domStyle, when, registry, at, Repeat, RoundRectList
 				domStyle.set(dom.byId("itemswrapper"), "visibility", "visible"); // show the items heading and toolbar from items.html
 				domStyle.set(dom.byId("itemslistwrapper"), "visibility", "visible"); // show the items in the list
 				this.app.showProgressIndicator(false);
+				// TODO: showProgressIndicator does this, so why do we need it?
 				this.app.progressIndicator.domNode.style.visibility = "hidden";
 			}));
 		}
