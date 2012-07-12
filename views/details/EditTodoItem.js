@@ -160,14 +160,12 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
 
-			var signal;
-
 			registry.byId("detail_showMore").on("click", function(){
 				showMoreDetail();
 			});
 
 			// use _this.backFlag to identify the EditTodoItem view back to items,ViewListTodoItemsByPriority view
-			registry.byId("detail_back").on("click", lang.hitch(this, function(evt){
+			registry.byId("detail_back").on("click", lang.hitch(this, function(){
 				this._backFlag = true;
 				history.back();
 			}));
@@ -194,7 +192,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 				if(isComplete){
 					datamodel.model[index].set("completed", true);
 				}else if(isDelete){
-					var datamodel = this.app.currentItemListModel.model;
+					datamodel = this.app.currentItemListModel.model;
 					var len = datamodel.length;
 					//remove from current datamodel
 					if(index>=0 && index<len){
@@ -210,7 +208,6 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 						target:"items,ViewListTodoItemsByPriority",
 						url: "#items,ViewListTodoItemsByPriority"
 				};
-				var e = window.event;
 				new TransitionEvent(dom.byId("item_detailsGroup"), transOpts, null).dispatch();
 			}));
 
