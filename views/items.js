@@ -1,14 +1,12 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dojox/mobile/TransitionEvent", "./utils"],
-	function(lang, dom, domStyle, on, TransitionEvent, utils){
-	var signals = []; // events connect result
-
+define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dijit/registry", "dojox/mobile/TransitionEvent"],
+	function(lang, dom, domStyle, registry, TransitionEvent){
 	return {
 		init: function(){
 			if(this.app.isTablet){
 				domStyle.set(dom.byId("gotoConfigurationView"), "display", "none");
 			}
 
-			var signal = on(dom.byId("itemslist_add"), "click", lang.hitch(this, function(e){
+			registry.byId("itemslist_add").on("click", lang.hitch(this, function(e){
 				// use selected_item = -1 to identify add a new item
 				this.app._addNewItem = true;
 
@@ -20,11 +18,6 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dojox/mobil
 				};
 				new TransitionEvent(e.srcElement, transOpts, e).dispatch();
 			}));
-			signals.push(signal);
-		},
-		
-		destroy: function(){
-			utils.destroySignals(signals);
 		}
 	}
 });

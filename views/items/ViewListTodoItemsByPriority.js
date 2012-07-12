@@ -3,7 +3,8 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style", "
 		"dojox/mobile/ListItem", "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/parser", 	
         "dojo/text!../../templates/items/RoundRectWidListTemplate.html"],
-function(dom, lang, declare, domStyle, when, registry, at, Repeat, RoundRectList, WidgetList, Templated, ListItem, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, parser, RoundRectWidListTemplate){
+function(dom, lang, declare, domStyle, when, registry, at, Repeat, RoundRectList, WidgetList, Templated, ListItem,
+		 EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, parser, RoundRectWidListTemplate){
 	showItemDetails = function(index){
 		// summary:
 		//		set the cursorIndex for this.app.currentItemListModel so the selected item will be displayed after transition to details 

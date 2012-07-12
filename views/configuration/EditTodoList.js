@@ -1,10 +1,9 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mvc/getStateful", "../utils"],
-	function(lang, dom, on, getStateful, utils){
-	var signal;
+define(["dojo/_base/lang", "dojo/dom", "dijit/registry", "dojox/mvc/getStateful"],
+	function(lang, dom, registry, getStateful){
 
 	return {
 		init: function(){
-			signal = on(dom.byId("addList_add"), "click", lang.hitch(this, function(e){
+			registry.byId("addList_add").on("click", lang.hitch(this, function(e){
 				var title = dom.byId("titleInput").value;
 				if(title){
 					// stop transition because listsmodel update will trigger transition to items,ViewListTodoItemsByPriority view by default.
@@ -23,10 +22,6 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mvc/getStateful", "../u
 		beforeActivate: function(){
 			dom.byId("titleInput").value = "";
 			dom.byId("desInput").value = "";
-		},
-
-		destroy: function(){
-			utils.destroySignals([signal]);
 		}
 	}
 });
