@@ -1,8 +1,7 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/registry",
-	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at", "dojo/date/stamp", "../utils"],
-	function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, stamp, utils){
+	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at", "dojo/date/stamp"],
+	function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, stamp){
 	var listsmodel = null;
-	var signals = [];
 	var isComplete = false;
 	var isDelete = false;
 	var detailsSetup = false;
@@ -163,37 +162,33 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 
 			var signal;
 
-			signal = on(dom.byId("detail_showMore"), "click", function(){
+			registry.byId("detail_showMore").on("click", function(){
 				showMoreDetail();
 			});
-			signals.push(signal);
-			
+
 			// use _this.backFlag to identify the EditTodoItem view back to items,ViewListTodoItemsByPriority view
-			signal = on(dom.byId("detail_back"), "click", lang.hitch(this, function(){
+			registry.byId("detail_back").on("click", lang.hitch(this, function(evt){
 				this._backFlag = true;
 				history.back();
 			}));
-			signals.push(signal);
 
-			signal = on(dom.byId("markAsComplete"), "click", lang.hitch(this, function(){
+			registry.byId("markAsComplete").on("click", lang.hitch(this, function(){
 				isComplete = true;
 				isDelete = false;
 				dom.byId("dlg_title").innerHTML = "Mark As Complete";
 				dom.byId("dlg_text").innerHTML = "Are you sure you want to mark this item as complete?";
 				show();
 			}));
-			signals.push(signal);
 
-			signal = on(dom.byId("deleteCurrentItem"), "click", lang.hitch(this, function(){
+			registry.byId("deleteCurrentItem").on("click", lang.hitch(this, function(){
 				isComplete = false;
 				isDelete = true;
 				dom.byId("dlg_title").innerHTML = "Delete";
 				dom.byId("dlg_text").innerHTML = "Are you sure you want to delete this item?";
 				show();
 			}));
-			signals.push(signal);
 
-			signal = on(dom.byId("confirm_yes"), "click", lang.hitch(this, function(){
+			registry.byId("confirm_yes").on("click", lang.hitch(this, function(){
 				var datamodel = this.app.currentItemListModel;
 				var index = this.app.selected_item;
 				if(isComplete){
@@ -218,12 +213,10 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 				var e = window.event;
 				new TransitionEvent(dom.byId("item_detailsGroup"), transOpts, null).dispatch();
 			}));
-			signals.push(signal);
 
-			signal = on(dom.byId("confirm_no"), "click", lang.hitch(this, function(){
+			registry.byId("confirm_no").on("click", lang.hitch(this, function(){
 				hide();
 			}));
-			signals.push(signal);
 		},
 
 		beforeActivate: function(){
@@ -258,7 +251,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 		},
 
 		destroy: function(){
-			utils.destroySignals(signals);
+			// _WidgetBase.on listener is automatically destroyed when the Widget itself his.
 		}
 	}
 });
