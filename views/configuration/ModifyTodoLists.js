@@ -1,6 +1,5 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent", "dijit/registry", "../utils"],
-	function(lang, dom, on, TransitionEvent, registry, utils){
-	var signals = []; // events connect result
+define(["dojo/_base/lang", "dojox/mobile/TransitionEvent", "dijit/registry"],
+	function(lang, TransitionEvent, registry){
 
 	// get index from dom node id
 	var getIndexFromId = function(node, prefix){
@@ -24,19 +23,16 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 		registry.byId("dlg_confirmMod").hide();
 	};
 
-
 	return {
 		init: function(){
-			var configureListDom = dom.byId("configure_edit");
-			var signal = on(configureListDom, "div .mblDomButtonRedCircleMinus:click", lang.hitch(this, function(e){
+			registry.byId("configure_edit").on("div .mblDomButtonRedCircleMinus:click", lang.hitch(this, function(e){
 				// stop transition because listsmodel update will trigger transition to items,ViewListTodoItemsByPriority view by default.
 				this.app.stopTransition = true;
 				this._deleteListIndex = getIndexFromId(e.target, "editList");
 				show();
 			}));
-			signals.push(signal);
 
-			signal = on(dom.byId("confirm_yesMod"), "click", lang.hitch(this, function(){
+			registry.byId("confirm_yesMod").on("click", lang.hitch(this, function(){
 				var datamodel = this.loadedModels.listsmodel.model;
 				var len = datamodel.length;
 				var index = this._deleteListIndex;
@@ -46,14 +42,12 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 				//hide confirm dialog
 				hide();
 			}));
-			signals.push(signal);
 
-			signal = on(dom.byId("confirm_noMod"), "click", lang.hitch(this, function(){
+			registry.byId("confirm_noMod").on("click", lang.hitch(this, function(){
 				hide();
 			}));
-			signals.push(signal);
-			
-			signal = on(dom.byId("configuration_done"), "click", lang.hitch(this, function(e){
+
+			registry.byId("configuration_done").on("click", lang.hitch(this, function(e){
 				var transOpts;
 				// on tablet directly transition to list view because tablet has navigation bar on the left
 				if(this.app.isTablet){
@@ -73,12 +67,6 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/on", "dojox/mobile/TransitionEvent"
 				}
 				new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 			}));
-			signals.push(signal);
-		},
-
-		// destroy the events signals
-		destroy: function(){
-			utils.destroySignals(signals);
 		}
 	}
 });
