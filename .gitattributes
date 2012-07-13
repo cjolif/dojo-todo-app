@@ -1,0 +1,31 @@
+# Set default behaviour, in case users don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files we want to always be normalized and converted
+# to native line endings on checkout.
+*.js text
+*.htm text
+*.html text
+*.svg text
+*.txt text
+*.xml text
+*.xsl text
+*.dtd text
+*.css text
+*.rest text
+*.less text
+*.php text
+*.phps text
+*.inc text
+*.sh text
+Makefile text
+README text
+CHANGELOG text
+LICENSE text
+INSTALL text
+BUILD text
+
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
