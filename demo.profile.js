@@ -32,6 +32,7 @@ dependencies = {
 				"dojox/mvc/EditStoreRefListController",
 				"dojox/mvc/Repeat",
 				"dojox/mvc/Group",
+				"dojox/mvc/WidgetList",
 				"dojox/mvc/Output",
 				"dojox/mvc/at",
 				"dojox/app/main",
