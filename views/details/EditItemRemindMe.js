@@ -17,7 +17,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 	
 	var refreshData = function(){
 		var datamodel = itemlistmodel.model[this.app.selected_item];
-		if (datamodel) {
+		if(datamodel) {
 			// need to add reminderOnAday property to the original data store
 			var widget = registry.byId('remind_day_switch');
 			widget.set("value", at(datamodel, "reminderOnAday"));
@@ -28,7 +28,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 
 			//set remind time
 			widget = registry.byId('remind_date');
-			if (widget) { 
+			if(widget) { 
 				widget.set("label", at(datamodel, "reminderDate"));	
 				var value = datamodel.get("reminderDate");
 				if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
@@ -47,7 +47,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 	return {
 		init: function(){
 			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
-			itemlistmodel = this.loadedModels.itemlistmodel
+			itemlistmodel = this.loadedModels.itemlistmodel;
 			var signal;
 		
 			registry.byId("remind_day_switch").on("stateChanged", lang.hitch(this, function(newState){
@@ -95,7 +95,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 				}else{
 					datamodel.set("reminderDate", date);
 					domClass.remove(registry.byId('remind_date').domNode, "dateLabelInvalid");
-					registry.byId('datePicker').hide(true);
+					registry.byId("datePicker").hide(true);
 					domStyle.set(dom.byId("invalidDate"), "visibility", "hidden");
 				}
 			}));
@@ -104,7 +104,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 			signal = on(dom.byId("reminddlgCancel"), "click", lang.hitch(this, function(){
 				//console.log("reminddlgCancel clicked ");
 				domStyle.set(dom.byId("invalidDate"), "visibility", "hidden");
-				registry.byId("datePicker").hide(false)
+				registry.byId("datePicker").hide(false);
 				var datamodel = itemlistmodel.model[this.app.selected_item];
 				date = datamodel.get("reminderDate");
 				if(!date){ // cancelled and no date set, so need to set 
