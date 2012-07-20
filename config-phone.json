@@ -68,7 +68,15 @@
 		   "params": {
 				"url": "./resources/data/all-items.json"
 		   }
+	   },
+		
+		"allitemlistEmojiStore":{
+	       "type": "dojo/data/ItemFileWriteStore",
+		   "params": {
+				"url": "./resources/data/all-items-emoji.json"
+		   }
 	   }
+	   
 	},
 
 	//models and instantiation parameters for the models. Including 'type' as a property allows
