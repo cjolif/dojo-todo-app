@@ -1,9 +1,9 @@
-define(["dojo/dom", "dojo/_base/lang", "dojo/_base/declare", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",  
+define(["dojo/dom", "dojo/_base/lang", "dojo/sniff", "dojo/_base/declare", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",  
 		"dojox/mvc/Repeat", "dojox/mobile/RoundRectList", "dojox/mvc/WidgetList", "dojox/mvc/Templated",
 		"dojox/mobile/ListItem", "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/parser", 	
         "dojo/text!../../templates/items/RoundRectWidListTemplate.html"],
-function(dom, lang, declare, domStyle, when, registry, at, Repeat, RoundRectList, WidgetList, Templated, ListItem,
+function(dom, lang, has, declare, domStyle, when, registry, at, Repeat, RoundRectList, WidgetList, Templated, ListItem,
 		 EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, parser, RoundRectWidListTemplate){
 	showItemDetails = function(index){
 		// summary:
@@ -164,7 +164,7 @@ function(dom, lang, declare, domStyle, when, registry, at, Repeat, RoundRectList
 			}
 			var listCtl = this.app.currentItemListModel;
 			if(!listCtl){
-				var writestore = this.app.stores.allitemlistStore.store;
+				var writestore = has("ios") ? this.app.stores.allitemlistEmojiStore.store : this.app.stores.allitemlistStore.store;
 				listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			}			
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){

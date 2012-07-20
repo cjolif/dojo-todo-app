@@ -68,6 +68,13 @@
 		   "params": {
 				"url": "./resources/data/all-items.json"
 		   }
+	   },
+		
+		"allitemlistEmojiStore":{
+	       "type": "dojo/data/ItemFileWriteStore",
+		   "params": {
+				"url": "./resources/data/all-items-emoji.json"
+		   }
 	   }
 	},
 
