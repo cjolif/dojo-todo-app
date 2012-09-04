@@ -10,8 +10,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 		if(!date){
 			date = stamp.toISOString(new Date(), {selector: "date"});
 		}
-		//console.log("remind showDateDialog date = ", date);
-		registry.byId("reminddlgpicker1").set("value", date);							
+		registry.byId("reminddlgpicker1").set("value", date);
 		registry.byId("datePicker").show(dom.byId(widgetid),['above-centered','below-centered','after','before']);
 	};	
 	
@@ -59,7 +58,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 				if(datamodel.reminderOnAday == "on"){
 					domStyle.set(dom.byId('remind_date'), 'display', '');
 					if(!activateInProgress){
-						showDateDialog("remind_day_switch");
+							showDateDialog("remind_day_switch");
 					}
 				}else{
 					datamodel.set("reminderDate","");
@@ -75,13 +74,14 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 				datamodel.set("reminderOnAlocation",newState);				
 			}));
 
-			signal = on(dom.byId("remind_date"), "click", lang.hitch(this, function(){
+			registry.byId("remind_date").on("click", lang.hitch(this, function(e){
 				//console.log("remind_date clicked call showDateDialog ");
 				showDateDialog('remind_date');
+				// workaround for http://bugs.dojotoolkit.org/ticket/15786
+				e.preventDefault();
 			}));
-			signals.push(signal);
 
-			signal = on(dom.byId("reminddlgSet"), "click", lang.hitch(this, function(){
+			registry.byId("reminddlgSet").on("click", lang.hitch(this, function(){
 				//console.log("reminddlgSet clicked ");
 				// update remind on a day value to the data model
 				var datamodel = this.loadedModels.itemlistmodel.model[this.app.selected_item];
@@ -91,7 +91,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 				if(date < todayDate){
 					domStyle.set(dom.byId("invalidDate"), "visibility", "visible");
 					registry.byId("reminddlgpicker1").set("value", todayDate);							
-					
 				}else{
 					datamodel.set("reminderDate", date);
 					domClass.remove(registry.byId('remind_date').domNode, "dateLabelInvalid");
@@ -99,9 +98,8 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 					domStyle.set(dom.byId("invalidDate"), "visibility", "hidden");
 				}
 			}));
-			signals.push(signal);
 
-			signal = on(dom.byId("reminddlgCancel"), "click", lang.hitch(this, function(){
+			registry.byId("reminddlgCancel").on("click", lang.hitch(this, function(){
 				//console.log("reminddlgCancel clicked ");
 				domStyle.set(dom.byId("invalidDate"), "visibility", "hidden");
 				registry.byId("datePicker").hide(false);
@@ -111,7 +109,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 					datamodel.set("reminderOnAday", "off");
 				}
 			}));
-			signals.push(signal);
 		},
 
 		beforeActivate: function(){
@@ -120,14 +117,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			refreshData();
 			activateInProgress = false;
-		},
-
-		beforeDeactivate: function(){
-			//console.log("remind.js beforeDeactivate called ");
-		},
-
-		afterDeactivate: function(){
-			//console.log("remind.js afterDeactivate called ");
 		}
 	}
 });
