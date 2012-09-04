@@ -4,7 +4,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils"], function(lang, registr
 		init: function(){
 			registry.byId("list_list").on("checkStateChanged", lang.hitch(this, function(item, state){
 				// save the select value to data store
-				if (state) {
+				if(state){
 					var index = utils.getIndexByListItem(registry.byId("list_list"), item);
 					var datamodel = this.app.currentItemListModel.model[this.app.selected_item];
 					if(datamodel){

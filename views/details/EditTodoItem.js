@@ -8,7 +8,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 	this.app._addNewItemCommit = false; // identify the new item is committed
 
 	var dateClassTransform2 = {
-		format : function(value) {
+		format : function(value){
 			// check to see if the date is in the past, if so display it in red
 			if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
 				return "dateLabelInvalid";
@@ -20,7 +20,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 
 	// transform the repeat to the correct text
 	var repeatTransform = {
-		format : function(value) {
+		format : function(value){
 			var repeatArray = ["None", "Every Day", "Every Week", "Every 2 Week", "Every Month", "Every Year"];
 			return repeatArray[value] ? repeatArray[value] : '';
 		}
@@ -28,7 +28,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 
 	// transform the priority to the correct text
 	var priorityTransform = {
-		format : function(value) {
+		format : function(value){
 			var priorityArray = ["None", "Low", "Medium", "High"];
 			return priorityArray[value] ? priorityArray[value] : '';
 		}
@@ -36,7 +36,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 
 	// transform the priority to the correct text
 	var parentTitleTransform = {
-		format : function(value) {
+		format : function(value){
 			var parentModel;
 			// check listsmodel because this transform method will be called by dojox.mvc before EditTodoItem view initial
 			if(!listsmodel || !listsmodel.model){
@@ -143,7 +143,9 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 		for(var i=0; i < bindingArray.length; i++){
 			item = bindingArray[i];
 			var binding = at(item.atparm1, item.atparm2).direction(item.direction);
-			if (item.transform){ binding.transform(item.transform); }
+			if(item.transform){
+				binding.transform(item.transform);
+			}
 			registry.byId(item.id).set(item.attribute, binding);
 		}
 	};

@@ -3,7 +3,7 @@ function(lang, registry, TransitionEvent){
 	this.app.stopTransition = false;
 
 	selectItems = function(node, index){
-		//if (this.app.selected_configuration_item == index) {
+		//if(this.app.selected_configuration_item == index){
 		//	return;
 		//}
 		this.app.selected_configuration_item = index;

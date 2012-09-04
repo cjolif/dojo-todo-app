@@ -16,7 +16,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 	
 	var refreshData = function(){
 		var datamodel = itemlistmodel.model[this.app.selected_item];
-		if(datamodel) {
+		if(datamodel){
 			// need to add reminderOnAday property to the original data store
 			var widget = registry.byId('remind_day_switch');
 			widget.set("value", at(datamodel, "reminderOnAday"));
@@ -27,7 +27,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 
 			//set remind time
 			widget = registry.byId('remind_date');
-			if(widget) { 
+			if(widget){
 				widget.set("label", at(datamodel, "reminderDate"));	
 				var value = datamodel.get("reminderDate");
 				if(value && value < stamp.toISOString(new Date(), {selector: "date"})){

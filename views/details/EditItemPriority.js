@@ -3,7 +3,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils"], function(lang, registr
 
 	var refreshData = function(){
 		var datamodel = itemlistmodel.model[this.app.selected_item];
-		if (datamodel) {
+		if(datamodel){
 			// select repeat type
 			var widget = registry.byId("list_priority");
 			var priorityWidget = utils.getListItemByIndex(widget, datamodel.priority);
@@ -23,7 +23,7 @@ define(["dojo/_base/lang", "dijit/registry", "../utils"], function(lang, registr
 				if(state){
 					var index = utils.getIndexByListItem(registry.byId("list_priority"), item);
 					var datamodel = itemlistmodel.model[this.app.selected_item];
-					if (datamodel) {
+					if(datamodel){
 						datamodel.priority = index;
 					}
 				}

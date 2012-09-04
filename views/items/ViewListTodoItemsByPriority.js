@@ -23,7 +23,7 @@ function(dom, lang, has, declare, domStyle, when, registry, at, Repeat, RoundRec
 		// datamodel: dojox/mvc/EditStoreRefListController
 		//		The EditStoreRefListController whose model holds the items for the selected list.
 		//
-		if(!roundRectWidList) {
+		if(!roundRectWidList){
 			var clz = declare([WidgetList, RoundRectList], {});
 			roundRectWidList = new clz({
 				children: at(datamodel, "model"),

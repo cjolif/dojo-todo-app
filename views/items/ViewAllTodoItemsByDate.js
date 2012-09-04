@@ -15,7 +15,7 @@ function(dom, lang, has, domStyle, when, registry, at, EditStoreRefListControlle
 	};
 
 	dateListClassTransform = {
-		format : function(value) {
+		format : function(value){
 			// check to see if the date is in the past, if so display it in red
 			if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
 				return "dateLabelInvalid";
@@ -132,7 +132,6 @@ function(dom, lang, has, domStyle, when, registry, at, EditStoreRefListControlle
 						this.loadedModels.listsmodel.model[i].set("Checked", false);						
 					}
 				}
-			
 			}else{
 				// selected an item so uncheck complete on configure or nav
 				if(registry.byId("configure_completeLi")){
