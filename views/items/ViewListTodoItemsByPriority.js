@@ -39,7 +39,7 @@ function(dom, lang, has, declare, domStyle, when, registry, at, Repeat, RoundRec
 				},
 				templateString: RoundRectWidListTemplate
 			});
-			roundRectWidList.placeAt(dom.byId("list_container"));
+			roundRectWidList.placeAt(dom.byId("addWidgetHere"));
 			roundRectWidList.startup();
 		}else{
 			roundRectWidList.set("children", at(datamodel, 'model'));
