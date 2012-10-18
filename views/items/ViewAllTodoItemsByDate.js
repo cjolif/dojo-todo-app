@@ -15,7 +15,7 @@ function(dom, lang, has, domStyle, when, registry, at, EditStoreRefListControlle
 	};
 
 	dateListClassTransform = {
-		format : function(value) {
+		format : function(value){
 			// check to see if the date is in the past, if so display it in red
 			if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
 				return "dateLabelInvalid";
@@ -39,25 +39,12 @@ function(dom, lang, has, domStyle, when, registry, at, EditStoreRefListControlle
 
 	var showListType = function(/*dojox/mvc/EditStoreRefListController*/ listsmodel){
 		// summary:
-		//		show the new Item link if the Completed list is not selected, and set the type into the list_type dom node.
+		//		update the heading for the date view into the list_type dom node.
 		//
 		// listsmodel: dojox/mvc/EditStoreRefListController
 		//		The EditStoreRefListController whose model holds the available lists.
 		//
-		var type;
-		if(this.app.selected_configuration_item == -1){
-			type = "Completed";			
-			domStyle.set(dom.byId("itemslist_add"), "visibility", "hidden"); // hide the new item link
-		}else{
-			domStyle.set(dom.byId("itemslist_add"), "visibility", ""); // show the new item link			
-			var listdata = listsmodel.model[this.app.selected_configuration_item];
-			if(listdata && listdata.title){
-				type = listdata.title;
-			}else{
-				type = "Unknown";
-			}
-		}
-		dom.byId("list_type").innerHTML = type;
+		dom.byId("list_type").innerHTML = "All items by date";
 	};
 
 	return {
@@ -132,7 +119,6 @@ function(dom, lang, has, domStyle, when, registry, at, EditStoreRefListControlle
 						this.loadedModels.listsmodel.model[i].set("Checked", false);						
 					}
 				}
-			
 			}else{
 				// selected an item so uncheck complete on configure or nav
 				if(registry.byId("configure_completeLi")){
