@@ -22,21 +22,20 @@ function(lang, registry, TransitionEvent){
 		// Disadvantage: need to add code special for tablet
 	};
 
-	var editConfiguration = function(){
+	var editConfiguration = function(e){
 		// publish transition event
 		var transOpts = {
 			title: "Edit",
 			target: "configuration,ModifyTodoLists",
 			url: "#configuration,ModifyTodoLists"
 		};
-		var e = window.event;
-		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
+		new TransitionEvent(e.target,transOpts,e).dispatch();
 	};
 	
 	return {
 		init: function(){
 			registry.byId("setting").on("click", lang.hitch(this, function(e){
-				editConfiguration();
+				editConfiguration(e);
 			}));
 			console.log("navigation view init ok");
 		}

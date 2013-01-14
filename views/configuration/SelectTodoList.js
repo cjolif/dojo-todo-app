@@ -21,7 +21,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dijit/registry", "dojo
 						url: "#items,ViewListTodoItemsByPriority"
 					};
 					var e = window.event;
-					new TransitionEvent(e.srcElement,transOpts,e).dispatch();
+					new TransitionEvent(e.target,transOpts,e).dispatch();
 				}
 			}));
 		},
