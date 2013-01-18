@@ -1,0 +1,173 @@
+{
+	"id": "todoApp",
+	"name": "ToDo App",
+	"description": "This is a ToDo sample application based on the Dojo Toolkit and provided under Dojo license.",
+	"splash": "splash",
+
+	"loaderConfig": {
+		"paths": {
+			"todoApp": "../demos/todoApp"
+		}
+	},
+
+	"dependencies": [
+		"dojox/mobile/_base",
+		"dojox/mobile/_compat",
+		"dojox/mobile/TabBar",
+		"dojox/mobile/RoundRect",
+		"dojox/mobile/TabBarButton",
+		"dojox/mobile/TextBox",
+		"dojox/mobile/TextArea",
+		"dojox/mobile/CheckBox",
+		"dojox/mobile/ExpandingTextArea",
+		"dojox/mobile/Button",
+		"dojox/mobile/RoundRect",
+		"dojox/mobile/Heading",
+		"dojox/mobile/ListItem",
+		"dojox/mobile/RoundRectList",
+		"dojox/mobile/RoundRectCategory",
+		"dojox/mobile/Switch",
+		"dojox/mobile/SimpleDialog",
+		"dojox/mobile/DatePicker",
+		"dojox/mobile/Opener",
+		"dojo/date/stamp",
+		"dojox/app/widgets/Container",
+		"dojo/store/Memory",
+		"dojo/data/ItemFileWriteStore",
+		"dojo/store/DataStore",
+		"dojox/app/utils/mvcModel",
+		"dojox/mvc/EditStoreRefListController",
+		"dojox/mvc/Repeat",
+		"dojox/mvc/WidgetList",
+		"dojox/mvc/Group",
+		"dojox/mvc/Output",
+		"dojox/mvc/at"
+	],
+	// Modules for the application.  They are basically used as the second
+	// array of mixins in a dojo.declare().  Modify the top level behavior
+	// of the application, how it processes the config or any other life cycle
+	// by creating and including one or more of these
+	"modules": [
+		"todoApp/todoApp"
+	],
+
+	"controllers": [
+		"dojox/app/controllers/History"
+	],
+	//stores we are using
+	"stores": {
+		"listsDataStore":{
+	       "type": "dojo/data/ItemFileWriteStore",
+		   "params": {
+				"url": "./resources/data/lists.json"
+		   }
+		},
+		
+		"allitemlistStore":{
+	       "type": "dojo/data/ItemFileWriteStore",
+		   "params": {
+				"url": "./resources/data/all-items.json"
+		   }
+	   },
+		
+		"allitemlistEmojiStore":{
+	       "type": "dojo/data/ItemFileWriteStore",
+		   "params": {
+				"url": "./resources/data/all-items-emoji.json"
+		   }
+	   }
+	},
+
+	//models and instantiation parameters for the models. Including 'type' as a property allows
+	//one to overide the class that will be used for the model.  By default it is dojox/mvc/model
+	"models": {
+		"listsmodel": {
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"datastore": {"$ref":"#stores.listsDataStore"}
+     		}           
+        },
+		
+		"allitemlistmodel": {
+			"modelLoader": "dojox/app/utils/mvcModel",
+			"type": "dojox/mvc/EditStoreRefListController",
+     		"params":{
+     			"datastore": {"$ref":"#stores.allitemlistStore"}
+     		}           
+        }
+	},
+	
+	"template": "todoApp/templates/tablet/ViewTodoLists.html",
+	"definition": "todoApp/views/tablet/ViewTodoLists",
+
+	//the name of the scene to load when the app is initialized.
+	"defaultView": "items,ViewListTodoItemsByPriority",
+
+	"defaultTransition": "fade",
+	//scenes are groups of views and models loaded at once
+	"views": {
+		"configuration": {
+			"defaultView": "SelectTodoList",
+			"defaultTransition": "fade",
+			"definition": "none",
+
+			"views": {
+				"SelectTodoList": {
+					"template": "todoApp/templates/configuration/SelectTodoList.html"
+				},
+
+				"ModifyTodoLists": {
+					"template": "todoApp/templates/configuration/ModifyTodoLists.html"
+				},
+
+				"EditTodoList": {
+					"template": "todoApp/templates/configuration/EditTodoList.html"
+				}
+			}
+		},
+
+		//items scene, include ViewListTodoItemsByPriority view and ViewAllTodoItemsByDate view
+		"items": {
+			"template": "todoApp/templates/items.html",
+			"defaultView": "ViewListTodoItemsByPriority",
+			"defaultTransition": "fade",
+			//the views available to this scene
+			"views": {
+				"ViewListTodoItemsByPriority":{
+					"template": "todoApp/templates/items/ViewListTodoItemsByPriority.html"
+				},
+				"ViewAllTodoItemsByDate":{
+					"template": "todoApp/templates/items/ViewAllTodoItemsByDate.html"
+				}
+			}
+		},
+
+		//details scene, include list view and date view
+		"details": {
+			"defaultView": "EditTodoItem",
+			"defaultTransition": "fade",
+			"definition": "none",
+
+			"views": {
+				"EditTodoItem":{
+					"template": "todoApp/templates/details/EditTodoItem.html"
+				},
+
+				"EditItemRepeat":{
+					"template": "todoApp/templates/details/EditItemRepeat.html"
+				},
+
+				"EditItemRemindMe":{
+					"template": "todoApp/templates/details/EditItemRemindMe.html"
+				},
+				"EditItemPriority":{
+					"template": "todoApp/templates/details/EditItemPriority.html"
+				},
+				"EditItemList":{
+					"template": "todoApp/templates/details/EditItemList.html"
+				}
+			}
+		}
+	}
+}

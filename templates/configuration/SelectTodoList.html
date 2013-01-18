@@ -1,6 +1,6 @@
 <div class="view mblView">
 	<script type="dojo/require">at: "dojox/mvc/at"</script>
-	<h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Configure'" data-app-region="top">
+	<h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props="label: 'Configure'" data-app-constraint="top">
 		<div data-dojo-type="dojox/mobile/ToolBarButton" label="Done" style="float:left"
 			 data-dojo-props="transitionOptions: {title:'List',target: 'items,ViewListTodoItemsByPriority',url: '#items,ViewListTodoItemsByPriority'}">
 		</div>
@@ -8,8 +8,8 @@
 			 data-dojo-props="transitionOptions: {title:'Configuration Edit',target: 'configuration,ModifyTodoLists',url: '#configuration,ModifyTodoLists'}">
 		</div>
 	</h1>
-	<h2 data-dojo-type="dojox/mobile/RoundRectCategory" data-app-region="top">Search Reminders</h2>
-	<div data-dojo-type="dojox/app/widgets/Container" data-app-region="center" data-dojo-prop="scrollable: true">
+	<h2 data-dojo-type="dojox/mobile/RoundRectCategory" data-app-constraint="top">Search Reminders</h2>
+	<div data-dojo-type="dojox/app/widgets/Container" data-app-constraint="center" data-dojo-prop="scrollable: true">
 	<div id="configurewrapper" style="visibility:hidden">
 		<ul data-dojo-type="dojox/mobile/RoundRectList">
 			<li id="configure_completeLi" data-dojo-type="dojox/mobile/ListItem"
