@@ -141,7 +141,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 
 	var bindAttributes = function(bindingArray){
 		for(var i=0; i < bindingArray.length; i++){
-			item = bindingArray[i];
+			var item = bindingArray[i];
 			var binding = at(item.atparm1, item.atparm2).direction(item.direction);
 			if(item.transform){
 				binding.transform(item.transform);
