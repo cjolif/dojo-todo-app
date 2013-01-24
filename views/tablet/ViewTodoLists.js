@@ -13,7 +13,6 @@ function(lang, registry, TransitionEvent){
 		// transition to the "items,ViewListTodoItemsByPriority" view, Do Not record the history.
 		// Advantage: Reuse the phone version
 		// Disadvantage: low effectiveness
-	//	this.app.trigger("transition", {"viewId": "navigation+items,ViewListTodoItemsByPriority"});
 		this.app.trigger("transition", {"viewId": "items,ViewListTodoItemsByPriority"});
 		this.app.stopTransition = true;
 
@@ -27,10 +26,8 @@ function(lang, registry, TransitionEvent){
 		// publish transition event
 		var transOpts = {
 			title: "Edit",
-			target: "navigation+configuration,ModifyTodoLists",
-			url: "#navigation+configuration,ModifyTodoLists"
-		//	target: "navigation+configuration,ModifyTodoLists",
-		//	url: "#navigation+configuration,ModifyTodoLists"
+			target: "configuration,ModifyTodoLists",
+			url: "#configuration,ModifyTodoLists"
 		};
 		new TransitionEvent(e.target,transOpts,e).dispatch();
 	};
