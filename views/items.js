@@ -16,7 +16,7 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dijit/registry", "dojo
 					target: "details,EditTodoItem",
 					url: "#details,EditTodoItem"
 				};
-				new TransitionEvent(e.srcElement, transOpts, e).dispatch();
+				new TransitionEvent(e.target, transOpts, e).dispatch();
 			}));
 		}
 	}

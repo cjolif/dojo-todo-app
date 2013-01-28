@@ -65,7 +65,7 @@ define(["dojo/_base/lang", "dojox/mobile/TransitionEvent", "dijit/registry"],
 						url: "#configuration,SelectTodoList"
 					}
 				}
-				new TransitionEvent(e.srcElement,transOpts,e).dispatch();
+				new TransitionEvent(e.target,transOpts,e).dispatch();
 			}));
 		}
 	}

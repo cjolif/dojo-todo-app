@@ -76,6 +76,9 @@ function(dom, lang, has, declare, domStyle, when, registry, at, Repeat, RoundRec
 			this.app.showProgressIndicator(true);
 			registry.byId("tabButtonList").set("selected", true);
 			this.refreshData();
+			if(dom.byId("todoListswrapper")){
+				domStyle.set(dom.byId("todoListswrapper"), "visibility", "visible"); // show the itemsList from ViewTodoLists.html
+			}			
 		},
 
 		beforeActivate: function(){
