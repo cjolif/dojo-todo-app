@@ -102,12 +102,12 @@
 	//the name of the scene to load when the app is initialized.
 	"defaultView": "items,ViewListTodoItemsByPriority",
 
-	"defaultTransition": "fade",
+	"defaultTransition": "slide",
 	//scenes are groups of views and models loaded at once
 	"views": {
 		"configuration": {
 			"defaultView": "SelectTodoList",
-			"defaultTransition": "fade",
+			"defaultTransition": "slide",
 			"definition": "none",
 
 			"views": {
@@ -129,7 +129,7 @@
 		"items": {
 			"template": "todoApp/templates/items.html",
 			"defaultView": "ViewListTodoItemsByPriority",
-			"defaultTransition": "fade",
+			"defaultTransition": "slide",
 			//the views available to this scene
 			"views": {
 				"ViewListTodoItemsByPriority":{
@@ -144,7 +144,7 @@
 		//details scene, include list view and date view
 		"details": {
 			"defaultView": "EditTodoItem",
-			"defaultTransition": "fade",
+			"defaultTransition": "slide",
 			"definition": "none",
 
 			"views": {
