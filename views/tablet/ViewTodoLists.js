@@ -37,7 +37,6 @@ function(lang, registry, TransitionEvent){
 			registry.byId("setting").on("click", lang.hitch(this, function(e){
 				editConfiguration(e);
 			}));
-			console.log("navigation view init ok");
 		}
 	};
 });
