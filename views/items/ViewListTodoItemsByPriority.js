@@ -5,65 +5,8 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/sniff", "dojo/_base/declare", "dojo
         "dojo/text!../../templates/items/RoundRectWidListTemplate.html"],
 function(dom, lang, has, declare, domStyle, when, registry, at, Repeat, RoundRectList, WidgetList, Templated, ListItem,
 		 EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, parser, RoundRectWidListTemplate){
-	showItemDetails = function(index){
-		// summary:
-		//		set the cursorIndex for this.app.currentItemListModel so the selected item will be displayed after transition to details 
-		this.app.selected_item = parseInt(index);
-		this.app.currentItemListModel.set("cursorIndex", this.app.selected_item);
-	};
 
 	var roundRectWidList = null;
-
-	var showListData = function(/*dojox/mvc/EditStoreRefListController*/ datamodel){
-		// summary:
-		//		create the WidgetList programatically if it has not been created, and 
-		//		set the children for items_list widget to the datamodel to show the items in the selected list.
-		//		RoundRectWidListTemplate is used for the templateString of the WidgetList.
-		//
-		// datamodel: dojox/mvc/EditStoreRefListController
-		//		The EditStoreRefListController whose model holds the items for the selected list.
-		//
-		if(!roundRectWidList){
-			var clz = declare([WidgetList, RoundRectList], {});
-			roundRectWidList = new clz({
-				children: at(datamodel, "model"),
-				childClz: declare([Templated /* dojox/mvc/Templated module return value */, ListItem /* dojox/mobile/ListItem module return value */]),
-				childParams: {
-					transitionOptions: {title: "Detail",target: "details,EditTodoItem",url: "#details,EditTodoItem"},
-					clickable: true,
-					onClick: function(){showItemDetails(this.indexAtStartup);}
-				},
-				childBindings: {
-					titleNode: {value: at("rel:", "title")},
-					checkedNode: {checked: at("rel:", "completed")}
-				},
-				templateString: RoundRectWidListTemplate
-			});
-			roundRectWidList.placeAt(dom.byId("addWidgetHere"));
-			roundRectWidList.startup();
-		}else{
-			roundRectWidList.set("children", at(datamodel, 'model'));
-		}
-	};
-
-	var showListType = function(listsmodel){
-		// summary:
-		//		show the new Item link if the Completed list is not selected, and set the type into the list_type dom node.
-		var type;
-		if(this.app.selected_configuration_item == -1){
-			type = "Completed";			
-			domStyle.set(dom.byId("itemslist_add"), "visibility", "hidden"); // hide the new item link
-		}else{
-			domStyle.set(dom.byId("itemslist_add"), "visibility", ""); // show the new item link
-			var listdata = listsmodel.model[this.app.selected_configuration_item];
-			if(listdata && listdata.title){
-				type = listdata.title;
-			}else{
-				type = "Unknown";
-			}
-		}
-		dom.byId("list_type").innerHTML = type;
-	};
 
 	return {
 		init: function(){
@@ -132,7 +75,7 @@ function(dom, lang, has, declare, domStyle, when, registry, at, Repeat, RoundRec
 				}
 			}
 			// show list type
-			showListType(this.loadedModels.listsmodel);
+			this.showListType(this.loadedModels.listsmodel);
 
 			var query = {};  
 			var options = {sort:[{attribute:"priority", descending: true}]};  // sort by priority
@@ -172,13 +115,72 @@ function(dom, lang, has, declare, domStyle, when, registry, at, Repeat, RoundRec
 			}			
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
 				this.app.currentItemListModel = listCtl;
-				showListData(listCtl);
+				this.showListData(listCtl);
 				domStyle.set(dom.byId("itemswrapper"), "visibility", "visible"); // show the items heading and toolbar from items.html
 				domStyle.set(dom.byId("itemslistwrapper"), "visibility", "visible"); // show the items in the list
 				this.app.showProgressIndicator(false);
 				// TODO: showProgressIndicator does this, so why do we need it?
 				this.app.progressIndicator.domNode.style.visibility = "hidden";
 			}));
+		},
+
+		showListData: function(/*dojox/mvc/EditStoreRefListController*/ datamodel){
+			// summary:
+			//		create the WidgetList programatically if it has not been created, and
+			//		set the children for items_list widget to the datamodel to show the items in the selected list.
+			//		RoundRectWidListTemplate is used for the templateString of the WidgetList.
+			//
+			// datamodel: dojox/mvc/EditStoreRefListController
+			//		The EditStoreRefListController whose model holds the items for the selected list.
+			//
+			if(!roundRectWidList){
+				var clz = declare([WidgetList, RoundRectList], {});
+				var view = this;
+				roundRectWidList = new clz({
+					children: at(datamodel, "model"),
+					childClz: declare([Templated /* dojox/mvc/Templated module return value */, ListItem /* dojox/mobile/ListItem module return value */]),
+					childParams: {
+						transitionOptions: {title: "Detail",target: "details,EditTodoItem",url: "#details,EditTodoItem"},
+						clickable: true,
+						onClick: function(){view.showItemDetails(this.indexAtStartup);}
+					},
+					childBindings: {
+						titleNode: {value: at("rel:", "title")},
+						checkedNode: {checked: at("rel:", "completed")}
+					},
+					templateString: RoundRectWidListTemplate
+				});
+				roundRectWidList.placeAt(dom.byId("addWidgetHere"));
+				roundRectWidList.startup();
+			}else{
+				roundRectWidList.set("children", at(datamodel, 'model'));
+			}
+		},
+
+		showListType: function(listsmodel){
+			// summary:
+			//		show the new Item link if the Completed list is not selected, and set the type into the list_type dom node.
+			var type;
+			if(this.app.selected_configuration_item == -1){
+				type = "Completed";
+				domStyle.set(dom.byId("itemslist_add"), "visibility", "hidden"); // hide the new item link
+			}else{
+				domStyle.set(dom.byId("itemslist_add"), "visibility", ""); // show the new item link
+				var listdata = listsmodel.model[this.app.selected_configuration_item];
+				if(listdata && listdata.title){
+					type = listdata.title;
+				}else{
+					type = "Unknown";
+				}
+			}
+			dom.byId("list_type").innerHTML = type;
+		},
+
+		showItemDetails: function(index){
+			// summary:
+			//		set the cursorIndex for this.app.currentItemListModel so the selected item will be displayed after transition to details
+			this.app.selected_item = parseInt(index);
+			this.app.currentItemListModel.set("cursorIndex", this.app.selected_item);
 		}
 	};
 });

@@ -4,45 +4,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 	var itemlistmodel = null;
 	var signals = [];
 
-	var showDateDialog = function(widgetid){
-		var datamodel = itemlistmodel.model[this.app.selected_item];
-		var date = datamodel.get("reminderDate");
-		if(!date){
-			date = stamp.toISOString(new Date(), {selector: "date"});
-		}
-		registry.byId("reminddlgpicker1").set("value", date);
-		registry.byId("datePicker").show(dom.byId(widgetid),['above-centered','below-centered','after','before']);
-	};	
-	
-	var refreshData = function(){
-		var datamodel = itemlistmodel.model[this.app.selected_item];
-		if(datamodel){
-			// need to add reminderOnAday property to the original data store
-			var widget = registry.byId('remind_day_switch');
-			widget.set("value", at(datamodel, "reminderOnAday"));
-
-			// need to add reminderOnAlocation property to the original data store
-			widget = registry.byId('remind_location_switch');
-			widget.set("value", at(datamodel, "reminderOnAlocation"));				
-
-			//set remind time
-			widget = registry.byId('remind_date');
-			if(widget){
-				widget.set("label", at(datamodel, "reminderDate"));	
-				var value = datamodel.get("reminderDate");
-				if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
-					domClass.add(widget.domNode, "dateLabelInvalid");
-				}else{
-					domClass.remove(widget.domNode, "dateLabelInvalid");
-				}
-				if(datamodel.reminderOnAday == "on"){
-					domStyle.set(dom.byId('remind_date'), 'display', '');
-				}else{
-					domStyle.set(dom.byId('remind_date'), 'display', 'none');					
-				}
-			}
-		}
-	};
 	return {
 		init: function(){
 			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
@@ -58,7 +19,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 				if(datamodel.reminderOnAday == "on"){
 					domStyle.set(dom.byId('remind_date'), 'display', '');
 					if(!activateInProgress){
-							showDateDialog("remind_day_switch");
+						this.showDateDialog("remind_day_switch");
 					}
 				}else{
 					datamodel.set("reminderDate","");
@@ -76,7 +37,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 
 			registry.byId("remind_date").on("click", lang.hitch(this, function(e){
 				//console.log("remind_date clicked call showDateDialog ");
-				showDateDialog('remind_date');
+				this.showDateDialog('remind_date');
 				// workaround for http://bugs.dojotoolkit.org/ticket/15786
 				e.preventDefault();
 			}));
@@ -115,8 +76,48 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 			activateInProgress = true;
 			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
-			refreshData();
+			this.refreshData();
 			activateInProgress = false;
+		},
+
+		showDateDialog: function(widgetid){
+			var datamodel = itemlistmodel.model[this.app.selected_item];
+			var date = datamodel.get("reminderDate");
+			if(!date){
+				date = stamp.toISOString(new Date(), {selector: "date"});
+			}
+			registry.byId("reminddlgpicker1").set("value", date);
+			registry.byId("datePicker").show(dom.byId(widgetid),['above-centered','below-centered','after','before']);
+		},
+
+		refreshData: function(){
+			var datamodel = itemlistmodel.model[this.app.selected_item];
+			if(datamodel){
+				// need to add reminderOnAday property to the original data store
+				var widget = registry.byId('remind_day_switch');
+				widget.set("value", at(datamodel, "reminderOnAday"));
+
+				// need to add reminderOnAlocation property to the original data store
+				widget = registry.byId('remind_location_switch');
+				widget.set("value", at(datamodel, "reminderOnAlocation"));
+
+				//set remind time
+				widget = registry.byId('remind_date');
+				if(widget){
+					widget.set("label", at(datamodel, "reminderDate"));
+					var value = datamodel.get("reminderDate");
+					if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
+						domClass.add(widget.domNode, "dateLabelInvalid");
+					}else{
+						domClass.remove(widget.domNode, "dateLabelInvalid");
+					}
+					if(datamodel.reminderOnAday == "on"){
+						domStyle.set(dom.byId('remind_date'), 'display', '');
+					}else{
+						domStyle.set(dom.byId('remind_date'), 'display', 'none');
+					}
+				}
+			}
 		}
 	}
 });

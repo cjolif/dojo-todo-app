@@ -5,7 +5,6 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 	var isComplete = false;
 	var isDelete = false;
 	var detailsSetup = false;
-	this.app._addNewItemCommit = false; // identify the new item is committed
 
 	var dateClassTransform2 = {
 		format : function(value){
@@ -52,93 +51,6 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 		}
 	};
 
-	var showMoreDetail = function(){
-		var widget = dom.byId("moreDetail");
-		var display = domStyle.get(widget, "display");
-		if(display == "none"){
-			domStyle.set(widget, "display", "");
-			domStyle.set(dom.byId("moreDetailNotes"), "display", "");
-			registry.byId("detail_showMore").set("label","Show Less...");
-		}else{
-			domStyle.set(widget, "display", "none");
-			domStyle.set(dom.byId("moreDetailNotes"), "display", "none");
-			registry.byId("detail_showMore").set("label","Show More...");
-		}
-	};
-	
-	var addNewItem = function(){
-		var datamodel = this.app.currentItemListModel.model;
-
-		var listId;
-		try{
-			listId = datamodel[0].listId;
-		}catch(e){
-			//console.log("Warning: itemlistmodel is empty, get listId from listsmodel");
-			listId = listsmodel.model[this.app.selected_configuration_item].id;
-		}
-
-		this.app.currentItemListModel.model.push(new getStateful({
-			"id": parseInt((new Date().getTime())),
-			"listId": listId,
-			"title": "",
-			"notes": "",
-			"due": null,
-			"completionDate": "",
-			"reminderOnAday": "off",   
-			"reminderDate": "",
-			"reminderOnAlocation": "off",   
-			"reminderLocation": null,
-			"repeat": 0,
-			"priority": 0,
-			"hidden": false,
-			"completed": false,
-			"deleted": false
-		}));
-		this.app.selected_item = this.app.currentItemListModel.model.length - 1;
-		this.app.currentItemListModel.commit();
-		this.app.currentItemListModel.set("cursorIndex", this.app.selected_item);
-	};
-
-	var refreshData = function(){
-		if(this.app.selected_configuration_item === -1){
-			//undisplay "Complete" button
-			domStyle.set(dom.byId("markAsComplete"), "display", "none");
-		}else{
-			domStyle.set(dom.byId("markAsComplete"), "display", "");
-		}
-
-		var datamodel = this.app.currentItemListModel.model[this.app.selected_item];
-		if(!datamodel){
-			return;
-		}
-
-		// we need to set the target for the group each time since itemlistmodel is reset for each list
-		// the cursorIndex is set in the showItemDetails function in ViewListTodoItemsByPriority or ViewAllTodoItemsByDate 
-		registry.byId("item_detailsGroup").set("target", at(this.app.currentItemListModel, "cursor"));
-
-		if(!detailsSetup){  // these bindings only have to be setup once.
-			detailsSetup = true;
-
-			// Setup data bindings here for the fields inside the item_detailsGroup.
-			// use at() to bind the attribute of the widget with the id to value from the model
-			var bindingArray = [
-				{"id":"detail_todo", "attribute":"value", "atparm1":'rel:', "atparm2":'title',"direction":at.both,"transform":null},
-				{"id":"detail_reminderDate", "attribute":"value", "atparm1":'rel:', "atparm2":'reminderDate',"direction":at.both,"transform":null},			
-				{"id":"detail_reminderDate", "attribute":"class", "atparm1":'rel:', "atparm2":'reminderDate',"direction":at.from,"transform":dateClassTransform2},			
-				{"id":"detail_todoNote", "attribute":"value", "atparm1":'rel:', "atparm2":'notes',"direction":at.both,"transform":null},			
-				{"id":"detail_repeat", "attribute":"rightText", "atparm1":'rel:', "atparm2":'repeat',"direction":at.from,"transform":repeatTransform},			
-				{"id":"detail_priority", "attribute":"rightText", "atparm1":'rel:', "atparm2":'priority',"direction":at.from,"transform":priorityTransform},			
-				{"id":"detail_list", "attribute":"rightText", "atparm1":'rel:', "atparm2":'listId',"direction":at.from,"transform":parentTitleTransform}
-			];
-			
-			// bind all of the attrbutes setup in the bindingArray, this is a one time setup
-			bindAttributes(bindingArray);
-		}
-
-		domStyle.set(dom.byId("detailwrapper"), "visibility", "visible"); // show the items list
-
-	};
-
 	var bindAttributes = function(bindingArray){
 		var item;
 		for(var i=0; i < bindingArray.length; i++){
@@ -163,9 +75,9 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 		init: function(){
 			listsmodel = this.loadedModels.listsmodel;
 
-			registry.byId("detail_showMore").on("click", function(){
-				showMoreDetail();
-			});
+			registry.byId("detail_showMore").on("click", lang.hitch(this, function(){
+				this.showMoreDetail();
+			}));
 
 			// use _this.backFlag to identify the EditTodoItem view back to items,ViewListTodoItemsByPriority view
 			registry.byId("detail_back").on("click", lang.hitch(this, function(){
@@ -221,9 +133,9 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 
 		beforeActivate: function(){
 			if(this.app._addNewItem){
-				addNewItem();
+				this.addNewItem();
 			}
-			refreshData();
+			this.refreshData();
 			registry.byId("detail_todo").focus();
 			this.app._addNewItem = false;
 		},
@@ -252,6 +164,93 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 
 		destroy: function(){
 			// _WidgetBase.on listener is automatically destroyed when the Widget itself his.
+		},
+
+		showMoreDetail: function(){
+			var widget = dom.byId("moreDetail");
+			var display = domStyle.get(widget, "display");
+			if(display == "none"){
+				domStyle.set(widget, "display", "");
+				domStyle.set(dom.byId("moreDetailNotes"), "display", "");
+				registry.byId("detail_showMore").set("label","Show Less...");
+			}else{
+				domStyle.set(widget, "display", "none");
+				domStyle.set(dom.byId("moreDetailNotes"), "display", "none");
+				registry.byId("detail_showMore").set("label","Show More...");
+			}
+		},
+
+		addNewItem: function(){
+			var datamodel = this.app.currentItemListModel.model;
+
+			var listId;
+			try{
+				listId = datamodel[0].listId;
+			}catch(e){
+				//console.log("Warning: itemlistmodel is empty, get listId from listsmodel");
+				listId = listsmodel.model[this.app.selected_configuration_item].id;
+			}
+
+			this.app.currentItemListModel.model.push(new getStateful({
+				"id": parseInt((new Date().getTime())),
+				"listId": listId,
+				"title": "",
+				"notes": "",
+				"due": null,
+				"completionDate": "",
+				"reminderOnAday": "off",
+				"reminderDate": "",
+				"reminderOnAlocation": "off",
+				"reminderLocation": null,
+				"repeat": 0,
+				"priority": 0,
+				"hidden": false,
+				"completed": false,
+				"deleted": false
+			}));
+			this.app.selected_item = this.app.currentItemListModel.model.length - 1;
+			this.app.currentItemListModel.commit();
+			this.app.currentItemListModel.set("cursorIndex", this.app.selected_item);
+		},
+
+		refreshData: function(){
+			if(this.app.selected_configuration_item === -1){
+				//undisplay "Complete" button
+				domStyle.set(dom.byId("markAsComplete"), "display", "none");
+			}else{
+				domStyle.set(dom.byId("markAsComplete"), "display", "");
+			}
+
+			var datamodel = this.app.currentItemListModel.model[this.app.selected_item];
+			if(!datamodel){
+				return;
+			}
+
+			// we need to set the target for the group each time since itemlistmodel is reset for each list
+			// the cursorIndex is set in the showItemDetails function in ViewListTodoItemsByPriority or ViewAllTodoItemsByDate
+			registry.byId("item_detailsGroup").set("target", at(this.app.currentItemListModel, "cursor"));
+
+			if(!detailsSetup){  // these bindings only have to be setup once.
+				detailsSetup = true;
+
+				// Setup data bindings here for the fields inside the item_detailsGroup.
+				// use at() to bind the attribute of the widget with the id to value from the model
+				var bindingArray = [
+					{"id":"detail_todo", "attribute":"value", "atparm1":'rel:', "atparm2":'title',"direction":at.both,"transform":null},
+					{"id":"detail_reminderDate", "attribute":"value", "atparm1":'rel:', "atparm2":'reminderDate',"direction":at.both,"transform":null},
+					{"id":"detail_reminderDate", "attribute":"class", "atparm1":'rel:', "atparm2":'reminderDate',"direction":at.from,"transform":dateClassTransform2},
+					{"id":"detail_todoNote", "attribute":"value", "atparm1":'rel:', "atparm2":'notes',"direction":at.both,"transform":null},
+					{"id":"detail_repeat", "attribute":"rightText", "atparm1":'rel:', "atparm2":'repeat',"direction":at.from,"transform":repeatTransform},
+					{"id":"detail_priority", "attribute":"rightText", "atparm1":'rel:', "atparm2":'priority',"direction":at.from,"transform":priorityTransform},
+					{"id":"detail_list", "attribute":"rightText", "atparm1":'rel:', "atparm2":'listId',"direction":at.from,"transform":parentTitleTransform}
+				];
+
+				// bind all of the attrbutes setup in the bindingArray, this is a one time setup
+				bindAttributes(bindingArray);
+			}
+
+			domStyle.set(dom.byId("detailwrapper"), "visibility", "visible"); // show the items list
+
 		}
 	}
 });

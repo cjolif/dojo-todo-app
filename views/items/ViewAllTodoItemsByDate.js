@@ -25,28 +25,6 @@ function(dom, lang, has, domStyle, when, registry, at, EditStoreRefListControlle
 		}
 	};
 
-	var showListData = function(/*dojox/mvc/EditStoreRefListController*/ datamodel){
-		// summary:
-		//		set the children for items_list widget to the datamodel to show the items in the selected list. 
-		//
-		// datamodel: dojox/mvc/EditStoreRefListController
-		//		The EditStoreRefListController whose model holds the items for the selected list.
-		//
-		var listWidget = registry.byId("itemsDate_list");
-		var datamodel = at(datamodel, "model");
-		listWidget.set("children", datamodel);		
-	};
-
-	var showListType = function(/*dojox/mvc/EditStoreRefListController*/ listsmodel){
-		// summary:
-		//		update the heading for the date view into the list_type dom node.
-		//
-		// listsmodel: dojox/mvc/EditStoreRefListController
-		//		The EditStoreRefListController whose model holds the available lists.
-		//
-		dom.byId("list_type").innerHTML = "All items by date";
-	};
-
 	return {
 		init: function(){
 			// summary:
@@ -99,7 +77,7 @@ function(dom, lang, has, domStyle, when, registry, at, EditStoreRefListControlle
 			//		3. Setup the query for the Completed Items or the selected items as appropriate
 			//		4. Create the EditStoreRefListController and query the store, then set this.app.currentItemListModel and display the list
 			//
-			showListType(this.loadedModels.listsmodel);
+			this.showListType(this.loadedModels.listsmodel);
 
 			// TODO select_data is un-used, check if that is needed
 			var select_data = this.loadedModels.listsmodel.model[this.app.selected_configuration_item];
@@ -141,13 +119,35 @@ function(dom, lang, has, domStyle, when, registry, at, EditStoreRefListControlle
 			}
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
 				this.app.currentItemListModel = listCtl;
-				showListData(listCtl);
+				this.showListData(listCtl);
 				domStyle.set(dom.byId("itemswrapper"), "visibility", "visible"); // show the items heading and toolbar from items.html
 				domStyle.set(dom.byId("datewrapper"), "visibility", "visible"); // show the date items list
 				this.app.showProgressIndicator(false);
 				// TODO: showProgressIndicator does this, so why do we need it?
 				this.app.progressIndicator.domNode.style.visibility = "hidden";
 			}));
+		},
+
+		showListData: function(/*dojox/mvc/EditStoreRefListController*/ datamodel){
+			// summary:
+			//		set the children for items_list widget to the datamodel to show the items in the selected list.
+			//
+			// datamodel: dojox/mvc/EditStoreRefListController
+			//		The EditStoreRefListController whose model holds the items for the selected list.
+			//
+			var listWidget = registry.byId("itemsDate_list");
+			var datamodel = at(datamodel, "model");
+			listWidget.set("children", datamodel);
+		},
+
+		showListType: function(/*dojox/mvc/EditStoreRefListController*/ listsmodel){
+			// summary:
+			//		update the heading for the date view into the list_type dom node.
+			//
+			// listsmodel: dojox/mvc/EditStoreRefListController
+			//		The EditStoreRefListController whose model holds the available lists.
+			//
+			dom.byId("list_type").innerHTML = "All items by date";
 		}
 	};
 });

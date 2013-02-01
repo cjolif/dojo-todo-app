@@ -7,13 +7,13 @@
 		</h1>
 		<div data-dojo-type="dojox/app/widgets/Container" data-dojo-props="scrollable: true">
 			<ul data-dojo-type="dojox/mobile/RoundRectList">
-				<li id="nav_completeLi" data-dojo-type="dojox/mobile/ListItem" data-dojo-props="label: 'Completed', clickable: true, noArrow: true, onClick: function(e){selectItems(this, -1);}"></li>
+				<li id="nav_completeLi" data-dojo-type="dojox/mobile/ListItem" data-dojo-props="label: 'Completed', clickable: true, noArrow: true, onClick: function(e){selectItems(-1);}"></li>
 			</ul>
 			<ul data-dojo-type="dojox/mobile/RoundRectList" id="configrepeatlist"
 					data-dojo-mixins="dojox/mvc/Repeat"
 					data-dojo-props="select: 'single', exprchar: '#', children: at(this.loadedModels.listsmodel, 'model')">
 				<li id="nav_ListLi#{this.index}" data-dojo-type="dojox/mobile/ListItem"
-					data-dojo-props="clickable: true, label:at('rel:#{this.index}','title'), checked: at('rel:#{this.index}',  'Checked'), onClick: function(){selectItems(this, '#{this.index}');}">
+					data-dojo-props="clickable: true, label:at('rel:#{this.index}','title'), checked: at('rel:#{this.index}',  'Checked'), onClick: function(){selectItems('#{this.index}');}">
 				</li>
 			</ul>
 		</div>

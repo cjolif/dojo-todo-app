@@ -1,19 +1,20 @@
-define(["dojo/_base/lang", "dijit/registry", "dojox/mobile/TransitionEvent"],
-function(lang, registry, TransitionEvent){
+define(["dojo/_base/lang", "dijit/registry", "dojox/mobile/TransitionEvent"], function(lang, registry, TransitionEvent){
 
-	selectItems = function(node, index){
-		//if(this.app.selected_configuration_item == index){
+	var app = null;
+
+	selectItems = function(index){
+		//if(app.selected_configuration_item == index){
 		//	return;
 		//}
-		this.app.selected_configuration_item = index;
+		app.selected_configuration_item = index;
 
 		// Solution 1:
 		// Refresh list data by transition from "items,ViewListTodoItemsByPriority" to "items,ViewListTodoItemsByPriority". It's a liiter trick here.
 		// transition to the "items,ViewListTodoItemsByPriority" view, Do Not record the history.
 		// Advantage: Reuse the phone version
 		// Disadvantage: low effectiveness
-		this.app.trigger("transition", {"viewId": "items,ViewListTodoItemsByPriority"});
-		this.app.stopTransition = true;
+		app.trigger("transition", {"viewId": "items,ViewListTodoItemsByPriority"});
+		app.stopTransition = true;
 
 		// Solution 2:
 		// Reset the data model, and bind data model to list view
@@ -33,9 +34,8 @@ function(lang, registry, TransitionEvent){
 	
 	return {
 		init: function(){
-			registry.byId("setting").on("click", lang.hitch(this, function(e){
-				editConfiguration(e);
-			}));
+			app = this.app;
+			registry.byId("setting").on("click", editConfiguration);
 		}
 	};
 });

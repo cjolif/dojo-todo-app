@@ -1,18 +1,6 @@
 define(["dojo/_base/lang", "dijit/registry", "../utils"], function(lang, registry, utils){
 	var itemlistmodel = null;
 
-	var refreshData = function(){
-		var datamodel = itemlistmodel.model[this.app.selected_item];
-		if(datamodel){
-			// select repeat type
-			var widget = registry.byId("list_priority");
-			var priorityWidget = utils.getListItemByIndex(widget, datamodel.priority);
-			if(priorityWidget){
-				priorityWidget.set("checked", true);
-			}
-		}
-	};
-
 	return {
 		init: function(){
 			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
@@ -33,11 +21,23 @@ define(["dojo/_base/lang", "dijit/registry", "../utils"], function(lang, registr
 		beforeActivate: function(){
 			this.loadedModels.itemlistmodel = this.app.currentItemListModel;
 			itemlistmodel = this.loadedModels.itemlistmodel;
-			refreshData();
+			this.refreshData();
 		},
 
 		destroy: function(){
 			// _WidgetBase.on listener is automatically destroyed when the Widget itself his.
+		},
+
+		refreshData: function(){
+			var datamodel = itemlistmodel.model[this.app.selected_item];
+			if(datamodel){
+				// select repeat type
+				var widget = registry.byId("list_priority");
+				var priorityWidget = utils.getListItemByIndex(widget, datamodel.priority);
+				if(priorityWidget){
+					priorityWidget.set("checked", true);
+				}
+			}
 		}
 	}
 });
