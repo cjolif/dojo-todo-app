@@ -5,13 +5,15 @@ define(["dojo/dom","dojo/_base/lang", "dojo/sniff", "dojo/dom-style", "dojo/when
 function(dom, lang, has, domStyle, when, registry, at, EditStoreRefListController, getStateful, WidgetList,
 		 Templated, _InlineTemplateMixin, ItemFileWriteStore, DataStore, stamp){
 
+	var app = null;
+
 	showItemDetails = function(index){
 		// summary:
 		//		set the cursorIndex for this.app.currentItemListModel so the selected item will be displayed after transition to details 
 
 		//console.log("in views/items/ViewAllTodoItemsByDate select item ", index);
-		this.app.selected_item = parseInt(index);
-		this.app.currentItemListModel.set("cursorIndex", this.app.selected_item);
+		app.selected_item = parseInt(index);
+		app.currentItemListModel.set("cursorIndex", app.selected_item);
 	};
 
 	dateListClassTransform = {
@@ -32,6 +34,7 @@ function(dom, lang, has, domStyle, when, registry, at, EditStoreRefListControlle
 			// description:
 			//		nothing to do in init, beforeActivate will call refreshData to create the
 			//		model/controller and show the list.
+			app = this.app;
 		},
 
 		beforeActivate: function(){
