@@ -7,14 +7,14 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dijit/registry", "dojo
 			}
 
 			registry.byId("itemslist_add").on("click", lang.hitch(this, function(e){
-				// use selected_item = -1 to identify add a new item
-				this.app._addNewItem = true;
-
 				// transition to detail view for edit
 				var transOpts = {
 					title: "Detail",
 					target: "details,EditTodoItem",
-					url: "#details,EditTodoItem"
+					url: "#details,EditTodoItem",
+					data: {
+						addNewItem : true
+					}
 				};
 				new TransitionEvent(e.target, transOpts, e).dispatch();
 			}));

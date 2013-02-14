@@ -131,13 +131,12 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			}));
 		},
 
-		beforeActivate: function(){
-			if(this.app._addNewItem){
+		beforeActivate: function(previousView, data){
+			if(data && data.addNewItem){
 				this.addNewItem();
 			}
 			this.refreshData();
 			registry.byId("detail_todo").focus();
-			this.app._addNewItem = false;
 		},
 
 		afterDeactivate: function(){
@@ -145,9 +144,9 @@ define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/regis
 			domStyle.set(dom.byId("detailwrapper"), "visibility", "hidden"); // hide the items list 
 		},
 
-		beforeDeactivate: function(){
+		beforeDeactivate: function(nextView, data){
 			dom.byId("detail_reminder").focus();
-			if(this.app._addNewItem){
+			if(this == nextView){
 				return;	// refresh view operation, DO NOT commit the data change 
 			}
 			var title = dom.byId("detail_todo").value;
