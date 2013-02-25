@@ -55,7 +55,6 @@
 		"dojox/app/controllers/Load",
 		"dojox/app/controllers/Transition",
 		"dojox/app/controllers/Layout",
-		"dojox/app/controllers/History"
 	],
 	//stores we are using
 	"stores": {
@@ -100,12 +99,31 @@
      		}           
         }
 	},
-	
-	"template": "todoApp/templates/tablet/ViewTodoLists.html",
-	"definition": "todoApp/views/tablet/ViewTodoLists",
 
-	//the name of the scene to load when the app is initialized.
+	//the names of the views to load when the app is initialized.
 	"defaultView": "items,ViewListTodoItemsByPriority",
+	
+	"has" : {
+		"phone" : {
+			"isTablet" : false
+		},
+		"tablet" : {
+			"template": "todoApp/templates/tablet/ViewTodoLists.html",
+			"definition": "todoApp/views/tablet/ViewTodoLists",
+			"isTablet" : true
+		},
+		"ie9orLess" : {
+			"controllers": [
+				"dojox/app/controllers/HistoryHash",
+			]
+		},
+		"notie9orLess" : {
+			"controllers": [
+				"dojox/app/controllers/History",
+			]
+		}
+	},	
+	
 
 	"defaultTransition": "slide",
 	//scenes are groups of views and models loaded at once
