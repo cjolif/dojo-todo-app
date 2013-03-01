@@ -1,15 +1,21 @@
-html,body {
+html, body {
 	width: 100%;
 	height: 100%;
 	background-color: black;
 }
 
-.itemcell { 
-	width: 100%;  
+div .navPane {
+	width: 250px;
+	border-right: 1px solid black;
+	background-color: #C5CCD3;
+}
+
+.itemcell {
+	width: 100%;
 	display:inline-block;
 }
 
-.itemcellwrapper { 
+.itemcellwrapper {
 	margin-top: 9px;
 	margin-right: 12px;
 	margin-bottom: 7px;
@@ -17,14 +23,14 @@ html,body {
 	padding-right: 8px;
 }
 
-.buttoncellwrapper { 
+.buttoncellwrapper {
 	margin-top: 9px;
 	margin-bottom: 7px;
 	margin-left: 10px;
 	margin-right: 10px;
 }
 
-.dateLabel { 
+.dateLabel {
 	font-size: .6em; 
 	color: #324f85; 
 	margin-left: 3em;
@@ -41,33 +47,3 @@ html,body {
 	margin-left: -8px;
 	margin-top: -11px;
 }
-/*
-button.baseBtn {
-	-webkit-background-clip: padding-box;
-	-webkit-box-align: center;
-	background-clip: padding-box;
-	border-style: solid;
-	border-width: 1px;
-	color: black;
-	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica-Neue, Helvetica, 'BBAlpha Sans';
-	font-size: 18px;
-	font-weight: bold;
-	vertical-align: middle;
-	height: 34px;
-	border-bottom-left-radius: 7px;
-	border-bottom-right-radius: 7px;
-	border-top-left-radius: 7px;
-	border-top-right-radius: 7px;
-}
-button.whiteBtn{
-	background-image: -webkit-gradient(linear, 0% 0, 0% 100%, from(white), color-stop(0.06, #f2f2f2), to(#b7b7b7));
-	border-color: #979797;
-	border-bottom-color: #727272;
-}
-
-button.whiteBtnSelected{
-	background-image: -webkit-gradient(linear, 0% 0, 0% 100%, from(#ffffff), color-stop(0.06, #bbbbbb), to(#fcfcfc));
-	border-color: #979797;
-	border-bottom-color: #727272;
-}
-*/
