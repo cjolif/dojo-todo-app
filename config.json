@@ -11,11 +11,13 @@
 	},
 
 	"dependencies": [
+		"dojox/mvc/at",
 		"dojox/mobile/_base",
 		"dojox/mobile/compat",
 		"dojox/mobile/TabBar",
 		"dojox/mobile/RoundRect",
 		"dojox/mobile/TabBarButton",
+		"dojox/mobile/ToolBarButton",
 		"dojox/mobile/TextBox",
 		"dojox/mobile/TextArea",
 		"dojox/mobile/CheckBox",
@@ -40,8 +42,7 @@
 		"dojox/mvc/Repeat",
 		"dojox/mvc/WidgetList",
 		"dojox/mvc/Group",
-		"dojox/mvc/Output",
-		"dojox/mvc/at"
+		"dojox/mvc/Output"
 	],
 	// Modules for the application.  They are basically used as the second
 	// array of mixins in a dojo.declare().  Modify the top level behavior
@@ -58,7 +59,7 @@
 	"controllers": [
 		"dojox/app/controllers/Load",
 		"dojox/app/controllers/Transition",
-		"dojox/app/controllers/Layout",
+		"dojox/app/controllers/Layout"
 	],
 	//Object. Dojo stores which are used by dojox/app to setup data models. A store item is an object with a
 	//a type and a params property. The type property is the AMD module identifier for the store class to be
@@ -117,7 +118,7 @@
 		"phone" : {
 			"isTablet" : false
 		},
-		"tablet" : {
+		"!phone" : {
 			//template: HTML file. When defined at application level defines the application root template. When defined
 			//at view level defined the view template.
 			"template": "todoApp/tablet/ViewTodoLists.html",
@@ -126,12 +127,12 @@
 		},
 		"ie9orLess" : {
 			"controllers": [
-				"dojox/app/controllers/HistoryHash",
+				"dojox/app/controllers/HistoryHash"
 			]
 		},
-		"notie9orLess" : {
+		"!ie9orLess" : {
 			"controllers": [
-				"dojox/app/controllers/History",
+				"dojox/app/controllers/History"
 			]
 		}
 	},	
