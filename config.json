@@ -54,7 +54,7 @@
 	"controllers": [
 		"dojox/app/controllers/Load",
 		"dojox/app/controllers/Transition",
-		"dojox/app/controllers/Layout",
+		"dojox/app/controllers/Layout"
 	],
 	//stores we are using
 	"stores": {
