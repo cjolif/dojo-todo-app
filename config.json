@@ -11,11 +11,13 @@
 	},
 
 	"dependencies": [
+		"dojox/mvc/at",
 		"dojox/mobile/_base",
 		"dojox/mobile/compat",
 		"dojox/mobile/TabBar",
 		"dojox/mobile/RoundRect",
 		"dojox/mobile/TabBarButton",
+		"dojox/mobile/ToolBarButton",
 		"dojox/mobile/TextBox",
 		"dojox/mobile/TextArea",
 		"dojox/mobile/CheckBox",
@@ -40,8 +42,7 @@
 		"dojox/mvc/Repeat",
 		"dojox/mvc/WidgetList",
 		"dojox/mvc/Group",
-		"dojox/mvc/Output",
-		"dojox/mvc/at"
+		"dojox/mvc/Output"
 	],
 	// Modules for the application.  They are basically used as the second
 	// array of mixins in a dojo.declare().  Modify the top level behavior
@@ -107,19 +108,19 @@
 		"phone" : {
 			"isTablet" : false
 		},
-		"tablet" : {
+		"!phone" : {
 			"template": "todoApp/templates/tablet/ViewTodoLists.html",
 			"definition": "todoApp/views/tablet/ViewTodoLists",
 			"isTablet" : true
 		},
 		"ie9orLess" : {
 			"controllers": [
-				"dojox/app/controllers/HistoryHash",
+				"dojox/app/controllers/HistoryHash"
 			]
 		},
-		"notie9orLess" : {
+		"!ie9orLess" : {
 			"controllers": [
-				"dojox/app/controllers/History",
+				"dojox/app/controllers/History"
 			]
 		}
 	},	
