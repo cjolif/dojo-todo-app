@@ -13,7 +13,7 @@ define(["dojo/_base/lang", "dijit/registry", "dojox/mobile/TransitionEvent"], fu
 		// transition to the "items,ViewListTodoItemsByPriority" view, Do Not record the history.
 		// Advantage: Reuse the phone version
 		// Disadvantage: low effectiveness
-		app.emit("transition", {"viewId": "items,ViewListTodoItemsByPriority"});
+		app.emit("app-transition", {"viewId": "items,ViewListTodoItemsByPriority"});
 		app.stopTransition = true;
 
 		// Solution 2:
