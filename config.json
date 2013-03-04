@@ -4,12 +4,16 @@
 	"description": "This is a ToDo sample application based on the Dojo Toolkit and provided under Dojo license.",
 	"splash": "splash",
 
+	// Dependencies, modules and controllers are loaded using the Dojo AMD loader. 
+	// This parameter allows to configure the loader itself and specify for example where custom modules can be found.
 	"loaderConfig": {
 		"paths": {
 			"todoApp": "../demos/todoApp"
 		}
 	},
 
+	// Array of AMD modules identifiers. When defined at the top level dependencies of the dojox/app application. 
+	// When defined at view level, dependencies for the view.
 	"dependencies": [
 		"dojox/mvc/at",
 		"dojox/mobile/_base",
@@ -61,10 +65,10 @@
 		"dojox/app/controllers/Transition",
 		"dojox/app/controllers/Layout"
 	],
-	//Object. Dojo stores which are used by dojox/app to setup data models. A store item is an object with a
-	//a type and a params property. The type property is the AMD module identifier for the store class to be
-	//instantiated. The content of the params property is passed to the store class constructor to build an 
-	//instance. 
+	// Dojo stores which are used by dojox/app to setup data models. A store item is an object with a
+	// a type and a params property. The type property is the AMD module identifier for the store class to be
+	// instantiated. The content of the params property is passed to the store class constructor to build an 
+	// instance. 
 	"stores": {
 		"listsDataStore":{
 	       "type": "dojo/data/ItemFileWriteStore",
@@ -88,11 +92,11 @@
 	   }
 	},
 
-	//Models and their instantiation parameters. A model item is an object with three properties: the 
-	//model type, the modelLoader and the params. The modelLoader property defines whether an MVC or a
-	//simple model must be loaded. The type property defines which class must be used for that model using
-	//an AMD module identifier and finally the params property content is passed to the model class 
-	//constructor to build an instance.
+	// Models and their instantiation parameters. A model item is an object with three properties: the 
+	// model type, the modelLoader and the params. The modelLoader property defines whether an MVC or a
+	// simple model must be loaded. The type property defines which class must be used for that model using
+	// an AMD module identifier and finally the params property content is passed to the model class 
+	// constructor to build an instance.
 	"models": {
 		"listsmodel": {
 			"modelLoader": "dojox/app/utils/mvcModel",
@@ -183,13 +187,13 @@
 			}
 		},
 
-		//items scene, include ViewListTodoItemsByPriority view and ViewAllTodoItemsByDate view
+		//items view, include ViewListTodoItemsByPriority view and ViewAllTodoItemsByDate view
 		"items": {
 			"template": "todoApp/items/items.html",
 			"definition": "todoApp/items/items.js",
 			"defaultView": "ViewListTodoItemsByPriority",
 			"defaultTransition": "slide",
-			//the views available to this scene
+			//the views available to this view
 			"views": {
 				"ViewListTodoItemsByPriority":{
 					"template": "todoApp/items/ViewListTodoItemsByPriority.html",
@@ -202,7 +206,7 @@
 			}
 		},
 
-		//details scene, include list view and date view
+		//details view, include list view and date view
 		"details": {
 			"defaultView": "EditTodoItem",
 			"defaultTransition": "slide",
