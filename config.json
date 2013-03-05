@@ -12,7 +12,8 @@
 		}
 	},
 
-	// Array of AMD modules identifiers. When defined at the top level dependencies of the dojox/app application. 
+	// Array of AMD modules identifiers. When defined at the top level dependencies of the dojox/app application.
+	// These could also be added to the define for the app, for example they could be added in todoApp.js 
 	// When defined at view level, dependencies for the view.
 	"dependencies": [
 		"dojox/mvc/at",
@@ -119,15 +120,11 @@
 	"defaultView": "items,ViewListTodoItemsByPriority",
 	
 	"has" : {
-		"phone" : {
-			"isTablet" : false
-		},
 		"!phone" : {
 			//template: HTML file. When defined at application level defines the application root template. When defined
 			//at view level defined the view template.
 			"template": "todoApp/tablet/ViewTodoLists.html",
-			"definition": "todoApp/tablet/ViewTodoLists",
-			"isTablet" : true
+			"controller": "todoApp/tablet/ViewTodoLists"
 		},
 		"ie9orLess" : {
 			"controllers": [
@@ -154,35 +151,32 @@
 	//views: The children views of an application or of a view. Dependencies may be defined on views for
 	//optimization and organization purposes. Models might also be defined on views if they are view-specific
 	//Finally a view item as three additional properties: transition for specific view transitions, template for
-	//defining the view rendering and finally definition to provide an AMD module to be mixed into the view to 
+	//defining the view rendering and finally controller to provide an AMD module to be mixed into the view to 
 	//control it. AMD modules identifiers starting with “.” will be resolved relative to the application root. All other
 	//modules identifiers will be resolved according to the Dojo AMD loader rules and in particular with respect
-	//to its configuration provided as part of the loaderConfig attribute. By default if no definition module is
-	//specified for a view it is looked up automatically in ”./views/<viewId>.js”. If you don’t want a definition
+	//to its configuration provided as part of the loaderConfig attribute. By default if no controller module is
+	//specified for a view it is looked up automatically in ”./views/<viewId>.js”. If you don’t want a controller
 	//module at all you should specify the “none” value.
-	//Maybe change views -> viewComponents, or viewController
-	//Maybe change template -> view
-	//Maybe change definition -> viewController or controller
 	"views": {
 		"configuration": {
 			"defaultView": "SelectTodoList",
 			"defaultTransition": "slide",
-			"definition": "none",
+			"controller": "none",
 
 			"views": {
 				"SelectTodoList": {
 					"template": "todoApp/configuration/SelectTodoList.html",
-					"definition": "todoApp/configuration/SelectTodoList.js"
+					"controller": "todoApp/configuration/SelectTodoList.js"
 				},
 
 				"ModifyTodoLists": {
 					"template": "todoApp/configuration/ModifyTodoLists.html",
-					"definition": "todoApp/configuration/ModifyTodoLists.js"
+					"controller": "todoApp/configuration/ModifyTodoLists.js"
 				},
 
 				"EditTodoList": {
 					"template": "todoApp/configuration/EditTodoList.html",
-					"definition": "todoApp/configuration/EditTodoList.js"
+					"controller": "todoApp/configuration/EditTodoList.js"
 				}
 			}
 		},
@@ -190,18 +184,18 @@
 		//items view, include ViewListTodoItemsByPriority view and ViewAllTodoItemsByDate view
 		"items": {
 			"template": "todoApp/items/items.html",
-			"definition": "todoApp/items/items.js",
+			"controller": "todoApp/items/items.js",
 			"defaultView": "ViewListTodoItemsByPriority",
 			"defaultTransition": "slide",
 			//the views available to this view
 			"views": {
 				"ViewListTodoItemsByPriority":{
 					"template": "todoApp/items/ViewListTodoItemsByPriority.html",
-					"definition": "todoApp/items/ViewListTodoItemsByPriority.js"
+					"controller": "todoApp/items/ViewListTodoItemsByPriority.js"
 				},
 				"ViewAllTodoItemsByDate":{
 					"template": "todoApp/items/ViewAllTodoItemsByDate.html",
-					"definition": "todoApp/items/ViewAllTodoItemsByDate.js"
+					"controller": "todoApp/items/ViewAllTodoItemsByDate.js"
 				}
 			}
 		},
@@ -210,30 +204,30 @@
 		"details": {
 			"defaultView": "EditTodoItem",
 			"defaultTransition": "slide",
-			"definition": "none",
+			"controller": "none",
 
 			"views": {
 				"EditTodoItem":{
 					"template": "todoApp/details/EditTodoItem.html",
-					"definition": "todoApp/details/EditTodoItem.js"
+					"controller": "todoApp/details/EditTodoItem.js"
 				},
 
 				"EditItemRepeat":{
 					"template": "todoApp/details/EditItemRepeat.html",
-					"definition": "todoApp/details/EditItemRepeat.js"
+					"controller": "todoApp/details/EditItemRepeat.js"
 				},
 
 				"EditItemRemindMe":{
 					"template": "todoApp/details/EditItemRemindMe.html",
-					"definition": "todoApp/details/EditItemRemindMe.js"
+					"controller": "todoApp/details/EditItemRemindMe.js"
 				},
 				"EditItemPriority":{
 					"template": "todoApp/details/EditItemPriority.html",
-					"definition": "todoApp/details/EditItemPriority.js"
+					"controller": "todoApp/details/EditItemPriority.js"
 				},
 				"EditItemList":{
 					"template": "todoApp/details/EditItemList.html",
-					"definition": "todoApp/details/EditItemList.js"
+					"controller": "todoApp/details/EditItemList.js"
 				}
 			}
 		}
