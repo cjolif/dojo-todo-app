@@ -1,8 +1,8 @@
-define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dijit/registry", "dojox/mobile/TransitionEvent"],
-	function(lang, dom, domStyle, registry, TransitionEvent){
+define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dijit/registry", "dojox/mobile/TransitionEvent", "dojo/sniff"],
+	function(lang, dom, domStyle, registry, TransitionEvent, has){
 	return {
 		init: function(){
-			if(this.app.isTablet){
+			if(!has("phone")){
 				domStyle.set(dom.byId("gotoConfigurationView"), "display", "none");
 			}
 

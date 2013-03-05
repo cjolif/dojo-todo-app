@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojox/mobile/TransitionEvent", "dijit/registry"],
-	function(lang, TransitionEvent, registry){
+define(["dojo/_base/lang", "dojox/mobile/TransitionEvent", "dijit/registry", "dojo/sniff"],
+	function(lang, TransitionEvent, registry, has){
 
 	// get index from dom node id
 	var getIndexFromId = function(node, prefix){
@@ -50,7 +50,7 @@ define(["dojo/_base/lang", "dojox/mobile/TransitionEvent", "dijit/registry"],
 			registry.byId("configuration_done").on("click", lang.hitch(this, function(e){
 				var transOpts;
 				// on tablet directly transition to list view because tablet has navigation bar on the left
-				if(this.app.isTablet){
+				if(!has("phone")){
 					transOpts = {
 						title: "List",
 						target: "items,ViewListTodoItemsByPriority",
