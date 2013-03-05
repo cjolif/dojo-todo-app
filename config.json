@@ -59,8 +59,6 @@
 
 	// Array of AMD modules identifiers. Controllers for the application. All the controllers defined here will be 
 	// loaded during application startup to respond to application events and controller the application logic. 
-	// TODO: These are application level controllers perhaps we should name them appControllers 
-	//Maybe change controllers -> appControllers or plugins	
 	"controllers": [
 		"dojox/app/controllers/Load",
 		"dojox/app/controllers/Transition",
