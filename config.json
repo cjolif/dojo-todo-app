@@ -4,12 +4,17 @@
 	"description": "This is a ToDo sample application based on the Dojo Toolkit and provided under Dojo license.",
 	"splash": "splash",
 
+	// Dependencies, modules and controllers are loaded using the Dojo AMD loader. 
+	// This parameter allows to configure the loader itself and specify for example where custom modules can be found.
 	"loaderConfig": {
 		"paths": {
 			"todoApp": "../demos/todoApp"
 		}
 	},
 
+	// Array of AMD modules identifiers. When defined at the top level dependencies of the dojox/app application.
+	// These could also be added to the define for the app, for example they could be added in todoApp.js 
+	// When defined at view level, dependencies for the view.
 	"dependencies": [
 		"dojox/mvc/at",
 		"dojox/mobile/_base",
@@ -52,12 +57,17 @@
 		"todoApp/todoApp"
 	],
 
+	// Array of AMD modules identifiers. Controllers for the application. All the controllers defined here will be 
+	// loaded during application startup to respond to application events and controller the application logic. 
 	"controllers": [
 		"dojox/app/controllers/Load",
 		"dojox/app/controllers/Transition",
 		"dojox/app/controllers/Layout"
 	],
-	//stores we are using
+	// Dojo stores which are used by dojox/app to setup data models. A store item is an object with a
+	// a type and a params property. The type property is the AMD module identifier for the store class to be
+	// instantiated. The content of the params property is passed to the store class constructor to build an 
+	// instance. 
 	"stores": {
 		"listsDataStore":{
 	       "type": "dojo/data/ItemFileWriteStore",
@@ -81,8 +91,11 @@
 	   }
 	},
 
-	//models and instantiation parameters for the models. Including 'type' as a property allows
-	//one to overide the class that will be used for the model.  By default it is dojox/mvc/model
+	// Models and their instantiation parameters. A model item is an object with three properties: the 
+	// model type, the modelLoader and the params. The modelLoader property defines whether an MVC or a
+	// simple model must be loaded. The type property defines which class must be used for that model using
+	// an AMD module identifier and finally the params property content is passed to the model class 
+	// constructor to build an instance.
 	"models": {
 		"listsmodel": {
 			"modelLoader": "dojox/app/utils/mvcModel",
@@ -101,17 +114,15 @@
         }
 	},
 
-	//the names of the views to load when the app is initialized.
+	//The name(s) of the view(s) to load when the application is initialized.
 	"defaultView": "items,ViewListTodoItemsByPriority",
 	
 	"has" : {
-		"phone" : {
-			"isTablet" : false
-		},
 		"!phone" : {
-			"template": "todoApp/templates/tablet/ViewTodoLists.html",
-			"definition": "todoApp/views/tablet/ViewTodoLists",
-			"isTablet" : true
+			//template: HTML file. When defined at application level defines the application root template. When defined
+			//at view level defined the view template.
+			"template": "todoApp/tablet/ViewTodoLists.html",
+			"controller": "todoApp/tablet/ViewTodoLists"
 		},
 		"ie9orLess" : {
 			"controllers": [
@@ -125,69 +136,96 @@
 		}
 	},	
 	
-
+	//defaultTransition: The default animation type for the view transition.
+	//the defaultTransition is only used if transition is not set in the config and the transition is not set or 
+	//defaulted on the transitionEvent
 	"defaultTransition": "slide",
-	//scenes are groups of views and models loaded at once
+
+	//transition: The animation type to use for all view transitions.
+	// if a transition is set on a view or parent it will override the transition set on the transitionEvent or the defaultTransition in the config.
+	//"transition": "slide",
+
+	
+	//views: The children views of an application or of a view. Dependencies may be defined on views for
+	//optimization and organization purposes. Models might also be defined on views if they are view-specific
+	//Finally a view item as three additional properties: transition for specific view transitions, template for
+	//defining the view rendering and finally controller to provide an AMD module to be mixed into the view to 
+	//control it. AMD modules identifiers starting with “.” will be resolved relative to the application root. All other
+	//modules identifiers will be resolved according to the Dojo AMD loader rules and in particular with respect
+	//to its configuration provided as part of the loaderConfig attribute. By default if no controller module is
+	//specified for a view it is looked up automatically in ”./views/<viewId>.js”. If you don’t want a controller
+	//module at all you should specify the “none” value.
 	"views": {
 		"configuration": {
 			"defaultView": "SelectTodoList",
 			"defaultTransition": "slide",
-			"definition": "none",
+			"controller": "none",
 
 			"views": {
 				"SelectTodoList": {
-					"template": "todoApp/templates/configuration/SelectTodoList.html"
+					"template": "todoApp/configuration/SelectTodoList.html",
+					"controller": "todoApp/configuration/SelectTodoList.js"
 				},
 
 				"ModifyTodoLists": {
-					"template": "todoApp/templates/configuration/ModifyTodoLists.html"
+					"template": "todoApp/configuration/ModifyTodoLists.html",
+					"controller": "todoApp/configuration/ModifyTodoLists.js"
 				},
 
 				"EditTodoList": {
-					"template": "todoApp/templates/configuration/EditTodoList.html"
+					"template": "todoApp/configuration/EditTodoList.html",
+					"controller": "todoApp/configuration/EditTodoList.js"
 				}
 			}
 		},
 
-		//items scene, include ViewListTodoItemsByPriority view and ViewAllTodoItemsByDate view
+		//items view, include ViewListTodoItemsByPriority view and ViewAllTodoItemsByDate view
 		"items": {
-			"template": "todoApp/templates/items.html",
+			"template": "todoApp/items/items.html",
+			"controller": "todoApp/items/items.js",
 			"defaultView": "ViewListTodoItemsByPriority",
 			"defaultTransition": "slide",
-			//the views available to this scene
+			//the views available to this view
 			"views": {
 				"ViewListTodoItemsByPriority":{
-					"template": "todoApp/templates/items/ViewListTodoItemsByPriority.html"
+					"template": "todoApp/items/ViewListTodoItemsByPriority.html",
+					"controller": "todoApp/items/ViewListTodoItemsByPriority.js"
 				},
 				"ViewAllTodoItemsByDate":{
-					"template": "todoApp/templates/items/ViewAllTodoItemsByDate.html"
+					"template": "todoApp/items/ViewAllTodoItemsByDate.html",
+					"controller": "todoApp/items/ViewAllTodoItemsByDate.js"
 				}
 			}
 		},
 
-		//details scene, include list view and date view
+		//details view, include list view and date view
 		"details": {
 			"defaultView": "EditTodoItem",
 			"defaultTransition": "slide",
-			"definition": "none",
+			"controller": "none",
 
 			"views": {
 				"EditTodoItem":{
-					"template": "todoApp/templates/details/EditTodoItem.html"
+					"template": "todoApp/details/EditTodoItem.html",
+					"controller": "todoApp/details/EditTodoItem.js"
 				},
 
 				"EditItemRepeat":{
-					"template": "todoApp/templates/details/EditItemRepeat.html"
+					"template": "todoApp/details/EditItemRepeat.html",
+					"controller": "todoApp/details/EditItemRepeat.js"
 				},
 
 				"EditItemRemindMe":{
-					"template": "todoApp/templates/details/EditItemRemindMe.html"
+					"template": "todoApp/details/EditItemRemindMe.html",
+					"controller": "todoApp/details/EditItemRemindMe.js"
 				},
 				"EditItemPriority":{
-					"template": "todoApp/templates/details/EditItemPriority.html"
+					"template": "todoApp/details/EditItemPriority.html",
+					"controller": "todoApp/details/EditItemPriority.js"
 				},
 				"EditItemList":{
-					"template": "todoApp/templates/details/EditItemList.html"
+					"template": "todoApp/details/EditItemList.html",
+					"controller": "todoApp/details/EditItemList.js"
 				}
 			}
 		}

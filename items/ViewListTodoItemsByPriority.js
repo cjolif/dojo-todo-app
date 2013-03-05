@@ -2,7 +2,7 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/sniff", "dojo/_base/declare", "dojo
 		"dojox/mvc/Repeat", "dojox/mobile/RoundRectList", "dojox/mvc/WidgetList", "dojox/mvc/Templated",
 		"dojox/mobile/ListItem", "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mobile/parser", 	
-        "dojo/text!../../templates/items/RoundRectWidListTemplate.html"],
+        "dojo/text!../items/RoundRectWidListTemplate.html"],
 function(dom, lang, has, declare, domStyle, when, registry, at, Repeat, RoundRectList, WidgetList, Templated, ListItem,
 		 EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, parser, RoundRectWidListTemplate){
 
