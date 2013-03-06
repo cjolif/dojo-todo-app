@@ -7,7 +7,6 @@ html, body {
 div .navPane {
 	width: 250px;
 	border-right: 1px solid black;
-	background-color: #C5CCD3;
 }
 
 .itemcell {

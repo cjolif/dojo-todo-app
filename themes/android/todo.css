@@ -13,9 +13,9 @@
   background-color: black;
 }
 div .navPane {
-	background-color: black !important;
 	border-right: 1px solid #ADAAAD !important;
 }
+
 button.baseBtn {
   font-family: Helvetica;
   font-size: 17px;
