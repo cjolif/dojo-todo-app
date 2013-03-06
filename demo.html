@@ -8,7 +8,15 @@
 		<title>ToDo App</title>
 		<link type="text/css" href="css/demo.css" rel="stylesheet">
 		<script type="text/javascript" src="../../dojox/mobile/deviceTheme.js"
-   					data-dojo-config="mblThemeFiles:['@theme',['demos/todoApp','todo']]"></script>
+   					data-dojo-config="mblThemeFiles:['@theme',['demos/todoApp','todo']],
+   					themeMap: [  [ 'Holodark', 'holodark', [] ],
+								[ 'Android 3', 'holodark', [] ],
+							 	[ 'Android 4', 'holodark', [] ],
+							 	[ 'Android', 'android', [] ],
+								[ 'iPhone', 'iphone', [] ],
+								[ 'iPad', 'iphone', [ '../../dojox/mobile/themes/iphone/ipad.css' ] ],
+								[ '.*', 'blackberry', [] ] ]">
+		</script>
 
 		<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="parseOnLoad: false,
 				mblHideAddressBar: false,
