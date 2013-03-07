@@ -110,7 +110,7 @@ function(dom, lang, has, declare, domStyle, when, registry, at, Repeat, RoundRec
 			}
 			var listCtl = this.app.currentItemListModel;
 			if(!listCtl){
-				var writestore = has("ios") ? this.app.stores.allitemlistEmojiStore.store : this.app.stores.allitemlistStore.store;
+				var writestore = this.app.stores.allitemlistStore.store;
 				listCtl = new EditStoreRefListController({store: new DataStore({store: writestore}), cursorIndex: 0});
 			}			
 			when(listCtl.queryStore(query,options), lang.hitch(this, function(datamodel){
