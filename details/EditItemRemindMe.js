@@ -38,8 +38,6 @@ define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/on", "dijit/regis
 			registry.byId("remind_date").on("click", lang.hitch(this, function(e){
 				//console.log("remind_date clicked call showDateDialog ");
 				this.showDateDialog('remind_date');
-				// workaround for http://bugs.dojotoolkit.org/ticket/15786
-				e.preventDefault();
 			}));
 
 			registry.byId("reminddlgSet").on("click", lang.hitch(this, function(){
