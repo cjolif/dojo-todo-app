@@ -77,17 +77,18 @@
 		},
 		
 		"allitemlistStore":{
-	       "type": "dojo/data/ItemFileWriteStore",
-		   "params": {
+			"type": "dojo/data/ItemFileWriteStore",
+			// use has test for ios to use emoji 
+			"params": {
 				"url": "./resources/data/all-items.json"
-		   }
-	   },
-		
-		"allitemlistEmojiStore":{
-	       "type": "dojo/data/ItemFileWriteStore",
-		   "params": {
-				"url": "./resources/data/all-items-emoji.json"
-		   }
+			},
+			"has" : {
+				"ios" : {
+					"params": {
+						"url": "./resources/data/all-items-emoji.json"
+					}
+				}
+			}
 	   }
 	},
 
@@ -152,14 +153,12 @@
 	//defining the view rendering and finally controller to provide an AMD module to be mixed into the view to 
 	//control it. AMD modules identifiers starting with “.” will be resolved relative to the application root. All other
 	//modules identifiers will be resolved according to the Dojo AMD loader rules and in particular with respect
-	//to its configuration provided as part of the loaderConfig attribute. By default if no controller module is
-	//specified for a view it is looked up automatically in ”./views/<viewId>.js”. If you don’t want a controller
-	//module at all you should specify the “none” value.
+	//to its configuration provided as part of the loaderConfig attribute. If you do not want a controller
+	// module at all you should not specify one, setting it to none does not work for 1.9.
 	"views": {
 		"configuration": {
 			"defaultView": "SelectTodoList",
 			"defaultTransition": "slide",
-			"controller": "none",
 
 			"views": {
 				"SelectTodoList": {
@@ -202,7 +201,6 @@
 		"details": {
 			"defaultView": "EditTodoItem",
 			"defaultTransition": "slide",
-			"controller": "none",
 
 			"views": {
 				"EditTodoItem":{
